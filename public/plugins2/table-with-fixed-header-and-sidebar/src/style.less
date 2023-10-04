@@ -1,0 +1,42 @@
+@cellHeight: 20px;
+@cellWidth: 100px;
+@cellPadding: 5px;
+
+@cellsWide: 5;
+@cellsHigh: 15;
+
+.fixedTable {
+  .table {
+    background-color: white;
+    width: auto;
+    tr { 
+      td, th {
+        min-width: @cellWidth;
+        width: @cellWidth;
+        min-height: @cellHeight;
+        height: @cellHeight;
+        padding: @cellPadding;
+      }
+    }
+  };
+  &-header {
+    width: (@cellWidth * @cellsWide) + (@cellPadding * 2);
+    height: @cellHeight + (@cellPadding * 2);
+    margin-left: @cellWidth + (@cellPadding * 2);
+    overflow: hidden;
+    border-bottom: 1px solid #CCC;
+  };
+  &-sidebar {
+    width: @cellWidth + (@cellPadding * 2);
+    height: @cellHeight * @cellsHigh + (@cellPadding * 2);
+    float: left;
+    overflow: hidden;
+    border-right: 1px solid #CCC;
+  };
+  &-body {
+    overflow: auto;
+    width: (@cellWidth * @cellsWide) + (@cellPadding * 2);
+    height: (@cellHeight * @cellsHigh) + (@cellPadding * 2);
+    float: left;
+  }
+};

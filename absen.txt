@@ -1,0 +1,59 @@
+
+select * , case 
+				when 
+					(select count(*) 
+							from hrm.absen_shift 
+								join hrm.absen on absen.absen_id = absen_shift.absen_id 
+								where absen.active = 1 
+									and absen_shift.p_karyawan_id=c.p_karyawan_id	 
+									and absen_shift.tanggal = to_char(a.date_time, 'YYYY-MM-DD')::date
+					 
+					 )>=1 
+						  
+				then 
+					(select jam_masuk 
+						from hrm.absen_shift 
+							join hrm.absen on absen.absen_id = absen_shift.absen_id 
+							where absen.active = 1 
+								and absen_shift.p_karyawan_id=c.p_karyawan_id 
+								and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date limit 1)
+				else (select jam_masuk 
+						from hrm.absen 
+							where absen.tgl_awal<=a.date_time and absen.tgl_akhir>=a.date_time 
+								and absen.m_lokasi_id = c.m_lokasi_id 
+								and shifting = 0 limit 1) 
+				end as jam_masuk
+			
+			, case 
+					when 
+						(select count(*) 
+							from hrm.absen_shift 
+								join hrm.absen on absen.absen_id = absen_shift.absen_id 
+								where absen.active = 1 
+									and absen_shift.p_karyawan_id=c.p_karyawan_id 
+									and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date )>=1 
+						  
+					then (select jam_keluar 
+							from hrm.absen_shift 
+								join hrm.absen on absen.absen_id = absen_shift.absen_id 
+								where absen.active = 1 	
+									and absen_shift.p_karyawan_id=c.p_karyawan_id 
+									and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date limit 1)
+					else 
+						(select jam_keluar 
+							from hrm.absen 
+								where absen.tgl_awal<=a.date_time 
+									 and absen.tgl_akhir>=a.date_time and absen.m_lokasi_id = c.m_lokasi_id 
+									 and shifting = 0 limit 1)	 
+					
+					end as jam_keluar
+			 
+			 
+			 from hrm.absen_log a 
+			 left join hrm.p_karyawan_absen b on b.no_absen = a.pin 
+			 left join hrm.p_karyawan_pekerjaan c on b.p_karyawan_id = c.p_karyawan_id 
+			 left join hrm.p_karyawan d on b.p_karyawan_id = d.p_karyawan_id 
+			 
+			 
+			 where a.date_time>='$tgl_awal' and a.date_time<='$tgl_akhir 23:59:59'
+			 

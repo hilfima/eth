@@ -1,0 +1,2017 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\es-hrms.clpprj">
+ <settings>
+  <PM_URL><![CDATA[]]></PM_URL>
+  <PM_HOME_URL><![CDATA[]]></PM_HOME_URL>
+  <PM_LIBS><![CDATA[]]></PM_LIBS>
+  <PM_FTP_CONNECTION><![CDATA[]]></PM_FTP_CONNECTION>
+  <PM_FTP_DIR><![CDATA[]]></PM_FTP_DIR>
+  <PM_FTP_UPLOAD_ON_SAVE><![CDATA[INT:0]]></PM_FTP_UPLOAD_ON_SAVE>
+  <PM_LANGUAGE><![CDATA[]]></PM_LANGUAGE>
+ </settings>
+ <removed value=";"/>
+ <added value=""/>
+ <lastopfiles>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\app\Http\Controllers\Backend\GratifikasiController.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\routes\web.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\resources\views\frontend\permit\tambah_izin.blade.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\app\Http\Controllers\Frontend\PermitController.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\resources\views\backend\rekap_absen\view_rekap_absen.blade.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\app\Helper_function.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\resources\views\frontend\kpi\edit_pencapaian_all.blade.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\app\Http\Controllers\Frontend\PengajuanKaryawanController.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\app\Http\Controllers\Frontend\KPIController.php"/>
+  <file name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\resources\views\frontend\kpi\kpi_detail.blade.php"/>
+  <lastactivefile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\resources\views\frontend\kpi\kpi_detail.blade.php"/>
+ </lastopfiles>
+ <todoblock>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\csslogin\vendor\bootstrap\js\bootstrap.js">
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;2216"/>
+   <todo name="todo (fat): remove sketch reliance on jQuery position/offset" pos="13;2517"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\dist\js\adminlte.js">
+   <todo name="TodoList.js" pos="11;1013"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\dist\js\pages\dashboard.js">
+   <todo name="todo list" pos="30;22"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\js\app.js">
+   <todo name="TODO: Remove in v5" pos="5;2102"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;4441"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;5752"/>
+   <todo name="TODO: identify versions" pos="8;7205"/>
+   <todo name="TODO: identify versions" pos="7;7219"/>
+   <todo name="TODO: Drop _data, _removeData)" pos="48;10627"/>
+   <todo name="TODO: Now that all calls to _data and _removeData have been replaced" pos="2;10695"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\landing\vendor\bootstrap\js\bootstrap.bundle.js">
+   <todo name="TODO: Remove in v5" pos="5;179"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;5011"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;6317"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\landing\vendor\bootstrap\js\bootstrap.js">
+   <todo name="TODO: Remove in v5" pos="5;180"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;2433"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;3739"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\landing\vendor\jquery\jquery.js">
+   <todo name="TODO: identify versions" pos="8;766"/>
+   <todo name="TODO: identify versions" pos="7;780"/>
+   <todo name="TODO: Drop _data, _removeData)" pos="48;4188"/>
+   <todo name="TODO: Now that all calls to _data and _removeData have been replaced" pos="2;4256"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\landing\vendor\jquery\jquery.slim.js">
+   <todo name="TODO: identify versions" pos="8;766"/>
+   <todo name="TODO: identify versions" pos="7;780"/>
+   <todo name="TODO: Drop _data, _removeData)" pos="48;4188"/>
+   <todo name="TODO: Now that all calls to _data and _removeData have been replaced" pos="2;4256"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Cell\DataType.php">
+   <todo name="TODO: Sanitize Rich-Text string (max. character count is 32,767)" pos="13;85"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Reader\Excel2007.php">
+   <todo name="TODO: Autoshapes from twoCellAnchors!" pos="29;1415"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Reader\Excel5.php">
+   <todo name="TODO Provide support for named values" pos="21;1215"/>
+   <todo name="todo: what if string is very long" pos="13;4164"/>
+   <todo name="todo: implement" pos="21;4680"/>
+   <todo name="TODO: Investigate structure for .xls SHEETLAYOUT record as saved by MS Office Excel 2007" pos="21;4943"/>
+   <todo name="todo: if cell range is just a single cell, should this funciton" pos="9;6958"/>
+   <todo name="TODO: if cell range is just a single cell, should this funciton" pos="9;7015"/>
+   <todo name="todo: check if we have identified the whole set of special characters" pos="21;7177"/>
+   <todo name="TODO: external sheet support" pos="21;7187"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Reader\HTML.php">
+   <todo name="TODO" pos="13;222"/>
+   <todo name="TODO" pos="21;238"/>
+   <todo name="TODO" pos="37;254"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Writer\Excel5\Escher.php">
+   <todo name="todo" pos="53;190"/>
+   <todo name="todo" pos="31;196"/>
+   <todo name="todo" pos="62;229"/>
+   <todo name="todo" pos="38;232"/>
+   <todo name="todo" pos="62;256"/>
+   <todo name="todo" pos="38;259"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Writer\Excel5\Parser.php">
+   <todo name="TODO: use real error codes" pos="9;557"/>
+   <todo name="TODO: possible class value 0,1,2 check Formula.pm" pos="9;632"/>
+   <todo name="TODO: use real error codes" pos="13;637"/>
+   <todo name="TODO: use real error codes" pos="13;653"/>
+   <todo name="TODO: use real error codes" pos="4;725"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Writer\Excel5\Workbook.php">
+   <todo name="TODO: store external SUPBOOK records and XCT and CRN records" pos="10;444"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Writer\Excel5\Worksheet.php">
+   <todo name="todo CFRule &amp; CFHeader" pos="14;504"/>
+   <todo name="@todo CFRule &amp; CFHeader" pos="13;504"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Index Color for left line" pos="14;3677"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Index Color for left line" pos="13;3677"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Index Color for right line" pos="14;3678"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Index Color for right line" pos="13;3678"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Top-left to bottom-right on/off" pos="14;3679"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Top-left to bottom-right on/off" pos="13;3679"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Bottom-left to top-right on/off" pos="14;3680"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Bottom-left to top-right on/off" pos="13;3680"/>
+   <todo name="todo writeCFRule() => $blockColor => Index Color for top line" pos="14;3682"/>
+   <todo name="@todo writeCFRule() => $blockColor => Index Color for top line" pos="13;3682"/>
+   <todo name="todo writeCFRule() => $blockColor => Index Color for bottom line" pos="14;3683"/>
+   <todo name="@todo writeCFRule() => $blockColor => Index Color for bottom line" pos="13;3683"/>
+   <todo name="todo writeCFRule() => $blockColor => Index Color for diagonal line" pos="14;3684"/>
+   <todo name="@todo writeCFRule() => $blockColor => Index Color for diagonal line" pos="13;3684"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Writer\HTML.php">
+   <todo name="TODO: Same for columns" pos="13;1581"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\php_excel\PHPExcel\Writer\OpenDocument\Cell\Comment.php">
+   <todo name="TODO: Not realized in PHPExcel_Comment yet." pos="17;56"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\bootstrap-colorpicker\js\bootstrap-colorpicker.js">
+   <todo name="TODO: fix moving outside the picker makes the guides to keep moving. The event needs to be bound to" pos="7;3880"/>
+   <todo name="TODO: fix having to click twice outside when losing focus and last 2 clicks where inside the colorp" pos="7;4294"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\bootstrap\js\bootstrap.bundle.js">
+   <todo name="TODO: Remove in v5" pos="5;194"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;5147"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;6458"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\bootstrap\js\bootstrap.js">
+   <todo name="TODO: Remove in v5" pos="5;195"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;2534"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;3845"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\chart.js\Chart.bundle.js">
+   <todo name="TODO(v3): remove 'global' from namespace.  all default are global and" pos="1;2979"/>
+   <todo name="TODO Make possible to select another platform at build time." pos="2;7865"/>
+   <todo name="@TODO Make possible to select another platform at build time." pos="1;7865"/>
+   <todo name="TODO(SB): I think we should be able to remove this custom case (options.scale)" pos="4;9529"/>
+   <todo name="TODO(v3): remove minSize as a public property and return value from all layout boxes. It is unused" pos="3;11571"/>
+   <todo name="TODO(v3): change this to positiveOrDefault" pos="1;13126"/>
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;15045"/>
+   <todo name="TODO: add sorting" pos="9;15688"/>
+   <todo name="TODO: Another silent failure?" pos="17;15728"/>
+   <todo name="TODO: Find a better way to register and load all the locales in Node" pos="9;16533"/>
+   <todo name="TODO: We need to take the current isoWeekYear, but that depends on" pos="13;16813"/>
+   <todo name="TODO: Replace the vanilla JS Date object with an indepentent day-of-week check." pos="13;16988"/>
+   <todo name="TODO: Move this to another part of the creation flow to prevent circular deps" pos="9;17092"/>
+   <todo name="TODO: Use [].sort instead?" pos="5;17387"/>
+   <todo name="TODO: remove 'name' arg after deprecation is removed" pos="5;17818"/>
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;18446"/>
+   <todo name="TODO: Use this.as('ms')?" pos="5;18978"/>
+   <todo name="todo if (fill[0] === '#')" pos="2;19399"/>
+   <todo name="@todo if (fill[0] === '#')" pos="1;19399"/>
+   <todo name="todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="2;20608"/>
+   <todo name="@todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="1;20608"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\chart.js\Chart.js">
+   <todo name="TODO(v3): remove 'global' from namespace.  all default are global and" pos="1;2975"/>
+   <todo name="TODO Make possible to select another platform at build time." pos="2;7861"/>
+   <todo name="@TODO Make possible to select another platform at build time." pos="1;7861"/>
+   <todo name="TODO(SB): I think we should be able to remove this custom case (options.scale)" pos="4;9525"/>
+   <todo name="TODO(v3): remove minSize as a public property and return value from all layout boxes. It is unused" pos="3;11567"/>
+   <todo name="TODO(v3): change this to positiveOrDefault" pos="1;13122"/>
+   <todo name="todo if (fill[0] === '#')" pos="2;14795"/>
+   <todo name="@todo if (fill[0] === '#')" pos="1;14795"/>
+   <todo name="todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="2;16004"/>
+   <todo name="@todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="1;16004"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\addon\tern\tern.js">
+   <todo name="ToDoc: A function(name, doc) that should, when providing a" pos="9;19"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\keymap\vim.js">
+   <todo name="TODO: Implement the remaining registers." pos="4;13"/>
+   <todo name="TODO: Implement the remaining special marks. They have more complex" pos="4;16"/>
+   <todo name="TODO: Current bindings expect the character to be lower case, but" pos="7;380"/>
+   <todo name="TODO: Convert keymap into dictionary format for fast lookup." pos="9;734"/>
+   <todo name="TODO at bottom of function." pos="35;764"/>
+   <todo name="TODO: Create non-recursive keyToKey mappings for the unmapped contexts once those exist." pos="9;798"/>
+   <todo name="TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace" pos="7;834"/>
+   <todo name="TODO: prevent infinite recursion." pos="11;892"/>
+   <todo name="TODO: Look into using CodeMirror's multi-key handling." pos="11;965"/>
+   <todo name="TODO: Make sure cm and vim selections are identical outside visual mode." pos="9;1544"/>
+   <todo name="TODO: Handle null returns from motion commands better." pos="11;1598"/>
+   <todo name="TODO: lots of possible exceptions that can be thrown here. Try da(" pos="9;2026"/>
+   <todo name="TODO: Instead of using the additional text object map to perform text" pos="9;2044"/>
+   <todo name="TODO: The repeat should actually select number of characters/lines" pos="9;2451"/>
+   <todo name="TODO: The original Vim implementation only operates on level 1 and 2." pos="7;3344"/>
+   <todo name="TODO: perhaps this finagling of start and end positions belonds" pos="5;3838"/>
+   <todo name="TODO support across multiple lines" pos="5;3886"/>
+   <todo name="TODO: override navigation keys so that Esc will cancel automatic" pos="7;5218"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\erlang\erlang.js">
+   <todo name="TODO indenter:" pos="1;12"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\rpm\rpm.js">
+   <todo name="TODO: Include bash script sub-parser (CodeMirror supports that)" pos="7;99"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\sas\sas.js">
+   <todo name="TODO" pos="1;7"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\slim\slim.js">
+   <todo name="TODO: add multi line support" pos="7;138"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\tiddlywiki\tiddlywiki.js">
+   <todo name="TODO fix @@...@@ highlighting" pos="47;135"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\vb\vb.js">
+   <todo name="TODO - Can you have imaginary longs?" pos="17;98"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\vbscript\vbscript.js">
+   <todo name="TODO - Can you have imaginary longs?" pos="17;157"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\codemirror\mode\verilog\verilog.js">
+   <todo name="TODO: Pass this in instead." pos="47;450"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\datatables-buttons\js\buttons.flash.js">
+   <todo name="TODO Need to provide the ability for the specials to say" pos="6;1243"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\datatables-scroller\js\dataTables.scroller.js">
+   <todo name="todo The defaults should extend a `c` property and the internal settings" pos="3;231"/>
+   <todo name="@todo The defaults should extend a `c` property and the internal settings" pos="2;231"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\datatables\jquery.dataTables.js">
+   <todo name="todo depreciated" pos="36;3603"/>
+   <todo name="@todo depreciated" pos="35;3603"/>
+   <todo name="todo Move options into their own plugins?" pos="5;3642"/>
+   <todo name="@todo Move options into their own plugins?" pos="4;3642"/>
+   <todo name="todo As per sort - can this be moved into an event handler?" pos="4;4287"/>
+   <todo name="@todo As per sort - can this be moved into an event handler?" pos="3;4287"/>
+   <todo name="todo Can this be moved into a 'data-ready' handler which is called when" pos="4;5943"/>
+   <todo name="@todo Can this be moved into a 'data-ready' handler which is called when" pos="3;5943"/>
+   <todo name="todo - for 1.11 this needs to be done by" pos="27;6376"/>
+   <todo name="todo - Is there need for an augment function?" pos="3;7229"/>
+   <todo name="@todo - Is there need for an augment function?" pos="2;7229"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\flot\plugins\jquery.flot.axislabels.js">
+   <todo name="TODO - use the drawAxis hook" pos="13;184"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\flot\plugins\jquery.flot.pie.js">
+   <todo name="TODO: add extra shadow inside hole (with a mask) if the pie is tilted." pos="17;544"/>
+   <todo name="TODO: perhaps do some mathmatical trickery here with the Y-coordinate to compensate for pie tilt?" pos="25;604"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar-daygrid\main.esm.js">
+   <todo name="TODO: better code reuse for this. Repeat code" pos="5;192"/>
+   <todo name="TODO: somehow consider the originating DayGrid's column count" pos="23;269"/>
+   <todo name="TODO: cache" pos="84;620"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="75;703"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="90;881"/>
+   <todo name="TODO: separate setting height from scroller VS dayGrid." pos="9;1438"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar-daygrid\main.js">
+   <todo name="TODO: better code reuse for this. Repeat code" pos="9;196"/>
+   <todo name="TODO: somehow consider the originating DayGrid's column count" pos="27;273"/>
+   <todo name="TODO: cache" pos="93;624"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="84;707"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="99;885"/>
+   <todo name="TODO: separate setting height from scroller VS dayGrid." pos="13;1442"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar-interaction\main.esm.js">
+   <todo name="TODO: repeat code" pos="9;239"/>
+   <todo name="TODO: repeat code" pos="9;274"/>
+   <todo name="TODO: fire this before computing processFirstCoord, so listeners can cancel. this gets fired by alm" pos="59;983"/>
+   <todo name="TODO: better way to re-orient rectangle" pos="25;1088"/>
+   <todo name="TODO: write test for this" pos="62;1373"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="17;1379"/>
+   <todo name="TODO: test this in IE11" pos="62;1542"/>
+   <todo name="TODO: rename to resizingSeg? subjectSeg?" pos="35;1590"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="13;1856"/>
+   <todo name="TODO: eventually read eventLongPressDelay instead vvv" pos="30;2002"/>
+   <todo name="TODO: write tests" pos="61;2020"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar-interaction\main.js">
+   <todo name="TODO: repeat code" pos="13;243"/>
+   <todo name="TODO: repeat code" pos="13;278"/>
+   <todo name="TODO: fire this before computing processFirstCoord, so listeners can cancel. this gets fired by alm" pos="63;987"/>
+   <todo name="TODO: better way to re-orient rectangle" pos="29;1092"/>
+   <todo name="TODO: write test for this" pos="66;1377"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="21;1383"/>
+   <todo name="TODO: test this in IE11" pos="66;1546"/>
+   <todo name="TODO: rename to resizingSeg? subjectSeg?" pos="39;1594"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="17;1860"/>
+   <todo name="TODO: eventually read eventLongPressDelay instead vvv" pos="34;2006"/>
+   <todo name="TODO: write tests" pos="65;2024"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar-timegrid\main.esm.js">
+   <todo name="TODO: dont do every time. memoize" pos="9;62"/>
+   <todo name="TODO: have groupSegsByCol do this?" pos="9;74"/>
+   <todo name="TODO: give the timezones" pos="81;142"/>
+   <todo name="TODO: write CSS for this" pos="14;176"/>
+   <todo name="TODO: &quot;condensed&quot; is a better name" pos="51;267"/>
+   <todo name="TODO: more efficient lookup" pos="9;419"/>
+   <todo name="TODO: say warning?" pos="13;492"/>
+   <todo name="TODO: separate setting height from scroller VS timeGrid." pos="9;1137"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar-timegrid\main.js">
+   <todo name="TODO: dont do every time. memoize" pos="13;65"/>
+   <todo name="TODO: have groupSegsByCol do this?" pos="13;77"/>
+   <todo name="TODO: give the timezones" pos="85;145"/>
+   <todo name="TODO: write CSS for this" pos="18;179"/>
+   <todo name="TODO: &quot;condensed&quot; is a better name" pos="55;270"/>
+   <todo name="TODO: more efficient lookup" pos="13;422"/>
+   <todo name="TODO: say warning?" pos="17;495"/>
+   <todo name="TODO: separate setting height from scroller VS timeGrid." pos="13;1140"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar\main.esm.js">
+   <todo name="TODO: write more comments" pos="1;1030"/>
+   <todo name="TODO: give nextDayThreshold a default arg" pos="1;1085"/>
+   <todo name="TODO: wish we could use eventTupleToStore or something like it" pos="9;1361"/>
+   <todo name="TODO: use control characters instead?" pos="33;1782"/>
+   <todo name="TODO: warning if parsed bad" pos="40;2046"/>
+   <todo name="TODO: warning if parsed bad" pos="25;2064"/>
+   <todo name="TODO: warning if parsed bad" pos="21;2084"/>
+   <todo name="TODO: warning if parsed bad" pos="25;2088"/>
+   <todo name="TODO: warning if parsed bad" pos="22;2117"/>
+   <todo name="TODO: warning if parsed bad" pos="22;2123"/>
+   <todo name="TODO: warning if parsed bad" pos="22;2129"/>
+   <todo name="TODO: find a TypeScript-compatible way to do this at scale" pos="9;2213"/>
+   <todo name="TODO: include seg.range once all components consistently generate it" pos="21;2398"/>
+   <todo name="TODO: is this mutation okay?" pos="38;2524"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="22;2596"/>
+   <todo name="TODO: wish this logic was always in event-sources" pos="47;2635"/>
+   <todo name="TODO: exclude defs too?" pos="129;2737"/>
+   <todo name="TODO: move to event-store file?" pos="1;2867"/>
+   <todo name="TODO: move to geom file?" pos="1;2876"/>
+   <todo name="TODO: keep elsewhere" pos="70;3254"/>
+   <todo name="TODO: typescript protection" pos="36;3263"/>
+   <todo name="todo: add comments" pos="5;3551"/>
+   <todo name="TODO: make these options" pos="18;4460"/>
+   <todo name="TODO: make RTL support the responibility of the theme" pos="9;4527"/>
+   <todo name="TODO: move this stuff to a &quot;plugin&quot;-related file..." pos="1;4544"/>
+   <todo name="TODO: not a very efficient system" pos="9;4676"/>
+   <todo name="TODO: can use greatestWholeUnit" pos="9;4917"/>
+   <todo name="TODO: choke on timeZoneName: long" pos="5;4990"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="22;5122"/>
+   <todo name="TODO: find a way to avoid comparing DateProfiles. it's tedious" pos="1;5579"/>
+   <todo name="TODO: better way to make sure not hovering over more+ link or its wrapper" pos="36;6495"/>
+   <todo name="TODO: cache this?" pos="97;7210"/>
+   <todo name="TODO: receive pev?" pos="5;7236"/>
+   <todo name="TODO: rename to computeDefaultEventEnd" pos="5;7276"/>
+   <todo name="TODO: better util for two args?" pos="85;7298"/>
+   <todo name="TODO: use an internal function" pos="67;7308"/>
+   <todo name="TODO: test" pos="95;7310"/>
+   <todo name="TODO: optimize" pos="5;7327"/>
+   <todo name="TODO: error otherwise?" pos="28;7397"/>
+   <todo name="TODO: somehow do this for the current whole day's background too" pos="5;7637"/>
+   <todo name="TODO: maybe always use setTimeout, waiting until start of next unit" pos="17;7653"/>
+   <todo name="TODO: better support for open-range events" pos="58;7974"/>
+   <todo name="TODO: warning?" pos="22;8143"/>
+   <todo name="TODO: warning?" pos="35;8156"/>
+   <todo name="TODO: more DRY and optimized" pos="1;8165"/>
+   <todo name="TODO: don't hardcode 'en' everywhere" pos="81;8167"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="81;8205"/>
+   <todo name="TODO: give interactionSegs?" pos="12;8457"/>
+   <todo name="TODO: kill" pos="75;8535"/>
+   <todo name="TODO: kill" pos="73;8547"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\fullcalendar\main.js">
+   <todo name="TODO: write more comments" pos="5;1036"/>
+   <todo name="TODO: give nextDayThreshold a default arg" pos="5;1091"/>
+   <todo name="TODO: wish we could use eventTupleToStore or something like it" pos="13;1367"/>
+   <todo name="TODO: use control characters instead?" pos="37;1788"/>
+   <todo name="TODO: warning if parsed bad" pos="44;2052"/>
+   <todo name="TODO: warning if parsed bad" pos="29;2070"/>
+   <todo name="TODO: warning if parsed bad" pos="25;2090"/>
+   <todo name="TODO: warning if parsed bad" pos="29;2094"/>
+   <todo name="TODO: warning if parsed bad" pos="26;2123"/>
+   <todo name="TODO: warning if parsed bad" pos="26;2129"/>
+   <todo name="TODO: warning if parsed bad" pos="26;2135"/>
+   <todo name="TODO: find a TypeScript-compatible way to do this at scale" pos="13;2219"/>
+   <todo name="TODO: include seg.range once all components consistently generate it" pos="25;2404"/>
+   <todo name="TODO: is this mutation okay?" pos="42;2530"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="26;2602"/>
+   <todo name="TODO: wish this logic was always in event-sources" pos="51;2641"/>
+   <todo name="TODO: exclude defs too?" pos="133;2743"/>
+   <todo name="TODO: move to event-store file?" pos="5;2873"/>
+   <todo name="TODO: move to geom file?" pos="5;2882"/>
+   <todo name="TODO: keep elsewhere" pos="74;3260"/>
+   <todo name="TODO: typescript protection" pos="40;3269"/>
+   <todo name="todo: add comments" pos="9;3557"/>
+   <todo name="TODO: make these options" pos="22;4466"/>
+   <todo name="TODO: make RTL support the responibility of the theme" pos="13;4533"/>
+   <todo name="TODO: move this stuff to a &quot;plugin&quot;-related file..." pos="5;4550"/>
+   <todo name="TODO: not a very efficient system" pos="13;4682"/>
+   <todo name="TODO: can use greatestWholeUnit" pos="13;4923"/>
+   <todo name="TODO: choke on timeZoneName: long" pos="9;4996"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="26;5128"/>
+   <todo name="TODO: find a way to avoid comparing DateProfiles. it's tedious" pos="5;5585"/>
+   <todo name="TODO: better way to make sure not hovering over more+ link or its wrapper" pos="40;6501"/>
+   <todo name="TODO: cache this?" pos="101;7216"/>
+   <todo name="TODO: receive pev?" pos="9;7242"/>
+   <todo name="TODO: rename to computeDefaultEventEnd" pos="9;7282"/>
+   <todo name="TODO: better util for two args?" pos="89;7304"/>
+   <todo name="TODO: use an internal function" pos="71;7314"/>
+   <todo name="TODO: test" pos="99;7316"/>
+   <todo name="TODO: optimize" pos="9;7333"/>
+   <todo name="TODO: error otherwise?" pos="32;7403"/>
+   <todo name="TODO: somehow do this for the current whole day's background too" pos="9;7643"/>
+   <todo name="TODO: maybe always use setTimeout, waiting until start of next unit" pos="21;7659"/>
+   <todo name="TODO: better support for open-range events" pos="62;7980"/>
+   <todo name="TODO: warning?" pos="26;8149"/>
+   <todo name="TODO: warning?" pos="39;8162"/>
+   <todo name="TODO: more DRY and optimized" pos="5;8171"/>
+   <todo name="TODO: don't hardcode 'en' everywhere" pos="85;8173"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="85;8211"/>
+   <todo name="TODO: give interactionSegs?" pos="16;8463"/>
+   <todo name="TODO: kill" pos="79;8541"/>
+   <todo name="TODO: kill" pos="77;8553"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\ion-rangeslider\js\ion.rangeSlider.js">
+   <todo name="TODO: Refactor then have plenty of time" pos="9;2312"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\jquery-ui\jquery-ui.js">
+   <todo name="TODO: remove support for widgetEventPrefix" pos="3;154"/>
+   <todo name="TODO: is this right? should we include anything with css width specified as well" pos="3;3531"/>
+   <todo name="TODO: Switch return back to widget declaration at top of file when this is removed" pos="1;18185"/>
+   <todo name="TODO: Switch return back to widget declaration at top of file when this is removed" pos="1;18682"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\jquery-validation\additional-methods.js">
+   <todo name="TODO check if value starts with &lt;, otherwise don't try stripping anything" pos="1;1430"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\jquery-validation\jquery.validate.js">
+   <todo name="TODO find a way to support input types date, datetime, datetime-local, month, time and week" pos="4;1528"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\jquery-validation\localization\messages_pt_BR.js">
+   <todo name="todos Adicionais" pos="4;36"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\jquery\jquery.js">
+   <todo name="TODO: identify versions" pos="8;789"/>
+   <todo name="TODO: identify versions" pos="7;803"/>
+   <todo name="TODO: Drop _data, _removeData)" pos="48;4393"/>
+   <todo name="TODO: Now that all calls to _data and _removeData have been replaced" pos="2;4461"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\jquery\jquery.slim.js">
+   <todo name="TODO: identify versions" pos="8;789"/>
+   <todo name="TODO: identify versions" pos="7;803"/>
+   <todo name="TODO: Drop _data, _removeData)" pos="48;4393"/>
+   <todo name="TODO: Now that all calls to _data and _removeData have been replaced" pos="2;4461"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\jszip\jszip.js">
+   <todo name="TODO: lazy-loading this object isn't the best solution but it's the" pos="2;388"/>
+   <todo name="TODO" pos="34;653"/>
+   <todo name="TODO find a better way to handle this version," pos="1;1057"/>
+   <todo name="TODO reverse the parameters ? need to be clean AND consistent with the filter search fn..." pos="41;1520"/>
+   <todo name="TODO expose this as a public variable" pos="1;2126"/>
+   <todo name="TODO : we now have workers that split the work. Do we still need that ?" pos="5;3207"/>
+   <todo name="TODO: may be {}" pos="3;8280"/>
+   <todo name="TODO: 2 or 1 bytes?" pos="11;8812"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\lightgallery\lightgallery\js\lg-video.js">
+   <todo name="todo loading icon for html5 videos also" pos="22;217"/>
+   <todo name="@todo loading icon for html5 videos also" pos="21;217"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\lightgallery\lightgallery\js\lightgallery.js">
+   <todo name="todo check load state for html5 videos" pos="10;750"/>
+   <todo name="@todo check load state for html5 videos" pos="9;750"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\moment\locale\fr.js">
+   <todo name="TODO: Return 'e' when day of month > 1. Move this case inside" pos="17;84"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\moment\locale\mk.js">
+   <todo name="Todorov : https://github.com/bkyceh" pos="19;3"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\moment\moment-with-locales.js">
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;357"/>
+   <todo name="TODO: add sorting" pos="9;1041"/>
+   <todo name="TODO: Another silent failure?" pos="17;1096"/>
+   <todo name="TODO: Find a better way to register and load all the locales in Node" pos="9;2075"/>
+   <todo name="TODO: Replace the vanilla JS Date object with an independent day-of-week check." pos="13;2444"/>
+   <todo name="TODO: We need to take the current isoWeekYear, but that depends on" pos="13;2668"/>
+   <todo name="TODO: Move this to another part of the creation flow to prevent circular deps" pos="9;2729"/>
+   <todo name="TODO: Use [].sort instead?" pos="5;3067"/>
+   <todo name="TODO: remove 'name' arg after deprecation is removed" pos="5;3555"/>
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;4705"/>
+   <todo name="TODO: Use this.as('ms')?" pos="5;5318"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\orgchart\js\jquery.orgchart.js">
+   <todo name="TODO: This assumes all nodes are droppable: it doesn't run the custom isDroppable function - it sho" pos="7;1476"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\purple\assets\js\bootstrap.js">
+   <todo name="TODO: Remove in v5" pos="5;180"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;2433"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;3739"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\purple\assets\js\task.js">
+   <todo name="todo list" pos="26;23"/>
+   <todo name="todo list" pos="32;42"/>
+   <todo name="todo list to the end" pos="25;51"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\purple\assets\plugins\summernote\dist\plugin\databasic\summernote-ext-databasic.js">
+   <todo name="TODO: make this an undo snapshot..." pos="9;70"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\purple\assets\plugins\summernote\dist\summernote-bs4.js">
+   <todo name="TODO compare points and sort" pos="11;1952"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="28;5320"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\purple\assets\plugins\summernote\dist\summernote-lite.js">
+   <todo name="TODO compare points and sort" pos="11;2743"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="28;5868"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\purple\assets\plugins\summernote\dist\summernote.js">
+   <todo name="TODO compare points and sort" pos="11;1951"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="28;5319"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\summernote\plugin\databasic\summernote-ext-databasic.js">
+   <todo name="TODO: make this an undo snapshot..." pos="9;69"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\summernote\summernote-bs4.js">
+   <todo name="TODO compare points and sort" pos="61;2867"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="14;7441"/>
+   <todo name="TODO: need to be documented" pos="5;9820"/>
+   <todo name="TODO: need to be documented" pos="5;9823"/>
+   <todo name="TODO: need to be documented" pos="5;9825"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\summernote\summernote-lite.js">
+   <todo name="TODO compare points and sort" pos="61;2867"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="14;7441"/>
+   <todo name="TODO: need to be documented" pos="5;9820"/>
+   <todo name="TODO: need to be documented" pos="5;9823"/>
+   <todo name="TODO: need to be documented" pos="5;9825"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\summernote\summernote.js">
+   <todo name="TODO compare points and sort" pos="61;2867"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="14;7441"/>
+   <todo name="TODO: need to be documented" pos="5;9820"/>
+   <todo name="TODO: need to be documented" pos="5;9823"/>
+   <todo name="TODO: need to be documented" pos="5;9825"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\sweetalert2\sweetalert2.all.js">
+   <todo name="TODO: make showLoading an *instance* method" pos="22;2632"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\sweetalert2\sweetalert2.js">
+   <todo name="TODO: make showLoading an *instance* method" pos="22;2632"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins2\tempusdominus-bootstrap-4\js\tempusdominus-bootstrap-4.js">
+   <todo name="todo data api key" pos="90;552"/>
+   <todo name="todo taking the first date should be ok" pos="96;750"/>
+   <todo name="TODO should this use format? and locale?" pos="42;792"/>
+   <todo name="todo" pos="35;1319"/>
+   <todo name="todo doc off?" pos="13;2583"/>
+   <todo name="todo disable this/comp if input is null" pos="52;2594"/>
+   <todo name="todo enable comp/this if input is null" pos="53;2603"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Accessibility\Components\LegendComponent.js">
+   <todo name="todo 1. attach component to created legends" pos="10;117"/>
+   <todo name="@todo 1. attach component to created legends" pos="9;117"/>
+   <todo name="todo 2. move listeners to composition and access `this.component`" pos="10;118"/>
+   <todo name="@todo 2. move listeners to composition and access `this.component`" pos="9;118"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Axis\Axis.js">
+   <todo name="todo" pos="35;83"/>
+   <todo name="@todo" pos="34;83"/>
+   <todo name="TODO: series should internally set x- and y-" pos="25;1013"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Axis\Color\ColorAxis.js">
+   <todo name="todo: This option is not documented, nor implemented when" pos="10;351"/>
+   <todo name="@todo: This option is not documented, nor implemented when" pos="9;351"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Axis\GridAxis.js">
+   <todo name="todo: Check against tickLabelPlacement between/on etc" pos="6;69"/>
+   <todo name="@todo: Check against tickLabelPlacement between/on etc" pos="5;69"/>
+   <todo name="TODO account for alignment" pos="9;199"/>
+   <todo name="todo acutual label padding (top, bottom, left, right)" pos="10;270"/>
+   <todo name="@todo acutual label padding (top, bottom, left, right)" pos="9;270"/>
+   <todo name="TODO: why does this actually center the label?" pos="13;747"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Axis\TreeGrid\TreeGridAxis.js">
+   <todo name="TODO consider simplifying broken-axis and this might solve itself" pos="5;46"/>
+   <todo name="TODO: add support for align in treegrid." pos="13;406"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Chart\Chart3D.js">
+   <todo name="TODO: Add all frame options (left, right, top, bottom," pos="19;143"/>
+   <todo name="@TODO: Add all frame options (left, right, top, bottom," pos="18;143"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Defaults.js">
+   <todo name="todo: Disallow undefined as input for colors" pos="14;2328"/>
+   <todo name="@todo: Disallow undefined as input for colors" pos="13;2328"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Geometry\CircleUtilities.js">
+   <todo name="TODO: add unit tests." pos="2;244"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\HttpUtilities.js">
+   <todo name="todo Maybe emit a highcharts error event here" pos="14;50"/>
+   <todo name="@todo Maybe emit a highcharts error event here" pos="13;50"/>
+   <todo name="todo lacking timeout handling" pos="6;66"/>
+   <todo name="@todo lacking timeout handling" pos="5;66"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Pointer.js">
+   <todo name="todo It's a mock object, so maybe we need a separate" pos="22;983"/>
+   <todo name="@todo It's a mock object, so maybe we need a separate" pos="21;983"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Renderer\HTML\AST.js">
+   <todo name="ToDOM" pos="34;146"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Renderer\SVG\SVGElement.js">
+   <todo name="todo public zIndex?: number;" pos="6;73"/>
+   <todo name="@todo public zIndex?: number;" pos="5;73"/>
+   <todo name="todo old code?" pos="58;851"/>
+   <todo name="@todo old code?" pos="57;851"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Core\Utilities.js">
+   <todo name="todo It seems like Chrome since v70 sorts in a stable way internally," pos="6;768"/>
+   <todo name="@todo It seems like Chrome since v70 sorts in a stable way internally," pos="5;768"/>
+   <todo name="TODO use named exports when supported." pos="1;1586"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Data\DataTable.js">
+   <todo name="todo Implement via property getter `.length` browsers supported" pos="10;601"/>
+   <todo name="@todo Implement via property getter `.length` browsers supported" pos="9;601"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Data\Parsers\GoogleSheetsParser.js">
+   <todo name="TODO: should this check be necessary?" pos="13;138"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\Annotations\MockPoint.js">
+   <todo name="todo v--- (axisName)[axisOptions] ?" pos="26;355"/>
+   <todo name="@todo v--- (axisName)[axisOptions] ?" pos="25;355"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\Boost\BoostSeries.js">
+   <todo name="todo This likely needs future optimization." pos="10;164"/>
+   <todo name="@todo This likely needs future optimization." pos="9;164"/>
+   <todo name="todo simplify" pos="19;534"/>
+   <todo name="@todo simplify" pos="18;534"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\Boost\NamedColors.js">
+   <todo name="TODO: When supporting modern syntax, make this a named export" pos="1;18"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\Data.js">
+   <todo name="todo looks not right:" pos="22;1394"/>
+   <todo name="@todo looks not right:" pos="21;1394"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\DraggablePoints.js">
+   <todo name="todo" pos="3;43"/>
+   <todo name="@todo" pos="2;43"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\ExportData\ExportData.js">
+   <todo name="todo" pos="2;11"/>
+   <todo name="@todo" pos="1;11"/>
+   <todo name="todo consider move to defaults" pos="10;707"/>
+   <todo name="@todo consider move to defaults" pos="9;707"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\OldiePolyfills.js">
+   <todo name="todo support optional ctx" pos="6;34"/>
+   <todo name="@todo support optional ctx" pos="5;34"/>
+   <todo name="todo support optional ctx" pos="6;60"/>
+   <todo name="@todo support optional ctx" pos="5;60"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Extensions\SeriesLabel\SeriesLabel.js">
+   <todo name="todo condition above is not the same as below" pos="19;108"/>
+   <todo name="@todo condition above is not the same as below" pos="18;108"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Gantt\Connection.js">
+   <todo name="TODO: Magic number 80" pos="13;362"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Gantt\Pathfinder.js">
+   <todo name="TODO: Magic number 80" pos="13;365"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Maps\Projection.js">
+   <todo name="todo: It doesn't really have to do with whether north is" pos="10;338"/>
+   <todo name="@todo: It doesn't really have to do with whether north is" pos="9;338"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\AreaRange\AreaRangeSeries.js">
+   <todo name="TODO: We want to change this and allow multiple labels for both" pos="13;316"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Area\AreaSeries.js">
+   <todo name="TODO: don't set leftCliff and rightCliff when connectNulls?" pos="9;216"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Column3D\Column3DComposition.js">
+   <todo name="todo grouping === true ?" pos="10;252"/>
+   <todo name="@todo grouping === true ?" pos="9;252"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\ColumnRange\ColumnRangeSeries.js">
+   <todo name="todo move to compositions" pos="6;168"/>
+   <todo name="@todo move to compositions" pos="5;168"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Column\ColumnSeries.js">
+   <todo name="todo Handle grouping/stacking too. Calculate offset properly" pos="14;389"/>
+   <todo name="@todo Handle grouping/stacking too. Calculate offset properly" pos="13;389"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Funnel3D\Funnel3DComposition.js">
+   <todo name="todo: Type it. It's an extended SVGAttributes." pos="48;282"/>
+   <todo name="@todo: Type it. It's an extended SVGAttributes." pos="47;282"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Funnel3D\Funnel3DSeries.js">
+   <todo name="todo: Type it. It's an extended SVGAttributes." pos="24;150"/>
+   <todo name="@todo: Type it. It's an extended SVGAttributes." pos="23;150"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Heatmap\HeatmapSeries.js">
+   <todo name="todo" pos="10;142"/>
+   <todo name="@todo" pos="9;142"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Item\ItemSeries.js">
+   <todo name="todo: remove if not needed" pos="11;104"/>
+   <todo name="@todo: remove if not needed" pos="10;104"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Map\MapSeries.js">
+   <todo name="todo Try to puth these two conversions in" pos="22;362"/>
+   <todo name="@todo Try to puth these two conversions in" pos="21;362"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\OHLC\OHLCSeries.js">
+   <todo name="todo potentially nonsense" pos="39;64"/>
+   <todo name="@todo potentially nonsense" pos="38;64"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\PackedBubble\PackedBubbleLayout.js">
+   <todo name="TODO padding configurable" pos="21;162"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\PackedBubble\PackedBubbleSeries.js">
+   <todo name="TODO split layouts to independent methods" pos="9;293"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Pie\PieDataLabel.js">
+   <todo name="todo unused" pos="46;226"/>
+   <todo name="@todo unused" pos="45;226"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\PolarComposition.js">
+   <todo name="todo remove id or define id type:" pos="10;449"/>
+   <todo name="@todo remove id or define id type:" pos="9;449"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Sankey\SankeySeries.js">
+   <todo name="todo" pos="14;357"/>
+   <todo name="@todo" pos="13;357"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Sunburst\SunburstSeries.js">
+   <todo name="TODO draw labels one by one to avoid addtional looping" pos="9;454"/>
+   <todo name="todo Only if series.isDirtyData is true" pos="10;541"/>
+   <todo name="@todo Only if series.isDirtyData is true" pos="9;541"/>
+   <todo name="TODO Try to combine setTreeValues &amp; setColorRecursive to avoid" pos="9;568"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Tilemap\TilemapSeries.js">
+   <todo name="TODO: Consider standarizing heatmap and tilemap into more" pos="5;236"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Timeline\TimelineSeries.js">
+   <todo name="todo use this scope for series" pos="37;197"/>
+   <todo name="@todo use this scope for series" pos="36;197"/>
+   <todo name="todo use this scope for series" pos="29;200"/>
+   <todo name="@todo use this scope for series" pos="28;200"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Treegraph\TreegraphSeriesDefaults.js">
+   <todo name="TODO change back the demo path" pos="2;21"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Treemap\TreemapSeries.js">
+   <todo name="todo no supported" pos="95;189"/>
+   <todo name="@todo no supported" pos="94;189"/>
+   <todo name="todo not supported" pos="94;194"/>
+   <todo name="@todo not supported" pos="93;194"/>
+   <todo name="todo Set the zIndex based upon the number of" pos="26;389"/>
+   <todo name="@todo Set the zIndex based upon the number of" pos="25;389"/>
+   <todo name="todo Only if series.isDirtyData is true" pos="10;861"/>
+   <todo name="@todo Only if series.isDirtyData is true" pos="9;861"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Venn\VennSeries.js">
+   <todo name="TODO improve type checking." pos="9;270"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Venn\VennUtils.js">
+   <todo name="TODO: Add unit tests." pos="2;78"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Series\Wordcloud\WordcloudUtils.js">
+   <todo name="TODO make spiralling logic more foolproof." pos="22;200"/>
+   <todo name="todo unnecessary amount of precaclulation" pos="10;442"/>
+   <todo name="@todo unnecessary amount of precaclulation" pos="9;442"/>
+   <todo name="todo improve type checking." pos="6;595"/>
+   <todo name="@todo improve type checking." pos="5;595"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Stock\Indicators\IKH\IKHIndicator.js">
+   <todo name="todo compose" pos="2;107"/>
+   <todo name="@todo compose" pos="1;107"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Stock\Indicators\LinearRegression\LinearRegressionIndicator.js">
+   <todo name="todo this is probably not used anywhere" pos="14;183"/>
+   <todo name="@todo this is probably not used anywhere" pos="13;183"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Stock\Indicators\PivotPoints\PivotPointsIndicator.js">
+   <todo name="TODO: Rewrite this logic to use multiple datalabels" pos="5;118"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Stock\Indicators\Supertrend\SupertrendIndicator.js">
+   <todo name="todo: fix when ichi-moku indicator is merged to master." pos="10;108"/>
+   <todo name="@todo: fix when ichi-moku indicator is merged to master." pos="9;108"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Stock\Indicators\VBP\VBPPoint.js">
+   <todo name="todo: this.negativeGraphic doesn't seem to be used anywhere" pos="10;37"/>
+   <todo name="@todo: this.negativeGraphic doesn't seem to be used anywhere" pos="9;37"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\es-modules\Stock\RangeSelector\RangeSelector.js">
+   <todo name="todo typof undefined" pos="54;600"/>
+   <todo name="@todo typof undefined" pos="53;600"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\highcharts-3d.src.js">
+   <todo name="TODO: Add all frame options (left, right, top, bottom," pos="27;1576"/>
+   <todo name="@TODO: Add all frame options (left, right, top, bottom," pos="26;1576"/>
+   <todo name="todo grouping === true ?" pos="18;4623"/>
+   <todo name="@todo grouping === true ?" pos="17;4623"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\highcharts-more.src.js">
+   <todo name="TODO: We want to change this and allow multiple labels for both" pos="21;986"/>
+   <todo name="todo move to compositions" pos="14;4482"/>
+   <todo name="@todo move to compositions" pos="13;4482"/>
+   <todo name="TODO padding configurable" pos="29;8411"/>
+   <todo name="TODO split layouts to independent methods" pos="17;8776"/>
+   <todo name="todo remove id or define id type:" pos="18;12289"/>
+   <todo name="@todo remove id or define id type:" pos="17;12289"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\lib\jspdf.src.js">
+   <todo name="TODO: detect chrome extensions &amp; packaged apps" pos="5;177"/>
+   <todo name="TODO Implement transparency." pos="11;2588"/>
+   <todo name="TODO: /Resources" pos="11;2884"/>
+   <todo name="todo: set AppearanceType as variable that can be set from the" pos="35;8896"/>
+   <todo name="TODO We really need the text baseline height to do this correctly." pos="39;10672"/>
+   <todo name="TODO move into external library" pos="8;10687"/>
+   <todo name="TODO: Extract font-stretch from font rule (perhaps write proper parser for it?)" pos="17;12766"/>
+   <todo name="TODO not implemented" pos="11;14162"/>
+   <todo name="TODO: optimize/split up?" pos="3;14651"/>
+   <todo name="TODO: find out how this code works (debt)" pos="7;15031"/>
+   <todo name="TODO: Implement ordered pairs?" pos="7;16228"/>
+   <todo name="TODO(deanm): Would using a TypedArray be any faster?  At least it would" pos="43;18444"/>
+   <todo name="TODO(deanm): We should never really get here, we should have received" pos="9;18466"/>
+   <todo name="TODO(deanm): Maybe should check that the first code was a clear code," pos="35;18473"/>
+   <todo name="TODO(deanm): Figure out this clearing vs code growth logic better.  I" pos="55;18544"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\lib\svg2pdf.src.js">
+   <todo name="TODO: check if there are other possible coordinate attributes" pos="9;1420"/>
+   <todo name="TODO: implement refX/refY - this is still to do because common browsers don't seem to support the f" pos="13;2704"/>
+   <todo name="TODO: capitalize, full-width" pos="13;2983"/>
+   <todo name="TODO: add lazy evaluation flag when relative commands supported" pos="7;4647"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\accessibility.src.js">
+   <todo name="todo 1. attach component to created legends" pos="18;3757"/>
+   <todo name="@todo 1. attach component to created legends" pos="17;3757"/>
+   <todo name="todo 2. move listeners to composition and access `this.component`" pos="18;3758"/>
+   <todo name="@todo 2. move listeners to composition and access `this.component`" pos="17;3758"/>
+   <todo name="todo typof undefined" pos="62;7001"/>
+   <todo name="@todo typof undefined" pos="61;7001"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\annotations-advanced.src.js">
+   <todo name="todo v--- (axisName)[axisOptions] ?" pos="34;1791"/>
+   <todo name="@todo v--- (axisName)[axisOptions] ?" pos="33;1791"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\annotations.src.js">
+   <todo name="todo v--- (axisName)[axisOptions] ?" pos="34;1791"/>
+   <todo name="@todo v--- (axisName)[axisOptions] ?" pos="33;1791"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\boost-canvas.src.js">
+   <todo name="todo This likely needs future optimization." pos="18;2501"/>
+   <todo name="@todo This likely needs future optimization." pos="17;2501"/>
+   <todo name="todo simplify" pos="27;2887"/>
+   <todo name="@todo simplify" pos="26;2887"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\boost.src.js">
+   <todo name="todo This likely needs future optimization." pos="18;2502"/>
+   <todo name="@todo This likely needs future optimization." pos="17;2502"/>
+   <todo name="todo simplify" pos="27;2888"/>
+   <todo name="@todo simplify" pos="26;2888"/>
+   <todo name="TODO: When supporting modern syntax, make this a named export" pos="9;3911"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\coloraxis.src.js">
+   <todo name="todo: This option is not documented, nor implemented when" pos="22;1162"/>
+   <todo name="@todo: This option is not documented, nor implemented when" pos="21;1162"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\data.src.js">
+   <todo name="todo Maybe emit a highcharts error event here" pos="22;91"/>
+   <todo name="@todo Maybe emit a highcharts error event here" pos="21;91"/>
+   <todo name="todo lacking timeout handling" pos="14;107"/>
+   <todo name="@todo lacking timeout handling" pos="13;107"/>
+   <todo name="todo looks not right:" pos="30;1728"/>
+   <todo name="@todo looks not right:" pos="29;1728"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\draggable-points.src.js">
+   <todo name="todo" pos="11;78"/>
+   <todo name="@todo" pos="10;78"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\export-data.src.js">
+   <todo name="todo" pos="10;458"/>
+   <todo name="@todo" pos="9;458"/>
+   <todo name="todo consider move to defaults" pos="18;1214"/>
+   <todo name="@todo consider move to defaults" pos="17;1214"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\exporting.src.js">
+   <todo name="todo Maybe emit a highcharts error event here" pos="22;1480"/>
+   <todo name="@todo Maybe emit a highcharts error event here" pos="21;1480"/>
+   <todo name="todo lacking timeout handling" pos="14;1496"/>
+   <todo name="@todo lacking timeout handling" pos="13;1496"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\funnel3d.src.js">
+   <todo name="todo: Type it. It's an extended SVGAttributes." pos="56;336"/>
+   <todo name="@todo: Type it. It's an extended SVGAttributes." pos="55;336"/>
+   <todo name="todo: Type it. It's an extended SVGAttributes." pos="33;705"/>
+   <todo name="@todo: Type it. It's an extended SVGAttributes." pos="32;705"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\gantt.src.js">
+   <todo name="todo typof undefined" pos="62;5172"/>
+   <todo name="@todo typof undefined" pos="61;5172"/>
+   <todo name="todo: Check against tickLabelPlacement between/on etc" pos="14;7932"/>
+   <todo name="@todo: Check against tickLabelPlacement between/on etc" pos="13;7932"/>
+   <todo name="TODO account for alignment" pos="17;8074"/>
+   <todo name="todo acutual label padding (top, bottom, left, right)" pos="18;8154"/>
+   <todo name="@todo acutual label padding (top, bottom, left, right)" pos="17;8154"/>
+   <todo name="TODO: why does this actually center the label?" pos="21;8671"/>
+   <todo name="TODO consider simplifying broken-axis and this might solve itself" pos="13;9752"/>
+   <todo name="TODO: add support for align in treegrid." pos="21;10144"/>
+   <todo name="TODO: Magic number 80" pos="21;11214"/>
+   <todo name="TODO: Magic number 80" pos="21;12843"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\grid-axis.src.js">
+   <todo name="todo: Check against tickLabelPlacement between/on etc" pos="14;113"/>
+   <todo name="@todo: Check against tickLabelPlacement between/on etc" pos="13;113"/>
+   <todo name="TODO account for alignment" pos="17;255"/>
+   <todo name="todo acutual label padding (top, bottom, left, right)" pos="18;335"/>
+   <todo name="@todo acutual label padding (top, bottom, left, right)" pos="17;335"/>
+   <todo name="TODO: why does this actually center the label?" pos="21;852"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\heatmap.src.js">
+   <todo name="todo: This option is not documented, nor implemented when" pos="22;1160"/>
+   <todo name="@todo: This option is not documented, nor implemented when" pos="21;1160"/>
+   <todo name="todo" pos="18;1965"/>
+   <todo name="@todo" pos="17;1965"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\item-series.src.js">
+   <todo name="todo: remove if not needed" pos="19;221"/>
+   <todo name="@todo: remove if not needed" pos="18;221"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\oldie-polyfills.src.js">
+   <todo name="todo support optional ctx" pos="14;75"/>
+   <todo name="@todo support optional ctx" pos="13;75"/>
+   <todo name="todo support optional ctx" pos="14;104"/>
+   <todo name="@todo support optional ctx" pos="13;104"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\pathfinder.src.js">
+   <todo name="TODO: Magic number 80" pos="21;581"/>
+   <todo name="TODO: Magic number 80" pos="21;2210"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\sankey.src.js">
+   <todo name="todo" pos="22;1826"/>
+   <todo name="@todo" pos="21;1826"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\series-label.src.js">
+   <todo name="todo condition above is not the same as below" pos="27;375"/>
+   <todo name="@todo condition above is not the same as below" pos="26;375"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\stock.src.js">
+   <todo name="todo typof undefined" pos="62;7945"/>
+   <todo name="@todo typof undefined" pos="61;7945"/>
+   <todo name="todo potentially nonsense" pos="47;10879"/>
+   <todo name="@todo potentially nonsense" pos="46;10879"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\sunburst.src.js">
+   <todo name="todo no supported" pos="103;2035"/>
+   <todo name="@todo no supported" pos="102;2035"/>
+   <todo name="todo not supported" pos="102;2040"/>
+   <todo name="@todo not supported" pos="101;2040"/>
+   <todo name="todo Set the zIndex based upon the number of" pos="34;2262"/>
+   <todo name="@todo Set the zIndex based upon the number of" pos="33;2262"/>
+   <todo name="todo Only if series.isDirtyData is true" pos="18;2797"/>
+   <todo name="@todo Only if series.isDirtyData is true" pos="17;2797"/>
+   <todo name="TODO draw labels one by one to avoid addtional looping" pos="17;4264"/>
+   <todo name="todo Only if series.isDirtyData is true" pos="18;4393"/>
+   <todo name="@todo Only if series.isDirtyData is true" pos="17;4393"/>
+   <todo name="TODO Try to combine setTreeValues &amp; setColorRecursive to avoid" pos="17;4422"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\tilemap.src.js">
+   <todo name="TODO: Consider standarizing heatmap and tilemap into more" pos="13;746"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\timeline.src.js">
+   <todo name="todo use this scope for series" pos="45;699"/>
+   <todo name="@todo use this scope for series" pos="44;699"/>
+   <todo name="todo use this scope for series" pos="37;702"/>
+   <todo name="@todo use this scope for series" pos="36;702"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\treegraph.src.js">
+   <todo name="TODO change back the demo path" pos="2;1001"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\treegrid.src.js">
+   <todo name="todo: Check against tickLabelPlacement between/on etc" pos="14;759"/>
+   <todo name="@todo: Check against tickLabelPlacement between/on etc" pos="13;759"/>
+   <todo name="TODO account for alignment" pos="17;901"/>
+   <todo name="todo acutual label padding (top, bottom, left, right)" pos="18;981"/>
+   <todo name="@todo acutual label padding (top, bottom, left, right)" pos="17;981"/>
+   <todo name="TODO: why does this actually center the label?" pos="21;1498"/>
+   <todo name="TODO consider simplifying broken-axis and this might solve itself" pos="13;2579"/>
+   <todo name="TODO: add support for align in treegrid." pos="21;2971"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\treemap.src.js">
+   <todo name="todo no supported" pos="103;2035"/>
+   <todo name="@todo no supported" pos="102;2035"/>
+   <todo name="todo not supported" pos="102;2040"/>
+   <todo name="@todo not supported" pos="101;2040"/>
+   <todo name="todo Set the zIndex based upon the number of" pos="34;2262"/>
+   <todo name="@todo Set the zIndex based upon the number of" pos="33;2262"/>
+   <todo name="todo Only if series.isDirtyData is true" pos="18;2797"/>
+   <todo name="@todo Only if series.isDirtyData is true" pos="17;2797"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\venn.src.js">
+   <todo name="TODO: add unit tests." pos="2;386"/>
+   <todo name="TODO: Add unit tests." pos="2;785"/>
+   <todo name="TODO improve type checking." pos="17;1671"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Highcharts-10.3.2\code\modules\wordcloud.src.js">
+   <todo name="TODO make spiralling logic more foolproof." pos="34;413"/>
+   <todo name="todo unnecessary amount of precaclulation" pos="18;673"/>
+   <todo name="@todo unnecessary amount of precaclulation" pos="17;673"/>
+   <todo name="todo improve type checking." pos="14;840"/>
+   <todo name="@todo improve type checking." pos="13;840"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\Quill\ui\tool-module.js">
+   <todo name="TODO make configurable?" pos="29;142"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\bootstrap-colorpicker\js\bootstrap-colorpicker.js">
+   <todo name="TODO: fix moving outside the picker makes the guides to keep moving. The event needs to be bound to" pos="7;3880"/>
+   <todo name="TODO: fix having to click twice outside when losing focus and last 2 clicks where inside the colorp" pos="7;4294"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\bootstrap\js\bootstrap.bundle.js">
+   <todo name="TODO: Remove in v5" pos="5;194"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;5147"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;6458"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\bootstrap\js\bootstrap.js">
+   <todo name="TODO: Remove in v5" pos="5;195"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;2534"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;3845"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\chart.js\Chart.bundle.js">
+   <todo name="TODO(v3): remove 'global' from namespace.  all default are global and" pos="1;2979"/>
+   <todo name="TODO Make possible to select another platform at build time." pos="2;7865"/>
+   <todo name="@TODO Make possible to select another platform at build time." pos="1;7865"/>
+   <todo name="TODO(SB): I think we should be able to remove this custom case (options.scale)" pos="4;9529"/>
+   <todo name="TODO(v3): remove minSize as a public property and return value from all layout boxes. It is unused" pos="3;11571"/>
+   <todo name="TODO(v3): change this to positiveOrDefault" pos="1;13126"/>
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;15045"/>
+   <todo name="TODO: add sorting" pos="9;15688"/>
+   <todo name="TODO: Another silent failure?" pos="17;15728"/>
+   <todo name="TODO: Find a better way to register and load all the locales in Node" pos="9;16533"/>
+   <todo name="TODO: We need to take the current isoWeekYear, but that depends on" pos="13;16813"/>
+   <todo name="TODO: Replace the vanilla JS Date object with an indepentent day-of-week check." pos="13;16988"/>
+   <todo name="TODO: Move this to another part of the creation flow to prevent circular deps" pos="9;17092"/>
+   <todo name="TODO: Use [].sort instead?" pos="5;17387"/>
+   <todo name="TODO: remove 'name' arg after deprecation is removed" pos="5;17818"/>
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;18446"/>
+   <todo name="TODO: Use this.as('ms')?" pos="5;18978"/>
+   <todo name="todo if (fill[0] === '#')" pos="2;19399"/>
+   <todo name="@todo if (fill[0] === '#')" pos="1;19399"/>
+   <todo name="todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="2;20608"/>
+   <todo name="@todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="1;20608"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\chart.js\Chart.js">
+   <todo name="TODO(v3): remove 'global' from namespace.  all default are global and" pos="1;2975"/>
+   <todo name="TODO Make possible to select another platform at build time." pos="2;7861"/>
+   <todo name="@TODO Make possible to select another platform at build time." pos="1;7861"/>
+   <todo name="TODO(SB): I think we should be able to remove this custom case (options.scale)" pos="4;9525"/>
+   <todo name="TODO(v3): remove minSize as a public property and return value from all layout boxes. It is unused" pos="3;11567"/>
+   <todo name="TODO(v3): change this to positiveOrDefault" pos="1;13122"/>
+   <todo name="todo if (fill[0] === '#')" pos="2;14795"/>
+   <todo name="@todo if (fill[0] === '#')" pos="1;14795"/>
+   <todo name="todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="2;16004"/>
+   <todo name="@todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!" pos="1;16004"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\addon\tern\tern.js">
+   <todo name="ToDoc: A function(name, doc) that should, when providing a" pos="9;19"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\keymap\vim.js">
+   <todo name="TODO: Implement the remaining registers." pos="4;13"/>
+   <todo name="TODO: Implement the remaining special marks. They have more complex" pos="4;16"/>
+   <todo name="TODO: Current bindings expect the character to be lower case, but" pos="7;380"/>
+   <todo name="TODO: Convert keymap into dictionary format for fast lookup." pos="9;734"/>
+   <todo name="TODO at bottom of function." pos="35;764"/>
+   <todo name="TODO: Create non-recursive keyToKey mappings for the unmapped contexts once those exist." pos="9;798"/>
+   <todo name="TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace" pos="7;834"/>
+   <todo name="TODO: prevent infinite recursion." pos="11;892"/>
+   <todo name="TODO: Look into using CodeMirror's multi-key handling." pos="11;965"/>
+   <todo name="TODO: Make sure cm and vim selections are identical outside visual mode." pos="9;1544"/>
+   <todo name="TODO: Handle null returns from motion commands better." pos="11;1598"/>
+   <todo name="TODO: lots of possible exceptions that can be thrown here. Try da(" pos="9;2026"/>
+   <todo name="TODO: Instead of using the additional text object map to perform text" pos="9;2044"/>
+   <todo name="TODO: The repeat should actually select number of characters/lines" pos="9;2451"/>
+   <todo name="TODO: The original Vim implementation only operates on level 1 and 2." pos="7;3344"/>
+   <todo name="TODO: perhaps this finagling of start and end positions belonds" pos="5;3838"/>
+   <todo name="TODO support across multiple lines" pos="5;3886"/>
+   <todo name="TODO: override navigation keys so that Esc will cancel automatic" pos="7;5218"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\erlang\erlang.js">
+   <todo name="TODO indenter:" pos="1;12"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\rpm\rpm.js">
+   <todo name="TODO: Include bash script sub-parser (CodeMirror supports that)" pos="7;99"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\sas\sas.js">
+   <todo name="TODO" pos="1;7"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\slim\slim.js">
+   <todo name="TODO: add multi line support" pos="7;138"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\tiddlywiki\tiddlywiki.js">
+   <todo name="TODO fix @@...@@ highlighting" pos="47;135"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\vb\vb.js">
+   <todo name="TODO - Can you have imaginary longs?" pos="17;98"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\vbscript\vbscript.js">
+   <todo name="TODO - Can you have imaginary longs?" pos="17;157"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\codemirror\mode\verilog\verilog.js">
+   <todo name="TODO: Pass this in instead." pos="47;450"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\datatables-buttons\js\buttons.flash.js">
+   <todo name="TODO Need to provide the ability for the specials to say" pos="6;1243"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\datatables-scroller\js\dataTables.scroller.js">
+   <todo name="todo The defaults should extend a `c` property and the internal settings" pos="3;231"/>
+   <todo name="@todo The defaults should extend a `c` property and the internal settings" pos="2;231"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\datatables\jquery.dataTables.js">
+   <todo name="todo depreciated" pos="36;3603"/>
+   <todo name="@todo depreciated" pos="35;3603"/>
+   <todo name="todo Move options into their own plugins?" pos="5;3642"/>
+   <todo name="@todo Move options into their own plugins?" pos="4;3642"/>
+   <todo name="todo As per sort - can this be moved into an event handler?" pos="4;4287"/>
+   <todo name="@todo As per sort - can this be moved into an event handler?" pos="3;4287"/>
+   <todo name="todo Can this be moved into a 'data-ready' handler which is called when" pos="4;5943"/>
+   <todo name="@todo Can this be moved into a 'data-ready' handler which is called when" pos="3;5943"/>
+   <todo name="todo - for 1.11 this needs to be done by" pos="27;6376"/>
+   <todo name="todo - Is there need for an augment function?" pos="3;7229"/>
+   <todo name="@todo - Is there need for an augment function?" pos="2;7229"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\flot\plugins\jquery.flot.axislabels.js">
+   <todo name="TODO - use the drawAxis hook" pos="13;184"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\flot\plugins\jquery.flot.pie.js">
+   <todo name="TODO: add extra shadow inside hole (with a mask) if the pie is tilted." pos="17;544"/>
+   <todo name="TODO: perhaps do some mathmatical trickery here with the Y-coordinate to compensate for pie tilt?" pos="25;604"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar-daygrid\main.esm.js">
+   <todo name="TODO: better code reuse for this. Repeat code" pos="5;192"/>
+   <todo name="TODO: somehow consider the originating DayGrid's column count" pos="23;269"/>
+   <todo name="TODO: cache" pos="84;620"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="75;703"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="90;881"/>
+   <todo name="TODO: separate setting height from scroller VS dayGrid." pos="9;1438"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar-daygrid\main.js">
+   <todo name="TODO: better code reuse for this. Repeat code" pos="9;196"/>
+   <todo name="TODO: somehow consider the originating DayGrid's column count" pos="27;273"/>
+   <todo name="TODO: cache" pos="93;624"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="84;707"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="99;885"/>
+   <todo name="TODO: separate setting height from scroller VS dayGrid." pos="13;1442"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar-interaction\main.esm.js">
+   <todo name="TODO: repeat code" pos="9;239"/>
+   <todo name="TODO: repeat code" pos="9;274"/>
+   <todo name="TODO: fire this before computing processFirstCoord, so listeners can cancel. this gets fired by alm" pos="59;983"/>
+   <todo name="TODO: better way to re-orient rectangle" pos="25;1088"/>
+   <todo name="TODO: write test for this" pos="62;1373"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="17;1379"/>
+   <todo name="TODO: test this in IE11" pos="62;1542"/>
+   <todo name="TODO: rename to resizingSeg? subjectSeg?" pos="35;1590"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="13;1856"/>
+   <todo name="TODO: eventually read eventLongPressDelay instead vvv" pos="30;2002"/>
+   <todo name="TODO: write tests" pos="61;2020"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar-interaction\main.js">
+   <todo name="TODO: repeat code" pos="13;243"/>
+   <todo name="TODO: repeat code" pos="13;278"/>
+   <todo name="TODO: fire this before computing processFirstCoord, so listeners can cancel. this gets fired by alm" pos="63;987"/>
+   <todo name="TODO: better way to re-orient rectangle" pos="29;1092"/>
+   <todo name="TODO: write test for this" pos="66;1377"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="21;1383"/>
+   <todo name="TODO: test this in IE11" pos="66;1546"/>
+   <todo name="TODO: rename to resizingSeg? subjectSeg?" pos="39;1594"/>
+   <todo name="TODO: wish we could somehow wait for dispatch to guarantee render" pos="17;1860"/>
+   <todo name="TODO: eventually read eventLongPressDelay instead vvv" pos="34;2006"/>
+   <todo name="TODO: write tests" pos="65;2024"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar-timegrid\main.esm.js">
+   <todo name="TODO: dont do every time. memoize" pos="9;62"/>
+   <todo name="TODO: have groupSegsByCol do this?" pos="9;74"/>
+   <todo name="TODO: give the timezones" pos="81;142"/>
+   <todo name="TODO: write CSS for this" pos="14;176"/>
+   <todo name="TODO: &quot;condensed&quot; is a better name" pos="51;267"/>
+   <todo name="TODO: more efficient lookup" pos="9;419"/>
+   <todo name="TODO: say warning?" pos="13;492"/>
+   <todo name="TODO: separate setting height from scroller VS timeGrid." pos="9;1137"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar-timegrid\main.js">
+   <todo name="TODO: dont do every time. memoize" pos="13;65"/>
+   <todo name="TODO: have groupSegsByCol do this?" pos="13;77"/>
+   <todo name="TODO: give the timezones" pos="85;145"/>
+   <todo name="TODO: write CSS for this" pos="18;179"/>
+   <todo name="TODO: &quot;condensed&quot; is a better name" pos="55;270"/>
+   <todo name="TODO: more efficient lookup" pos="13;422"/>
+   <todo name="TODO: say warning?" pos="17;495"/>
+   <todo name="TODO: separate setting height from scroller VS timeGrid." pos="13;1140"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar\main.esm.js">
+   <todo name="TODO: write more comments" pos="1;1030"/>
+   <todo name="TODO: give nextDayThreshold a default arg" pos="1;1085"/>
+   <todo name="TODO: wish we could use eventTupleToStore or something like it" pos="9;1361"/>
+   <todo name="TODO: use control characters instead?" pos="33;1782"/>
+   <todo name="TODO: warning if parsed bad" pos="40;2046"/>
+   <todo name="TODO: warning if parsed bad" pos="25;2064"/>
+   <todo name="TODO: warning if parsed bad" pos="21;2084"/>
+   <todo name="TODO: warning if parsed bad" pos="25;2088"/>
+   <todo name="TODO: warning if parsed bad" pos="22;2117"/>
+   <todo name="TODO: warning if parsed bad" pos="22;2123"/>
+   <todo name="TODO: warning if parsed bad" pos="22;2129"/>
+   <todo name="TODO: find a TypeScript-compatible way to do this at scale" pos="9;2213"/>
+   <todo name="TODO: include seg.range once all components consistently generate it" pos="21;2398"/>
+   <todo name="TODO: is this mutation okay?" pos="38;2524"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="22;2596"/>
+   <todo name="TODO: wish this logic was always in event-sources" pos="47;2635"/>
+   <todo name="TODO: exclude defs too?" pos="129;2737"/>
+   <todo name="TODO: move to event-store file?" pos="1;2867"/>
+   <todo name="TODO: move to geom file?" pos="1;2876"/>
+   <todo name="TODO: keep elsewhere" pos="70;3254"/>
+   <todo name="TODO: typescript protection" pos="36;3263"/>
+   <todo name="todo: add comments" pos="5;3551"/>
+   <todo name="TODO: make these options" pos="18;4460"/>
+   <todo name="TODO: make RTL support the responibility of the theme" pos="9;4527"/>
+   <todo name="TODO: move this stuff to a &quot;plugin&quot;-related file..." pos="1;4544"/>
+   <todo name="TODO: not a very efficient system" pos="9;4676"/>
+   <todo name="TODO: can use greatestWholeUnit" pos="9;4917"/>
+   <todo name="TODO: choke on timeZoneName: long" pos="5;4990"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="22;5122"/>
+   <todo name="TODO: find a way to avoid comparing DateProfiles. it's tedious" pos="1;5579"/>
+   <todo name="TODO: better way to make sure not hovering over more+ link or its wrapper" pos="36;6495"/>
+   <todo name="TODO: cache this?" pos="97;7210"/>
+   <todo name="TODO: receive pev?" pos="5;7236"/>
+   <todo name="TODO: rename to computeDefaultEventEnd" pos="5;7276"/>
+   <todo name="TODO: better util for two args?" pos="85;7298"/>
+   <todo name="TODO: use an internal function" pos="67;7308"/>
+   <todo name="TODO: test" pos="95;7310"/>
+   <todo name="TODO: optimize" pos="5;7327"/>
+   <todo name="TODO: error otherwise?" pos="28;7397"/>
+   <todo name="TODO: somehow do this for the current whole day's background too" pos="5;7637"/>
+   <todo name="TODO: maybe always use setTimeout, waiting until start of next unit" pos="17;7653"/>
+   <todo name="TODO: better support for open-range events" pos="58;7974"/>
+   <todo name="TODO: warning?" pos="22;8143"/>
+   <todo name="TODO: warning?" pos="35;8156"/>
+   <todo name="TODO: more DRY and optimized" pos="1;8165"/>
+   <todo name="TODO: don't hardcode 'en' everywhere" pos="81;8167"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="81;8205"/>
+   <todo name="TODO: give interactionSegs?" pos="12;8457"/>
+   <todo name="TODO: kill" pos="75;8535"/>
+   <todo name="TODO: kill" pos="73;8547"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\fullcalendar\main.js">
+   <todo name="TODO: write more comments" pos="5;1036"/>
+   <todo name="TODO: give nextDayThreshold a default arg" pos="5;1091"/>
+   <todo name="TODO: wish we could use eventTupleToStore or something like it" pos="13;1367"/>
+   <todo name="TODO: use control characters instead?" pos="37;1788"/>
+   <todo name="TODO: warning if parsed bad" pos="44;2052"/>
+   <todo name="TODO: warning if parsed bad" pos="29;2070"/>
+   <todo name="TODO: warning if parsed bad" pos="25;2090"/>
+   <todo name="TODO: warning if parsed bad" pos="29;2094"/>
+   <todo name="TODO: warning if parsed bad" pos="26;2123"/>
+   <todo name="TODO: warning if parsed bad" pos="26;2129"/>
+   <todo name="TODO: warning if parsed bad" pos="26;2135"/>
+   <todo name="TODO: find a TypeScript-compatible way to do this at scale" pos="13;2219"/>
+   <todo name="TODO: include seg.range once all components consistently generate it" pos="25;2404"/>
+   <todo name="TODO: is this mutation okay?" pos="42;2530"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="26;2602"/>
+   <todo name="TODO: wish this logic was always in event-sources" pos="51;2641"/>
+   <todo name="TODO: exclude defs too?" pos="133;2743"/>
+   <todo name="TODO: move to event-store file?" pos="5;2873"/>
+   <todo name="TODO: move to geom file?" pos="5;2882"/>
+   <todo name="TODO: keep elsewhere" pos="74;3260"/>
+   <todo name="TODO: typescript protection" pos="40;3269"/>
+   <todo name="todo: add comments" pos="9;3557"/>
+   <todo name="TODO: make these options" pos="22;4466"/>
+   <todo name="TODO: make RTL support the responibility of the theme" pos="13;4533"/>
+   <todo name="TODO: move this stuff to a &quot;plugin&quot;-related file..." pos="5;4550"/>
+   <todo name="TODO: not a very efficient system" pos="13;4682"/>
+   <todo name="TODO: can use greatestWholeUnit" pos="13;4923"/>
+   <todo name="TODO: choke on timeZoneName: long" pos="9;4996"/>
+   <todo name="TODO: how do we track all actions that affect dateProfile :(" pos="26;5128"/>
+   <todo name="TODO: find a way to avoid comparing DateProfiles. it's tedious" pos="5;5585"/>
+   <todo name="TODO: better way to make sure not hovering over more+ link or its wrapper" pos="40;6501"/>
+   <todo name="TODO: cache this?" pos="101;7216"/>
+   <todo name="TODO: receive pev?" pos="9;7242"/>
+   <todo name="TODO: rename to computeDefaultEventEnd" pos="9;7282"/>
+   <todo name="TODO: better util for two args?" pos="89;7304"/>
+   <todo name="TODO: use an internal function" pos="71;7314"/>
+   <todo name="TODO: test" pos="99;7316"/>
+   <todo name="TODO: optimize" pos="9;7333"/>
+   <todo name="TODO: error otherwise?" pos="32;7403"/>
+   <todo name="TODO: somehow do this for the current whole day's background too" pos="9;7643"/>
+   <todo name="TODO: maybe always use setTimeout, waiting until start of next unit" pos="21;7659"/>
+   <todo name="TODO: better support for open-range events" pos="62;7980"/>
+   <todo name="TODO: warning?" pos="26;8149"/>
+   <todo name="TODO: warning?" pos="39;8162"/>
+   <todo name="TODO: more DRY and optimized" pos="5;8171"/>
+   <todo name="TODO: don't hardcode 'en' everywhere" pos="85;8173"/>
+   <todo name="TODO: called too frequently. cache somehow." pos="85;8211"/>
+   <todo name="TODO: give interactionSegs?" pos="16;8463"/>
+   <todo name="TODO: kill" pos="79;8541"/>
+   <todo name="TODO: kill" pos="77;8553"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\ion-rangeslider\js\ion.rangeSlider.js">
+   <todo name="TODO: Refactor then have plenty of time" pos="9;2312"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\jquery-ui\jquery-ui.js">
+   <todo name="TODO: remove support for widgetEventPrefix" pos="3;154"/>
+   <todo name="TODO: is this right? should we include anything with css width specified as well" pos="3;3531"/>
+   <todo name="TODO: Switch return back to widget declaration at top of file when this is removed" pos="1;18185"/>
+   <todo name="TODO: Switch return back to widget declaration at top of file when this is removed" pos="1;18682"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\jquery-validation\additional-methods.js">
+   <todo name="TODO check if value starts with &lt;, otherwise don't try stripping anything" pos="1;1430"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\jquery-validation\jquery.validate.js">
+   <todo name="TODO find a way to support input types date, datetime, datetime-local, month, time and week" pos="4;1528"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\jquery-validation\localization\messages_pt_BR.js">
+   <todo name="todos Adicionais" pos="4;36"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\jquery\jquery.js">
+   <todo name="TODO: identify versions" pos="8;789"/>
+   <todo name="TODO: identify versions" pos="7;803"/>
+   <todo name="TODO: Drop _data, _removeData)" pos="48;4393"/>
+   <todo name="TODO: Now that all calls to _data and _removeData have been replaced" pos="2;4461"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\jquery\jquery.slim.js">
+   <todo name="TODO: identify versions" pos="8;789"/>
+   <todo name="TODO: identify versions" pos="7;803"/>
+   <todo name="TODO: Drop _data, _removeData)" pos="48;4393"/>
+   <todo name="TODO: Now that all calls to _data and _removeData have been replaced" pos="2;4461"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\jszip\jszip.js">
+   <todo name="TODO: lazy-loading this object isn't the best solution but it's the" pos="2;388"/>
+   <todo name="TODO" pos="34;653"/>
+   <todo name="TODO find a better way to handle this version," pos="1;1057"/>
+   <todo name="TODO reverse the parameters ? need to be clean AND consistent with the filter search fn..." pos="41;1520"/>
+   <todo name="TODO expose this as a public variable" pos="1;2126"/>
+   <todo name="TODO : we now have workers that split the work. Do we still need that ?" pos="5;3207"/>
+   <todo name="TODO: may be {}" pos="3;8280"/>
+   <todo name="TODO: 2 or 1 bytes?" pos="11;8812"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\lightgallery\lightgallery\js\lg-video.js">
+   <todo name="todo loading icon for html5 videos also" pos="22;217"/>
+   <todo name="@todo loading icon for html5 videos also" pos="21;217"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\lightgallery\lightgallery\js\lightgallery.js">
+   <todo name="todo check load state for html5 videos" pos="10;750"/>
+   <todo name="@todo check load state for html5 videos" pos="9;750"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\moment\locale\fr.js">
+   <todo name="TODO: Return 'e' when day of month > 1. Move this case inside" pos="17;84"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\moment\locale\mk.js">
+   <todo name="Todorov : https://github.com/bkyceh" pos="19;3"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\moment\moment-with-locales.js">
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;357"/>
+   <todo name="TODO: add sorting" pos="9;1041"/>
+   <todo name="TODO: Another silent failure?" pos="17;1096"/>
+   <todo name="TODO: Find a better way to register and load all the locales in Node" pos="9;2075"/>
+   <todo name="TODO: Replace the vanilla JS Date object with an independent day-of-week check." pos="13;2444"/>
+   <todo name="TODO: We need to take the current isoWeekYear, but that depends on" pos="13;2668"/>
+   <todo name="TODO: Move this to another part of the creation flow to prevent circular deps" pos="9;2729"/>
+   <todo name="TODO: Use [].sort instead?" pos="5;3067"/>
+   <todo name="TODO: remove 'name' arg after deprecation is removed" pos="5;3555"/>
+   <todo name="TODO: Remove &quot;ordinalParse&quot; fallback in next major release." pos="9;4705"/>
+   <todo name="TODO: Use this.as('ms')?" pos="5;5318"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\multiform\demo\advanced\js\effects.js">
+   <todo name="todos os elementos filhos do menu com atributo &quot;title&quot;" pos="147;43"/>
+   <todo name="todos os elementos netos do menu com atributo &quot;title&quot;" pos="151;44"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\multiform\src\js\jquery.multiform-text-editor.js">
+   <todo name="todo de pre-execução (quando existe), manipulando dados e elementos antes de usá-los na fo" pos="89;70"/>
+   <todo name="todo de execução interna para realizar a formatação toda personalizada" pos="54;81"/>
+   <todo name="todo de captura usa-o passando elemento como parâmetro, senão: usa &quot;data-val&quot; do ele" pos="96;85"/>
+   <todo name="todo usa o item de menu/submenu como parâmetro e retorna uma array (['atributo', 'valor1'(opcional" pos="59;90"/>
+   <todo name="todo o t" pos="190;93"/>
+   <todo name="todo premontado //-->comparar para ve" pos="102;115"/>
+   <todo name="todo" pos="106;116"/>
+   <todo name="todo de pós-execução (quando existe), manipulando dados e elementos após a formatação" pos="15;126"/>
+   <todo name="todos submenus estejam ocultos" pos="57;137"/>
+   <todo name="todos conforme o item de objeto &quot;datamnpl_obj&quot;" pos="15;169"/>
+   <todo name="todo manipulador" pos="48;171"/>
+   <todo name="todo manipulando dados e elementos para usá-los nas formatações independentemente" pos="64;172"/>
+   <todo name="todo: manipula a caixa de texto editável" pos="53;173"/>
+   <todo name="todos elementos do menu (filhos, netos...) que possuem a classe" pos="94;182"/>
+   <todo name="todo de seleção" pos="47;242"/>
+   <todo name="todos os atributos e conteúdo" pos="41;320"/>
+   <todo name="todos para anexar manipulaçõ" pos="75;397"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\orgchart\js\jquery.orgchart.js">
+   <todo name="TODO: This assumes all nodes are droppable: it doesn't run the custom isDroppable function - it sho" pos="7;1476"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\purple\assets\js\bootstrap.js">
+   <todo name="TODO: Remove in v5" pos="5;180"/>
+   <todo name="todo (fat): these should probably be refactored out of modal.js" pos="5;2433"/>
+   <todo name="TODO (fat): remove sketch reliance on jQuery position/offset" pos="13;3739"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\purple\assets\js\task.js">
+   <todo name="todo list" pos="26;23"/>
+   <todo name="todo list" pos="32;42"/>
+   <todo name="todo list to the end" pos="25;51"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\purple\assets\plugins\summernote\dist\plugin\databasic\summernote-ext-databasic.js">
+   <todo name="TODO: make this an undo snapshot..." pos="9;70"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\purple\assets\plugins\summernote\dist\summernote-bs4.js">
+   <todo name="TODO compare points and sort" pos="11;1952"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="28;5320"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\purple\assets\plugins\summernote\dist\summernote-lite.js">
+   <todo name="TODO compare points and sort" pos="11;2743"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="28;5868"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\purple\assets\plugins\summernote\dist\summernote.js">
+   <todo name="TODO compare points and sort" pos="11;1951"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="28;5319"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\summernote\plugin\databasic\summernote-ext-databasic.js">
+   <todo name="TODO: make this an undo snapshot..." pos="9;69"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\summernote\summernote-bs4.js">
+   <todo name="TODO compare points and sort" pos="61;2867"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="14;7441"/>
+   <todo name="TODO: need to be documented" pos="5;9820"/>
+   <todo name="TODO: need to be documented" pos="5;9823"/>
+   <todo name="TODO: need to be documented" pos="5;9825"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\summernote\summernote-lite.js">
+   <todo name="TODO compare points and sort" pos="61;2867"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="14;7441"/>
+   <todo name="TODO: need to be documented" pos="5;9820"/>
+   <todo name="TODO: need to be documented" pos="5;9823"/>
+   <todo name="TODO: need to be documented" pos="5;9825"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\summernote\summernote.js">
+   <todo name="TODO compare points and sort" pos="61;2867"/>
+   <todo name="TODO: do we have to record recent custom colors within cookies?" pos="14;7441"/>
+   <todo name="TODO: need to be documented" pos="5;9820"/>
+   <todo name="TODO: need to be documented" pos="5;9823"/>
+   <todo name="TODO: need to be documented" pos="5;9825"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\sweetalert2\sweetalert2.all.js">
+   <todo name="TODO: make showLoading an *instance* method" pos="22;2632"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\sweetalert2\sweetalert2.js">
+   <todo name="TODO: make showLoading an *instance* method" pos="22;2632"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\public\plugins\tempusdominus-bootstrap-4\js\tempusdominus-bootstrap-4.js">
+   <todo name="todo data api key" pos="90;552"/>
+   <todo name="todo taking the first date should be ok" pos="96;750"/>
+   <todo name="TODO should this use format? and locale?" pos="42;792"/>
+   <todo name="todo" pos="35;1319"/>
+   <todo name="todo doc off?" pos="13;2583"/>
+   <todo name="todo disable this/comp if input is null" pos="52;2594"/>
+   <todo name="todo enable comp/this if input is null" pos="53;2603"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\barryvdh\laravel-debugbar\src\Storage\FilesystemStorage.php">
+   <todo name="TODO; error handling" pos="13;44"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\lib\Cpdf.php">
+   <todo name="todo is it still needed" pos="14;5832"/>
+   <todo name="@todo is it still needed" pos="13;5832"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Adapter\CPDF.php">
+   <todo name="todo use cache for BMP and GIF" pos="18;861"/>
+   <todo name="@todo use cache for BMP and GIF" pos="17;861"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Adapter\GD.php">
+   <todo name="todo" pos="10;428"/>
+   <todo name="@todo" pos="9;428"/>
+   <todo name="todo" pos="10;513"/>
+   <todo name="@todo" pos="9;513"/>
+   <todo name="todo" pos="10;518"/>
+   <todo name="@todo" pos="9;518"/>
+   <todo name="todo" pos="10;526"/>
+   <todo name="@todo" pos="9;526"/>
+   <todo name="todo" pos="10;552"/>
+   <todo name="@todo" pos="9;552"/>
+   <todo name="todo" pos="10;563"/>
+   <todo name="@todo" pos="9;563"/>
+   <todo name="todo" pos="10;574"/>
+   <todo name="@todo" pos="9;574"/>
+   <todo name="todo" pos="10;583"/>
+   <todo name="@todo" pos="9;583"/>
+   <todo name="todo" pos="10;596"/>
+   <todo name="@todo" pos="9;596"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Adapter\PDFLib.php">
+   <todo name="TODO: we should check the current PDF stroke color" pos="9;612"/>
+   <todo name="TODO: we should check the current PDF fill color" pos="9;649"/>
+   <todo name="TODO" pos="9;737"/>
+   <todo name="TODO: add PDFLib7 support" pos="13;1009"/>
+   <todo name="TODO: should do something with the error message" pos="17;1216"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Css\AttributeTranslator.php">
+   <todo name="TODO: translate more form element attributes" pos="9;91"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Css\Style.php">
+   <todo name="TODO: we should be using the calculated prop rather than perform the entire family parsing operation" pos="9;1082"/>
+   <todo name="TODO: should be handled in setter" pos="9;1418"/>
+   <todo name="TODO: One font weight heavier than the parent element (among the available weights of the font)." pos="13;2170"/>
+   <todo name="TODO: One font weight lighter than the parent element (among the available weights of the font)." pos="13;2173"/>
+   <todo name="TODO: should be handled in setter (lengths set to absolute)" pos="9;3028"/>
+   <todo name="TODO: should be handled in setter" pos="9;3207"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Css\Stylesheet.php">
+   <todo name="TODO: bit of a hack attempt at matches support, currently only matches against elements" pos="25;707"/>
+   <todo name="TODO" pos="29;732"/>
+   <todo name="TODO: If we use a context node can we remove the leading dot" pos="17;991"/>
+   <todo name="TODO: When the media query logic is fully developed we should not apply the Style when any of the me" pos="29;1148"/>
+   <todo name="Todo:Reason is unknown" pos="25;1362"/>
+   <todo name="Todo: As above, do we need to replace php or file to an empty protocol for local files" pos="13;1503"/>
+   <todo name="todo: fix the regex so that it works every time" pos="14;1583"/>
+   <todo name="@todo: fix the regex so that it works every time" pos="13;1583"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Dompdf.php">
+   <todo name="todo Take the quirksmode into account" pos="14;494"/>
+   <todo name="@todo Take the quirksmode into account" pos="13;494"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\FontMetrics.php">
+   <todo name="todo Make sure this cache is efficient before enabling it" pos="10;297"/>
+   <todo name="@todo Make sure this cache is efficient before enabling it" pos="9;297"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\FrameDecorator\AbstractFrameDecorator.php">
+   <todo name="TODO: What version is the best : this one or the one in ListBullet ?" pos="2;826"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\FrameDecorator\ListBullet.php">
+   <todo name="Todo: Guessed for now." pos="65;24"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\FrameDecorator\ListBulletImage.php">
+   <todo name="Todo: Where can the box size be extended" pos="9;74"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\FrameReflower\Block.php">
+   <todo name="TODO: this is a WIP for handling clear/float frames that are in between inline frames" pos="13;682"/>
+   <todo name="TODO handle when floating elements don't fit" pos="17;749"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\FrameReflower\Text.php">
+   <todo name="todo support &lt;shy>, &lt;wbr>" pos="10;121"/>
+   <todo name="@todo support &lt;shy>, &lt;wbr>" pos="9;121"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Helpers.php">
+   <todo name="TODO: use $context to define additional curl options" pos="17;881"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Positioner\Absolute.php">
+   <todo name="TODO change width" pos="25;77"/>
+   <todo name="TODO change height" pos="25;106"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Positioner\ListBullet.php">
+   <todo name="TODO: should offset take into account the line height of the next sibling (per previous logic)" pos="13;44"/>
+   <todo name="Todo:" pos="9;66"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Renderer\AbstractRenderer.php">
+   <todo name="TODO: Solve rendering where one corner is beveled (radius == 0), one corner isn't." pos="9;569"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Renderer\ListBullet.php">
+   <todo name="TODO: should the line height take into account the line height of the containing block (per previou" pos="21;237"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\dompdf\dompdf\src\Renderer\TableCell.php">
+   <todo name="todo Add support for outlines here" pos="10;57"/>
+   <todo name="@todo Add support for outlines here" pos="9;57"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier.php">
+   <todo name="TODO: make the config merge in, instead of replace" pos="10;147"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\AttrDef\CSS\ImportantDecorator.php">
+   <todo name="TODO: optimization: test directly for !important and ! important" pos="10;38"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\CSSDefinition.php">
+   <todo name="TODO: support SLASH syntax" pos="9;428"/>
+   <todo name="TODO: Is this htmlspecialchars() call really necessary" pos="18;515"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\ChildDef\List.php">
+   <todo name="ToDo: Make this more robust in the case of not ol/ul" pos="17;68"/>
+   <todo name="ToDo" pos="93;78"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\ChildDef\Required.php">
+   <todo name="ToDo: Make configurable" pos="17;95"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\HTMLModuleManager.php">
+   <todo name="TODO:" pos="18;421"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\HTMLModule\Scripting.php">
+   <todo name="TODO: create custom child-definition for noscript that" pos="9;42"/>
+   <todo name="TODO: convert this to new syntax, main problem is getting" pos="9;48"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\Printer\ConfigForm.php">
+   <todo name="TODO does this need a break" pos="21;322"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\Strategy\FixNesting.php">
+   <todo name="ToDo: I don't think it matters if it's def or" pos="25;121"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\ezyang\htmlpurifier\library\HTMLPurifier\Zipper.php">
+   <todo name="ToDo: Maybe it's more user friendly" pos="34;13"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\facade\ignition\src\Support\ComposerClassMap.php">
+   <todo name="TODO: This is incorrect. Doesnt list all fqcns. Need to parse namespace" pos="9;50"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\filp\whoops\src\Whoops\Exception\Frame.php">
+   <todo name="todo: This can be made more reliable by checking if we've entered" pos="10;54"/>
+   <todo name="@todo: This can be made more reliable by checking if we've entered" pos="9;54"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\filp\whoops\src\Whoops\Handler\PrettyPageHandler.php">
+   <todo name="todo: Make this more robust" pos="14;186"/>
+   <todo name="@todo: Make this more robust" pos="13;186"/>
+   <todo name="todo: Asset compiler" pos="14;225"/>
+   <todo name="@todo: Asset compiler" pos="13;225"/>
+   <todo name="todo: Consolidate addDataTable and addDataTableCallback" pos="10;282"/>
+   <todo name="@todo: Consolidate addDataTable and addDataTableCallback" pos="9;282"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\filp\whoops\src\Whoops\Run.php">
+   <todo name="todo Might be able to clean this up a bit better" pos="14;392"/>
+   <todo name="@todo Might be able to clean this up a bit better" pos="13;392"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\fzaninotto\faker\src\Faker\ORM\CakePHP\EntityPopulator.php">
+   <todo name="TODO check if TreeBehavior attached to modify lft/rgt cols" pos="9;117"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\fzaninotto\faker\src\Faker\Provider\Base.php">
+   <todo name="TODO: remove in v2" pos="9;547"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\fzaninotto\faker\src\Faker\Provider\de_AT\Address.php">
+   <todo name="todo implement more strict p" pos="76;15"/>
+   <todo name="@todo implement more strict p" pos="75;15"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\fzaninotto\faker\src\Faker\Provider\kk_KZ\Address.php">
+   <todo name="TODO list all country names in the world" pos="5;15"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\hamcrest\hamcrest-php\hamcrest\Hamcrest\Arrays\IsArray.php">
+   <todo name="TODO: Allow this to take matchers or values within the array" pos="1;10"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\league\commonmark\src\Extension\Attributes\Node\AttributesInline.php">
+   <todo name="TODO: Re-implement as a delimiter" pos="42;34"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\maennchen\zipstream-php\test\ZipStreamTest.php">
+   <todo name="todo Throw Exception" pos="70;55"/>
+   <todo name="@todo Throw Exception" pos="69;55"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\mockery\mockery\docs\conf.py">
+   <todo name="todoc) are in another directory," pos="47;17"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nesbot\carbon\src\Carbon\Carbon.php">
+   <todo name="todoc generated by `composer phpdoc`>" pos="5;21"/>
+   <todo name="todoc>" pos="6;508"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nesbot\carbon\src\Carbon\CarbonImmutable.php">
+   <todo name="todoc generated by `composer phpdoc`>" pos="5;21"/>
+   <todo name="todoc>" pos="6;508"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nesbot\carbon\src\Carbon\CarbonInterface.php">
+   <todo name="todoc generated by `composer phpdoc`>" pos="5;36"/>
+   <todo name="todoc>" pos="6;521"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nesbot\carbon\src\Carbon\Factory.php">
+   <todo name="todoc generated by `composer phpdoc`>" pos="5;20"/>
+   <todo name="todoc>" pos="6;225"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nesbot\carbon\src\Carbon\FactoryImmutable.php">
+   <todo name="todoc generated by `composer phpdoc`>" pos="5;18"/>
+   <todo name="todoc>" pos="6;223"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nesbot\carbon\src\Carbon\Lang\ar_Shakl.php">
+   <todo name="TODO add shakl to months" pos="6;19"/>
+   <todo name="@TODO add shakl to months" pos="5;19"/>
+   <todo name="TODO add shakl to translations below" pos="6;54"/>
+   <todo name="@TODO add shakl to translations below" pos="5;54"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nesbot\carbon\src\Carbon\Traits\Date.php">
+   <todo name="todoc generated by `composer phpdoc`>" pos="5;41"/>
+   <todo name="todoc>" pos="6;526"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nikic\php-parser\lib\PhpParser\Comment.php">
+   <todo name="TODO: Rename these to include &quot;start&quot;." pos="13;229"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nikic\php-parser\lib\PhpParser\Internal\TokenStream.php">
+   <todo name="TODO Handle non-space indentation" pos="21;239"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nikic\php-parser\lib\PhpParser\Lexer\TokenEmulator\AttributeEmulator.php">
+   <todo name="TODO" pos="9;41"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nikic\php-parser\lib\PhpParser\PrettyPrinterAbstract.php">
+   <todo name="TODO Add &lt;" pos="13;496"/>
+   <todo name="TODO: Try to preserve formatting" pos="17;727"/>
+   <todo name="TODO: Preserve formatting." pos="25;778"/>
+   <todo name="TODO: Preserve formatting." pos="25;881"/>
+   <todo name="TODO: Support removing single node." pos="13;904"/>
+   <todo name="TODO: FIXUP_NEW_VARIABLE" pos="52;1168"/>
+   <todo name="TODO: FIXUP_NEW_VARIABLE" pos="69;1179"/>
+   <todo name="TODO: &quot;yield&quot; where both key and value are inserted doesn't work" pos="9;1301"/>
+   <todo name="TODO" pos="86;1329"/>
+   <todo name="TODO These need to be treated more carefully" pos="47;1345"/>
+   <todo name="TODO Insertion into empty statement lists." pos="9;1437"/>
+   <todo name="TODO" pos="14;1475"/>
+   <todo name="TODO" pos="67;1496"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\nikic\php-parser\lib\PhpParser\PrettyPrinter\Standard.php">
+   <todo name="TODO: This is not fully accurate." pos="9;1070"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-font-lib\src\FontLib\EOT\File.php">
+   <todo name="TODO Read font data ..." pos="5;60"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-font-lib\src\FontLib\Table\Type\cmap.php">
+   <todo name="todo Only CMAP version 4 and 12" pos="8;62"/>
+   <todo name="@todo Only CMAP version 4 and 12" pos="7;62"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-font-lib\src\FontLib\Table\Type\post.php">
+   <todo name="TODO" pos="9;66"/>
+   <todo name="TODO" pos="9;74"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-font-lib\src\FontLib\TrueType\File.php">
+   <todo name="todo" pos="24;226"/>
+   <todo name="@todo" pos="23;226"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-svg-lib\src\Svg\Style.php">
+   <todo name="TODO cm, mm, pc, in, etc" pos="9;394"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-svg-lib\src\Svg\Surface\CPdf.php">
+   <todo name="todo is it still needed" pos="14;4213"/>
+   <todo name="@todo is it still needed" pos="13;4213"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-svg-lib\src\Svg\Surface\SurfaceCpdf.php">
+   <todo name="TODO: Implement beginPath() method." pos="9;115"/>
+   <todo name="todo use cache for BMP and GIF" pos="18;219"/>
+   <todo name="@todo use cache for BMP and GIF" pos="17;219"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-svg-lib\src\Svg\Surface\SurfaceGmagick.php">
+   <todo name="TODO: Implement beginPath() method." pos="9;96"/>
+   <todo name="TODO: Implement drawImage() method." pos="9;127"/>
+   <todo name="TODO: Implement quadraticCurveTo() method." pos="9;165"/>
+   <todo name="TODO: Implement setFont() method." pos="9;305"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-svg-lib\src\Svg\Surface\SurfacePDFLib.php">
+   <todo name="TODO: Implement beginPath() method." pos="9;113"/>
+   <todo name="TODO: Implement drawImage() method." pos="9;144"/>
+   <todo name="TODO: Implement setFont() method." pos="9;419"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phenx\php-svg-lib\src\Svg\Tag\Path.php">
+   <todo name="TODO: optimize this" pos="21;387"/>
+   <todo name="TODO: optimize this" pos="21;407"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpdocumentor\reflection-docblock\src\DocBlock\StandardTagFactory.php">
+   <todo name="TODO: Annotation support is planned for a later stage and as such is disabled for now" pos="13;235"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Cell\DataType.php">
+   <todo name="TODO: Sanitize Rich-Text string (max. character count is 32,767)" pos="13;85"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Reader\Excel2007.php">
+   <todo name="TODO: Autoshapes from twoCellAnchors!" pos="29;1415"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Reader\Excel5.php">
+   <todo name="TODO Provide support for named values" pos="21;1215"/>
+   <todo name="todo: what if string is very long" pos="13;4164"/>
+   <todo name="todo: implement" pos="21;4680"/>
+   <todo name="TODO: Investigate structure for .xls SHEETLAYOUT record as saved by MS Office Excel 2007" pos="21;4943"/>
+   <todo name="todo: if cell range is just a single cell, should this funciton" pos="9;6958"/>
+   <todo name="TODO: if cell range is just a single cell, should this funciton" pos="9;7015"/>
+   <todo name="todo: check if we have identified the whole set of special characters" pos="21;7177"/>
+   <todo name="TODO: external sheet support" pos="21;7187"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Reader\HTML.php">
+   <todo name="TODO" pos="13;222"/>
+   <todo name="TODO" pos="21;238"/>
+   <todo name="TODO" pos="37;254"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Writer\Excel5\Escher.php">
+   <todo name="todo" pos="53;190"/>
+   <todo name="todo" pos="31;196"/>
+   <todo name="todo" pos="62;229"/>
+   <todo name="todo" pos="38;232"/>
+   <todo name="todo" pos="62;256"/>
+   <todo name="todo" pos="38;259"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Writer\Excel5\Parser.php">
+   <todo name="TODO: use real error codes" pos="9;557"/>
+   <todo name="TODO: possible class value 0,1,2 check Formula.pm" pos="9;632"/>
+   <todo name="TODO: use real error codes" pos="13;637"/>
+   <todo name="TODO: use real error codes" pos="13;653"/>
+   <todo name="TODO: use real error codes" pos="4;725"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Writer\Excel5\Workbook.php">
+   <todo name="TODO: store external SUPBOOK records and XCT and CRN records" pos="10;444"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Writer\Excel5\Worksheet.php">
+   <todo name="todo CFRule &amp; CFHeader" pos="14;504"/>
+   <todo name="@todo CFRule &amp; CFHeader" pos="13;504"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Index Color for left line" pos="14;3677"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Index Color for left line" pos="13;3677"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Index Color for right line" pos="14;3678"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Index Color for right line" pos="13;3678"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Top-left to bottom-right on/off" pos="14;3679"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Top-left to bottom-right on/off" pos="13;3679"/>
+   <todo name="todo writeCFRule() => $blockLineStyle => Bottom-left to top-right on/off" pos="14;3680"/>
+   <todo name="@todo writeCFRule() => $blockLineStyle => Bottom-left to top-right on/off" pos="13;3680"/>
+   <todo name="todo writeCFRule() => $blockColor => Index Color for top line" pos="14;3682"/>
+   <todo name="@todo writeCFRule() => $blockColor => Index Color for top line" pos="13;3682"/>
+   <todo name="todo writeCFRule() => $blockColor => Index Color for bottom line" pos="14;3683"/>
+   <todo name="@todo writeCFRule() => $blockColor => Index Color for bottom line" pos="13;3683"/>
+   <todo name="todo writeCFRule() => $blockColor => Index Color for diagonal line" pos="14;3684"/>
+   <todo name="@todo writeCFRule() => $blockColor => Index Color for diagonal line" pos="13;3684"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Writer\HTML.php">
+   <todo name="TODO: Same for columns" pos="13;1581"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpexcel\Classes\PHPExcel\Writer\OpenDocument\Cell\Comment.php">
+   <todo name="TODO: Not realized in PHPExcel_Comment yet." pos="17;56"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Calculation\Financial\Depreciation.php">
+   <todo name="TODO Handle period value between 0 and 1 (e.g. 0.5)" pos="9;61"/>
+   <todo name="TODO Handling for fractional $period values" pos="9;123"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Calculation\LookupRef\Matrix.php">
+   <todo name="TODO Provide support for area_num, currently not supported" pos="2;50"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Calculation\Statistical\Distributions\Binomial.php">
+   <todo name="TODO Add support for the cumulative flag not present for NEGBINOMDIST, but introduced for NEG" pos="2;114"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Cell\DataType.php">
+   <todo name="TODO: Sanitize Rich-Text string (max. character count is 32,767)" pos="13;54"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Cell\DataValidator.php">
+   <todo name="TODO: write check on all cases" pos="9;33"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Reader\Html.php">
+   <todo name="TODO" pos="13;303"/>
+   <todo name="TODO" pos="21;632"/>
+   <todo name="TODO :" pos="2;756"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Reader\Ods.php">
+   <todo name="TODO :: Figure this out. This is only a partial implementation I guess." pos="31;348"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Reader\Xls.php">
+   <todo name="TODO: Why is there no BSE Index" pos="29;1130"/>
+   <todo name="TODO Provide support for named values" pos="21;1299"/>
+   <todo name="todo: what if string is very long" pos="13;4196"/>
+   <todo name="todo: implement" pos="21;4722"/>
+   <todo name="TODO: Investigate structure for .xls SHEETLAYOUT record as saved by MS Office Excel 2007" pos="21;5006"/>
+   <todo name="todo: if cell range is just a single cell, should this funciton" pos="9;7242"/>
+   <todo name="TODO: if cell range is just a single cell, should this funciton" pos="9;7299"/>
+   <todo name="todo: check if we have identified the whole set of special characters" pos="21;7464"/>
+   <todo name="TODO: external sheet support" pos="21;7475"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Reader\Xlsx.php">
+   <todo name="TODO: Autoshapes from twoCellAnchors!" pos="29;1125"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Writer\Html.php">
+   <todo name="TODO: Same for columns" pos="13;1720"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Writer\Ods\Cell\Style.php">
+   <todo name="TODO :: To be implemented" pos="19;65"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Writer\Xls\Escher.php">
+   <todo name="todo" pos="53;173"/>
+   <todo name="todo" pos="31;179"/>
+   <todo name="todo" pos="62;213"/>
+   <todo name="todo" pos="38;216"/>
+   <todo name="todo" pos="62;240"/>
+   <todo name="todo" pos="38;243"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Writer\Xls\Parser.php">
+   <todo name="TODO: use real error codes" pos="9;538"/>
+   <todo name="TODO: possible class value 0,1,2 check Formula.pm" pos="9;614"/>
+   <todo name="TODO: use real error codes" pos="13;619"/>
+   <todo name="TODO: use real error codes" pos="13;635"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Writer\Xls\Style\ColorMap.php">
+   <todo name="TODO Try and map RGB value to nearest colour within the define pallette" pos="1;77"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Writer\Xls\Workbook.php">
+   <todo name="TODO: store external SUPBOOK records and XCT and CRN records" pos="10;442"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpoffice\phpspreadsheet\src\PhpSpreadsheet\Writer\Xls\Worksheet.php">
+   <todo name="TODO writeCFRule() => $blockLineStyle => Index Color for left line" pos="13;3076"/>
+   <todo name="TODO writeCFRule() => $blockLineStyle => Index Color for right line" pos="13;3077"/>
+   <todo name="TODO writeCFRule() => $blockLineStyle => Top-left to bottom-right on/off" pos="13;3078"/>
+   <todo name="TODO writeCFRule() => $blockLineStyle => Bottom-left to top-right on/off" pos="13;3079"/>
+   <todo name="TODO writeCFRule() => $blockColor => Index Color for top line" pos="13;3081"/>
+   <todo name="TODO writeCFRule() => $blockColor => Index Color for bottom line" pos="13;3082"/>
+   <todo name="TODO writeCFRule() => $blockColor => Index Color for diagonal line" pos="13;3083"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\phpunit\phpunit\src\Util\Annotation\DocBlock.php">
+   <todo name="TODO this catch is currently not valid, see https://github.com/phar-io/version/issues/16" pos="23;241"/>
+   <todo name="@TODO this catch is currently not valid, see https://github.com/phar-io/version/issues/16" pos="22;241"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\CodeCleaner\CalledClassPass.php">
+   <todo name="todo switch this to actually validate args when we get context-aware code cleaner passes." pos="14;50"/>
+   <todo name="@todo switch this to actually validate args when we get context-aware code cleaner passes." pos="13;50"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\CodeCleaner\PassableByReferencePass.php">
+   <todo name="todo support MethodCall and StaticCall as well." pos="10;39"/>
+   <todo name="@todo support MethodCall and StaticCall as well." pos="9;39"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\CodeCleaner\RequirePass.php">
+   <todo name="todo Shell::handleError would be better here, because we could" pos="14;80"/>
+   <todo name="@todo Shell::handleError would be better here, because we could" pos="13;80"/>
+   <todo name="todo trigger an error as fallback" pos="14;86"/>
+   <todo name="@todo trigger an error as fallback" pos="13;86"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\CodeCleaner\ValidFunctionNamePass.php">
+   <todo name="todo add an &quot;else&quot; here which adds a runtime check for instances where we can't tell" pos="14;48"/>
+   <todo name="@todo add an &quot;else&quot; here which adds a runtime check for instances where we can't tell" pos="13;48"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\Command\DocCommand.php">
+   <todo name="todo this is going to collide with ReflectionMethod ids" pos="18;143"/>
+   <todo name="@todo this is going to collide with ReflectionMethod ids" pos="17;143"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\Command\ListCommand.php">
+   <todo name="todo something cleaner than this :-/" pos="10;128"/>
+   <todo name="@todo something cleaner than this :-/" pos="9;128"/>
+   <todo name="todo ensure that 'functions', 'classes', 'interfaces', 'traits' only accept namespace target" pos="14;266"/>
+   <todo name="@todo ensure that 'functions', 'classes', 'interfaces', 'traits' only accept namespace target" pos="13;266"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\Command\ListCommand\ClassConstantEnumerator.php">
+   <todo name="todo handle ReflectionExtension as well" pos="14;33"/>
+   <todo name="@todo handle ReflectionExtension as well" pos="13;33"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\Configuration.php">
+   <todo name="todo support raw output with interactive input" pos="10;199"/>
+   <todo name="@todo support raw output with interactive input" pos="9;199"/>
+   <todo name="todo mebbe turn this on by default some day" pos="10;857"/>
+   <todo name="@todo mebbe turn this on by default some day" pos="9;857"/>
+   <todo name="todo detect `chsh` != 65001 on Windows and return false" pos="10;970"/>
+   <todo name="@todo detect `chsh` != 65001 on Windows and return false" pos="9;970"/>
+   <todo name="todo Fix capitalization for 0.11.0" pos="14;1456"/>
+   <todo name="@todo Fix capitalization for 0.11.0" pos="13;1456"/>
+   <todo name="todo Fix capitalization for 0.11.0" pos="14;1580"/>
+   <todo name="@todo Fix capitalization for 0.11.0" pos="13;1580"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\ExecutionLoop\ProcessForker.php">
+   <todo name="todo remove this once we don't support PHP 5.x anymore :)" pos="18;277"/>
+   <todo name="@todo remove this once we don't support PHP 5.x anymore :)" pos="17;277"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\Formatter\CodeFormatter.php">
+   <todo name="todo something better here" pos="10;71"/>
+   <todo name="@todo something better here" pos="9;71"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\Formatter\SignatureFormatter.php">
+   <todo name="todo Do we want to include the" pos="14;352"/>
+   <todo name="@todo Do we want to include the" pos="13;352"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\Shell.php">
+   <todo name="todo should it be possible to have raw output in an interactive run" pos="14;340"/>
+   <todo name="@todo should it be possible to have raw output in an interactive run" pos="13;340"/>
+   <todo name="todo overrides via environment variables (or should these happen in config" pos="10;428"/>
+   <todo name="@todo overrides via environment variables (or should these happen in config" pos="9;428"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\psy\psysh\src\functions.php">
+   <todo name="todo come up with a better way of doing this which doesn't involve injecting input :-P" pos="10;101"/>
+   <todo name="@todo come up with a better way of doing this which doesn't involve injecting input :-P" pos="9;101"/>
+   <todo name="todo Show Presenter / custom casters." pos="10;317"/>
+   <todo name="@todo Show Presenter / custom casters." pos="9;317"/>
+   <todo name="todo this triggers the &quot;exited unexpectedly&quot; logic in the" pos="18;440"/>
+   <todo name="@todo this triggers the &quot;exited unexpectedly&quot; logic in the" pos="17;440"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\sabberworm\php-css-parser\lib\Sabberworm\CSS\Property\Selector.php">
+   <todo name="todo should exclude \# as well as &quot;#&quot;" pos="7;63"/>
+   <todo name="@todo should exclude \# as well as &quot;#&quot;" pos="6;63"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\sabberworm\php-css-parser\tests\Sabberworm\CSS\ParserTest.php">
+   <todo name="TODO Support comments in selectors." pos="3;653"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\scrivo\highlight.php\Highlight\HighlightResult.php">
+   <todo name="TODO In v10.x, remove \stdClass from this type" pos="6;56"/>
+   <todo name="@TODO In v10.x, remove \stdClass from this type" pos="5;56"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\scrivo\highlight.php\Highlight\Highlighter.php">
+   <todo name="TODO In v10.x, this value should be static to match highlight.js behavior" pos="6;53"/>
+   <todo name="@TODO In v10.x, this value should be static to match highlight.js behavior" pos="5;53"/>
+   <todo name="TODO In v10.x, remove the default value for the `languages` value to follow highlight.js behavior" pos="10;118"/>
+   <todo name="@TODO In v10.x, remove the default value for the `languages` value to follow highlight.js behavior" pos="9;118"/>
+   <todo name="TODO In 10.x, rewrite this as a generator yielding results" pos="10;162"/>
+   <todo name="@TODO In 10.x, rewrite this as a generator yielding results" pos="9;162"/>
+   <todo name="TODO In 10.x, call `listBundledLanguages()` instead when it's a generator" pos="10;222"/>
+   <todo name="@TODO In 10.x, call `listBundledLanguages()` instead when it's a generator" pos="9;222"/>
+   <todo name="TODO in v10.x, this should no longer be necessary once `$options` is made static" pos="14;424"/>
+   <todo name="@TODO in v10.x, this should no longer be necessary once `$options` is made static" pos="13;424"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\scrivo\highlight.php\Highlight\Mode.php">
+   <todo name="TODO Deprecated since 9.16.0.0; remove at 10.x" pos="14;185"/>
+   <todo name="@TODO Deprecated since 9.16.0.0; remove at 10.x" pos="13;185"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\swiftmailer\swiftmailer\lib\classes\Swift\Mime\Headers\ParameterizedHeader.php">
+   <todo name="TODO: Check caching here" pos="36;126"/>
+   <todo name="TODO: text, or something else" pos="13;186"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\swiftmailer\swiftmailer\lib\classes\Swift\Mime\SimpleMimeEntity.php">
+   <todo name="TODO: Try to refactor this logic" pos="9;299"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\swiftmailer\swiftmailer\lib\classes\Swift\Signers\DKIMSigner.php">
+   <todo name="TODO fix return" pos="5;217"/>
+   <todo name="todo handle it but should never happen" pos="25;601"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\swiftmailer\swiftmailer\lib\classes\Swift\Transport\StreamBuffer.php">
+   <todo name="TODO make tls arguments configurable" pos="10;92"/>
+   <todo name="@TODO make tls arguments configurable" pos="9;92"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\symfony\css-selector\XPath\Extension\FunctionExtension.php">
+   <todo name="todo: handle an+b, odd, even" pos="9;96"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\symfony\css-selector\XPath\Extension\HtmlExtension.php">
+   <todo name="todo: in the second half, add &quot;and is not a descendant of that fieldset element's first legend elem" pos="9;102"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\symfony\http-kernel\Controller\ContainerControllerResolver.php">
+   <todo name="TODO deprecate this in 5.1" pos="13;38"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\symfony\http-kernel\HttpCache\Store.php">
+   <todo name="TODO the metaStore referenced an entity that doesn't exist in" pos="9;156"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\symfony\mime\Header\ParameterizedHeader.php">
+   <todo name="TODO: text, or something else" pos="13;117"/>
+  </todofile>
+  <todofile name="D:\_SERVERBERKAH\htdocs\_kerja\es-hcms-dummy\vendor\symfony\translation\Loader\PoFileLoader.php">
+   <todo name="TODO: this fails when comments or contexts are added" pos="17;89"/>
+  </todofile>
+ </todoblock>
+ <dbgurls/>
+ <lasttime value="1696058349"/>
+</project>

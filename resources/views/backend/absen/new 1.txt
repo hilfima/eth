@@ -1,0 +1,4 @@
+ Route::get('/hr_appr/{type}', 'Backend\HrApprController@hr_appr')->name('be.hr_appr');
+    Route::get('/lihat_hr_appr/{id}', 'Backend\PermitController@lihat')->name('be.lihat_hr_appr');
+    Route::get('/pengajuan/{type}', 'Backend\PermitController@pengajuan')->name('be.pengajuan');
+    Route::post('/simpan_pengajuan/{type}', 'Backend\PermitController@simpan_pengajuan')->name('be.simpan_pengajuan');

@@ -1,0 +1,228 @@
+@extends('layouts.appsA')
+
+@section('content')
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+    @include('flash-message')
+   
+    <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Gaji Pokok</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{!! route('admin') !!}">Admin</a></li>
+                            <li class="breadcrumb-item active">Gaji Pokok</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="card">
+           
+            <form class="form-horizontal" method="POST" action="{!! route('be.update_gapok_pekanan') !!}" enctype="multipart/form-data">
+            
+            <div class="card-header">
+                <h3 class="card-title">Tambah</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <!-- form start -->
+                    {{ csrf_field() }}
+                    
+                    <!-- ./row -->
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            
+                        <div class="form-group">
+                                <label>Nama</label>
+                                 <?php 
+                            
+                            	
+									$sqlkaryawans="SELECT a.p_karyawan_id,a.nik,a.nama as nama_lengkap
+FROM p_karyawan a
+                    					WHERE 1=1 and a.active=1 ";
+        								$karyawans=DB::connection()->select($sqlkaryawans);?>
+								 <select class="form-control " name="karyawan" style="width: 100%;" placeholder="Pilih Karyawan"  readonly>
+                                    <option value="" >Pilih Karyawan</option>
+                                    <?php
+                                    foreach($karyawans AS $karyawans){
+                                    	$selected = "";
+                                    	if($karyawans->p_karyawan_id==$gapok->p_karyawan_id)
+                                    		$selected = "selected";
+                                        echo '<option value="'.$karyawans->p_karyawan_id.'" '.$selected.'>'.$karyawans->nama_lengkap.'</option>';
+                                    }
+                                    ?>
+                                </select>
+                               
+                           
+                               
+                            
+                        </div>
+                        </div>
+                             
+                             
+                        <div class="col-sm-6">
+                          <h3>Tunjangan</h3> 
+                        	<div class="form-group">
+                                <label>Upah Harian</label>
+                                <div class="input-group " id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="upah_harian" name="upah_harian"    <?=$disable?>  value="<?= $help->rupiah($gapok->upah_harian);?>"   onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div> 
+                        
+                        	<!--<div class="form-group">
+                                <label>Tunjangan Grade</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="tunjangan_grade" name="tunjangan_grade" 
+                                     value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div> -->
+                        
+                        	<!--<div class="form-group">
+                                <label>Tunjangan Kost</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="tunjangan_kost" name="tunjangan_kost"    <?=$disable?>  value="<?= $help->rupiah($gapok->tunjangan_kost);?>"   onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div> -->
+                            <!--
+                            <div class="form-group">
+                                <label>Tunjangan BPJS Kesehatan</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="tunjangan_bpjskes" name="tunjangan_bpjskes"  value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>
+                        	<div class="form-group">
+                                <label>Tunjangan BPJS Ketenagakerjaan</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="tunjangan_bpjsket" name="tunjangan_bpjsket"  value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>-->
+                            <!--<div class="form-group">
+                                <label>Koreksi (+)</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="korekplus" name="korekplus"  value="<?= $help->rupiah($gapok->korekplus);?>"   <?=$disable?>  onkeypress="handleNumber(event, 'RP {15,3}')"   />
+                                    
+                                </div>
+                            </div>-->
+                        </div><div class="col-sm-6">
+                        <h3>Potongan</h3> 
+                        	<!--<div class="form-group">
+                                <label>Sewa Kost</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="sewa_kost	" name="sewa_kost"  value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div> 
+                        
+                        	<div class="form-group">
+                                <label>Iuran BPJS Kesehatan</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="iuran_bpjskes" name="iuran_bpjskes"  value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>
+                       
+                        
+                        	<div class="form-group">
+                                <label>Iuran BPJS Ketenagakerjaan</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="iuran_bpjsket" name="iuran_bpjsket"  value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>--> 
+                       
+                        	<!--<div class="form-group">
+                                <label>Pajak</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="pajak" name="pajak"  value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>
+                        
+                        	<div class="form-group">
+                                <label>Koperasi KKB</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="koperasi_kkb" name="koperasi_kkb"  value="Rp "    onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>
+                        
+                        	<div class="form-group">
+                                <label>Infaq</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="infaq" name="infaq"    <?=$disable?>  value="<?= $help->rupiah($gapok->infaq);?>"  onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>
+                       
+                        	<div class="form-group">
+                                <label>Zakat</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="zakit" name="zakat"    <?=$disable?>  value="<?= $help->rupiah($gapok->zakat);?>"  onkeypress="handleNumber(event, 'Rp {15,3}')"   />
+                                    
+                                </div>
+                            </div>-->
+                        <!--
+                            <div class="form-group">
+                                <label>Koreksi (-)</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="korekmin" name="korekmin"  value="<?= $help->rupiah($gapok->korekmin);?>"   <?=$disable?>  onkeypress="handleNumber(event, 'RP {15,3}')"   />
+                                    
+                                </div>
+                            </div>-->
+                        </div> 
+                        
+                       <!-- <div class="col-sm-6">
+                        	
+                        </div><div class="col-sm-6">
+                        	<div class="form-group">
+                                <label>Kooperasi KBB</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="koperasi_kbb" name="koperasi_kbb"  value="Rp "    onkeypress="handleNumber(event, 'RP {15,3}')"   />
+                                    
+                                </div>
+                            </div>
+                        </div> 
+                         
+                        
+                        <div class="col-sm-6">
+                        	
+                        </div><div class="col-sm-6">
+                        	<div class="form-group">
+                                <label>Kooperasi ASA</label>
+                                <div class="input-group date" id="tgl_posting" data-target-input="nearest">
+                                    <input type="text" class="form-control" id="koperasi_asa" name="koperasi_asa"  value="Rp "    onkeypress="handleNumber(event, 'RP {15,3}')")"   />
+                                    
+                                </div>
+                            </div>
+                        </div> --> 
+                        
+                        
+                        
+                           
+                    </div>
+                  
+                        <a href="{!! route('be.karyawan') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
+                        <button type="submit" class="btn btn-info pull-right"><span class="fa fa-edit"></span> Ubah</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+@endsection
