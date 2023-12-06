@@ -105,6 +105,55 @@
                                     <option value="Perjalanan Dinas Luar Negeri">Perjalanan Dinas Luar Negeri</option>
                                 </select>   
                         </div>
+                    </div><div class="form-group row">
+                        <label class="col-sm-2 control-label">Alat Transportasi*</label>
+                        <div class="col-sm-10">
+                            <select class="form-control select2" name="alat_transportasi" style="width: 100%;" onchange="is_fasilitas(this)" required>
+                                    <option value="">Pilih Alat Transportasi</option>
+                                     <?php foreach($alat_transportasi as $alat){?>
+
+                                    <option value="<?=$alat->m_alat_transportasi_id;?>"><?=$alat->nama_alat_transportasi;?></option>
+                                    
+                                     <?php }?>
+                                     	
+                                     </select> 
+                                      <?php foreach($alat_transportasi as $alat){  
+                                     if($alat->fasilitas){
+                                     		echo '<input type="hidden" class="fasilitas_perusahaan" value="'.$alat->m_alat_transportasi_id.'">';
+                                     	}
+                                     }
+                                     	?>
+                        </div>
+                    </div>
+                   <script>
+                   	function is_fasilitas(e){
+                   		var is=0;
+                   		$('.fasilitas_perusahaan').each(function(){
+                   			if($(e).val()==$(this).val())
+			                is += 1;  // Or this.innerHTML, this.innerText
+			            });
+			            
+			            if(is){
+			            	$('#fasilitas').show();
+			            	
+			            }else{
+			            	$('#fasilitas').hide();
+			            }
+                   	}
+                   </script>
+                    <div class="form-group row " style="display: none" id="fasilitas">
+                        <label class="col-sm-2 control-label">KM Awal</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control " id="tgl_akhirdate" name="km_awal"  value="0" >
+                                       
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">Tempat Tujuan</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control " id="tgl_akhirdate" name="tempat_tujuan"  value="" >
+                                       
+                        </div>
                     </div>
                     
                        
@@ -143,6 +192,7 @@
                     </div>
                     <?php }?>
                     
+                    <div id="JenisAlasanContent"></div>
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">Keterangan Penugasan*</label>
                         <div class="col-sm-10">
@@ -169,7 +219,57 @@
          // $('#jenis_ijin').val('');
          // change_jenis();
           cek_min_all();
+          get_min_max_izin();
         });
+        function get_min_max_izin(){
+            val = $('#jenis_ijin').val();
+                $('#tgl_awaldate').attr('min',$('#cut_off').val());
+                $('#tgl_akhirdate').attr('min',$('#cut_off').val());
+            $.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				url : "https://hcms.mafazaperforma.com/frontend/get_izin_detail", 
+				data : {'val' : val},
+				type : 'get',
+				dataType : 'json',
+				success : function(result){
+                    if(result.absen){
+                        if(result.batas_tipe=='-1'){
+                            
+                            $('#tgl_awaldate').attr('min',$('#cut_off').val());
+                            $('#tgl_akhirdate').attr('min',$('#cut_off').val());
+                        }else
+                        if(result.min){
+                            $('#tgl_awaldate').attr('min',result.min);
+                            $('#tgl_akhirdate').attr('min',result.min);
+                        }
+                        if(result.alasan)
+                        $('#JenisAlasanContent').html(result.kontent_alasan);
+                        else
+                        $('#JenisAlasanContent').html("");
+                        if(result.batas_tipe=='+-'){
+                            $('#kontentParameter').html(result.nama_parameter_input); 
+                            //$('#tgl_awaldate').attr('disabled',true);
+                            $//('#tgl_akhirdate').attr('disabled',true); 
+                        }else{
+                            $('#kontentParameter').html("");
+                            $('#tgl_awaldate').attr('disabled',false);
+                            $('#tgl_akhirdate').attr('disabled',false);
+                        }
+			            $('#filess').attr('required', result.require_file);  
+
+                    }else{
+                        alert(result.keterangan);
+                    }
+                    cek_min_all();
+						//$('#lama').val(result.count);
+						//console.log("===== " + result + " =====");
+					
+				}
+				
+			});
+        }
         function cek_min_all(){
             min_awal = $('#tgl_awaldate').attr('min');
             min_akhir = $('#tgl_akhirdate').attr('min');

@@ -735,10 +735,11 @@ class GajiGenerateController extends Controller
 		if($generate[0]->periode_generate==1){
 			$this->hitungbulanan_optimasi($request,$id,$where);
 		}else if($generate[0]->periode_generate==0){
-			$this->hitung_pekanan($request,$id,$where);
+			$this->hitung_pekanan_optimasi($request,$id,$where);
 		} 
         }else{
-        	echo '<div class="card"><div class="card-body text-center"><h3>Tidak ada data karyawan yang dapat di generate</h3>hal ini dimungkinkan beberapa entitas sudah terapprove data dari pihak direksi</div></div>';
+        	echo '<div class="card"><div class="card-body text-center"><h3>Tidak ada data karyawan yang dapat di generate</h3>hal ini dimungkinkan beberapa entitas sudah terapprove data dari pihak direksi</div></div>
+        	<input type="hidden" value="100" id="generate">';
         }
 
         
@@ -916,7 +917,7 @@ class GajiGenerateController extends Controller
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 17, ($lembur_kerja));
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 18, ($lembur_libur));
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 36, ($lembur_proposional));
-            $lembur = $lembur_kerja + $lembur_libur+$lembur_proposional;
+            $lembur = $lembur_kerja + $lembur_libur;
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 3, 15, ($lembur));
 
            
@@ -986,17 +987,36 @@ class GajiGenerateController extends Controller
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 28, ($ipc));
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 24, ($fingerprint));
              if ($g->m_pangkat_id == 5 or $g->m_pangkat_id == 6  ) {
+                  $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 12, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 23, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 25, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 24, (0));
+                
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint));
              } else if (($g->lokasi_id==5)) {
-            
+                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 12, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 23, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 25, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 24, (0));
+                
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint)); 
             } else 
             if ((($g->p_karyawan_id == 269 or $g->p_karyawan_id == 1 or $g->p_karyawan_id == 270) ) or ($g->lokasi_id==5) or  ($g->lokasi_id==28) ){
-                
+                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 12, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 23, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 25, (0));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 24, (0));
+                if($g->lokasi_id==28)
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, (0));
+                else
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint)); 
             }else{
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 12, ($potabsen));
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 23, ($terlambat));
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 25, ($pm));
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 24, ($potmendahului));
                 
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint));
             }
              if (($g->lokasi_id==7) and ($g->p_karyawan_id != 130)) {
              }else{
@@ -1004,8 +1024,7 @@ class GajiGenerateController extends Controller
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 13, ($potalpha));
              }
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 22, ($potizin));
-            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint));
-
+           
 
           
 
@@ -1021,6 +1040,17 @@ class GajiGenerateController extends Controller
             }
             
             //tambahin dari p_karyawan Gapok
+           $sqlfasilitas="SELECT * FROM t_resign
+			left join p_karyawan on t_resign.p_karyawan_id = p_karyawan.p_karyawan_id
+			WHERE 1=1  and t_resign.active=1 and t_resign.p_karyawan_id=$g->p_karyawan_id and m_periode_terakhir_gajian=$periode_absen and status=4";
+			$pengajuan_resign=DB::connection()->select($sqlfasilitas);
+			if(count($pengajuan_resign)){
+				$cuti  = $help->cuti();
+				if($cuti['hutang']){
+					$pothutang_cuti = ($gapok / 22) * $cuti['hutang'];
+					$this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 25, ($pothutang_cuti));
+				}
+			}
            
             $Now = date('Y-m-d');
             $potongan = "select *
@@ -1090,7 +1120,373 @@ class GajiGenerateController extends Controller
 									<input type="hidden" value="'.$persen.'" id="generate">
 									';
     }
-    
+    public function hitung_pekanan_optimasi($request,$id,$where_generate)
+    {
+        $help = new Helper_function();
+        $sqluser = "SELECT * FROM prl_generate_karyawan a join prl_generate b on b.prl_generate_id = a.prl_generate_id where a.prl_generate_id = $id and status !=1 $where_generate order by b.prl_generate_id asc limit 1";
+        $generate = DB::connection()->select($sqluser);
+        $id_generate = $id;
+
+        $info_generate = DB::connection()->select("select * from prl_generate where prl_generate_id = $id");
+
+		if($info_generate[0]->periode_gajian==2){
+			$periode_absen = $info_generate[0]->periode_absen_pekanan_id;
+	        $periode_lembur = $info_generate[0]->periode_lembur_pekanan_id;
+					
+		}else{
+			
+        $periode_absen = $info_generate[0]->periode_absen_id;
+        $periode_lembur = $info_generate[0]->periode_lembur_id;
+		}
+        $sqlperiode = "SELECT * FROM m_periode_absen where periode_absen_id=$periode_absen";
+        $periodetgl = DB::connection()->select($sqlperiode);
+        $type = $periodetgl[0]->type;
+        $where = " d.periode_gajian = " . $type;
+        $appendwhere = "and";
+
+        $periode_gajian = $periodetgl[0]->type;
+        $tgl_awal = date('Y-m-d', strtotime($periodetgl[0]->tgl_awal));
+        $tgl_akhir = date('Y-m-d', strtotime($periodetgl[0]->tgl_akhir));
+
+        $sqlperiode = "SELECT * FROM m_periode_absen where periode_absen_id=$periode_lembur";
+        $periodetgl_lembur = DB::connection()->select($sqlperiode);
+        $tgl_awal_lembur = date('Y-m-d', strtotime($periodetgl_lembur[0]->tgl_awal));
+        $tgl_akhir_lembur = date('Y-m-d', strtotime($periodetgl_lembur[0]->tgl_akhir));
+
+
+       
+
+        foreach ($generate as $g) {
+            
+            $id = $g->p_karyawan_id;
+            
+            $rekap = $help->rekap_absen_optimasi($periode_absen,$tgl_awal, $tgl_akhir, $type,null,$id);
+            $rekap_lembur = $help->rekap_absen_optimasi($periode_lembur,$tgl_awal_lembur, $tgl_akhir_lembur, $type,null,$id);
+             $hari_libur = $rekap['hari_libur'];
+       		 $hari_libur_shift = $rekap['hari_libur_shift'];
+            //////echo $id;
+            $sql = 'SELECT c.p_karyawan_id,c.nama as nama_lengkap,c.nik,f.m_pangkat_id,i.nama as nm_pangkat ,f.nama as nmjabatan,AGE(CURRENT_DATE, c.tgl_bergabung)::VARCHAR AS umur
+			FROM p_karyawan c 
+			LEFT JOIN p_karyawan_pekerjaan d on d.p_karyawan_id=c.p_karyawan_id  
+			LEFT JOIN m_jabatan f on d.m_jabatan_id=f.m_jabatan_id 
+			LEFT JOIN m_pangkat i on f.m_pangkat_id=i.m_pangkat_id 
+			where c.p_karyawan_id = ' . $id;
+            $detail_karyawan = DB::connection()->select($sql);
+            $detail_karyawan = $detail_karyawan[0];
+
+            $return = $help->total_rekap_absen_optimasi($rekap, $id);
+            $return_lembur = $help->total_rekap_absen_optimasi($rekap_lembur, $id);
+
+
+            $masuk                 = $return['total']['masuk'];
+            $cuti                 = $return['total']['cuti'];
+            $ipg                 = $return['total']['ipg'];
+            $izin                 = $return['total']['izin'];
+            $pm                 = $return['total']['pm'];
+            $ipm                 = $return['total']['ipm'];
+            $idt                 = $return['total']['idt'];
+            $ipd                 = $return['total']['ipd'];
+            $ipc                 = $return['total']['ipc'];
+            $sakit                 = $return['total']['sakit'];
+            $alpha                 = $return['total']['alpha'];
+            $terlambat             = $return['total']['terlambat'];
+            $tabsen             = $return['total']['Total Absen'];
+            $tmasuk             = $return['total']['Total Masuk'];
+            $tkerja             = $return['total']['Total Hari Kerja'];
+            $fingerprint         = $return['total']['fingerprint'];
+            $total_all            = $return_lembur['total']['total_all'];
+            $total['<8 jam']     = $return_lembur['total']['<8 jam'];
+            $total['8 jam']        = $return_lembur['total']['8 jam'];
+            $total['9 jam']        = $return_lembur['total']['9 jam'];
+            $total['>=10 jam']     = $return_lembur['total']['>=10 jam'];
+            $total['total_lembur_proposional']     = $return_lembur['total_lembur']['total_lembur_proposional'];
+
+
+            $total['1jam']         = $return_lembur['total']['1jam'];
+            $total['>=2jam']     = $return_lembur['total']['>=2jam'];
+            $total['SUM Libur'] = $return_lembur['total']['SUM Libur'];
+            $total['COUNT Libur'] = $return_lembur['total']['COUNT Libur'];
+            $total['COUNT Kerja'] = $return_lembur['total']['COUNT Kerja'];
+            $total['SUM Kerja'] = $return_lembur['total']['SUM Kerja'];
+
+
+
+            $karyawan = "select a.nama as nama,c.nama as nama_jabatan, d.nama as nama_pangkat
+			from p_karyawan a 
+			join p_karyawan_pekerjaan b on a.p_karyawan_id = b.p_karyawan_id
+			join m_jabatan c on c.m_jabatan_id = b.m_jabatan_id
+			join m_pangkat d on c.m_pangkat_id = d.m_pangkat_id
+			where a.p_karyawan_id = $id";
+            $karyawan = DB::connection()->select($karyawan);
+
+
+            $id_prl = $this->prl_gaji($g->prl_generate_id, $g->p_karyawan_id);
+            //	$this->prl_gaji_detail($id_prl,1,1,($masuk+$cuti+$ipg+$izin+$ipd+$alpha));
+
+            ////echo '<div class="card">';
+            ////echo '<div class="card-body">';
+            //echo '<h3>';
+            //echo $karyawan[0]->nama;
+            //echo '</h3>';
+            //echo $karyawan[0]->nama_jabatan;
+            //echo '<br>';
+            //echo $karyawan[0]->nama_pangkat;
+
+            //////echo $id_prl;
+
+            //echo '<div class="row">';
+            //echo '<div class="col-md-4">';
+            //echo '<strong>Hari Kerja: </strong>';
+            //echo ($masuk+$cuti+$ipg+$izin+$ipd+$alpha);
+            //echo '<br>';
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 1, ($masuk + $cuti + $ipg + $izin + $ipd + $alpha));
+            //echo '<strong>Hari Absen: </strong>';
+            //echo ($masuk+$ipd);
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 2, ($masuk + $ipd));
+            //$this->prl_gaji_detail($id_prl,$g->p_karyawan_id,1,2,($masuk+$ipd));
+            //echo '<br>';
+            //echo '<strong>Sakit: </strong>'.$sakit;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 3, ($sakit));
+            //echo '<br>';
+            //echo '<strong>Cuti: </strong>'.$cuti;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 4, ($cuti));
+            //echo '<br>';
+            //echo '<strong>Izin Perjalanan Dinas: </strong>'.$ipd;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 5, ($ipd));
+            //echo '<br>';
+            //echo '<strong>Izin Hitung Kerja: </strong>'.$izin;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 6, ($izin));
+            //echo '<br>';
+            //echo '<strong>Izin Potongan Tanpa Keterangan: </strong>'.$ipg;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 7, ($ipg));
+            //echo '<br>';
+            //echo '<strong>Tanpa Keterangan: </strong>'.$alpha;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 8, ($alpha));
+            ////echo '<strong>Tanpa Keterangan: </strong>'.$alphaList;
+            //echo '<br>';
+            //echo '<strong>Jam Lembur: </strong>'.$total_all;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 9, ($total_all));
+            ////echo '<br>';
+            ////echo '<strong>Lembur 1 Jam: </strong>'.$total['1jam'];
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 10, ($total['1jam']));
+            ////echo '<br>';
+            ////echo '<strong>Lembur >2 Jam: </strong>'.$total['>=2jam'];
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 11, ($total['>=2jam']));
+            ////echo '<br>';
+            ////echo '<strong>Lembur 8 Jam: </strong>'.$total['8 jam'];
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 12, ($total['8 jam']));
+            ////echo '<br>';
+            ////echo '<strong>Lembur 9 Jam: </strong>'.$total['9 jam'];
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 13, ($total['9 jam']));
+            ////echo '<br>';
+            ////echo '<strong>Lembur 10 Jam: </strong>'.$total['>=10 jam'];
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 14, ($total['>=10 jam']));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 22, ($total['SUM Libur']));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 21, ($total['COUNT Libur']));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 19, ($total['COUNT Kerja']));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 20, ($total['SUM Kerja']));
+			foreach($return['string'] as $string => $value){
+            	$this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 35, $string,($value));
+            }
+
+
+
+            ////echo '<br>';
+            ////echo '<br>';
+            ////echo '</div>';
+            ////echo '<div class="col-md-4">';
+            $total['SUM Libur'] = 0;
+            $total['COUNT Libur'] = 0;
+            $total['COUNT Kerja'] = 0;
+            $total['SUM Kerja'] = 0;
+            $tunjangan = "select *
+			from m_tunjangan a 
+			left join prl_tunjangan b on a.m_tunjangan_id = b.m_tunjangan_id
+			where b.p_karyawan_id = $id and b.active=1";
+            //////echo $potongan;
+            $tunjangan = DB::connection()->select($tunjangan);
+            $gapok = 0;
+            //print_r($tunjanga)($masuk+$ipd)
+            foreach ($tunjangan as $tunjangan) {
+               
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 2, $tunjangan->prl_tunjangan_id, ($tunjangan->nominal));
+                if ($tunjangan->is_gapok) $gapok += $tunjangan->nominal;
+                ////echo '<strong>'.$tunjangan->nama.': </strong>'.$help->rupiah($tunjangan->nominal);
+                ////echo '<br>';
+            }
+            $gapok = $gapok * 22;
+            //////echo $gapok;
+            $lembur_kerja = ($total['1jam'] * (1.5 / 173) * $gapok) + ($total['>=2jam'] * (2 / 173) * $gapok);
+            $lembur_libur = (($total['8 jam'] * (2 / 173) * $gapok) + (($total['9 jam'] * (3 / 173) * $gapok) + (($total['>=10 jam'] * (4 / 173) * $gapok))));
+            $lembur_proposional = ($gapok / 22) * $total['total_lembur_proposional'];
+            $lembur = $lembur_kerja + $lembur_libur;
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 17, ($lembur_kerja));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 18, ($lembur_libur));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 36, ($lembur_proposional));
+            
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 3, 15, ($lembur));
+            
+            $type_nominal_absen = 2;
+            $type_nominal_fingerprint = 2;
+           
+            $id_pangkat = $detail_karyawan->m_pangkat_id;
+            $sql = "SELECT *,
+            	(select nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='absen') as nominal_absen,
+            	(select nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='izin') as nominal_izin,
+            	(select nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='alpha') as nominal_alpha,
+            	(select nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='fingerprint') as nominal_fingerprint,
+            	(select nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='pm') as nominal_pm,
+            	
+            	(select type_nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='absen') as type_nominal_absen,
+            	(select type_nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='izin') as type_nominal_izin,
+            	(select type_nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='alpha') as type_nominal_alpha,
+            	(select type_nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='fingerprint') as type_nominal_fingerprint,
+            	(select type_nominal from m_potongan_absen a where a.m_pangkat_id = m_pangkat.m_pangkat_id and type_absen='pm') as type_nominal_pm
+            	
+            	
+            	FROM m_pangkat where active=1 and m_pangkat_id = $id_pangkat";
+            $potongan_absen = DB::connection()->select($sql);
+            if ($potongan_absen[0]->type_nominal_absen == 1) {
+                $potabsen = $potongan_absen[0]->nominal_absen * $terlambat;
+            } else if ($potongan_absen[0]->type_nominal_absen == 2) {
+                $potabsen = ($potongan_absen[0]->nominal_absen / 100 * $gapok) * $terlambat;
+            } else if ($potongan_absen[0]->type_nominal_absen == 3) {
+                $potabsen = ($gapok / 22) * $terlambat;
+            }
+            if ($potongan_absen[0]->type_nominal_pm == 1) {
+                $potmendahului = $potongan_absen[0]->nominal_pm * $pm;
+            } else if ($potongan_absen[0]->type_nominal_pm == 2) {
+                $potmendahului = ($potongan_absen[0]->nominal_pm / 100 * $gapok) * $pm;
+            } else if ($potongan_absen[0]->type_nominal_pm == 3) {
+                $potmendahului = ($gapok / 22) * $pm;
+            }
+
+            if ($potongan_absen[0]->type_nominal_fingerprint == 1) {
+                $potfingerprint = $potongan_absen[0]->nominal_fingerprint * $fingerprint;
+            } else if ($potongan_absen[0]->type_nominal_fingerprint == 2) {
+                $potfingerprint = ($potongan_absen[0]->nominal_fingerprint / 100 * $gapok) * $fingerprint;
+            } else if ($potongan_absen[0]->type_nominal_fingerprint == 3) {
+                $potfingerprint = ($gapok / 22) * $fingerprint;
+            }
+
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 24, ($fingerprint));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 26, ($idt));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 27, ($ipm));
+            if(($g->lokasi_id==5) or  ($g->lokasi_id==28) or $g->p_karyawan_id == 270 ){
+                
+            }else{
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 23, ($terlambat));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 12, ($potabsen));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 25, ($pm));
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 24, ($potmendahului));
+            }
+            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint));
+            //$this->prl_gaji_detail($id_prl,$g->p_karyawan_id,1,15,($total['1jam']+$total['>=2jam']));
+            //	$this->prl_gaji_detail($id_prl,$g->p_karyawan_id,1,16,($lembur_libur));
+            
+
+            ////echo '<br>';
+            ////echo '<strong>Lembur: </strong>'.$help->rupiah($lembur);
+            ////echo '</div>';
+
+            ////echo '<div class="col-md-4">';
+
+            $potongan = "select *
+			from m_potongan a 
+			right join prl_potongan b on a.m_potongan_id = b.m_potongan_id
+			where b.p_karyawan_id = $id and b.active=1 and b.m_potongan_id not in (20,21,9,16,17,16,19,18)";
+            //////echo $potongan;
+            $potongan = DB::connection()->select($potongan);
+            foreach ($potongan as $potongan) {
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 4, $potongan->prl_potongan_id, ($potongan->nominal));
+                //echo '<strong>'.$potongan->nama.': </strong>'.$help->rupiah($potongan->nominal)	;
+                //echo '<br>';
+            }
+            //////echo $tgl_akhir;
+            $Now = date('Y-m-d');
+            $potongan = "select *
+			from p_karyawan_koperasi a 
+			where a.p_karyawan_id = $id and  tgl_akhir>='$tgl_awal'  and a.active=1";
+            //////echo $potongan;
+            $potongan = DB::connection()->select($potongan);
+            foreach ($potongan as $potongan) {
+               $jenis = 5;
+                if ($potongan->nama_koperasi == 'ASA') {
+                    $type = 21;
+                } else  if ($potongan->nama_koperasi == 'KKB') {
+                    $type = 9;
+                } else if ($potongan->nama_koperasi == 'SEWA KOST') {
+                    $type = 16;
+                }else if ($potongan->nama_koperasi == 'PAJAK') {
+                    $type = 20;
+                }else if ($potongan->nama_koperasi == 'ZAKAT') {
+                    $type = 18;
+                }else if ($potongan->nama_koperasi == 'INFAQ') {
+                    $type = 19;
+                }else if ($potongan->nama_koperasi == 'BONUS') {
+                    $type = 19;
+            		$jenis = 3;
+                }else if ($potongan->nama_koperasi == 'TUNJANGAN KOST') {
+                    $type = 14;
+            		$jenis = 3;
+                }
+                if(in_array($potongan->nama_koperasi,array('ASA','KKB','SEWA KOST','TUNJANGAN KOST')) and $periodetgl[0]->pekanan_ke==1){
+                	
+                }else{
+                	
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, $jenis, $type, ($potongan->nominal));
+                }
+               
+            }
+
+            ////echo '</div>';
+
+
+            ////echo '</div>';
+            ////echo '</div>';
+            ////echo '</div>';
+            DB::connection()->table("prl_generate_karyawan")
+                ->where("prl_generate_karyawan_id", $g->prl_generate_karyawan_id)
+                ->update([
+                    "status" => 1,
+
+                ]);
+            //DB::connection()->table("t_permit")
+            //	->where("t_form_exit_id", $list_permit)
+            //	->update([
+            //		"status_generate" => 1,
+            //
+            //	]);
+
+            $id_generate = $g->prl_generate_id;
+        }
+        $time = $request->get('time');
+         $time = $time?$time:5000;
+         $time = $time/1000;
+        $sqlgenerate = "SELECT count(*) as jumlah_semua_karyawan,count(CASE WHEN status = 1 THEN 1 END)  as yang_sudah FROM prl_generate_karyawan a where prl_generate_id = $id_generate $where_generate";
+        //////echo $sqluser;
+        $generete = DB::connection()->select($sqlgenerate);
+        $persen = round($generete[0]->yang_sudah / $generete[0]->jumlah_semua_karyawan * 100, 2);
+        $init = ($generete[0]->jumlah_semua_karyawan - $generete[0]->yang_sudah) * $time;
+        $hours = floor($init / 3600);
+        $minutes = floor(($init / 60) % 60);
+        $seconds = $init % 60;
+
+        $Jam = $hours ? $hours . ' Jam ' : '';
+        $menit = $minutes ? $minutes . ' Menit ' : '';
+        $sekon = $seconds ? $seconds . ' Detik ' : '';
+        //echo "$hours:$minutes:$seconds";
+        echo '<div class="card">
+										<div class="card-body text-center">
+											<br>
+											<h3>' . $persen . '%</h3>
+											<h4 class="holiday-title mb-0">' . $generete[0]->yang_sudah . ' dari ' . $generete[0]->jumlah_semua_karyawan . '</h4>
+											<div>' . $Jam . $menit . $sekon . ' </div>
+											<div class="text-red" style="color:red;">PERINGATAN!!! TAB JANGAN DI TUTUP SEBELUM SELESAI</div>
+										</div>
+									</div>
+									';
+    }
     public function hitung_pekanan($request,$id,$where_generate)
     {
         $help = new Helper_function();
@@ -1459,6 +1855,7 @@ class GajiGenerateController extends Controller
 									</div>
 									';
     }
+
     public function prl_gaji_detail($id_prl, $id_karyawan, $type, $id, $nominal,$keterangan=null)
     {
         //$id_prl,$g->p_karyawan_id,1,1,($masuk+$cuti+$ipg+$izin+$ipd+$alpha)
@@ -1832,6 +2229,7 @@ class GajiGenerateController extends Controller
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 23, ($terlambat));
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 25, ($pm));
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 24, ($potmendahului));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint));
                 
             }
              if (($g->lokasi_id==7) and ($g->p_karyawan_id != 130)) {
@@ -1840,7 +2238,6 @@ class GajiGenerateController extends Controller
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 13, ($potalpha));
              }
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 22, ($potizin));
-            $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint));
 
 
           
@@ -1931,7 +2328,15 @@ class GajiGenerateController extends Controller
         $help = new Helper_function();
         $sqluser = "SELECT * FROM prl_generate where prl_generate_id = $id";
         $generate = DB::connection()->select($sqluser);
-        $sqluser = "SELECT * FROM m_lokasi where active=1 and sub_entitas=0 and (select count(*) from p_karyawan join p_karyawan_pekerjaan on  p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id where p_karyawan_pekerjaan.m_lokasi_id = m_lokasi.m_lokasi_id and p_karyawan.active=1 and periode_gajian=".$generate[0]->periode_gajian.")>0 order by m_lokasi_id desc";
+        
+        $periodeCheck = DB::connection()->select("select * from m_periode_absen where periode_absen_id=".$generate[0]->periode_absen_id);
+	    	$whereLok = "";
+	    	if($periodeCheck[0]->entitas_list){
+	    		$whereLok ="and m_lokasi_id in(".$periodeCheck[0]->entitas_list.")";
+	    	}
+	    
+            
+        $sqluser = "SELECT * FROM m_lokasi where active=1 and sub_entitas=0 and (select count(*) from p_karyawan join p_karyawan_pekerjaan on  p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id where p_karyawan_pekerjaan.m_lokasi_id = m_lokasi.m_lokasi_id and p_karyawan.active=1 and periode_gajian=".$generate[0]->periode_gajian.")>0  $whereLok order by m_lokasi_id desc";
         $entitas = DB::connection()->select($sqluser);
         $g = $generate[0];
        

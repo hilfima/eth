@@ -243,6 +243,13 @@ details summary .selector {
         Persetujuan 
       </summary>
     </details>
+    	<details class="list-group-item text-center button-6">
+      <summary onclick="window.location.href='<?=route("fe.approval_lintas_mesin_absen")?>'">
+        
+        
+        Persetujuan Lintas Mesin Absen
+      </summary>
+    </details>
     <details class="list-group-item text-center button-6">
       <summary onclick="window.location.href='<?=route("fe.approval_pergantian_hari_libur")?>'">
         
@@ -286,6 +293,13 @@ details summary .selector {
       </summary>
     </details>
    
+    <details class="list-group-item text-center button-6">
+      <summary onclick="window.location.href='<?=route("fe.approval_pengajuan_resign")?>'">
+        
+        
+        Persetujuan Karyawan Resign
+      </summary>
+    </details>
   </details>
   <details class="list-group">
     <summary class="button-5 p-2 text-white list-group-item text-center">
@@ -296,6 +310,12 @@ details summary .selector {
         
         
         Tinjauan Kehadiran
+      </summary>
+    </details><details  class="list-group-item text-center button-6">
+      <summary onclick="window.location.href='<?=route("fe.kehadiran_tahunan")?>'">
+        
+        
+        Tinjauan Kehadiran Tahunan
       </summary>
     </details><details class="list-group-item text-center button-6">
       <summary onclick="window.location.href='<?=route("fe.laporan_atasan")?>'">

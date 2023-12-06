@@ -82,13 +82,15 @@ where users.id=$iduser";
         $sqlkaryawan="SELECT a.p_karyawan_id,a.nik,a.nama as nama_lengkap,case when a.active=1 then 'Active' else 'Non Active' end as status,case when b.periode_gajian=1 then 'Bulanan' else 'Pekanan' end as periode_gajian ,j.nama as nama_kantor,
 c.nama as nmlokasi,b.kantor,b.kota,d.nama as nmdivisi,f.nama as nmdept,g.nama as nmjabatan,
 h.tgl_awal,h.tgl_akhir,m.no_absen,i.nama as nmstatus,pajak_onoff,bank,norek,nama_bank,g.job as jobweight , k.nama_grade as grade,
-tgl_bergabung
+tgl_bergabung,n.nama_directorat as nmdirectorat,l.nama_divisi
 --(select tgl_awal from p_karyawan_kontrak  where p_karyawan_kontrak.p_karyawan_id = a.p_karyawan_id order by tgl_awal asc limit 1) as tgl_awal
 FROM p_karyawan a
 LEFT JOIN p_karyawan_pekerjaan b on b.p_karyawan_id=a.p_karyawan_id
 
 LEFT JOIN m_bank r on r.m_bank_id=b.m_bank_id
 LEFT JOIN m_lokasi c on c.m_lokasi_id=b.m_lokasi_id
+LEFT JOIN m_directorat n on n.m_directorat_id=b.m_directorat_id
+LEFT JOIN m_divisi_new l on l.m_divisi_new_id=b.m_divisi_new_id
 LEFT JOIN m_divisi d on d.m_divisi_id=b.m_divisi_id
 LEFT JOIN m_departemen f on f.m_departemen_id=b.m_departemen_id
 LEFT JOIN m_jabatan g on g.m_jabatan_id=b.m_jabatan_id
@@ -755,10 +757,10 @@ LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=p_karyawan.p_karyawan_id  where 
        
        
 		if($type=='riwayat_pekerjaan'){
-			$sql = "SELECT * FROM p_karyawan_riwayat_pekerjaan
+			$sql = "SELECT *, p_karyawan.active FROM p_karyawan_riwayat_pekerjaan
 			join p_karyawan on p_karyawan.p_karyawan_id = p_karyawan_riwayat_pekerjaan.p_karyawan_id
 			$join
-			WHERE p_karyawan_riwayat_pekerjaan.active=1 $where ORDER BY p_karyawan_riwayat_pekerjaan.p_karyawan_id,awal_periode ASC ";
+			WHERE p_karyawan.active=1 and p_karyawan_riwayat_pekerjaan.active=1 $where ORDER BY p_karyawan_riwayat_pekerjaan.p_karyawan_id,awal_periode ASC ";
 			$data = DB::connection()->select($sql);
 			$array = array(
 				"NIK"=>"nik",
@@ -774,7 +776,7 @@ LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=p_karyawan.p_karyawan_id  where 
 			$sql = "SELECT *,p_karyawan_pendidikan.nama_sekolah as nmsekolah,p_karyawan_pendidikan.jurusan as nmjurusan FROM p_karyawan_pendidikan 
 			join p_karyawan on p_karyawan.p_karyawan_id = p_karyawan_pendidikan.p_karyawan_id
 			$join
-			WHERE p_karyawan_pendidikan.active=1  $where  ORDER BY p_karyawan_pendidikan.p_karyawan_id,tahun_lulus,p_karyawan_pendidikan.nama_sekolah ASC ";
+			WHERE p_karyawan.active=1 and  p_karyawan_pendidikan.active=1  $where  ORDER BY p_karyawan_pendidikan.p_karyawan_id,tahun_lulus,p_karyawan_pendidikan.nama_sekolah ASC ";
 		
 			$data = DB::connection()->select($sql);
 			
@@ -793,7 +795,7 @@ LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=p_karyawan.p_karyawan_id  where 
 			$sql = "SELECT *,case sertifikat when 1 then 'Ya' else 'Tidak' end as sertifikat FROM p_karyawan_kursus
 			join p_karyawan on p_karyawan.p_karyawan_id = p_karyawan_kursus.p_karyawan_id
 			$join
-			WHERE p_karyawan_kursus.active=1  $where  ORDER BY p_karyawan_kursus.p_karyawan_id,p_karyawan_kursus.nama_kursus ASC ";
+			WHERE p_karyawan.active=1 and  p_karyawan_kursus.active=1  $where  ORDER BY p_karyawan_kursus.p_karyawan_id,p_karyawan_kursus.nama_kursus ASC ";
 		
 			$data = DB::connection()->select($sql);
 			
@@ -811,7 +813,7 @@ LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=p_karyawan.p_karyawan_id  where 
 			$sql = "SELECT *, p_karyawan.nama as nama_lengkap, p_karyawan_keluarga.nama as nama_keluarga FROM p_karyawan_keluarga
 			join p_karyawan on p_karyawan.p_karyawan_id = p_karyawan_keluarga.p_karyawan_id
 			$join
-			WHERE p_karyawan_keluarga.active=1  $where  ORDER BY p_karyawan_keluarga.p_karyawan_id,p_karyawan_keluarga.tgl_lahir ASC ";
+			WHERE p_karyawan.active=1 and  p_karyawan_keluarga.active=1  $where  ORDER BY p_karyawan_keluarga.p_karyawan_id,p_karyawan_keluarga.tgl_lahir ASC ";
 		
 			$data = DB::connection()->select($sql);
 			
@@ -838,7 +840,7 @@ LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=p_karyawan.p_karyawan_id  where 
 	     	left join p_karyawan  on p_karyawan_pakaian.p_karyawan_id = p_karyawan.p_karyawan_id 
 	     	left join p_karyawan_keluarga c on p_karyawan_pakaian.p_karyawan_keluarga_id = c.p_karyawan_keluarga_id 
 	     	$join
-	     WHERE  tipe=2 and p_karyawan_pakaian.active=1
+	     WHERE p_karyawan.active=1 and   tipe=2 and p_karyawan_pakaian.active=1
 	      $where 
 	      ORDER BY p_karyawan_pakaian.p_karyawan_id ASC ";
 		
@@ -863,7 +865,7 @@ LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=p_karyawan.p_karyawan_id  where 
 			join p_karyawan on p_karyawan.p_karyawan_id = p_karyawan_award.p_karyawan_id
 			left join m_jenis_reward on m_jenis_reward.m_jenis_reward_id = p_karyawan_award.m_jenis_reward_id
 			$join
-	     WHERE   p_karyawan_award.active=1
+	     WHERE  p_karyawan.active=1 and   p_karyawan_award.active=1
 	      $where 
 	      ORDER BY p_karyawan_award.p_karyawan_id,tgl_award ASC ";
 		
@@ -883,7 +885,7 @@ LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=p_karyawan.p_karyawan_id  where 
 			left join m_jenis_sanksi on p_karyawan_sanksi.m_jenis_sanksi_id = m_jenis_sanksi.m_jenis_sanksi_id 
 			join p_karyawan on p_karyawan.p_karyawan_id = p_karyawan_sanksi.p_karyawan_id
 			$join 
-			WHERE p_karyawan_sanksi.active=1  $where 
+			WHERE p_karyawan.active=1 and  p_karyawan_sanksi.active=1  $where 
 			ORDER BY tgl_awal_sanksi ASC ";
 		
 		
@@ -922,7 +924,7 @@ LEFT JOIN m_status_pekerjaan i on i.m_status_pekerjaan_id=h.m_status_pekerjaan_i
 LEFT JOIN m_office j on b.m_kantor_id=j.m_office_id 
 
 LEFT JOIN p_karyawan_absen m on m.p_karyawan_id=a.p_karyawan_id
-                    WHERE 1=1 and a.active=1 
+                    WHERE p_karyawan.active=1 and  1=1 and a.active=1 
 			
 			 $where 
 			order by a.nama ";
@@ -1730,7 +1732,7 @@ $id_lokasi = Auth::user()->user_entitas;
        
         $sqlkaryawan="SELECT a.p_karyawan_id,a.nik,a.nama as nama_lengkap,case when a.active=1 then 'Active' else 'Non Active' end as status,
 c.nama as nmlokasi,b.kantor,b.kota,d.nama as nmdivisi,f.nama as nmdept,g.nama as nmjabatan,
-h.tgl_awal,h.tgl_akhir,i.nama as nmstatus
+h.tgl_awal,h.tgl_akhir,i.nama as nmstatus,a.update_date
 FROM p_karyawan a
 LEFT JOIN p_karyawan_pekerjaan b on b.p_karyawan_id=a.p_karyawan_id
 LEFT JOIN m_lokasi c on c.m_lokasi_id=b.m_lokasi_id
@@ -1739,7 +1741,7 @@ LEFT JOIN m_departemen f on f.m_departemen_id=b.m_departemen_id
 LEFT JOIN m_jabatan g on g.m_jabatan_id=b.m_jabatan_id
 LEFT JOIN p_karyawan_kontrak h on h.p_karyawan_id=a.p_karyawan_id  and h.active=1
 LEFT JOIN m_status_pekerjaan i on i.m_status_pekerjaan_id=h.m_status_pekerjaan_id
-                    WHERE 1=1 $whereLokasi and a.active=0 order by a.nama";
+                    WHERE 1=1 $whereLokasi and a.active=0 order by a.update_date desc, a.nama";
         $karyawan=DB::connection()->select($sqlkaryawan);
         return view('backend.karyawan.karyawanresign', compact('karyawan','user'));
     }
@@ -1981,88 +1983,7 @@ where users.id=$iduser";
 		header("Content-Type: application/vnd.ms-excel");
 		return redirect(url('/')."/export/".$fileName);
     }
-	public function input_absen_hr()
-    {
-        $iduser=Auth::user()->id;
-        $sqluser="SELECT p_recruitment.foto,p_karyawan.p_karyawan_id,users.role FROM users
-left join p_karyawan on p_karyawan.user_id=users.id
-left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitment_id
-where users.id=$iduser";
-        $user=DB::connection()->select($sqluser);
-        $sqlmesin="SELECT * FROM m_mesin_absen";
-        $mesin=DB::connection()->select($sqlmesin);
-		$date = date('Y-m-d');
-       
-        return view('backend.karyawan.input_absen_hr', compact('user','mesin'));
-    }
-
-    public function simpan_input_absen_hr(Request $request){
-		
-		try{
-        	
-
-           
-			$id_karyawan = $request->get('nama');
-            $date_time_awal=date('Y-m-d',strtotime($request->get('tgl_absen'))).' '.$request->get('jam_masuk').'';
-        	for($i=0;$i<count($id_karyawan);$i++){
-        		$kar = $id_karyawan[$i];
-				$sqlkaryawan = "SELECT c.no_absen,d.mesin_id
-					FROM p_karyawan_pekerjaan b
-					
-					LEFT JOIN p_karyawan_absen c on c.p_karyawan_id=b.p_karyawan_id
-					LEFT JOIN m_mesin_absen d on d.m_lokasi_id=b.m_lokasi_id
-
-					WHERE b.p_karyawan_id='$kar'
-				"	;
-           		$karyawan=DB::connection()->select($sqlkaryawan);
-           		//print_r($karyawan);
-           		 $sql="SELECT * FROM absen_log "
-            	
-            	."where pin=".$karyawan[0]->no_absen
-            	."and ver=". $request->get('ver')."
-            	and date_time >= '".date('Y-m-d',strtotime($request->get('tgl_absen')))."'
-            	and date_time <= '".date('Y-m-d',strtotime($request->get('tgl_absen')))." 23:59'
-            	"
-            	;
-            	$data=DB::connection()->select($sql);
-            	//print_r($data);
-            	if(count($data)){
-            		$iduser=Auth::user()->id;
-        	
-            		 DB::connection()->table("absen_log")
-		                ->where("absen_log_id",$data[0]->absen_log_id)
-		                ->update([
-		                    "mesin_id" => $request->get('mesin'),
-		                    "pin" => $karyawan[0]->no_absen,
-		                    "date_time" => $date_time_awal,
-		                    "ver" => $request->get('ver'),
-		                    "status_absen_id" => $request->get('ver'),
-		                    "updated_at" => date('Y-m-d H:i:s'),
-		                    "updated_by"=>$iduser,
-		                    "time_before_update" => $data[0]->date_time,
-		                ]);
-				}else{
-					
-		            DB::connection()->table("absen_log")
-		                ->insert([
-		                    "mesin_id" => $request->get('mesin'),
-		                    "pin" => $karyawan[0]->no_absen,
-		                    "date_time" => $date_time_awal,
-		                    "ver" => $request->get('ver'),
-		                    "status_absen_id" => $request->get('ver'),
-		                    "created_at" => date('Y-m-d H:i:s'),
-		                ]);
-				}
-				
-			}
-			
-            return redirect()->route('be.input_absen_hr')->with('success',' Absen Karyawan Berhasil di input!');
-        }
-        catch(\Exeception $e){
-         
-            return redirect()->back()->with('error',$e);
-        }
-	}
+	
     public function simpan_input_absen_hr2(Request $request)
     {
        

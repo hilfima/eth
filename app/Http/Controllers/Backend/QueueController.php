@@ -19,7 +19,9 @@ class QueueController extends Controller
     {
     	
     	$queue = DB::connection()->select("select  * from queue where panel ='$panel' and status_queue in(0,2) order by status_queue,priority desc, create_date limit 1");
-    	//print_r($queue);
+    	if(!count($queue)){
+    		$queue = DB::connection()->select("select  * from queue where panel ='$panel' and status_queue in(2) order by create_date desc,status_queue,priority desc  limit 10");
+    	}
     	if(count($queue)){
     		
     	DB::connection()->table("queue")
@@ -37,20 +39,35 @@ class QueueController extends Controller
     	}
     		echo json_encode(array('status'=>1));
     	}else{
+    		DB::connection()->table("queue")
+                ->where('queue_id', $queue[0]->queue_id)
+                ->update([
+                    "status_queue"=>3
+                ]);
     		echo json_encode(array('status'=>0));
     	}
     	
     	
+    }
+    public function generate_rekap_absen($tanggal)
+    {
+    	$help = new Helper_function();
+		if($tanggal==-1){
+			$tanggal=date('Y-m-d');
+		}
+	    $help->generate_rekap_absen_tanggal($tanggal);
     }
     public function slip_simpan($parameter1_id_karyawan,$parameter2_id_generate)
     {
     		$help = new Helper_function();
 			$id = $parameter1_id_karyawan;
 			$id_prl = $parameter2_id_generate;
-			$sql="SELECT *,case when periode_gajian=0 then 'Pekanan' else 'Bulanan' end as tipe,(select prl_generate_karyawan_id from prl_generate_karyawan where prl_generate_id=$id_prl and p_karyawan_id = $id) as id_slip FROM prl_generate where prl_generate_id=$id_prl and active = 1";
+			$sql="SELECT *,case when periode_gajian=0 then 'Pekanan' else 'Bulanan' end as tipe,(select prl_generate_karyawan_id from prl_generate_karyawan where prl_generate_id=$id_prl and p_karyawan_id = $id) as id_slip 
+			FROM prl_generate where prl_generate_id=$id_prl and active = 1";
 			$generate=DB::connection()->select($sql);
 			
 			$periode_absen=$generate[0]->periode_absen_id;
+			if($periode_absen){
 			$sqlperiode="SELECT * FROM m_periode_absen where periode_absen_id=$periode_absen";
 			$periodetgl=DB::connection()->select($sqlperiode);
 			$type = $periodetgl[0]->type;
@@ -167,7 +184,131 @@ where users.id=$iduser";
 			$output = $pdf->output();
     		file_put_contents('dist\img\slip\Slif Gaji '.$karyawan[0]->nmlengkap.' - '.$p.' '.$tgl_awal_name_file.' sd'.$tgl_akhir_name_file.'.pdf', $output);
     		return true;
+		}else{
+			return false;
+		}
     }
-    
+    public function sp_st_auto($id_karyawan,$tgl_awal,$tgl_akhir){
+    	
+    	
+    	
+		$help = new Helper_function();
+		$rekap = $help->rekap_absen($tgl_awal,$tgl_akhir,$tgl_awal,$tgl_akhir,-1,'',$id_karyawan);
+		/*
+		Surat Teguran
+
+2. Fingerprint di lokasi lain (tanpa ada pengajuan perdin dalam kota) - maksimal pengajuan 1 hari setelah
+
+
+Surat Peringatan
+*/
+$tgl_akhir_temp = $tgl_akhir;
+
+		$sql = "select * from p_karyawan_sanksi
+		join m_jenis_sanksi on p_karyawan_sanksi.m_jenis_sanksi_id = m_jenis_sanksi.m_jenis_sanksi_id
+		 where tgl_akhir_sanksi>='$tgl_akhir' 
+		 and p_karyawan_id = $id_karyawan
+		 order by level asc
+		 ";
+		$sanksi = DB::connection()->select($sql);
+		//print_r($sanksi);
+		//and tgl_awal_sanksi<='".$help->tambah_tanggal($tgl_akhir,2)."'
+		$string_pelanggaran="";
+		if(count($sanksi)){
+			
+			$now_level = $sanksi[0]->level;
+			$string_pelanggaran = $sanksi[0]->nama_sanksi."<br><br><br>". $sanksi[0]->alasan_sanksi;
+		}
+		else
+			$now_level=0;
+		echo $now_level;
+		$level_awal = $now_level;
+		$return = $help->total_rekap_absen_optimasi($rekap, $id_karyawan);
+		$masuk                 = $return['total']['masuk'];
+        $cuti                 = $return['total']['cuti'];
+        $ipg                 = $return['total']['ipg'];
+        $izin                 = $return['total']['izin'];
+        $ipd                 = $return['total']['ipd'];
+        $ipc                 = $return['total']['ipc'];
+        $idt                 = $return['total']['idt'];
+        $ipm                = $return['total']['ipm'];
+        $pm                 = $return['total']['pm'];
+        $sakit                 = $return['total']['sakit'];
+        $alpha                 = $return['total']['alpha'];
+        $alphaList                 = $return['total']['alphaList'];
+        $terlambat             = $return['total']['terlambat'];
+        $terlambatList             = $return['total']['terlambatList'];
+        $tabsen             = $return['total']['Total Absen'];
+        $tmasuk             = $return['total']['Total Masuk'];
+        $tkerja             = $return['total']['Total Hari Kerja'];
+        $fingerprint         = $return['total']['fingerprint'];
+        
+        $pelanggaran = array();
+        $jumlah_pelanggaran = 0; 
+        $tgl_awal = $help->tgl_indo($tgl_awal);
+        $tgl_akhir = $help->tgl_indo($tgl_akhir);
+        //print_r($return['total_beruntun']['alpha']['maxValue']);
+        if($return['total_beruntun']['alpha']['maxValue']>=4){
+        	//langsung SP
+        	if($now_level==0 and $now_level<=4){
+        		$now_level=4;
+        	}else{
+        		$now_level+=1;
+        	}
+        	
+        	$pelanggaran[] = "Anda tanpa keterangan(Alpha) lebih dari 4x dalam sebulan, system merekap ".$return['total_beruntun']['alpha']['maxValue']." kali pada tanggal(".implode(' | ',$return['total_beruntun']['alpha']['tangggal'][$return['total_beruntun']['alpha']['maxIndex']][0]).") ";
+        	
+        }else
+        if($alpha){
+        	$now_level+=1;
+        	$pelanggaran[] = "Anda tanpa keterangan(Alpha), system merekap $alpha kali pada tanggal $alphaList";
+        }
+        
+        //$return['total_beruntun'] 
+        if($fingerprint >=3){
+        	$now_level+=1;
+        	$pelanggaran[] = "Anda Tidak fingerprint lebih dari 3x dalam sebulan, system merekap $fingerprint kali rentang  periode $tgl_awal s/d $tgl_akhir ";
+        }
+         if($return['total_beruntun']['terlambat']['maxValue']>=3){
+         	$now_level+=1;
+        	$pelanggaran[] = "Anda terlambat lebih dari 3x dalam sebulan, system merekap ".($return['total_beruntun']['terlambat']['maxValue'])." kali pada tanggal (".implode(' | ',$return['total_beruntun']['terlambat']['tanggal'][$return['total_beruntun']['terlambat']['maxIndex']][0]).")  ";
+        }
+        if($terlambat>=4){
+        	$now_level+=1;
+        	$pelanggaran[] = "Anda terlambat lebih dari 4x dalam sebulan, system merekap $terlambat kali rentang  periode $tgl_awal s/d $tgl_akhir pada tanggal ($terlambatList)";	
+        }
+        if($pm>=3){
+        	$now_level+=1;
+        	$pelanggaran[] = "Anda Pulang lebih awal tanpa izin 3x dalam sebulan, system merekap $terlambat kali rentang  periode $tgl_awal s/d $tgl_akhir";	
+        }
+        
+        if(isset($rekap['pengajuan']['pending_approval'][$id_karyawan])){
+        	$now_level+=1;
+        	$pelanggaran[] = "Anda telat menyetujui ".count($rekap['pengajuan']['pending_approval'][$id_karyawan])." pengajuan rentang  periode $tgl_awal s/d $tgl_akhir ";
+        }
+        
+        
+        if($now_level<=3){
+        	$bulan=3;
+        }else{
+        	$bulan=6;
+        }
+        if($now_level!=$level_awal){
+        	 if($now_level>6)
+        	 	$now_level=6;
+        	$jenis_sanksi = DB::connection()->select("select * from m_jenis_sanksi where level=$now_level");
+        	$array_pelanggaran = "<ol><li>".implode("</li><li>",$pelanggaran)."</ol>"; 
+        	$array = [
+        		"p_karyawan_id"=>$id_karyawan,
+        		"m_jenis_sanksi_id"=>$jenis_sanksi[0]->m_jenis_sanksi_id,
+        		"alasan_sanksi"=>$array_pelanggaran.$string_pelanggaran,
+        		"tgl_awal_sanksi"=>$tgl_akhir_temp,
+        		"tgl_akhir_sanksi"=>$help->tambah_bulan($tgl_akhir_temp,$bulan),
+        	];
+        	print_r($array);
+        	DB::connection()->table("p_karyawan_sanksi")->insert($array);
+        }
+		
+    }
     
 }

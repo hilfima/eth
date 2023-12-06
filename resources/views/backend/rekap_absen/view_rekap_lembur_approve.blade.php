@@ -209,69 +209,28 @@
 								<td>{!! $list_karyawan->nmlokasi !!}</td>
 								<td>{!! $list_karyawan->nmjabatan !!}</td>
 								<?php
-								$date = $tgl_awal;
-								$total_all = 0;
+								$return = $help->total_rekap_absen_optimasi($rekap,$list_karyawan->p_karyawan_id);
+									
+									
+								echo $return['all_content_approve'];
+								
+								
+								$total_all            	= $return['total']['total_all'];
+					            $total['<8 jam']     	= $return['total']['<8 jam'];
+					            $total['8 jam']        	= $return['total']['8 jam'];
+					            $total['9 jam']        	= $return['total']['9 jam'];
+					            $total['>=10 jam']     	= $return['total']['>=10 jam'];
+					            $total['total_lembur_proposional']     = $return['total_lembur']['total_lembur_proposional'];
+
+
+					            $total['1jam']         	= $return['total']['1jam'];
+					            $total['>=2jam']     	= $return['total']['>=2jam'];
+					            $total['SUM Libur'] 	= $return['total']['SUM Libur'];
+					            $total['COUNT Libur'] 	= $return['total']['COUNT Libur'];
+					            $total['COUNT Kerja'] 	= $return['total']['COUNT Kerja'];
+					            $total['SUM Kerja'] 	= $return['total']['SUM Kerja'];
 								//print_r($rekap['lembur']['Proposional']['approve']);
-									for ($i = 0; $i <= $help->hitunghari($tgl_awal,$tgl_akhir); $i++) {
-									$id_karyawan = $list_karyawan->p_karyawan_id;
 									
-									if (!$list_karyawan->is_karyawan_shift)
-										$bool_hari_libur = !(in_array($help->nama_hari($date),array('Minggu','Sabtu')) or in_array($date,$hari_libur) or isset($hari_libur_shift[$date][$id_karyawan]) );
-									else
-										$bool_hari_libur =!(isset($hari_libur_shift[$date][$id_karyawan])) ;
-									
-									
-									if (!$bool_hari_libur)
-										$color = 'Style="background:red;color:white"';
-									else
-										$color='';
-
-									if (isset($rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'])) {
-										$total_all += $rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'];
-										
-										
-										if (!$bool_hari_libur) {
-											$lama = $rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'];
-											if ($lama>8) {
-												$total['8 jam'] +=8; $lama-=8;
-											} else if ($lama<=8) {
-												$total['8 jam'] +=$lama; $lama-=$lama;
-											}
-											if ($lama) {
-
-												$total['9 jam'] +=1;$lama-=1;
-											}
-											if ($lama)
-												$total['>=10 jam'] +=$lama;
-
-
-											$total['COUNT Libur'] +=1;
-											$total['SUM Libur'] +=$rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'];
-										} else {
-											$lama = $rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'];
-											$total['1jam'] +=1;$lama-=1;
-											if ($lama)
-												$total['>=2jam'] +=$lama;
-
-
-											$total['COUNT Kerja'] +=1;
-											$total['SUM Kerja'] +=$rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'];
-										}
-										echo ' <td '.$color.'>
-												
-												'.$rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'].' Jam
-													<br> '.$rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['jam_awal'].'
-														 '.($rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['jam_akhir']?' s/d '.$rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['jam_akhir']:'').'
-														<br>  '.$rekap['lembur']['approve'][$list_karyawan->p_karyawan_id][$date]['keterangan'].'
-												</td >';
-									} else if (isset($rekap['lembur']['Proposional']['approve'][$list_karyawan->p_karyawan_id][$date]['lama'])) {
-										echo '<td style="background:purple;color:white"> Lembur Proposional </td>';
-									} else {
-
-										echo '<td '.$color.'>-</td>';
-									}
-									$date = $help->tambah_tanggal($date,1);
-								}
 								?>
 
 								<td style="width: 30px;min-width: 30px;max-width: 30px;">{!!$total['1jam']!!}</td>

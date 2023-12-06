@@ -32,6 +32,92 @@ class AbsenController extends Controller
     {
         $this->middleware('auth');
     }
+    public function input_absen_hr()
+    {
+        $iduser=Auth::user()->id;
+        $sqluser="SELECT p_recruitment.foto,p_karyawan.p_karyawan_id,users.role FROM users
+left join p_karyawan on p_karyawan.user_id=users.id
+left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitment_id
+where users.id=$iduser";
+        $user=DB::connection()->select($sqluser);
+        $sqlmesin="SELECT * FROM m_mesin_absen";
+        $mesin=DB::connection()->select($sqlmesin);
+		$date = date('Y-m-d');
+       
+        return view('backend.absen.input_absen_hr', compact('user','mesin'));
+    }
+
+    public function simpan_input_absen_hr(Request $request){
+		
+		try{
+        	
+
+           $help = new Helper_function();
+			$id_karyawan = $request->get('nama');
+			$date = $request->get('tgl_absen_awal');
+			for($j=0;$j<$help->hitungHari($request->get('tgl_absen_awal'),$request->get('tgl_absen_akhir'));$j++){
+        	
+            $date_time_awal=date('Y-m-d',strtotime($date)).' '.$request->get('jam_masuk').'';
+        	for($i=0;$i<count($id_karyawan);$i++){
+        		$kar = $id_karyawan[$i];
+				$sqlkaryawan = "SELECT c.no_absen,d.mesin_id
+					FROM p_karyawan_pekerjaan b
+					
+					LEFT JOIN p_karyawan_absen c on c.p_karyawan_id=b.p_karyawan_id
+					LEFT JOIN m_mesin_absen d on d.m_lokasi_id=b.m_lokasi_id
+
+					WHERE b.p_karyawan_id='$kar'
+				"	;
+           		$karyawan=DB::connection()->select($sqlkaryawan);
+           		//print_r($karyawan);
+           		 $sql="SELECT * FROM absen_log "
+            	
+            	."where pin=".$karyawan[0]->no_absen
+            	."and ver=". $request->get('ver')."
+            	and date_time >= '".date('Y-m-d',strtotime($date))."'
+            	and date_time <= '".date('Y-m-d',strtotime($date))." 23:59'
+            	"
+            	;
+            	$data=DB::connection()->select($sql);
+            	//print_r($data);
+            	if(count($data)){
+            		$iduser=Auth::user()->id;
+        	
+            		 DB::connection()->table("absen_log")
+		                ->where("absen_log_id",$data[0]->absen_log_id)
+		                ->update([
+		                    "mesin_id" => $request->get('mesin'),
+		                    "pin" => $karyawan[0]->no_absen,
+		                    "date_time" => $date_time_awal,
+		                    "ver" => $request->get('ver'),
+		                    "status_absen_id" => $request->get('ver'),
+		                    "updated_at" => date('Y-m-d H:i:s'),
+		                    "updated_by"=>$iduser,
+		                    "time_before_update" => $data[0]->date_time,
+		                ]);
+				}else{
+					
+		            DB::connection()->table("absen_log")
+		                ->insert([
+		                    "mesin_id" => $request->get('mesin'),
+		                    "pin" => $karyawan[0]->no_absen,
+		                    "date_time" => $date_time_awal,
+		                    "ver" => $request->get('ver'),
+		                    "status_absen_id" => $request->get('ver'),
+		                    "created_at" => date('Y-m-d H:i:s'),
+		                ]);
+				}
+				
+			}
+			$date = $help->tambah_tanggal($date,1);
+			}
+            return redirect()->route('be.input_absen_hr')->with('success',' Absen Karyawan Berhasil di input!');
+        }
+        catch(\Exeception $e){
+         
+            return redirect()->back()->with('error',$e);
+        }
+	}
     public function absen()
     {
         $tgl_awal=date('Y-m-d');
@@ -4061,7 +4147,7 @@ LEFT JOIN m_departemen on m_departemen.m_departemen_id=p_karyawan_pekerjaan.m_de
 		                ->update([
 		                    
 		                    "status_absen_id" => 3,
-		                    "ver" => 0,
+		                    "active" => 0,
 		                    "updated_at" => date('Y-m-d H:i:s'),
 		                    "updated_by"=>$idUser,
 		                     ]);

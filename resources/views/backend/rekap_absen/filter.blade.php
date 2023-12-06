@@ -4,7 +4,7 @@
 					<div class="col-lg-5">
 						<div class="form-group">
 							<label>Periode Absen</label>
-							<select class="form-control select2" name="periode_gajian" style="width: 100%;" required>
+							<select class="form-control select2" name="periode_gajian" style="width: 100%;" required onchange="list_entitas(this)">
 								<option value="">Pilih Periode</option>
 								<?php
 								foreach($periode AS $periode){
@@ -45,7 +45,7 @@
 					<div class="col-lg-3">
 						<div class="form-group">
 								<label>Entitas</label>
-								<select class="form-control select2" name="filterentitas" style="width: 100%;" >
+								<select class="form-control select2" name="filterentitas" id="filterentitas" style="width: 100%;" >
 									<option value="">Pilih Entitas</option>
 									<?php
 									foreach($entitas AS $entitas){
@@ -99,3 +99,29 @@
 					</div>
 				</div>
 			</form>
+			<script>
+				function list_entitas(e){
+					var val = $(e).val();
+					
+				//alert();
+				$.ajax({
+					type: 'get',
+					url: '<?=route('be.list_entitas_periode_absen');?>',
+					data:{
+						val:val
+					},
+					dataType: 'html',
+					success: function(data){
+						
+						$('#filterentitas').html(data);
+						
+					    //console.log(data);
+					},
+					error: function (error) {
+					    console.log('error; ' + eval(error));
+					    //alert(2);
+					}
+				});
+			
+				}
+			</script>

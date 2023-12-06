@@ -186,6 +186,13 @@ tfoot th:first-child {
 											<th style="text-align: center;vertical-align: middle">No </th>
 											<th style="text-align: center;vertical-align: middle">NIK</th>
 											<th style="text-align: center;vertical-align: middle">Departemen</th>
+											<?php 
+									$date = $tgl_awal;
+									for($i = 0; $i <= $help->hitunghari($tgl_awal,$tgl_akhir); $i++){
+									echo ' <th>'.$date.'</th>';
+									$date = $help->tambah_tanggal($date,1);
+									}
+									?>
 											<th style="text-align: center;vertical-align: middle">Absen </th>
 								<th style="text-align: center;vertical-align: middle">Cuti</th>
 								<th style="text-align: center;vertical-align: middle">IPG</th>
@@ -214,7 +221,6 @@ tfoot th:first-child {
 							$return = $help->total_rekap_absen($rekap,$list_karyawan->p_karyawan_id);
 									
 									
-									//echo $return['all_content'];
 									//if($no==5)
 									//break;
 									$masuk 	= $return['total']['masuk'] ;
@@ -237,12 +243,13 @@ tfoot th:first-child {
 										?>
                          
 						
-                               	<tr>
+						 <tr>
 								<td>{!! $no !!}</td>
 								<th style="min-width: 300px;">{!! $list_karyawan->nama !!}</th>
 							
 								<td>{!! $list_karyawan->nik !!}</td>
 								<td style="min-width: 200px;">{!! $list_karyawan->departemen !!}</td>
+								<?= $return['all_content'];?>
 									<?php $ipd;?>
 								<td  style=""><?=$masuk;?></td>
 								<td  style=""><?=$cuti?></td>

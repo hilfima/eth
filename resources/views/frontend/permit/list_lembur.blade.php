@@ -89,7 +89,9 @@
                     <tr>
                         <td>{!! $no !!}</td>
                         <td>{!! $lembur->tipe_lembur !!}</td>
-                        <td>{!! $help->tgl_indo(($lembur->tgl_awal)) !!}</td>
+                        <td>{!! $help->tgl_indo(($lembur->tgl_awal)) !!}
+                         <?php if($lembur->intruksi_atasan){ echo '<br><br>Instruksi Lembur dari Atasan';}?>
+                        </td>
                         <td style="text-align: center;">{!! $lembur->lama !!}</td>
                         <td>{!! $lembur->nama_appr !!}</td>
                         <td style="text-align: center">
@@ -129,8 +131,16 @@
                             @endif
                         </td>
                         <td style="text-align: center">
+                        <?php 
+                        if($lembur->intruksi_atasan){
+                        if($lembur->status_appr_intruksi==3){
+                        	?>
+                            <a href="{!! route('fe.acc_intruksi_lembur',$lembur->t_form_exit_id) !!}" class="btn btn-success text-white ctm-border-radius p-2 add-person ctm-btn-padding" title='Lihat' data-toggle='tooltip'><span class='fa fa-check'></span> Approve</a>
+                            <a href="{!! route('fe.dec_intruksi_lembur',$lembur->t_form_exit_id) !!}" class="btn btn-danger  text-white ctm-border-radius p-2 add-person ctm-btn-padding" title='Lihat' data-toggle='tooltip'><span class='fa fa-times'></span> Decline</a>
+                            <br>
+                        <?php }}?>
                             <a href="{!! route('fe.lihat_lembur',$lembur->t_form_exit_id) !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding" title='Lihat' data-toggle='tooltip'><span class='fa fa-search'></span></a>
-                            @if($lembur->status_appr_1==3)
+                            @if(($lembur->status_appr_2==3 and $lembur->appr_1==null) or ($lembur->status_appr_1 and $lembur->appr_1!=null))
                             <a href="{!! route('fe.hapus_lembur',$lembur->t_form_exit_id) !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>
                             @endif
                         </td>

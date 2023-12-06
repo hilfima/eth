@@ -149,6 +149,7 @@
 				
 			
 		</div>
+		<div class="col-sm-12" id="persentaseGenerate"></div>
 		<div class="col-sm-12" id="contentGenerate">
 		</div>
 		
@@ -165,17 +166,25 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+  var nogenerate = 0;
+  var totalentias = 0;
 	function getkaryawandata(time){
 		
 		var periode_gajian = $('#periode_gajian').val();
 		var entitas = $('#entitas').val();
 		var ajaxTime= new Date().getTime();	
+		nogenerate =0;
+		text = $('#m_lokasi_id_collect_all').val();
+		myArray = text.split(",");
+		totalentias = myArray.length;
+		
 		$.ajax({
 				type: 'get',
 				data: {'periode_gajian': periode_gajian,'entitas': entitas},
 				url: '<?=route('be.getkaryawanprosesgenerate',$id);?>',
 				dataType: 'html',
 				success: function(data){
+					
 					if(entitas=='All'){
 						text = $('#m_lokasi_id_collect_all').val();
 						myArray = text.split(",");
@@ -202,6 +211,15 @@
 		window.location.href = "<?=route('be.previewgaji', ['non_ajuan', 'prl_generate=' . $id . '&menu=Gaji&Cari=Cari']);?>&entitas="+entitas+"&periode_gajian="+periode_gajian;
 	}
 	function check_entitas(periode_absen_id,waktu,entitas,periode_gajian){
+		persentaseGenerateContent="<div class='card p-4'><center><h3>"+nogenerate+" of "+totalentias+"</h3><br>";
+		
+		totalpersen = nogenerate/totalentias*100;
+		
+		
+		persentaseGenerateContent+="<h1>"+totalpersen+"%</h1>";
+		persentaseGenerateContent+="<div class='text-red' style='color:red;'>PERINGATAN!!! TAB JANGAN DI TUTUP SEBELUM SELESAI</div></center></div>";
+		$('#persentaseGenerate').html(persentaseGenerateContent);
+		
 		
 		if($('.collectEntitas').length){
 			entitas = $('#genEntitas').val();
@@ -348,6 +366,7 @@
 				success: function(data){
 					$('#contentGenerate').html(data);
 					if($('#generate').val()>=100){
+						nogenerate+=1;
 						$(".collectent-"+entitas+"").remove();
 						check_entitas('<?=$g->periode_absen_id;?>',totalTime,entitas,periode_gajian)
 					}else{

@@ -144,7 +144,7 @@
 					<div class="col-lg-3">
 						<div class="form-group">
 								<label>Entitas</label>
-								<select class="form-control select2" name="filterentitas" style="width: 100%;" >
+								<select class="form-control select2" name="filterentitas"  id="filterentitas" style="width: 100%;" >
 									<option value="">Pilih Entitas</option>
 									<?php
 									foreach($entitas AS $entitas){
@@ -216,8 +216,8 @@
     		var ajaxTime= new Date().getTime();	
     		$.ajax({
     				type: 'get',
-    				data: {'waktu': waktu,'periode_absen_id': periode_absen_id},
-    				url: '<?=route('be.hitung_rekap_absen');?>',
+    				data: {'waktu': waktu,'periode_absen_id': periode_absen_id,'entitas':$('#filterentitas').val()},
+    				url: '<?=route('be.hitung_rekap_absen_tanggal');?>',
     				dataType: 'html',
     				success: function(data){
     					$('#content').html(data);
@@ -246,8 +246,8 @@
     		var ajaxTime= new Date().getTime();	
     		$.ajax({
     				type: 'get',
-    				data: {'existing': existing,'periode_absen_id': periode_absen_id},
-    				url: '<?=route('be.generate_rekap_absen');?>',
+    				data: {'existing': existing,'periode_absen_id': periode_absen_id,'entitas':$('#filterentitas').val()},
+    				url: '<?=route('be.generate_rekap_absen_tanggal');?>',
     				dataType: 'html',
     				success: function(data){
     					$('#content').html("Sedang Proses Tunggu Sebentar");

@@ -6,7 +6,7 @@
 
 <div class="card shadow-sm ctm-border-radius">
 	<div class="card-body align-center">
-		<h4 class="card-title float-left mb-0 mt-2"> Kotak Laporan </h4>
+		<h4 class="card-title float-left mb-0 mt-2"> Permintaan Surat </h4>
 
 
 	</div>

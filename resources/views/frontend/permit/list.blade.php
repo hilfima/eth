@@ -174,9 +174,9 @@ strong{
 									@if($data->status_appr_1==3 and $data->appr_1==$id)
                                     	
                                         <a href="{!! route('fe.edit_ajuan',$data->t_form_exit_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
-                                          <a href="{!! route('fe.setujui_ajuan',$data->t_form_exit_id) !!}" class="btn btn-success btn-sm"  title='Ubah' data-toggle='tooltip'> 
+                                          <a href="{!! route('fe.setujui_ajuan',$data->t_form_exit_id) !!}" class="btn btn-success btn-sm"  title='Approve' data-toggle='tooltip'> 
                                     	Approve  
-                                    </a><a href="{!! route('fe.tolak_ajuan',$data->t_form_exit_id) !!}" class="btn btn-danger btn-sm" title='Ubah' data-toggle='tooltip'> 
+                                    </a><a href="{!! route('fe.tolak_ajuan',$data->t_form_exit_id) !!}" class="btn btn-danger btn-sm" title='Tolak' data-toggle='tooltip'> 
                                     	Tolak    
                                     </a> 
                                     @endif

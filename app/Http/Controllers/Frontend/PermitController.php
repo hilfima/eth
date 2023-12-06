@@ -91,9 +91,9 @@ class PermitController extends Controller
 					
 				}else{
 					$rekap = $help->rekap_absen($gapen[0]->tgl_awal,$gapen[0]->tgl_akhir,$gapen[0]->tgl_awal,$gapen[0]->tgl_akhir,$idkar[0]->periode_gajian,null,$idkaryawan);
-					if(isset($rekap[$idkaryawan][date('Y-m-d')]['a']['masuk'])){
+					if(isset($rekap['absen']['a'][date('Y-m-d')][$idkaryawan]['masuk'])){
 						$absen = true;
-						if(isset($rekap[$idkaryawan][$help->tambah_tanggal(date('Y-m-d'),-$batas_hari)]['a']['masuk'])){
+						if(isset($rekap['absen']['a'][$help->tambah_tanggal(date('Y-m-d'),-$batas_hari)][$idkaryawan]['masuk'])){
 							$absen = false;
 							$keterangan ="Tidak dapat melakukan pengajuan karena pengajuan diharuskan $batas_hari Hari setelah masuk ";
 							
@@ -109,7 +109,7 @@ class PermitController extends Controller
 									$true=true;
 									$min = $gapen[0]->tgl_awal;
 								}
-								if(isset($rekap[$idkaryawan][$date]['a']['masuk'])){
+								if(isset($rekap['absen']['a'][$date][$idkaryawan]['masuk'])){
 									$true=true;
 									$min = $date;
 								}
@@ -129,7 +129,7 @@ class PermitController extends Controller
 		$kontent_alasan = ' <div class="form-group row" >
 		<label class="col-sm-2 control-label">Alasan*</label>
 		<div class="col-sm-10">
-		 <select class="form-control select2" name="alasan_id" id="alasan_id" style="width: 100%;" >
+		 <select required class="form-control select2" name="alasan_id" id="alasan_id" style="width: 100%;" >
 		<option value="">Pilih Alasan</option>';
 		//$val
 		$alasan = DB::connection()->select("select * from m_jenis_alasan where jenis = $val");
@@ -220,27 +220,27 @@ class PermitController extends Controller
 		$tgl_awal = $request->tgl_awal;
 		
 		
-		if(isset($rekap[$idkaryawan][$tgl_awal]['a']['masuk']) and $request->pengajuan==21){
+		if(isset($rekap['absen']['a'][$tgl_awal][$idkaryawan]['masuk']) and $request->pengajuan==21){
 			
 			/// IDT 2 5
 			/// IPM 2
 			// sebulan 3 kali maksimal(IDT+IPM)
-			$date = date_create($tgl_awal.' '.$rekap[$idkaryawan][$tgl_awal]['a']['jam_masuk']);
-			//echo $tgl_awal.' '.$rekap[$idkaryawan][$tgl_awal]['a']['jam_masuk'];
+			$date = date_create($tgl_awal.' '.$rekap['absen']['a'][$date][$idkaryawan]['jam_masuk']);
+			//echo $tgl_awal.' '.$rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_masuk'];
 			date_add($date, date_interval_create_from_date_string('150 minutes '));
 			$jam_idt_paling_telat =  date_format($date, 'H:i:s');
 			$idt=0;
-			if(isset($rekap[$idkaryawan]['total_id'][21])){
+			if(isset($rekap['pengajuan']['total_id'][$idkaryawan][21])){
 				
-				$idt=$rekap[$idkaryawan]['total_id'][21];
+				$idt=$rekap['pengajuan']['total_id'][$idkaryawan][21];
 			}
 			$ipm=0;
-			if(isset($rekap[$idkaryawan]['total_id'][26])){
+			if(isset($rekap['pengajuan']['total_id'][$idkaryawan][26])){
 				
-				$ipm=$rekap[$idkaryawan]['total_id'][26];
+				$ipm=$rekap['pengajuan']['total_id'][$idkaryawan][26];
 			}
-			//print_r($rekap[$idkaryawan][$tgl_awal]['a']); 
-		if(!isset($rekap[$idkaryawan][$tgl_awal]['a']['jam_masuk'])){
+			//print_r($rekap['absen']['a'][$tgl_awal][$idkaryawan]); 
+		if(!isset($rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_masuk'])){
 			echo json_encode(
 					array(
 					"simpan_type"=>0,
@@ -255,23 +255,23 @@ class PermitController extends Controller
 				"simpan_keterangan"=>"Anda tidak bisa mengajukan kembali pengajuan IDT dan IPM dikarenakan meleibihi akumulasi total pengajuan IDT dan IPM dalam rentang periode berjalan"
 				)
 				);
-		}else if($rekap[$idkaryawan][$tgl_awal]['a']['masuk']<$jam_idt_paling_telat and $request->pengajuan == 21){
+		}else if($rekap['absen']['a'][$tgl_awal][$idkaryawan]['masuk']<$jam_idt_paling_telat and $request->pengajuan == 21){
 				
 				echo json_encode(
 					array(
-						"jam_masuk_kerja"=>$rekap[$idkaryawan][$tgl_awal]['a']['jam_masuk'],
-						"jam_masuk_finger"=>$rekap[$idkaryawan][$tgl_awal]['a']['masuk'],
+						"jam_masuk_kerja"=>$rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_masuk'],
+						"jam_masuk_finger"=>$rekap['absen']['a'][$tgl_awal][$idkaryawan]['masuk'],
 						"simpan_type"=>1,
 						"simpan_keterangan"=>""
 					)
 				);
-		}else if(($rekap[$idkaryawan][$tgl_awal]['a']['masuk']>=$jam_idt_paling_telat) and $request->pengajuan == 21 ){
+		}else if(($rekap['absen']['a'][$tgl_awal][$idkaryawan]['masuk']>=$jam_idt_paling_telat) and $request->pengajuan == 21 ){
 				echo json_encode(
 				array("simpan_type"=>0,
-				"simpan_keterangan"=>"Jam masuk absen anda melebihi batas ketentuan yang berlaku(Jam Kerja : ".$rekap[$idkaryawan][$tgl_awal]['a']['jam_masuk']. " | Batas : $jam_idt_paling_telat |  Jam Masuk : ".$rekap[$idkaryawan][$tgl_awal]['a']['masuk'].")"
+				"simpan_keterangan"=>"Jam masuk absen anda melebihi batas ketentuan yang berlaku(Jam Kerja : ".$rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_masuk']. " | Batas : $jam_idt_paling_telat |  Jam Masuk : ".$rekap['absen']['a'][$tgl_awal][$idkaryawan]['masuk'].")"
 					)
 				);
-		}else if(isset($rekap[$idkaryawan][$tgl_awal]['ci'])){
+		}else if(isset($rekap['pengajuan']['ci'][$tgl_awal][$idkaryawan])){
 			echo json_encode(
 				array(
 					
@@ -289,23 +289,23 @@ class PermitController extends Controller
 			);
 		}
 		}
-        else if(isset($rekap[$idkaryawan][$tgl_awal]['a']['keluar']) and $request->pengajuan==26){
-                $date = date_create($tgl_awal.' '.$rekap[$idkaryawan][$tgl_awal]['a']['jam_keluar']);
-			//echo $tgl_awal.' '.$rekap[$idkaryawan][$tgl_awal]['a']['jam_masuk'];
+        else if(isset($rekap['absen']['a'][$tgl_awal][$idkaryawan]['keluar']) and $request->pengajuan==26){
+                $date = date_create($tgl_awal.' '.$rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_keluar']);
+			//echo $tgl_awal.' '.$rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_masuk'];
 			date_add($date, date_interval_create_from_date_string('-120 minutes '));
 			$jam_ipm_paling_telat =  date_format($date, 'H:i:s');
 			$idt=0;
-			if(isset($rekap[$idkaryawan]['total_id'][21])){
+			if(isset($rekap['pengajuan']['total_id'][$idkaryawan][21])){
 				
-				$idt=$rekap[$idkaryawan]['total_id'][21];
+				$idt=$rekap['pengajuan']['total_id'][$idkaryawan][21];
 			}
 			$ipm=0;
-			if(isset($rekap[$idkaryawan]['total_id'][26])){
+			if(isset($rekap['pengajuan']['total_id'][$idkaryawan][26])){
 				
-				$ipm=$rekap[$idkaryawan]['total_id'][26];
+				$ipm=$rekap['pengajuan']['total_id'][$idkaryawan][26];
 			}
-			//print_r($rekap[$idkaryawan][$tgl_awal]['a']); 
-    		if(!isset($rekap[$idkaryawan][$tgl_awal]['a']['jam_keluar'])){
+			//print_r($rekap['absen']['a'][$tgl_awal][$idkaryawan]); 
+    		if(!isset($rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_keluar'])){
     			echo json_encode(
     					array(
     					"simpan_type"=>0,
@@ -320,25 +320,25 @@ class PermitController extends Controller
     				"simpan_keterangan"=>"Anda tidak bisa mengajukan kembali pengajuan IDT dan IPM dikarenakan meleibihi akumulasi total pengajuan IDT dan IPM dalam rentang periode berjalan"
     				)
     				);
-    		}else if($rekap[$idkaryawan][$tgl_awal]['a']['keluar']>$jam_ipm_paling_telat and $request->pengajuan == 26){
+    		}else if($rekap['absen']['a'][$tgl_awal][$idkaryawan]['keluar']>$jam_ipm_paling_telat and $request->pengajuan == 26){
     				
     				echo json_encode(
     					array(
-    						"jam_keluar_kerja"=>$rekap[$idkaryawan][$tgl_awal]['a']['jam_keluar'],
-    						"jam_keluar_finger"=>$rekap[$idkaryawan][$tgl_awal]['a']['keluar'],
+    						"jam_keluar_kerja"=>$rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_keluar'],
+    						"jam_keluar_finger"=>$rekap['absen']['a'][$tgl_awal][$idkaryawan]['keluar'],
     						"batas_keluar"=>$jam_ipm_paling_telat,
     						"simpan_type"=>1,
     						"simpan_keterangan"=>""
     					)
     				);
-    		}else if(($rekap[$idkaryawan][$tgl_awal]['a']['keluar']<=$jam_ipm_paling_telat) and $request->pengajuan == 26 ){
+    		}else if(($rekap['absen']['a'][$tgl_awal][$idkaryawan]['keluar']<=$jam_ipm_paling_telat) and $request->pengajuan == 26 ){
     				echo json_encode(
     				array("simpan_type"=>0,
-    				"simpan_keterangan"=>"Jam Keluar absen anda melebihi batas ketentuan yang berlaku(Jam Keluar Kerja : ".$rekap[$idkaryawan][$tgl_awal]['a']['jam_keluar']. " | Batas : $jam_ipm_paling_telat 
-    				    |  Jam Keluar : ".$rekap[$idkaryawan][$tgl_awal]['a']['keluar'].")"
+    				"simpan_keterangan"=>"Jam Keluar absen anda melebihi batas ketentuan yang berlaku(Jam Keluar Kerja : ".$rekap['absen']['a'][$tgl_awal][$idkaryawan]['jam_keluar']. " | Batas : $jam_ipm_paling_telat 
+    				    |  Jam Keluar : ".$rekap['absen']['a'][$tgl_awal][$idkaryawan]['keluar'].")"
 					    )
     				);
-    		}else if(isset($rekap[$idkaryawan][$tgl_awal]['ci'])){
+    		}else if(isset($rekap['pengajuan']['ci'][$tgl_awal][$idkaryawan])){
     			echo json_encode(
     				array(
     					
@@ -426,7 +426,10 @@ class PermitController extends Controller
 			$where = "and tgl_awal <= '".$request->get('tgl_akhir')."'";
 		else if ($request->get('tgl_akhir') and $request->get('tgl_awal'))
 			$where = "and tgl_awal >= '".$request->get('tgl_awal')."' and tgl_awal <= '".$request->get('tgl_akhir')."'";
-
+		else{
+				$where .= " and tgl_awal>='".$tgl_awal_gaji."'";
+				$where .= " and tgl_awal<='".$tgl_akhir_gaji."'";
+		}
 		if ($request->get('ajuan'))
 			$where .= ' and c.tipe = '.$request->get('ajuan');
 
@@ -441,7 +444,8 @@ class PermitController extends Controller
 
 			)";
 		else{
-		    $where .= "and ((a.appr_1=$id and a.status_appr_1=3) or (a.appr_2=$id and a.status_appr_2=3 and status_appr_1!=2) ) ";
+		   //  $where .= "and ((a.appr_1=$id and a.status_appr_1=3) or (a.appr_2=$id and a.status_appr_2=3 and status_appr_1!=2) ) ";
+		   $where .= "and ((a.appr_1=$id ) or (a.appr_2=$id and status_appr_1!=2) ) ";
 		}
 
 		$date = date('Y-m-d');
@@ -457,7 +461,7 @@ class PermitController extends Controller
 		WHERE 1=1 
 		    $where
 			--and ((tgl_awal<='$date' and c.tipe=3) or c.tipe!=3)
-			and a.active=1  ORDER BY a.status_appr_1 desc, a.status_appr_2 desc,a.tgl_awal desc";
+			and a.active=1  ORDER BY (case when a.appr_1=$id then a.status_appr_1 else a.status_appr_2  end ) desc,a.tgl_awal desc";
 		$data=DB::connection()->select($sqldata);
 		//echo $sqldata;
 		$where = '';
@@ -608,6 +612,84 @@ class PermitController extends Controller
 
 		return view('frontend.permit.list_perdin',compact('izin','request','help','idkar'));
 	}
+	public function setujui_lintas (Request $request, $kode)
+	{
+
+		DB::beginTransaction();
+		try {
+			$iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$id=$idkar[0]->p_karyawan_id;
+			DB::connection()->table("absen_log")
+			->where("absen_log_id",$kode)
+			->update([
+				"appr_status"=>1,
+				"appr"=>$iduser,
+				"appr_date" => date("Y-m-d"),
+				
+			]);
+			$notifdata=DB::connection()->select("select * from absen_log 
+			left join p_karyawan_absen on p_karyawan_absen.no_absen = absen_log.pin
+				
+			where absen_log_id=$kode");
+            DB::connection()->table("notifikasi")
+                    ->insert([
+                        "id_assign"=>$id,
+                        "database_from"=>"t_permit",
+                        "datebase_id"=>$kode,
+                        "p_karyawan_id"=>$notifdata[0]->p_karyawan_id,
+                        "date_action"=>date('Y-m-d H:i:s'),
+                        "notif"=>"Penyesuaian Absensi Lintas Mesin Absen pada tanggal".date('Y-m-d',strtotime($notifdata[0]->date_time))."  sudah di setujui",
+                        
+                        ]);
+			DB::commit();
+
+			return redirect()->route('fe.approval_lintas_mesin_absen')->with('success','Approval  Berhasil di rubah!');
+		} catch (\Exeception $e) {
+			DB::rollback();
+			return redirect()->back()->with('error',$e);
+		}
+	}
+	public function tolak_lintas (Request $request, $kode)
+	{
+
+		DB::beginTransaction();
+		try {
+			$iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$id=$idkar[0]->p_karyawan_id;
+			DB::connection()->table("absen_log")
+			->where("absen_log_id",$kode)
+			->update([
+				"appr_status"=>2,
+				"appr"=>$id,
+				"appr_date" => date("Y-m-d"),
+				
+			]);
+			$notifdata=DB::connection()->select("select * from absen_log 
+			left join p_karyawan_absen on p_karyawan_absen.no_absen = absen_log.pin
+				
+			where absen_log_id=$kode");
+            DB::connection()->table("notifikasi")
+                    ->insert([
+                        "id_assign"=>$id,
+                        "database_from"=>"absen_log",
+                        "datebase_id"=>$kode,
+                        "p_karyawan_id"=>$notifdata[0]->p_karyawan_id,
+                        "date_action"=>date('Y-m-d H:i:s'),
+                        "notif"=>"Penyesuaian Absensi Lintas Mesin Absen pada tanggal".date('Y-m-d',strtotime($notifdata[0]->date_time))."  ditolak",
+                        
+                        ]);
+			DB::commit();
+
+			return redirect()->route('fe.approval_lintas_mesin_absen')->with('success','Approval  Berhasil di rubah!');
+		} catch (\Exeception $e) {
+			DB::rollback();
+			return redirect()->back()->with('error',$e);
+		}
+	}
 	public function setujui_ajuan (Request $request, $kode)
 	{
 
@@ -644,7 +726,8 @@ class PermitController extends Controller
 			DB::rollback();
 			return redirect()->back()->with('error',$e);
 		}
-	}public function setujui_ajuan_2(Request $request, $kode)
+	}
+	public function setujui_ajuan_2(Request $request, $kode)
 	{
 
 		DB::beginTransaction();
@@ -844,7 +927,11 @@ class PermitController extends Controller
 		$sejajar = "(((select m_jabatan_terkait from m_jabatan_struktural where tipe_struktural=3 and m_jabatan_id = (select m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
 		//$atasan= substr($this->hirarki($idkar[0]->m_jabatan_id,''),0,-1);
 		//$bawahan = substr($this->hirarkiBawahan($idkar[0]->m_jabatan_id,''),0,-1);
+		$appr=DB::connection()->select("Select * from p_karyawan_pekerjaan where m_jabatan_id in ($atasan)");
 		$help = new Helper_function();
+		if($idkar[0]->m_pangkat_id==6 and !count($appr)){
+		    $atasan =  -1;
+    	}else{
 		$jabstruk = $help->jabatan_struktural($id_karyawan);
 		$atasan = $jabstruk['atasan'];
 		$bawahan = $jabstruk['bawahan'];
@@ -858,10 +945,9 @@ class PermitController extends Controller
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan)  and m_pangkat_id not in (1,2,3)";
 		$appr=DB::connection()->select($sqlappr);
 
-
+		}
 		$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id ";
-		$kar=DB::connection()->select($sqlkar);
-		
+		$kar=DB::connection()->select($sqlkar);		
 		$where = '';
 
 		$sqlkar="SELECT * from get_data_karyawan() where (m_jabatan_id in($bawahan) or m_jabatan_id in($atasan) or m_jabatan_id in($sejajar))  and (m_departemen_id = (select m_departemen_id from p_karyawan_pekerjaan where p_karyawan_id=$id_karyawan)  or m_jabatan_id in($atasan))  order by nama_lengkap";
@@ -1021,7 +1107,12 @@ class PermitController extends Controller
 		$atasan = "(((select m_jabatan_terkait from m_jabatan_struktural where tipe_struktural=1 and m_jabatan_id = (select m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
 		$sejajar = "(((select m_jabatan_terkait from m_jabatan_struktural where tipe_struktural=3 and m_jabatan_id = (select m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
 		$help = new Helper_function();
-		$jabstruk = $help->jabatan_struktural($id_karyawan);
+		$appr=DB::connection()->select("Select * from p_karyawan_pekerjaan where m_jabatan_id in ($atasan)");
+		$help = new Helper_function();
+		if($idkar[0]->m_pangkat_id==6 and !count($appr)){
+		    $atasan =  -1;
+    	}else{
+    	    $jabstruk = $help->jabatan_struktural($id_karyawan);
 		$atasan = $jabstruk['atasan'];
 		$bawahan = $jabstruk['bawahan'];
 		$sejajar = $jabstruk['sejajar'];
@@ -1031,6 +1122,7 @@ class PermitController extends Controller
 		
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan)   and m_pangkat_id not in (1,2,3)";
 		$appr=DB::connection()->select($sqlappr);
+		}
 		//echo $id;die;
 		$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id";
 		$kar=DB::connection()->select($sqlkar);
@@ -1157,6 +1249,11 @@ $tolcut = $cuti[0]->sisa_cuti;
 		
 		
 		$help = new Helper_function();
+		$appr=DB::connection()->select("Select * from p_karyawan_pekerjaan where m_jabatan_id in ($atasan)");
+		$help = new Helper_function();
+		if($idkar[0]->m_pangkat_id==6 and !count($appr)){
+		    $atasan =  -1;
+    	}else{
 		$jabstruk = $help->jabatan_struktural($id_karyawan);
 		$atasan = $jabstruk['atasan'];
 		$bawahan = $jabstruk['bawahan'];
@@ -1166,7 +1263,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 		 		$atasan = isset($atasan_layer[1])?$atasan_layer[1]:'-1';
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_pangkat_id not in(1) and m_jabatan_id in($atasan)  and m_pangkat_id not in (1,2,3) ";
 		$appr=DB::connection()->select($sqlappr);
-
+    	}
 
 		$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id";
 		$kar=DB::connection()->select($sqlkar);
@@ -1177,6 +1274,10 @@ $tolcut = $cuti[0]->sisa_cuti;
 
 		$sqljenisizin="SELECT * from m_jenis_ijin WHERE tipe=1 and active=1 order by urutan asc";
 		$jenisizin=DB::connection()->select($sqljenisizin);
+
+		$sqljenisizin="SELECT * from m_alat_transportasi WHERE  active=1 order by m_alat_transportasi asc";
+		$alat_transportasi=DB::connection()->select($sqljenisizin);
+		
 		$sql="select * from m_periode_absen where type= ".$idkar[0]->periode_gajian." and periode_aktif=1  and tgl_akhir >= '".date('Y-m-d')."'  and tgl_akhir >= '".date('Y-m-d')."' ";
 			$gapen=DB::connection()->select($sql);
 			if(!count($gapen)){
@@ -1204,7 +1305,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 				else
 					$tgl_cut_off = $help->tambah_tanggal($tgl_awal_gaji,1);
 
-				return view('frontend.permit.tambah_perdin',compact('kar','jenisizin','atasan','appr','karyawan','tgl_cut_off','idkar'));
+				return view('frontend.permit.tambah_perdin',compact('kar','jenisizin','atasan','alat_transportasi','appr','karyawan','tgl_cut_off','idkar'));
 		}
 	}
 
@@ -1220,6 +1321,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 		$iduser=Auth::user()->id;
 		$sqlidkar="select * from p_karyawan
 		join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id
+		left join m_jabatan on m_jabatan.m_jabatan_id = p_karyawan_pekerjaan.m_jabatan_id
 		where user_id=$iduser";
 		$idkar=DB::connection()->select($sqlidkar);
 		$id=$idkar[0]->p_karyawan_id;
@@ -1233,8 +1335,13 @@ $tolcut = $cuti[0]->sisa_cuti;
 		and tipe_struktural=1
 		and m_jabatan_struktural.m_jabatan_id = (select pkp.m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
 		$sejajar = "(((select m_jabatan_terkait from m_jabatan_struktural where tipe_struktural=3 and m_jabatan_id = (select m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
-		
-		$help=new Helper_function();
+		$appr=DB::connection()->select("Select * from p_karyawan_pekerjaan where m_jabatan_id in ($atasan)");
+		$appr1=DB::connection()->select("Select * from p_karyawan_pekerjaan where m_jabatan_id in ($atasan)");
+		$appr2=DB::connection()->select("Select * from p_karyawan_pekerjaan where m_jabatan_id in ($atasan2)");
+		$help = new Helper_function();
+		if($idkar[0]->m_pangkat_id==6 and !count($appr)){
+		    $atasan =  -1;
+    	}else{
 		$jabstruk = $help->jabatan_struktural($id_karyawan);
 		$atasan = $jabstruk['atasan'];
 		$bawahan = $jabstruk['bawahan'];
@@ -1254,7 +1361,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 		$appr1=DB::connection()->select($sqlappr);
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan2) and m_pangkat_id in(5,6) ";
 		$appr2=DB::connection()->select($sqlappr);
-
+		}
 		$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id";
 		$kar=DB::connection()->select($sqlkar);
 
@@ -1340,7 +1447,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 			$datanocuti=DB::connection()->select($sqlnocuti);
 			$Counter=$datanocuti[0]->counter;
 			$nocuti='PERMIT.'.$Bulan.'.'.$Tahun2.'.'.$Counter;
-			if($idkar[0]->m_pangkat_id==6)
+			if($idkar[0]->m_pangkat_id==6 and !$request->get('atasan'))
 				$tipe = -1;
 			else
 				$tipe = $request->get('atasan');
@@ -1441,7 +1548,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 			$datanocuti=DB::connection()->select($sqlnocuti);
 			$Counter=$datanocuti[0]->counter;
 			$nocuti='PERMIT.'.$Bulan.'.'.$Tahun2.'.'.$Counter;
-			if($idkar[0]->m_pangkat_id==6)
+			if($idkar[0]->m_pangkat_id==6 and !$request->get('atasan'))
 				$tipe = -1;
 			else
 				$tipe = $request->get('atasan');
@@ -1512,7 +1619,82 @@ $tolcut = $cuti[0]->sisa_cuti;
 			return redirect()->back()->with('error',$e);
 		}
 	}
+	public function hitung_jam_lembur(Request $request)
+	{
+	    echo PermitController::lama_jam_lembur($request);
+	}
 
+	public function lama_jam_lembur(Request $request)
+	{
+	    $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirahat_awal'));
+          	$istirahat_keluar = strtotime($request->get('tgl')." ".$request->get('jam_istirahat_akhir'));
+          	
+			$total_jam_istirahat =  $istirahat_keluar-$istirahat_masuk;
+	        $lama_istirahat =  gmdate('G', $total_jam_istirahat	); ;
+	        //$lama_istirahat =  gmdate('G', $total_jam_istirahat	); ;
+	        
+	        $minutes_istirahat =  gmdate('i', $total_jam_istirahat	); ;
+	        $minutes_100_istirahat = $minutes_istirahat/60*100;
+			$minutes_100_istirahat = $minutes_100_istirahat/100; 
+	        
+          	
+          	$keluar = strtotime($request->get('jam_awal'));
+		    $masuk = strtotime($request->get('jam_akhir'));
+			$total_jam =  $masuk-$keluar;
+	        $lama_php =  gmdate('G', $total_jam	); ;
+	       
+	        $minutes =  gmdate('i', $total_jam	); ;
+	        $minutes_100 = $minutes/60*100;
+			$minutes_100 = $minutes_100/100; 
+	       // die;
+	        
+			$lama_input = $request->get('lama');
+			if($lama_input!=$lama_php)
+				$lama_input = $lama_php;
+		
+			if($request->get('jam_istirahat_awal')<$request->get('jam_awal') and $request->get('jam_istirahat_akhir') <$request->get('jam_awal')){
+			    
+ 			}else
+ 			if($request->get('jam_istirahat_awal')<$request->get('jam_awal') and $request->get('jam_istirahat_akhir') >$request->get('jam_awal')){
+ 			    $jam_istirahat_awal = $request->get('jam_awal');
+ 			    $istirahat_masuk = strtotime($jam_istirahat_awal);
+               	$istirahat_keluar = strtotime($request->get('jam_istirahat_akhir'));
+              	
+     			$total_jam_istirahat =  $istirahat_keluar-$istirahat_masuk;
+     	        $lama_istirahat =  gmdate('G', $total_jam_istirahat	); ;
+                $minutes_istirahat =  gmdate('i', $total_jam_istirahat	); ;
+    	        $minutes_100_istirahat = $minutes_istirahat/60*100;
+    			$minutes_100_istirahat = $minutes_100_istirahat/100; 
+    	        $lama_input += $minutes_100;
+    	        $lama_input -=($lama_istirahat+$minutes_100_istirahat);
+    	        $lama_input = floor($lama_input);
+ 			}else
+ 			if($request->get('jam_istirahat_awal')>$request->get('jam_awal') and $request->get('jam_istirahat_akhir') >$request->get('jam_akhir')){
+               $jam_istirahat_akhir = $request->get('jam_akhir');
+ 			    $istirahat_masuk = strtotime($request->get('jam_istirahat_awal'));
+               	 $istirahat_keluar = strtotime($jam_istirahat_akhir);
+              	
+     			$total_jam_istirahat =  $istirahat_keluar-$istirahat_masuk;
+    	        $lama_istirahat =  gmdate('G', $total_jam_istirahat	); ;
+    	        $minutes_istirahat =  gmdate('i', $total_jam_istirahat	); ;
+    	        $minutes_100_istirahat = $minutes_istirahat/60*100;
+    			$minutes_100_istirahat = $minutes_100_istirahat/100; 
+     	        $lama_input -=$lama_istirahat;
+     	        $lama_input += $minutes_100;
+    	        $lama_input -=($lama_istirahat+$minutes_100_istirahat);
+    	        $lama_input = floor($lama_input);
+		    
+			}else
+			if($request->get('jam_istirahat_awal')>$request->get('jam_awal') and $request->get('jam_istirahat_akhir') <$request->get('jam_akhir')){
+    	        $lama_input += $minutes_100;
+    	        $lama_input -=($lama_istirahat+$minutes_100_istirahat);
+    	        $lama_input = floor($lama_input);
+			    
+			}
+			//$return['lama_input'] = $lama_input;
+			return $lama_input;
+	}
+	
 	public function simpan_lembur(Request $request)
 	{
 		DB::beginTransaction();
@@ -1569,15 +1751,31 @@ $tolcut = $cuti[0]->sisa_cuti;
 			$Counter=$datanocuti[0]->counter;
 			$nocuti='PERMIT.'.$Bulan.'.'.$Tahun2.'.'.$Counter;
 $help = new Helper_function();
+$istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirahat_awal'));
+          	$istirahat_keluar = strtotime($request->get('tgl')." ".$request->get('jam_istirahat_akhir'));
+          	
+			$total_jam_istirahat =  $istirahat_keluar-$istirahat_masuk;
+	        $lama_istirahat =  gmdate('G', $total_jam_istirahat	); ;
+	        //$lama_istirahat =  gmdate('G', $total_jam_istirahat	); ;
+	        
+	        $minutes_istirahat =  gmdate('i', $total_jam_istirahat	); ;
+	        $minutes_100_istirahat = $minutes_istirahat/60*100;
+			$minutes_100_istirahat = $minutes_100_istirahat/100; 
+	        
+          	
           	$keluar = strtotime($request->get('jam_awal'));
 		    $masuk = strtotime($request->get('jam_akhir'));
-			 $total_jam =  $masuk-$keluar;
+			$total_jam =  $masuk-$keluar;
 	        $lama_php =  gmdate('G', $total_jam	); ;
-			$lama_input = $request->get('lama');
-			if($lama_input!=$lama_php)
-				$lama_input = $lama_php;
-			
-			if($idkar[0]->m_pangkat_id==6)
+	       
+	        $minutes =  gmdate('i', $total_jam	); ;
+	        $minutes_100 = $minutes/60*100;
+			$minutes_100 = $minutes_100/100; 
+	       // die;
+	        
+			$lama_input = PermitController::lama_jam_lembur($request);
+		//	echo $lama_istirahat; die;
+		if($idkar[0]->m_pangkat_id==6 and !$request->get('atasan'))
 				$tipe = -1;
 			else
 				$tipe = $request->get('atasan');
@@ -1600,6 +1798,8 @@ $help = new Helper_function();
 				"tipe_lembur"=>$request->get('tipe_lembur'),
 				"jam_awal"=>$request->get('jam_awal'),
 				"jam_akhir"=>$request->get('jam_akhir'),
+				"jam_istirahat_awal"=>$request->get('jam_istirahat_awal'),
+				"jam_istirahat_akhir"=>$request->get('jam_istirahat_akhir'),
 			]);
 			DB::commit();
 
@@ -1630,7 +1830,8 @@ $help = new Helper_function();
 	{
 		$sqlcuti="SELECT a.*,b.nik,b.nama_lengkap,b.jabatan,b.departemen,c.kode,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,e.nama as pjs,
 		case when status_appr_hr=1 then 'Disetujui' when status_appr_hr=2 then 'Ditolak' when status_appr_hr=3 then 'Pending' end as approve_hr,
-		case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' when status_appr_1=3 then 'Pending' end as sts_pengajuan
+		case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' when status_appr_1=3 then 'Pending' end as sts_pengajuan,
+		f.alasan as alasan_idt_ipm
 		FROM t_permit a
 		left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
 		left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id
@@ -1681,7 +1882,7 @@ $help = new Helper_function();
 		try {
 			DB::connection()->table("t_permit")
 			->where("t_form_exit_id",$id)
-			->update(["active"=>1]);
+			->update(["active"=>0]);
 			DB::commit();
 
 			return redirect()->back()->with('success','Pengajuan Cuti Berhasil di Hapus!');
@@ -1697,7 +1898,7 @@ $help = new Helper_function();
 		try {
 			DB::connection()->table("t_permit")
 			->where("t_form_exit_id",$id)
-			->update(["active"=>1]);
+			->update(["active"=>0]);
 			DB::commit();
 
 			return redirect()->back()->with('success','Pengajuan Izin Berhasil di Hapus!');
@@ -1713,7 +1914,7 @@ $help = new Helper_function();
 		try {
 			DB::connection()->table("t_permit")
 			->where("t_form_exit_id",$id)
-			->update(["active"=>1]);
+			->update(["active"=>0]);
 			DB::commit();
 
 			return redirect()->back()->with('success','Pengajuan Lembur Berhasil di Hapus!');
@@ -1726,7 +1927,7 @@ $help = new Helper_function();
 
 	public function lihat_ajuan($kode)
 	{
-		$sqldata="SELECT a.*,b.nik,b.nama_lengkap,alasan_idt_ipm,c.kode,c.tipe,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,e.nama as pjs
+		$sqldata="SELECT a.*,b.nik,b.nama_lengkap,f.alasan as alasan_idt_ipm,c.kode,c.tipe,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,e.nama as pjs
 		FROM t_permit a
 		left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
 		left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id
@@ -1955,9 +2156,20 @@ $help = new Helper_function();
 			$datanocuti=DB::connection()->select($sqlnocuti);
 			$Counter=$datanocuti[0]->counter;
 			$nocuti='PERMIT.'.$Bulan.'.'.$Tahun2.'.'.$Counter;
-
-			DB::connection()->table("t_permit")
-			->insert([
+			$sqldata="SELECT a.*,b.nik,b.nama_lengkap,f.uang_makan,f.uang_saku,f.uang_saku2
+				FROM p_karyawan_pekerjaan a
+				left join get_data_karyawan() b on a.p_karyawan_id = a.p_karyawan_id 
+			
+				left join m_jabatan d on d.m_jabatan_id=a.m_jabatan_id
+				left join m_pangkat f on d.m_pangkat_id=f.m_pangkat_id
+				WHERE 1=1 and a.p_karyawan_id=$id and a.active=1  ";
+        $data=DB::connection()->select($sqldata);
+        	$uangmakan=$data[0]->uang_makan;
+        	$uangmakan2=$data[0]->uang_makan2;
+	        if($request->get('lama')>1)
+	                $uangmakan = $uangmakan2; 
+            
+			$data = [
 				"m_jenis_ijin_id"=>$request->get('cuti'),
 				"p_karyawan_id"=>$id,
 				"kode"=>$nocuti,
@@ -1966,13 +2178,21 @@ $help = new Helper_function();
 				"tgl_akhir"=>date('Y-m-d',strtotime($request->get('tgl_akhir'))),
 				"keterangan"=>$request->get('alasan'),
 				"appr_1"=>$request->get('atasan'),
+				"km_awal"=>$request->get('km_awal'),
+				"m_alat_transportasi_id"=>$request->get('alat_transportasi'),
+				"tempat_tujuan"=>$request->get('tempat_tujuan'),
 				"tipe_perdin"=>$request->get('tipe_perdin'),
 				"lama"=>$request->get('lama'),
 				"pjs"=>$request->get('pjs'),
 				"create_date"=>date('Y-m-d  H:i:s'),
 				"create_by"=>$id,
+				//"biaya_uang_saku"=>$uangsaku, 
+				"biaya_uang_makan"=>$uangmakan,
 				"active"=>1,
-			]);
+			];
+			
+			DB::connection()->table("t_permit")
+			->insert($data);
 
 			if ($request->file('file')) {
 				//echo 'masuk';die;
@@ -2110,11 +2330,59 @@ $help = new Helper_function();
 	   }
 	}
 	
+	public function approval_lintas_mesin_absen(Request $request)
+	{
+		$iduser=Auth::user()->id;
+		$sqlidkar="select *,p_karyawan.p_karyawan_id as karyawan_id from p_karyawan
+		join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id
+		join m_jabatan on p_karyawan_pekerjaan.m_jabatan_id = m_jabatan.m_jabatan_id
+		where user_id=$iduser";
+		$idkar=DB::connection()->select($sqlidkar);
+		$id=$idkar[0]->p_karyawan_id;
+		
+		$id_karyawan = $idkar[0]->p_karyawan_id;
+		$bawahan = "((select p_karyawan_pekerjaan.p_karyawan_id from p_karyawan_pekerjaan where m_jabatan_id in (select m_jabatan_terkait from m_jabatan_struktural where tipe_struktural=2 and m_jabatan_id = (select m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
+		$atasan = "(((select m_jabatan_terkait from m_jabatan_struktural where tipe_struktural=1 and m_jabatan_id = (select m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
+		$sejajar = "(((select m_jabatan_terkait from m_jabatan_struktural where tipe_struktural=3 and m_jabatan_id = (select m_jabatan_id from p_karyawan_pekerjaan pkp where p_karyawan_id = $id_karyawan))))";
+		$help = new Helper_function();
+		$jabstruk = $help->jabatan_struktural($id_karyawan);
+		$atasan = $jabstruk['atasan'];
+		$bawahan = $jabstruk['bawahan'];
+		$sejajar = $jabstruk['sejajar'];
+		$atasan_layer = $jabstruk['atasan_layer'];
+		$atasan = isset($atasan_layer[1])?$atasan_layer[1]:'-1';
+		$sql="select * from m_periode_absen where type= ".$idkar[0]->periode_gajian." and  ((periode_aktif=1 and tgl_akhir >= '".date('Y-m-d')."')  or (periode_aktif=0 and tgl_akhir <= '".date('Y-m-d')."' )) order by tgl_akhir desc limit 1";
+				$gapen=DB::connection()->select($sql);
+				$min = $gapen[0]->tgl_awal;
+				$where = "";
+				
+					$where = "and date_time >= '$min'";
+				
+		$sql = "select *,p_karyawan.nama,ma.nama as m_a,ms.nama as m_s from absen_log
+				left join p_karyawan_absen on p_karyawan_absen.no_absen = absen_log.pin
+				left join p_karyawan on p_karyawan_absen.p_karyawan_id = p_karyawan.p_karyawan_id
+				left join p_karyawan_pekerjaan on p_karyawan_absen.p_karyawan_id = p_karyawan_pekerjaan.p_karyawan_id
+				left join m_office on m_office.m_office_id = p_karyawan_pekerjaan.m_kantor_id
+				left join m_mesin_absen ma on  absen_log.mesin_id = ma.mesin_id
+				left join m_mesin_absen ms on  m_office.m_mesin_absen_seharusnya_id = ms.mesin_id
+				where m_office.m_mesin_absen_seharusnya_id != absen_log.mesin_id
+				and absen_log.appr_status =3 and m_jabatan_id in($bawahan) and ver=1
+				$where
+				
+				
+				
+			";
+		
+		$list = DB::connection()->select($sql);;
+
+		return view('frontend.permit.approval_lintas_mesin_absen',compact('list','request'));
+	}
+	
 	public function generate_jam_finger_klarifikasi()
 	{
 	    
 	    $help = new Helper_function();
-	   echo 'hallow';
+	  
 	   $month  = date('m');
 	   $year  = date('Y');
 	   $month = $month-3;

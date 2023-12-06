@@ -82,13 +82,11 @@
 							<input type="date" class="form-control" id="nama" name="tgl_akhir" placeholder="Tanggal" value="<?=$data['tgl_akhir']; ?>" required>
 						</div>
 					</div>
-
-
-
-
-
 				</div>
-
+				<div class="form-group">
+							<label>File</label>
+							<input type="file" class="form-control" id="nama" name="file" placeholder="Tanggal"  required>
+						</div>
 				<a href="{!! route('be.role') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
 				<button type="submit" class="btn btn-info pull-right"><span class="fa fa-edit"></span> Simpan</button>
 				<br>

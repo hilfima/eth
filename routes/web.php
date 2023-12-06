@@ -20,7 +20,7 @@ Route::get('/reject_perdin/{id}', 'Frontend\ApprPermitController@email_reject_pe
 Route::get('/approve_lembur/{id}', 'Frontend\ApprPermitController@email_approve_lembur')->name('approve_lembur');
 Route::get('/reject_lembur/{id}', 'Frontend\ApprPermitController@email_reject_lembur')->name('reject_lembur');
 Route::get('/undermaintenance', 'k@undermaintenance')->name('undermaintenance');
-
+Route::get('/absensi/', 'HomeController@absensi')->name('be.absensi');
 Route::get('/', function () {
   
     $sqlslider="select * from m_slider where active=1";
@@ -41,12 +41,17 @@ Route::get('/optimasi_jabstruk', 'HomeController@optimasi_jabstruk')->name('opti
 Route::get('/optimasi_berita', 'HomeController@optimasi_berita')->name('optimasi_berita');
 Route::get('/optimasi_total_cuti', 'HomeController@optimasi_total_cuti')->name('optimasi_total_cuti');
 Route::get('/optimasi_rekap_absen', 'HomeController@optimasi_rekap_absen')->name('optimasi_rekap_absen');
+Route::get('/optimasi_rekap_absen_atasan', 'HomeController@optimasi_rekap_absen_atasan')->name('optimasi_rekap_absen_atasan');
 Route::get('/optimasi_fasilitas', 'HomeController@optimasi_fasilitas')->name('optimasi_fasilitas');
 Route::get('/optimasi_today_info', 'HomeController@optimasi_today_info')->name('optimasi_today_info');
 Route::post('/simpan_password', 'HomeController@simpan_password')->name('simpan_password');
 Route::get('/recovery_password/{id}', 'HomeController@recovery_password')->name('be.recovery_password');
 Route::get('/import_jabatan/', 'HomeController@import_jabatan')->name('be.import_jabatan');
 Route::get('/login_admin', 'Auth\AdminController@index')->name('login_admin');
+Route::get('/generate_hari_ini', 'CronJobController@generate_hari_ini')->name('generate_hari_ini');
+Route::get('/generate_sp_st', 'CronJobController@generate_sp_st')->name('generate_sp_st');
+Route::get('/sp_st_auto/{id}/{id2}/{id3}', 'Backend\QueueController@sp_st_auto')->name('sp_st_auto');
+Route::get('/generate_absen_tanggal/{tanggal}', 'CronJobController@generate_absen_tanggal')->name('generate_absen_tanggal');
 Route::get('/form_biodata_kandidat', 'RekruitmentController@form_biodata_kandidat')->name('form_biodata_kandidat');
 Route::get('/edit_form_biodata_kandidat/{id}', 'RekruitmentController@edit_form_biodata_kandidat')->name('edit_form_biodata_kandidat');
 Route::get('/view_form_biodata_kandidat/{id}', 'RekruitmentController@view_form_biodata_kandidat')->name('view_form_biodata_kandidat');
@@ -78,6 +83,8 @@ Route::group(['prefix' => 'frontend'], function(){
     Route::get('/hapus_club/{id}', 'Frontend\ClubController@hapus_club')->name('fe.hapus_club');
     
     Route::get('/kpi_detail/{id}', 'Frontend\KPIController@kpi_detail')->name('fe.kpi_detail');
+    Route::get('/kpi_review/{id}', 'Frontend\KPIController@kpi_review')->name('fe.kpi_review');
+    Route::get('/kpi_review_detail/{id}', 'Frontend\KPIController@kpi_review_detail')->name('fe.kpi_review_detail');
     Route::get('/hapus_kpi/{id}', 'Frontend\KPIController@hapus_kpi')->name('fe.hapus_kpi');
     Route::get('/evaluasi_tahunan/{id}', 'Frontend\KPIController@evaluasi_tahunan')->name('fe.evaluasi_tahunan');
     Route::get('/pdf_evaluasi_tahunan/{id}', 'Frontend\KPIController@pdf_evaluasi_tahunan')->name('fe.pdf_evaluasi_tahunan');
@@ -86,28 +93,34 @@ Route::group(['prefix' => 'frontend'], function(){
     Route::get('/edit_kpi/{id}', 'Frontend\KPIController@edit_kpi')->name('fe.edit_kpi');
     Route::post('/update_kpi/{id}', 'Frontend\KPIController@update_kpi')->name('fe.update_kpi');
     Route::get('/edit_kpi_detail/{id}/{id2}', 'Frontend\KPIController@edit_kpi_detail')->name('fe.edit_kpi_detail');
+    Route::post('/simpan_kpi_penilaian/{id}', 'Frontend\KPIController@simpan_kpi_penilaian')->name('fe.simpan_kpi_penilaian');
     Route::post('/simpan_kpi_detail/{id}', 'Frontend\KPIController@simpan_kpi_detail')->name('fe.simpan_kpi_detail');
     Route::post('/update_kpi_detail/{id}/{id2}', 'Frontend\KPIController@update_kpi_detail')->name('fe.update_kpi_detail');
     Route::get('/hapus_kpi_detail/{id}/{id2}', 'Frontend\KPIController@hapus_kpi_detail')->name('fe.hapus_kpi_detail');
     Route::post('/simpan_kpi_pencapaian/{id}/{id2}/{type}', 'Frontend\KPIController@simpan_kpi_pencapaian')->name('fe.simpan_kpi_pencapaian');
-    Route::post('/simpan_kpi_pencapaian_all/{id}/{type}', 'Frontend\KPIController@simpan_kpi_pencapaian_all')->name('fe.simpan_kpi_pencapaian_all');
+    Route::post('/simpan_kpi_pencapaian_all/{id}/{id2}/{type}', 'Frontend\KPIController@simpan_kpi_pencapaian_all')->name('fe.simpan_kpi_pencapaian_all');
     Route::get('/edit_pencapaian/{id}/{id2}/{type}', 'Frontend\KPIController@edit_pencapaian')->name('fe.edit_tw');
-    Route::get('/edit_pencapaian_all/{id}/{type}', 'Frontend\KPIController@edit_pencapaian_all')->name('fe.edit_all_tw');
+    Route::get('/edit_pencapaian_all/{id}/{id2}/{type}', 'Frontend\KPIController@edit_pencapaian_all')->name('fe.edit_all_tw');
     Route::get('/kpi', 'Frontend\KPIController@kpi')->name('fe.kpi');
     
-    Route::get('/penilaian_kpi', 'Frontend\KPIController@penilaian_kpi')->name('fe.penilaian_kpi');
+    Route::get('/penilaian_kpi/{id}', 'Frontend\KPIController@penilaian_kpi')->name('fe.penilaian_kpi');
+    Route::get('/form_penilaian_kpi/{id}', 'Frontend\KPIController@penilaian_kpi')->name('fe.penilaian_kpi');
     
     Route::get('/approval_kpi', 'Frontend\KPIController@approval_kpi')->name('fe.approval_kpi');
     Route::get('/approval_kpi_detail/{id}', 'Frontend\KPIController@approval_kpi_detail')->name('fe.approval_kpi_detail');
     Route::get('/approval_parameter_kpi', 'Frontend\KPIController@approval_parameter_kpi')->name('fe.approval_parameter_kpi');
     Route::get('/acc_kpi_parameter/{id}/{id2}/{id3}', 'Frontend\KPIController@acc_kpi_parameter')->name('fe.acc_kpi_parameter');
     Route::get('/dec_kpi_parameter/{id}/{id2}/{id3}', 'Frontend\KPIController@dec_kpi_parameter')->name('fe.dec_kpi_parameter');
+    Route::get('/acc_kpi_pengajuan/{id}/{id2}', 'Frontend\KPIController@acc_kpi_pengajuan')->name('fe.acc_kpi_pangajuan');
+    Route::get('/dec_kpi_pengajuan/{id}/{id2}', 'Frontend\KPIController@dec_kpi_pengajuan')->name('fe.dec_kpi_pangajuan');
     Route::get('/acc_kpi_1/{id}', 'Frontend\KPIController@acc_kpi_1')->name('fe.acc_kpi_1');
     Route::get('/acc_kpi_2/{id}', 'Frontend\KPIController@acc_kpi_2')->name('fe.acc_kpi_2');
     Route::get('/dec_kpi_1/{id}', 'Frontend\KPIController@dec_kpi_1')->name('fe.dec_kpi_1');
     Route::get('/dec_kpi_2/{id}', 'Frontend\KPIController@dec_kpi_2')->name('fe.dec_kpi_2');
     Route::get('/tambah_kpi', 'Frontend\KPIController@tambah_kpi')->name('fe.tambah_kpi');
     Route::post('/simpan_kpi', 'Frontend\KPIController@simpan_kpi')->name('fe.simpan_kpi');
+    Route::get('/penilaian_kpi', 'Frontend\KPIController@penilaian_kpi')->name('fe.penilaian_kpi');
+    Route::get('/form_penilaian_kpi/{id}', 'Frontend\KPIController@form_penilaian_kpi')->name('fe.form_penilaian_kpi');
     
     
     Route::get('/sop', 'Frontend\SopController@sop')->name('fe.sop');
@@ -117,9 +130,16 @@ Route::group(['prefix' => 'frontend'], function(){
     Route::get('/tambah_perintah_lembur', 'Frontend\LemburController@tambah_perintah_lembur')->name('fe.tambah_perintah_lembur');
     Route::post('/simpan_perintah_lembur', 'Frontend\LemburController@simpan_perintah_lembur')->name('fe.simpan_perintah_lembur');
     Route::post('/lembur_duplicate_check_multi', 'Frontend\LemburController@lembur_duplicate_check_multi')->name('fe.lembur_duplicate_check_multi');
+    Route::get('/acc_intruksi_lembur/{id}', 'Frontend\LemburController@acc_intruksi_lembur')->name('fe.acc_intruksi_lembur');
+    Route::get('/dec_intruksi_lembur/{id}', 'Frontend\LemburController@dec_intruksi_lembur')->name('fe.dec_intruksi_lembur');
     Route::post('/lembur_duplicate_check', 'Frontend\PermitController@lembur_duplicate_check')->name('fe.lembur_duplicate_check');
     Route::get('/generate_jam_finger', 'Frontend\PermitController@generate_jam_finger')->name('fe.generate_jam_finger');
     Route::get('/generate_jam_finger_klarifikasi', 'Frontend\PermitController@generate_jam_finger_klarifikasi')->name('fe.generate_jam_finger_klarifikasi');
+    Route::get('/approval_lintas_mesin_absen', 'Frontend\PermitController@approval_lintas_mesin_absen')->name('fe.approval_lintas_mesin_absen');
+    Route::get('/lembur_duplicate_check_single', 'Frontend\LemburController@lembur_duplicate_check')->name('fe.lembur_duplicate_check_single');
+    Route::get('/generate_jam_finger', 'CronJobController@generate_jam_finger')->name('fe.generate_jam_finger');
+    Route::get('/generate_jam_finger_klarifikasi', 'CronJobController@generate_jam_finger_klarifikasi')->name('fe.generate_jam_finger_klarifikasi');
+    Route::get('/hitung_jam_lembur', 'Frontend\PermitController@hitung_jam_lembur')->name('fe.hitung_jam_lembur');
     Route::get('/hitung_hari', 'Frontend\PermitController@hitung_hari')->name('fe.hitung_hari');
     Route::get('/hitung_hari_tanpa_libur', 'Frontend\PermitController@hitung_hari_tanpa_libur')->name('fe.hitung_hari_tanpa_libur');
     Route::get('/list_filepajak', 'Frontend\FilePajakController@filepajak')->name('fe.filepajak');
@@ -245,6 +265,7 @@ Route::group(['prefix' => 'frontend'], function(){
     Route::get('/slip', 'Frontend\Fe_SlipController@slip')->name('fe.slip');
     Route::get('/slip_thr', 'Frontend\Fe_SlipController@slip_thr')->name('fe.slip_thr');
     Route::get('/kehadiran', 'Frontend\KehadiranController@rekap_absen')->name('fe.kehadiran');
+    Route::get('/kehadiran_tahunan', 'Frontend\KehadiranController@rekap_absen_tahunan')->name('fe.kehadiran_tahunan');
   
     Route::get('/lihat_slip/', 'Frontend\Fe_SlipController@lihat_slip')->name('fe.lihat_slip');
     Route::get('/download_slip/{id}', 'Frontend\Fe_SlipController@download_slip')->name('fe.download_slip');
@@ -328,6 +349,8 @@ Route::group(['prefix' => 'frontend'], function(){
     Route::post('/approve_ajuan/{id}', 'Frontend\PermitController@approve_ajuan')->name('fe.approve_ajuan');    
     Route::get('/setujui_ajuan/{id}', 'Frontend\PermitController@setujui_ajuan')->name('fe.setujui_ajuan');    
     Route::get('/tolak_ajuan/{id}', 'Frontend\PermitController@tolak_ajuan')->name('fe.tolak_ajuan');    
+    Route::get('/setujui_lintas/{id}', 'Frontend\PermitController@setujui_lintas')->name('fe.setujui_lintas');    
+    Route::get('/tolak_lintas/{id}', 'Frontend\PermitController@tolak_lintas')->name('fe.tolak_lintas');    
     Route::get('/setujui_ajuan_2/{id}', 'Frontend\PermitController@setujui_ajuan_2')->name('fe.setujui_ajuan_2');    
     Route::get('/tolak_ajuan_2/{id}', 'Frontend\PermitController@tolak_ajuan_2')->name('fe.tolak_ajuan_2');    
     
@@ -343,6 +366,22 @@ Route::group(['prefix' => 'frontend'], function(){
 	Route::post('/update_permintaan_surat/{id}', 'Frontend\Permintaan_suratController@update_permintaan_surat')->name('fe.update_permintaan_surat');
 	Route::get('/hapus_permintaan_surat/{id}', 'Frontend\Permintaan_suratController@hapus_permintaan_surat')->name('fe.hapus_permintaan_surat');
 	Route::post('/simpan_permintaan_surat', 'Frontend\Permintaan_suratController@simpan_permintaan_surat')->name('fe.simpan_permintaan_surat');
+	
+	Route::get('/tambah_pengajuan_sp_st', 'Frontend\Pengajuan_sp_stController@tambah_pengajuan_sp_st')->name('fe.tambah_pengajuan_sp_st');
+	Route::get('/pengajuan_sp_st', 'Frontend\Pengajuan_sp_stController@pengajuan_sp_st')->name('fe.pengajuan_sp_st');
+	Route::get('/edit_pengajuan_sp_st/{id}', 'Frontend\Pengajuan_sp_stController@edit_pengajuan_sp_st')->name('fe.edit_pengajuan_sp_st');
+	Route::post('/update_pengajuan_sp_st/{id}', 'Frontend\Pengajuan_sp_stController@update_pengajuan_sp_st')->name('fe.update_pengajuan_sp_st');
+	Route::get('/hapus_pengajuan_sp_st/{id}', 'Frontend\Pengajuan_sp_stController@hapus_pengajuan_sp_st')->name('fe.hapus_pengajuan_sp_st');
+	Route::post('/simpan_pengajuan_sp_st', 'Frontend\Pengajuan_sp_stController@simpan_pengajuan_sp_st')->name('fe.simpan_pengajuan_sp_st');
+	
+	Route::get('/tambah_pengajuan_resign', 'Frontend\Pengajuan_resignController@tambah_pengajuan_resign')->name('fe.tambah_pengajuan_resign');
+Route::get('/pengajuan_resign', 'Frontend\Pengajuan_resignController@pengajuan_resign')->name('fe.pengajuan_resign');
+Route::get('/approval_pengajuan_resign', 'Frontend\Pengajuan_resignController@approval_pengajuan_resign')->name('fe.approval_pengajuan_resign');
+Route::get('/edit_pengajuan_resign/{id}/{type}', 'Frontend\Pengajuan_resignController@edit_pengajuan_resign')->name('fe.edit_pengajuan_resign');
+Route::post('/update_pengajuan_resign/{id}', 'Frontend\Pengajuan_resignController@update_pengajuan_resign')->name('fe.update_pengajuan_resign');
+Route::get('/hapus_pengajuan_resign/{id}', 'Frontend\Pengajuan_resignController@hapus_pengajuan_resign')->name('fe.hapus_pengajuan_resign');
+Route::post('/simpan_pengajuan_resign', 'Frontend\Pengajuan_resignController@simpan_pengajuan_resign')->name('fe.simpan_pengajuan_resign');
+	
 	
 	Route::get('/jadwal_training', 'Frontend\Agenda_perusahaanController@jadwal_training')->name('fe.jadwal_training');
 	Route::get('/konfirmasi_kehadiran', 'Frontend\Agenda_perusahaanController@konfirmasi_kehadiran')->name('fe.konfirmasi_kehadiran');
@@ -404,6 +443,23 @@ Route::group(['prefix' => 'backend'], function(){
 	Route::post('/update_laporan_gratifikasi/{id}', 'Backend\GratifikasiController@update_laporan_gratifikasi')->name('be.update_laporan_gratifikasi');
 	 
 	Route::get('/rekap/{page}', 'Backend\RekapController@rekap')->name('be.rekap');
+	
+	Route::get('/tambah_pengajuan_resign', 'Backend\Pengajuan_resignController@tambah_pengajuan_resign')->name('be.tambah_pengajuan_resign');
+	Route::get('/pengajuan_resign', 'Backend\Pengajuan_resignController@pengajuan_resign')->name('be.pengajuan_resign');
+	Route::get('/approval_pengajuan_resign', 'Backend\Pengajuan_resignController@approval_pengajuan_resign')->name('be.approval_pengajuan_resign');
+	Route::get('/edit_pengajuan_resign/{id}/{type}', 'Backend\Pengajuan_resignController@edit_pengajuan_resign')->name('be.edit_pengajuan_resign');
+	Route::post('/update_pengajuan_resign/{id}', 'Backend\Pengajuan_resignController@update_pengajuan_resign')->name('be.update_pengajuan_resign');
+	Route::get('/hapus_pengajuan_resign/{id}', 'Backend\Pengajuan_resignController@hapus_pengajuan_resign')->name('be.hapus_pengajuan_resign');
+	Route::post('/simpan_pengajuan_resign', 'Backend\Pengajuan_resignController@simpan_pengajuan_resign')->name('be.simpan_pengajuan_resign');
+		
+		
+	Route::get('/tambah_pengajuan_sp_st', 'Backend\Pengajuan_sp_stController@tambah_pengajuan_sp_st')->name('be.tambah_pengajuan_sp_st');
+	Route::get('/pengajuan_sp_st', 'Backend\Pengajuan_sp_stController@pengajuan_sp_st')->name('be.pengajuan_sp_st');
+	Route::get('/edit_pengajuan_sp_st/{id}', 'Backend\Pengajuan_sp_stController@edit_pengajuan_sp_st')->name('be.edit_pengajuan_sp_st');
+	Route::post('/update_pengajuan_sp_st/{id}', 'Backend\Pengajuan_sp_stController@update_pengajuan_sp_st')->name('be.update_pengajuan_sp_st');
+	Route::get('/hapus_pengajuan_sp_st/{id}', 'Backend\Pengajuan_sp_stController@hapus_pengajuan_sp_st')->name('be.hapus_pengajuan_sp_st');
+	Route::post('/simpan_pengajuan_sp_st', 'Backend\Pengajuan_sp_stController@simpan_pengajuan_sp_st')->name('be.simpan_pengajuan_sp_st');
+	
 	
 	Route::get('/mudepro', 'Backend\MudeproController@mudepro')->name('be.mudepro');
     Route::get('/edit_mudepro/{id}', 'Backend\MudeproController@edit_mudepro')->name('be.edit_mudepro');
@@ -505,6 +561,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/acc_kpi_2/{id}', 'Backend\KPIController@acc_kpi_2')->name('be.acc_kpi_2');
     Route::get('/dec_kpi_1/{id}', 'Backend\KPIController@dec_kpi_1')->name('be.dec_kpi_1');
     Route::get('/dec_kpi_2/{id}', 'Backend\KPIController@dec_kpi_2')->name('be.dec_kpi_2');
+    Route::get('/hapus_kpi/{id}', 'Backend\KPIController@hapus_kpi')->name('be.hapus_kpi');
     Route::get('/tambah_kpi', 'Backend\KPIController@tambah_kpi')->name('be.tambah_kpi');
     Route::post('/simpan_kpi', 'Backend\KPIController@simpan_kpi')->name('be.simpan_kpi');
     
@@ -606,6 +663,15 @@ Route::group(['prefix' => 'backend'], function(){
 	
 	Route::get('/sop', 'Backend\SopController@sop')->name('be.sop');
 	
+    Route::get('/periode_absen_min', 'Backend\PeriodeController@periode_absen_min')->name('be.periode_absen_min');
+    Route::get('/periode_absen_cek_duplicate', 'Backend\PeriodeController@periode_absen_cek_duplicate')->name('be.periode_absen_cek_duplicate');
+    
+	Route::get('/masterjamkerja', 'Backend\MasterJamKerjaController@masterjamkerja')->name('be.masterjamkerja');
+    Route::get('/tambah_masterjamkerja', 'Backend\MasterJamKerjaController@tambah_masterjamkerja')->name('be.tambah_masterjamkerja');
+    Route::post('/simpan_masterjamkerja', 'Backend\MasterJamKerjaController@simpan_masterjamkerja')->name('be.simpan_masterjamkerja');
+    Route::get('/edit_masterjamkerja/{id}', 'Backend\MasterJamKerjaController@edit_masterjamkerja')->name('be.edit_masterjamkerja');
+    Route::post('/update_masterjamkerja/{id}', 'Backend\MasterJamKerjaController@update_masterjamkerja')->name('be.update_masterjamkerja');
+    Route::get('/hapus_masterjamkerja/{id}', 'Backend\MasterJamKerjaController@hapus_masterjamkerja')->name('be.hapus_masterjamkerja');
 	
 	 
 	Route::get('/sop', 'Backend\SopController@sop')->name('be.sop');
@@ -646,6 +712,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/hapus_batasan_atasan_approve/{id}', 'Backend\BatasanAtasanApproveController@hapus_batasan_atasan_approve')->name('be.hapus_batasan_atasan_approve');
 	
     
+	
 	Route::get('/alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@alasan_jenis_ijin')->name('be.jenis_alasan');
     Route::get('/tambah_alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@tambah_alasan_jenis_ijin')->name('be.tambah_alasan_jenis_ijin');
     Route::post('/simpan_alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@simpan_alasan_jenis_ijin')->name('be.simpan_alasan_jenis_ijin');
@@ -653,6 +720,13 @@ Route::group(['prefix' => 'backend'], function(){
     Route::post('/update_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@update_alasan_jenis_ijin')->name('be.update_alasan_jenis_ijin');
     Route::get('/hapus_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@hapus_alasan_jenis_ijin')->name('be.hapus_alasan_jenis_ijin');
 	
+  //  Route::get('/alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@alasan_jenis_ijin')->name('be.alasan_jenis_ijin');
+    Route::get('/tambah_alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@tambah_alasan_jenis_ijin')->name('be.tambah_alasan_jenis_ijin');
+    Route::post('/simpan_alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@simpan_alasan_jenis_ijin')->name('be.simpan_alasan_jenis_ijin');
+    Route::get('/edit_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@edit_alasan_jenis_ijin')->name('be.edit_alasan_jenis_ijin');
+    Route::post('/update_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@update_alasan_jenis_ijin')->name('be.update_alasan_jenis_ijin');
+    Route::get('/hapus_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@hapus_alasan_jenis_ijin')->name('be.hapus_alasan_jenis_ijin');
+	 
 	Route::get('/berita', 'Backend\BeritaController@berita')->name('be.berita');
     Route::get('/tambah_berita', 'Backend\BeritaController@tambah_berita')->name('be.tambah_berita');
     Route::post('/simpan_berita', 'Backend\BeritaController@simpan_berita')->name('be.simpan_berita');
@@ -761,6 +835,8 @@ Route::group(['prefix' => 'backend'], function(){
 
     /*periode_absen*/
     Route::get('/periode/{tipe}', 'Backend\PeriodeController@periode')->name('be.periode');
+    Route::get('/periode_absen_min', 'Backend\PeriodeController@periode_absen_min')->name('be.periode_absen_min');
+    Route::get('/periode_absen_cek_duplicate', 'Backend\PeriodeController@periode_absen_cek_duplicate')->name('be.periode_absen_cek_duplicate');
     Route::get('/periode_lembur', 'Backend\PeriodeController@periode_lembur')->name('be.periode_lembur');
     Route::get('/tambah_periode/{tipe}', 'Backend\PeriodeController@tambah_periode')->name('be.tambah_periode');
     Route::post('/simpan_periode', 'Backend\PeriodeController@simpan_periode')->name('be.simpan_periode');
@@ -784,7 +860,9 @@ Route::group(['prefix' => 'backend'], function(){
     Route::post('/update_jam_kerja/{id}', 'Backend\JamKerjaController@update_jam_kerja')->name('be.update_jam_kerja');
     Route::get('/hapus_jam_kerja/{id}', 'Backend\JamKerjaController@hapus_jam_kerja')->name('be.hapus_jam_kerja');
     
-     Route::get('/koreksi', 'Backend\KoreksiController@koreksi')->name('be.Koreksi');
+    Route::post('/entitas_departement', 'Backend\JamKerjaController@entitas_departement')->name('be.entitas_departement');
+    
+    Route::get('/koreksi', 'Backend\KoreksiController@koreksi')->name('be.Koreksi');
     Route::get('/tambah_koreksi/{id}', 'Backend\KoreksiController@tambah_koreksi')->name('be.tambah_Koreksi');
     Route::get('/tambah_koreksi_pajak/{id}', 'Backend\KoreksiController@tambah_koreksi_pajak')->name('be.tambah_Koreksi_pajak');
     Route::post('/simpan_koreksi/{id}', 'Backend\KoreksiController@simpan_koreksi')->name('be.simpan_Koreksi');
@@ -821,11 +899,15 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/rekapabsen', 'Backend\RekapAbsenController@view')->name('be.rekapabsen');
     Route::get('/generate_all_periode', 'Backend\RekapAbsenController@generate_all_periode')->name('be.generate_all_periode');
     Route::get('/generate_periode_aktif', 'Backend\RekapAbsenController@generate_periode_aktif')->name('be.generate_periode_aktif');
-    Route::get('/hitung_rekap_absen_hari_ini/{id}', 'Backend\RekapAbsenController@hitung_rekap_absen_hari_ini')->name('be.hitung_rekap_absen_hari_ini');
-    Route::get('/generate_rekap_absen_hari_ini/{id}', 'Backend\RekapAbsenController@generate_rekap_absen_hari_ini')->name('be.generate_rekap_absen_hari_ini');
+    Route::get('/jsontest', 'CronJobController@jsontest')->name('be.jsontest');
+    Route::get('/hitung_rekap_absen_hari_ini/{id}', 'CronJobController@hitung_rekap_absen_hari_ini')->name('be.hitung_rekap_absen_hari_ini');
+    Route::get('/generate_rekap_absen_hari_ini/{id}', 'CronJobController@generate_rekap_absen_hari_ini')->name('be.generate_rekap_absen_hari_ini');
     Route::get('/generate_rekap_absen', 'Backend\RekapAbsenController@generate_rekap_absen')->name('be.generate_rekap_absen');
     Route::get('/hitung_rekap_absen', 'Backend\RekapAbsenController@hitung_rekap_absen')->name('be.hitung_rekap_absen');
-	
+	Route::get('/generate_rekap_absen_tanggal', 'Backend\RekapAbsenController@generate_rekap_absen_tanggal')->name('be.generate_rekap_absen_tanggal');
+    Route::get('/hitung_rekap_absen_tanggal', 'Backend\RekapAbsenController@hitung_rekap_absen_tanggal')->name('be.hitung_rekap_absen_tanggal');
+    Route::get('/list_entitas_periode_absen', 'Backend\RekapAbsenController@list_entitas_periode_absen')->name('be.list_entitas_periode_absen');
+	 
 	/*rekap_lembur*/
     Route::get('/rekap_lembur', 'Backend\RekapLemburController@view')->name('be.rekap_lembur');
     Route::get('/cari_rekap_lembur', 'Backend\RekapLemburController@cari_rekap_lembur')->name('be.cari_rekap_lembur');
@@ -1000,6 +1082,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::post('/simpan_konfirm_gaji_hr', 'Backend\GajiPreviewController@simpan_konfirm_gaji_hr')->name('be.simpan_konfirm_gaji_hr');
     Route::get('/save_keterangan_edit_ajuan', 'Backend\GajiPreviewController@save_keterangan_edit_ajuan')->name('be.save_keterangan_edit_ajuan'); 
     Route::get('/slip_gaji/', 'Backend\GajiSlipController@view')->name('be.slip_gaji');
+    Route::post('/karyawan_gaji/', 'Backend\GajiSlipController@karyawan_gaji')->name('be.karyawan_gaji');
     
     Route::get('/previewthr/{id}', 'Backend\ThrController@view')->name('be.previewthr');
     Route::get('/tambah_generate_thr', 'Backend\ThrController@tambah_generate_thr')->name('be.tambah_generate_thr');
@@ -1162,6 +1245,9 @@ Route::get('/master_status', 'Backend\Gaji\Master_statusController@master_status
     Route::get('/input_absen_hr/', 'Backend\KaryawanController@input_absen_hr')->name('be.input_absen_hr');
     Route::get('/export_absen/', 'Backend\KaryawanController@export_absen')->name('be.export_absen');
     Route::post('/simpan_input_absen_hr/', 'Backend\KaryawanController@simpan_input_absen_hr')->name('be.simpan_input_absen_hr');
+     Route::get('/input_absen_hr/', 'Backend\AbsenController@input_absen_hr')->name('be.input_absen_hr');
+    Route::get('/export_absen/', 'Backend\KaryawanController@export_absen')->name('be.export_absen');
+    Route::post('/simpan_input_absen_hr/', 'Backend\AbsenController@simpan_input_absen_hr')->name('be.simpan_input_absen_hr');
     Route::post('/ajax_input_absen/', 'Backend\KaryawanController@ajax_input_absen')->name('be.ajax_input_absen');
     Route::get('/recruitment', 'Backend\RecruitmentController@recruitment')->name('be.recruitment');
     Route::get('/karyawan', 'Backend\KaryawanController@karyawan')->name('be.karyawan');
@@ -1321,6 +1407,14 @@ Route::get('/master_status', 'Backend\Gaji\Master_statusController@master_status
     Route::get('/pengajuan/{type}', 'Backend\PermitController@pengajuan')->name('be.pengajuan');
     Route::post('/simpan_pengajuan/{type}', 'Backend\PermitController@simpan_pengajuan')->name('be.simpan_pengajuan');
     
+    Route::get('/perdin_appr/{type}', 'Backend\PerdinApprController@perdin_appr')->name('be.perdin_appr');
+    Route::get('/print_perdin/{type}', 'Backend\PerdinApprController@print_perdin')->name('be.print_perdin');
+    Route::get('/approve_admin_perdin', 'Backend\PerdinApprController@approve_admin_perdin')->name('be.approve_admin_perdin');
+    Route::get('/decline_admin_perdin', 'Backend\PerdinApprController@decline_admin_perdin')->name('be.decline_admin_perdin');
+    Route::get('/approve_keuangan_perdin', 'Backend\PerdinApprController@approve_keuangan_perdin')->name('be.approve_keuangan_perdin');
+    Route::get('/decline_keuangan_perdin', 'Backend\PerdinApprController@decline_keuangan_perdin')->name('be.decline_keuangan_perdin');
+    Route::get('/lihat_perdin_appr/{id}', 'Backend\PerdinApprController@lihat')->name('be.lihat_perdin_appr');
+    Route::post('/simpan_perdin_appr/{type}', 'Backend\PerdinApprController@simpan_perdin_appr')->name('be.simpan_perdin_appr');
     Route::get('/hr_appr', 'Backend\HrApprController@hr_appr')->name('be.hr_appr');
     Route::get('/lihat_hr_appr/{id}', 'Backend\HrApprController@lihat')->name('be.lihat_hr_appr');
     Route::get('/daftarKaryawan/{id}', 'Backend\HrApprController@daftarKaryawan')->name('be.daftarKaryawan');
@@ -1330,6 +1424,8 @@ Route::get('/master_status', 'Backend\Gaji\Master_statusController@master_status
     Route::get('/lihat_konfirmasi/{type}', 'Backend\KonfirmasiController@lihat')->name('be.lihat_konfirmasi');
     
     Route::get('/migrasi_hr_appr/', 'Backend\HrApprController@migrasi')->name('be.migrasi_hr_appr');
+    
+    Route::get('/absensi/', 'HomeController@absensi')->name('be.absensi');
 });
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

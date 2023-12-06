@@ -117,8 +117,8 @@ class GajiPreviewController extends Controller
 
                     $data_row = array();
                     $data_head = array();
-                    $data_head[] = array('Absensi', 11, 'col');
-                    $data_head[] = array('Pendapatan', 4, 'col');
+                    $data_head[] = array('Absensi', 12, 'col');
+                    $data_head[] = array('Pendapatan', 5, 'col');
                     $data_head[] = array('Tunjangan', 6, 'col');
                     $data_head[] = array('Potongan', 14, 'col');
                     $data_head[] = array('Total', 3, 'col');
@@ -130,6 +130,7 @@ class GajiPreviewController extends Controller
                     $data_row[] = array('Izin Potongan Gaji', 'ipg', 2, 'absensi');
                     $data_row[] = array('Tanpa Keterangan', 'ihk', 2, 'absensi');
                     $data_row[] = array('Jam Lembur', 'jam_lembur', 2, 'absensi');
+                    $data_row[] = array('Lembur Proposional', 'lembur_proposional', 2, 'absensi');
                     $data_row[] = array('Terlambat', 'terlambat', 2, 'absensi');
                     $data_row[] = array('Fingerprint', 'fingerprint', 2, 'absensi');
                     $data_row[] = array('Pulang Mendahului Tanpa Izin', 'pm', 2, 'absensi');
@@ -151,6 +152,7 @@ class GajiPreviewController extends Controller
                     );
 
                     $data_row[] = array('Lembur', 'lembur', 2, 'tunjangan');
+                    $data_row[] = array('Total Lembur Proposional', 'lemburproposional_t', 2, 'tunjangan');
                     //$data_row[] = array('Bonus', 'bonus', 2, 'tunjangan');
 
 
@@ -168,6 +170,7 @@ class GajiPreviewController extends Controller
                                 "Tambah", array(
 
                                     array("field", 'lembur'),
+                                    array("field", 'lemburproposional_t'),
                                     // array("field", 'bonus'),
                                     array("field", 'tunjangan_kost'),
                                     array("field", 'korekplus'),
@@ -3064,7 +3067,7 @@ class GajiPreviewController extends Controller
                 $i++;
                 $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nmjabatan);
                 $i++;
-                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->tgl_awal);
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->tgl_bergabung);
                 $i++;
                 $masa = $data['subpage'] == 'thr' ? $help->selisih_tanggal($list_karyawan->tgl_bergabung, $generate[0]->tgl_patokan) :
                     $help->selisih_tanggal($list_karyawan->tgl_bergabung);

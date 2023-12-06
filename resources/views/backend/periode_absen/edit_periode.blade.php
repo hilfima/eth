@@ -111,6 +111,32 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-2">
+                        	<div class="form-group">
+                                <label>Entitas</label>
+                                <select class="form-control" onchange="change_entitas()" onclick="change_entitas()" id="change_entitas_id" name="entitas" required>
+                                <option value="">- Entitas -</option>
+                                <option value="1" <?php if($periode[0]->entitas_type==1){ echo 'selected="selected" ';} ?>>Semua Entitas</option>
+                                <option value="2" <?php if($periode[0]->entitas_type==2){ echo 'selected="selected" ';} ?>>Entitas Tertentu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                        <div id="kontent-entitas" style="width: 100%" >
+                            <!-- text input -->
+                            <div class="form-group" >
+                                <label>Pilih Entitas</label>
+                                <select type="number" class="form-control select2" multiple="" placeholder="Periode Aktif ..." id="pilih_entitas" name="list_entitas[]" >
+                                
+                                <?php
+
+                                 foreach($entitas as $entitas){?>
+                                <option value="<?=$entitas->m_lokasi_id;?>" <?php if(in_array($entitas->m_lokasi_id,explode(',',$periode[0]->entitas_list))){ echo 'selected="selected" ';} ?>><?=$entitas->nama;?></option>
+                                <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">

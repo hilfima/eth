@@ -89,7 +89,63 @@
                                     
                                 </div>
                             </div>
-                        </div><div class="col-sm-12">
+                        </div><div class="form-group col-md-6">
+	                                <label>Batas Jam Masuk</label>
+	                                <input type="time" class="form-control" placeholder="Nama  ..." id="judul" name="data[jam_batas_masuk]" required>
+	                            </div>
+	                            <div class="form-group col-md-6 ">
+	                                <label>Batas Jam Keluar</label>
+	                                <input type="time" class="form-control" placeholder="Nama  ..." id="judul" name="data[jam_batas_keluar]" required>
+	                            </div>
+	                            <div class="form-group  col-md-3">
+                                <label>Masuk Senin</label>
+                                <select class="form-control" placeholder="Nama Batas ..." id="batas_tipe" name="data[masuk_senin]"   required>
+                                    <option value="1">Masuk</option>
+                                    <option value="0">Libur</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-md-3">
+                                <label>Masuk selasa</label>
+                                <select class="form-control" placeholder="Nama Batas ..." id="batas_tipe" name="data[masuk_selasa]"   required>
+                                    <option value="1">Masuk</option>
+                                    <option value="0">Libur</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-md-3">
+                                <label>Masuk Rabu</label>
+                                <select class="form-control" placeholder="Nama Batas ..." id="batas_tipe" name="data[masuk_rabu]"   required>
+                                    <option value="1">Masuk</option>
+                                    <option value="0">Libur</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-md-3">
+                                <label>Masuk Kamis</label>
+                                <select class="form-control" placeholder="Nama Batas ..." id="batas_tipe" name="data[masuk_kamis]"   required>
+                                    <option value="1">Masuk</option>
+                                    <option value="0">Libur</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-md-3">
+                                <label>Masuk Jumat</label>
+                                <select class="form-control" placeholder="Nama Batas ..." id="batas_tipe" name="data[masuk_jumat]"   required>
+                                    <option value="1">Masuk</option>
+                                    <option value="0">Libur</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-md-3">
+                                <label>Masuk Sabtu</label>
+                                <select class="form-control" placeholder="Nama Batas ..." id="batas_tipe" name="data[masuk_sabtu]"   required>
+                                    <option value="1">Masuk</option>
+                                    <option value="0">Libur</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-md-3">
+                                <label>Masuk Ahad</label>
+                                <select class="form-control" placeholder="Nama Batas ..." id="batas_tipe" name="data[masuk_ahad]"   required>
+                                    <option value="1">Masuk</option>
+                                    <option value="0">Libur</option>
+                                </select>
+                            </div><div class="col-sm-12">
                             <div class="form-group">
                                 <label>Keterangan</label>
                                 <div class="input-group date" id="tgl_posting" data-target-input="nearest">

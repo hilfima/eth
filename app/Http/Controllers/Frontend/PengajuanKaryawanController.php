@@ -499,7 +499,7 @@ class PengajuanKaryawanController extends Controller
                         "notif"=>"Pengajuan Karyawan Baru ".$notifdata[0]->namaposisi." $status",
              ]);
 			
-			return redirect()->route('fe.approval_karyawan_baru')->with('success','Approval Berhasil di update!');
+			//return redirect()->route('fe.approval_karyawan_baru')->with('success','Approval Berhasil di update!');
 	}
 	public function dec_karyawan_baru($id)
 	{

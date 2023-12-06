@@ -119,7 +119,14 @@
                 "Nama" => "nama_keluarga",
                 "No Hp" => "no_hp",
                 "Tanggal Lahir" => "tgl_lahir",
+                
             );
+            /*
+            Hubungan
+            Nama
+            No Hp
+            Tanggal Lahir
+            */
         } else if ($type == 'pakaian') {
             $sql = "SELECT *
 	    , p_karyawan.nama as nama_lengkap, c.nama as nama_keluarga,CASE
@@ -153,6 +160,17 @@
                 "Celana" => "celana",
                 "Sepatu" => "sepatu",
             );
+            /*
+            Nama Hubungan
+            hubungan
+            gamis
+            kameja
+            kaos
+            jaket
+            celana
+            sepatu
+            
+            */
         } else if ($type == 'award') {
             $sql = "SELECT * FROM p_karyawan_award 
 			join p_karyawan on p_karyawan.p_karyawan_id = p_karyawan_award.p_karyawan_id
@@ -172,6 +190,11 @@
                 "Hadiah" => "hadiah",
                 "Tangal Award" => "tgl_award",
             );
+            /*
+            Nama Jenis Reward
+            Hadiah
+            Tanggal Reward
+            */
         } else if ($type == 'sanksi') {
             $sql = "SELECT * FROM p_karyawan_sanksi 
 			left join m_jenis_sanksi on p_karyawan_sanksi.m_jenis_sanksi_id = m_jenis_sanksi.m_jenis_sanksi_id 
@@ -192,6 +215,12 @@
                 "Tanggal Akhir Sanksi" => "tgl_akhir_sanksi",
                 "Alasan Sanksi" => "alasan_sanksi",
             );
+        	/*
+        	Nama Sanksi
+        	Tanggal Awal Sanksi
+        	Tanggal Akhir Sanksi
+        	Alasan Sanksi
+        	*/
         }
         $return['data'] = $data;
         $return['array'] = $array;

@@ -162,8 +162,9 @@
                                 <select name="status_apprhr"  class="form-control">
                                 	<option value=""> - Pilih Approval - </option>
                                 	<option value="1" <?=$data[0]->status_appr_2==1?'selected':'';?>>Setuju</option>
-                                	<option value="2" <?=$data[0]->status_appr_2==2?'selected':'';?>>Tolak</option>
-                                	
+                                    <?php if(in_array($data[0]->m_jenis_ijin_id,array(21,26))){?>
+                                	<option value="2" <?=$data[0]->status_appr_2==2?'selected':''?>>Tolak</option>
+                                	<?php }?>
                                 </select>
                                </div>
                         </div>
@@ -176,7 +177,7 @@
                         </div>
                         <?php 
                         
-                        if($data[0]->m_jenis_ijin_id==21 or $data[0]->m_jenis_ijin_id==29){?>
+                        if($data[0]->m_jenis_ijin_id==21 or $data[0]->m_jenis_ijin_id==29 or $data[0]->is_alasan){?>
                         
                         <div class="col-sm-6">
                         <div id="jenisalasan" >

@@ -72,6 +72,7 @@ where users.id=$iduser";
     }
 	public function cari_absenpro(Request $request)
     {
+    	//cek presensi
     	$help = new Helper_function();
     	 $iduser=Auth::user()->id;
         $sqlidkar="select * from p_karyawan where user_id=$iduser";
@@ -109,6 +110,12 @@ LEFT JOIN m_departemen on m_departemen.m_departemen_id=p_karyawan_pekerjaan.m_de
                 WHERE 1=1 and c.active=1 and p_karyawan_id=$nama";
 	        $search_type=DB::connection()->select($sqlusers);
 	        $type = $search_type[0]->periode_gajian;
+	        if($tgl_akhir<= $help->tambah_tanggal(date('Y-m-d'),-40)){
+	        	$rekap = $help->rekap_absen_optimasi($tgl_awal,$help->tambah_tanggal(date('Y-m-d'),-40),$tgl_awal,$help->tambah_tanggal(date('Y-m-d'),-40),$type,null,$nama);
+	        	$rekap_terakhir = $help->rekap_absen_optimasi($help->tambah_tanggal(date('Y-m-d'),-40),$tgl_akhir,$help->tambah_tanggal(date('Y-m-d'),-40),$tgl_akhir,$type,null,$nama);;
+	        	$rekap = array_merge_recursive($rekap,$rekap_terakhir);
+			
+	        }else
 			$rekap = $help->rekap_absen($tgl_awal,$tgl_akhir,$tgl_awal,$tgl_akhir,$type,null,$nama);
 			$list_karyawan = $rekap['list_karyawan'] ;
 			//print_r($list_karyawan);

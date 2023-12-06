@@ -161,7 +161,7 @@
 					
 				
 						
-					<div class="card">
+			<div class="card">
 					<div class="card-header">
 								<h4 class="card-title mb-0">Rekap Absen <?=$help->bulan(date('m'));?></h4>
 							</div>
@@ -199,7 +199,7 @@
 				</div>
 
 				
-			</div>
+			</div>		
 			<style>
 				button box-shadow: none border: none outline: none cursor: pointer background: #ddd padding: 10 px font-weight: 700 margin-top: 20 px &:hover background: darken(#ddd, 5%) .hidden-text {
 
@@ -211,10 +211,24 @@
 
 				}
 			</style>
+			<?php 
+			$bawahan = (hirarki_bawahan($idkar[0]->m_jabatan_id,''));
+					// echo $bawahan;
+					  
+					
+				if($bawahan and in_array($idkar[0]->m_pangkat_id,array(5,6,7))){	
+			?>
 			<div class="col-xl-12 col-lg-12 col-md-12">
-				
+						<div class="card">
+					<div class="card-header">
+								<h4 class="card-title mb-0">Laporan Absensi Karyawn</h4>
+							</div>
+							<div class="card-body " id="">
+							<div id="rekap_atasan" class="row"></div>
+			
+					</div>
 			</div>
-
+<?php }?>
 		</div>
 <Style>
 								.more {
@@ -336,6 +350,7 @@
 		var lesstext = "Read Less";
         optimasi_total_cuti();
         optimasi_rekap_absen();
+        optimasi_rekap_absen_atasan();
         optimasi_fasilitas();
         
         
@@ -366,6 +381,21 @@
 				dataType: 'html',
 				success: function(data){
 					$('#rekap_absen').html(data);
+					
+				},
+				error: function (error) {
+				    console.log('error; ' + eval(error));
+				    //alert(2);
+				}
+			});
+        }function optimasi_rekap_absen_atasan(){
+            $.ajax({
+				type: 'get',
+			
+				url: '<?=route('optimasi_rekap_absen_atasan');?>',
+				dataType: 'html',
+				success: function(data){
+					$('#rekap_atasan').html(data);
 					
 				},
 				error: function (error) {

@@ -19,7 +19,7 @@ class SanksiController extends Controller
 		$sqlsanksi="SELECT * from p_karyawan_sanksi
 				left join p_karyawan on p_karyawan_sanksi.p_karyawan_id = p_karyawan.p_karyawan_id
 				left join m_jenis_sanksi on p_karyawan_sanksi.m_jenis_sanksi_id = m_jenis_sanksi.m_jenis_sanksi_id
-				WHERE 1=1 and p_karyawan_sanksi.active = 1 ";
+				WHERE 1=1 and p_karyawan_sanksi.active = 1 and (tipe=1  or(tipe=2 and status=5))";
 		$Sanksi=DB::connection()->select($sqlsanksi);
 		return view('backend.sanksi.sanksi',compact('Sanksi','help'));
 	}
@@ -43,15 +43,26 @@ class SanksiController extends Controller
 	{
 
 		// echo $kode;die;
-		DB::connection()->table("p_karyawan_sanksi")
-		->insert([
+		$data = [
 			"tgl_awal_sanksi" => $request->get("tgl_awal"),
 			"tgl_akhir_sanksi" => $request->get("tgl_akhir"),
 			"alasan_sanksi" => $request->get("alasan_sanksi"),
 			"m_jenis_sanksi_id" => $request->get("sanksi"),
 			"p_karyawan_id" => $request->get("p_karyawan_id"),
+			
 
-		]);
+		];
+		if ($request->file('file')) { //echo 'masuk';die;
+					$file = $request->file('file');
+					$destination = "dist/img/file/";
+					$path = 'file_sanksi-' . date('ymdhis') . '-' . $file->getClientOriginalName();
+					$file->move($destination, $path);
+					//echo $path;die;
+					$data['path'] = $path;
+					
+		}
+		DB::connection()->table("p_karyawan_sanksi")
+		->insert($data);
 
 		return redirect()->route('be.sanksi_karyawan')->with('success',' sanksi Berhasil di input!');
 	}
@@ -77,15 +88,27 @@ class SanksiController extends Controller
 	public function update_sanksi(Request $request, $id)
 	{
 		$idUser=Auth::user()->id;
+		$data = [
+			"tgl_awal_sanksi" => $request->get("tgl_awal"),
+			"tgl_akhir_sanksi" => $request->get("tgl_akhir"),
+			"alasan_sanksi" => $request->get("alasan_sanksi"),
+			"m_jenis_sanksi_id" => $request->get("sanksi"),
+			"p_karyawan_id" => $request->get("p_karyawan_id"),
+			
+
+		];
+		if ($request->file('file')) { //echo 'masuk';die;
+					$file = $request->file('file');
+					$destination = "dist/img/file/";
+					$path = 'file_sanksi-' . date('ymdhis') . '-' . $file->getClientOriginalName();
+					$file->move($destination, $path);
+					//echo $path;die;
+					$data['path'] = $path;
+					
+		}
 		DB::connection()->table("p_karyawan_sanksi")
 		->where("p_karyawan_sanksi_id",$id)
-		->update([
-		"tgl_awal_sanksi" => $request->get("tgl_awal"),
-		"tgl_akhir_sanksi" => $request->get("tgl_akhir"),
-		"alasan_sanksi" => $request->get("alasan_sanksi"),
-		"m_jenis_sanksi_id" => $request->get("sanksi"),
-		"p_karyawan_id" => $request->get("p_karyawan_id"),
-		]);
+		->update($data);
 
 		return redirect()->route('be.sanksi_karyawan')->with('success',' sanksi Berhasil di Ubah!');
 	}

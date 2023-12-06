@@ -193,7 +193,7 @@ ORDER BY nama,to_char(a.date_time,'dd-mm-yyyy'),nmlokasi";
         $sqlidkar = "select * from p_karyawan where user_id=$iduser";
         $idkar = DB::connection()->select($sqlidkar);
         //$id=$idkar[0]->p_karyawan_id;
-
+		
         $sqljmlkaryawan = "SELECT count(COALESCE(p_karyawan_id,0)) as jmlkaryawan
                     FROM p_karyawan
                     WHERE 1=1 and active=1";
@@ -226,17 +226,7 @@ WHERE a.active=1 and b.m_jenis_kelamin_id=2";
 
         $help = new Helper_function();
         $tgl = $help->tambah_bulan(date('Y-m-') . '1', 1);
-		/*
-        $sqlkontrak = "SELECT p_karyawan_kontrak.*,p_karyawan.nik,p_karyawan.nama,m_divisi.nama as nmdivisi,m_departemen.nama as nmdept 
-                    FROM p_karyawan_kontrak
-                    LEFT JOIN p_karyawan on p_karyawan.p_karyawan_id=p_karyawan_kontrak.p_karyawan_id
-                    LEFT JOIN p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id=p_karyawan.p_karyawan_id
-                    LEFT JOIN m_divisi on m_divisi.m_divisi_id=p_karyawan_pekerjaan.m_divisi_id
-                    LEFT JOIN m_departemen on m_departemen.m_departemen_id=p_karyawan_pekerjaan.m_departemen_id
-                    WHERE 1=1 and p_karyawan_kontrak.active=1 and p_karyawan_kontrak.m_status_pekerjaan_id NOT IN(10) 
-                    and p_karyawan_kontrak.tgl_akhir <'" . $tgl . "' and p_karyawan.active=1 ";
-        $kontrak = DB::connection()->select($sqlkontrak);*/
-
+		
         $sqltotalkontrak = "SELECT count(*) as total 
                     FROM p_karyawan_kontrak
                     LEFT JOIN p_karyawan on p_karyawan.p_karyawan_id=p_karyawan_kontrak.p_karyawan_id
@@ -247,38 +237,8 @@ WHERE a.active=1 and b.m_jenis_kelamin_id=2";
                     and p_karyawan_kontrak.tgl_akhir <'" . $tgl . "' and p_karyawan.active=1 ";
         $totalkontrak = DB::connection()->select($sqltotalkontrak);
 
-        /*$sqlpa = "select m_jabatan.m_pangkat_id from p_karyawan_pekerjaan 
-LEFT JOIN m_jabatan on m_jabatan.m_jabatan_id=p_karyawan_pekerjaan.m_jabatan_id
-LEFT JOIN m_pangkat on m_pangkat.m_pangkat_id=m_jabatan.m_pangkat_id
-where p_karyawan_id=$iduser";
-        //echo $sqlpa;die;
-        $pa = DB::connection()->select($sqlpa);
-        $pangkat = 0;
-        if (!empty($pa['m_pangkat_id'][0])) {
-            $pangkat = $pa['m_pangkat_id'][0];
-        }
-
-        $sqllokasi = "SELECT * FROM m_lokasi WHERE 1=1 and active=1";
-        $lokasi = DB::connection()->select($sqllokasi);
-        $jam_masuk = $lokasi[0]->jam_masuk;
-
-        $sqllokasimofas = "SELECT * FROM m_lokasi WHERE 1=1 and m_lokasi_id=6 and active=1";
-        $lokasimofas = DB::connection()->select($sqllokasimofas);
-        $jam_masukmofas = $lokasimofas[0]->jam_masuk;
-        //rekap Absen
-        */
-		$help = new Helper_function();
-        $tgl_awal = (date('Y-m-d'));
-        $tgl_akhir = date('Y-m-d');
-        
-		$rekap = $help->rekap_absen($tgl_awal,$tgl_akhir,$tgl_awal,$tgl_akhir,-1);
-		$list_karyawan = $rekap['list_karyawan'] ;
+       
 		
-		$hari_libur = $rekap['hari_libur'] ;
-		$hari_libur_shift = $rekap['hari_libur_shift'] ;
-		$tgl_awal_lembur = $rekap['tgl_awal_lembur'] ;
-		$tgl_awal = $rekap['tgl_awal'] ;
-		$tgl_akhir = $rekap['tgl_akhir'] ;
 		
 		$sqluser="SELECT p_recruitment.foto,role FROM users
 left join p_karyawan on p_karyawan.user_id=users.id
@@ -288,7 +248,24 @@ where users.id=$iduser";
 
  
         // echo print_r($list_karyawan);die;
-        return view('admin', compact('jmlkaryawan', 'jmldivisi', 'jmllokasi', 'jmldepartemen',  'totalkontrak',   'rekap', 'list_karyawan',  'help', 'user'));
+        return view('admin', compact('jmlkaryawan', 'jmldivisi', 'jmllokasi', 'jmldepartemen',  'totalkontrak',  'help', 'user'));
+    }
+
+    public function absensi(Request $request)
+    { 
+    $help = new Helper_function();
+        $tgl_awal = (date('Y-m-d'));
+        $tgl_akhir = date('Y-m-d');
+        die;
+		$rekap = $help->rekap_absen($tgl_awal,$tgl_akhir,$tgl_awal,$tgl_akhir,-1);
+		$list_karyawan = $rekap['list_karyawan'] ;
+		
+		$hari_libur = $rekap['hari_libur'] ;
+		$hari_libur_shift = $rekap['hari_libur_shift'] ;
+		$tgl_awal_lembur = $rekap['tgl_awal_lembur'] ;
+		$tgl_awal = $rekap['tgl_awal'] ;
+		$tgl_akhir = $rekap['tgl_akhir'] ;
+		return view('absensi',compact(   'rekap', 'list_karyawan',  'help'));
     }
 
     public function historis(Request $request)

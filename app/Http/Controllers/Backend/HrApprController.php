@@ -115,7 +115,7 @@ class HrApprController extends Controller{
 	}
 
 	public function lihat($kode){
-		$sqldata="SELECT a.*,h.alasan as alasan_idt_ipm,b.nik,b.nama_lengkap,c.kode,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,a.m_jenis_ijin_id,b.m_status_pekerjaan_id
+		$sqldata="SELECT a.*,h.alasan as alasan_idt_ipm,b.nik,b.nama_lengkap,c.kode,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,a.m_jenis_ijin_id,b.m_status_pekerjaan_id, h.alasan as alasan_idt_ipm, c.alasan as is_alasan
 		FROM t_permit a
 		left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
 		left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id

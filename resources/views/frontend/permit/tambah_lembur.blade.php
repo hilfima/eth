@@ -46,7 +46,9 @@ date_default_timezone_set('Asia/Jakarta');
             <!-- /.card-header -->
             <div class="card-body">
                 <!-- form start -->
-                <form class="form-horizontal" method="POST" action="{!! route('fe.simpan_lembur') !!}" enctype="multipart/form-data" onsubmit="change_jam()">
+                <form class="form-horizontal" method="POST" action="{!! route('fe.simpan_lembur') !!}" enctype="multipart/form-data" onsubmit="change_jam()" id="formlembur">
+
+
                     {{ csrf_field() }}
                     <div class="form-group  row">
                         <label class="col-sm-2 control-label">NIK</label>
@@ -58,6 +60,7 @@ date_default_timezone_set('Asia/Jakarta');
                         <label class="col-sm-2 control-label">Nama</label>
                         <div class="col-sm-10">
                            <input type="text" class="form-control" placeholder="Nama ..." id="nama" name="nama" value="{!! $kar[0]->nama_lengkap !!}" readonly>
+                           <input type="hidden" class="form-control" placeholder="Nama ..." id="p_karyawan_id"  value="{!! $kar[0]->p_karyawan_id !!}" readonly>
                         </div>
                       </div>
                     <div class="form-group row">
@@ -95,18 +98,28 @@ date_default_timezone_set('Asia/Jakarta');
                     </div>
                    
                      <div class="form-group row">
-                        <label class="col-sm-2 control-label">Jam Awal*</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-2 control-label">Jam Lembur*</label>
+                        <div class="col-sm-5">
                             
-                                <input type="text" class="form-control without_ampm masked" id="jam_awal" name="jam_awal" value="16:30"  placeholder="HH:II" required>
+                                <input type="text" class="form-control without_ampm masked" id="jam_awal" name="jam_awal" value="16:30"  placeholder="Jam Awal" required>
+                                       
+                        </div>   
+                        <div class="col-sm-5">
+                            
+                                <input type="text" class="form-control without_ampm masked" id="jam_akhir" name="jam_akhir" value="23:00"  placeholder="Jam Akhir" required>
                                        
                         </div>
                     </div>
-                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">Jam Akhir*</label>
-                        <div class="col-sm-10">
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">Jam Istirahat*</label>
+                        <div class="col-sm-5">
                             
-                                <input type="text" class="form-control without_ampm masked" id="jam_akhir" name="jam_akhir" value="23:00"  placeholder="JJ:MM" required>
+                                <input type="time" class="form-control istirahat " id="jam_istirahat_awal" name="jam_istirahat_awal"   placeholder="Jam Istirahat" >
+                                       
+                        </div>
+                        <div class="col-sm-5">
+                            
+                                <input type="time" class="form-control istirahat " id="jam_istirahat_akhir" name="jam_istirahat_akhir"   placeholder="Jam Istirahat" >
                                        
                         </div>
                     </div>
@@ -174,8 +187,9 @@ date_default_timezone_set('Asia/Jakarta');
                     </div>
                     <!-- /.box-body -->
                     <div class="card-footer">
+                        <div id="pesanSubmit"></div>
                         <a href="{!! route('fe.list_lembur') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
-                        <button type="submit" class="pull-right btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><span class="fa fa-check"></span> Simpan</button>
+                        <button type="button" onclick="lembur_jam_yang_sama()" class="pull-right btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><span class="fa fa-check"></span> Simpan</button>
                     </div>
                     <!-- /.box-footer -->
                 </form>
@@ -221,7 +235,10 @@ h3{
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	
-<script src='https://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js'></script><script  src="./script.js"></script> <script>
+<script src='https://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js'></script><script  src="./script.js"></script> 
+
+
+<script>
     	var masking = {
 
   // User defined Values
@@ -380,6 +397,48 @@ h3{
 masking.init();
     </script>
 <script type="text/javascript">
+  function lembur_jam_yang_sama()
+		{
+		    
+			$.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				url : "{!! route('fe.lembur_duplicate_check_single') !!}", 
+				data : {'tgl_awal' : $("#tgl_pengajuan").val(),'tgl_akhir' : $("#tgl_pengajuan").val(),'jam_awal' : $("#jam_awal").val(),'jam_akhir' : $("#jam_akhir").val(),'p_karyawan_id' : $("#p_karyawan_id").val()},
+				type : 'get',
+				dataType : 'json',
+				success : function(result){
+						if(result.count==0){
+						      var required = $('form#formlembur input,form#formlembur textarea,form#formlembur select').filter('[required]:visible');
+                              var allRequired = true;
+                                required.each(function(){
+                                    if($(this).val() == ''){
+                                        allRequired = false;
+                                    }
+                                });
+                                
+                                if(allRequired){
+                                     $('#pesanSubmit').html('');
+                                   
+                			     document.getElementById('formlembur').submit();
+                				$('form#formlembur').submit();
+                                }else{
+                                     
+                                    $('#pesanSubmit').html('<div class="alert alert-danger" role="alert">silahkan isi form dengan benar, cek kembali form</div>');
+                                    
+                                    
+                                }
+						}else{
+						    alert("Pengajuan tidak dapat dilanjutkan, karena terdapat pengajuan jam lembur yang sama");
+						}
+					
+				}
+				
+			});
+	
+	 		
+	 	}
 function cek_min(e){
             min  = $(e).attr('min');
             
@@ -424,8 +483,14 @@ $("input.without_ampm").clockpicker({
 });
 $(document).ready(function(){
 	
-
+function roundDown(number, decimals) {
+    decimals = decimals || 0;
+    return ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) );
+}
   $("input.without_ampm").keyup(function(){
+     
+     change_jam();
+    });$("input.istirahat").keyup(function(){
      
      change_jam();
   });
@@ -438,39 +503,55 @@ $(document).ready(function(){
   $("input.without_ampm").blur(function(){
      change_jam();
   });
-  function change_jam(){
-	 var waktuMulai = $('#jam_awal').val(),
-         waktuSelesai = $('#jam_akhir').val(),
-       	 
-         minutes = waktuSelesai.split(':')[1] - waktuMulai.split(':')[1];
-         if(waktuMulai >=waktuSelesai){
-       	     alert('untuk pengajuan lintas hari silahkan untuk mengajukan 2 pengajuan dengan hari yang berbeda.');
-       	     
-      $('#lama').val('');
-       	 }else{
-         if (waktuSelesai <= waktuMulai){ 
-         		var hours = parseInt(24 - waktuMulai.split(':')[0]) +  parseInt(waktuSelesai.split(':')[0]);
-			}else{
- 				var hours = waktuSelesai.split(':')[0] - waktuMulai.split(':')[0];
+  $("input.istirahat").change(function(){
+     change_jam();
+  });
+  $("input.istirahat").keypress(function(){
+     change_jam();
+  });
+  $("input.istirahat").blur(function(){
+     change_jam();
+  });
+  
+  function countdate()
+		{
+		    
+			$.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				url : "{!! route('fe.hitung_hari') !!}", 
+				data : {'tgl_awal' : $("#tgl_awaldate").val(),'tgl_akhir' : $("#tgl_akhirdate").val()},
+				type : 'get',
+				dataType : 'json',
+				success : function(result){
+						$('#lama').val(result.count);
+						//console.log("===== " + result + " =====");
+					
+				}
 				
-			}
-      if (waktuMulai <= "12:00:00" && waktuSelesai >= "13:00:00"){
-        a = 0;
-      }else {
-        a = 0;
-      }
-      minutes = minutes.toString().length<2?'0'+minutes:minutes;
-      if(minutes<0){ 
-          hours--;
-          minutes = 60 + minutes;        
-      }
-      hours = hours.toString().length<2?'0'+hours:hours;
- 		lama = hours-a;
- 		if(minutes>35){
-			lama +=1;
-		}
-      $('#lama').val(hours-a);
-       	 }
+			});
+	
+	 		
+	 	}
+  function change_jam(){
+	 
+    $.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				url : "{!! route('fe.hitung_jam_lembur') !!}", 
+				data : {'tgl_awal' : $("#tgl_awaldate").val(),'tgl_akhir' : $("#tgl_akhirdate").val(),'jam_awal':$('#jam_awal').val(),'jam_akhir':$('#jam_akhir').val(),'jam_istirahat_awal' : $("#jam_istirahat_awal").val(),'jam_istirahat_akhir' : $("#jam_istirahat_akhir").val()},
+				type : 'get',
+				dataType : 'html',
+				success : function(result){
+				$('#lama').val(result);
+
+					
+				}
+				
+			});
+			
   }
 });
 

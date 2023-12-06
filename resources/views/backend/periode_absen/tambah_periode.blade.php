@@ -65,7 +65,7 @@
                                     <option value="7">Juli</option>
                                     <option value="8">Agustus</option>
                                     <option value="9">September</option>
-                                    <option value="10">Oktobe</option>
+                                    <option value="10">Oktober</option>
                                     <option value="11">November</option>
                                     <option value="12">Desember</option>
                                 </select>
@@ -89,13 +89,13 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="col-sm-4">
+                         <div class="col-sm-2">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Pekanan Ke</label>
                                 <input type="number" class="form-control" placeholder="Pekanan Ke ..." id="tahun" name="pekanan_ke" required>
                             </div>
-                        </div> <div class="col-sm-4">
+                        </div> <div class="col-sm-2">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Periode Aktif</label>
@@ -105,6 +105,24 @@
                                 <option value="0">No</option>
                                 </select>
                             </div>
+                        </div>
+                        
+                        
+                        <div class="col-sm-6">
+                       
+                            <!-- text input -->
+                            <div class="form-group" >
+                                <label>Pilih Entitas</label>
+                                <select type="number" class="form-control select2" multiple="" placeholder="Periode Aktif ..." id="pilih_entitas" name="list_entitas[]" required="">
+                                
+                                <?php
+
+                                 foreach($entitas as $entitas){?>
+                                <option value="<?=$entitas->m_lokasi_id;?>"><?=$entitas->nama;?></option>
+                                <?php }?>
+                                </select>
+                            </div>
+                        
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -122,13 +140,25 @@
     <!-- /.content-wrapper -->
     <script>
     change_type_gajian();
+    change_entitas();
+    	function change_entitas(){
+    		if($('#change_entitas_id').val()==2){
+    			$('#kontent-entitas').show();	
+    		}else{
+    			$('#kontent-entitas').hide();	
+    			$('#pilih_entitas').val().triger('change');
+    			
+    		}
+    	}
         function change_type_gajian(){
+           
             $.ajax({
 				type: 'get',
-				data: {'periode_gajian': $('#type_gajian').val(),type:'absen'},
+				data: {'periode_gajian': $('#type_gajian').val(),type:'<?=$tipe?>'},
 				url: '<?=route('be.periode_absen_min');?>',
 				dataType: 'json',
 				success: function(data){
+				    
 					$('#tgl_awal').attr('min',data.min);
 					$('#tgl_akhir').attr('min',data.min);
 				},
@@ -141,8 +171,8 @@
         function submit_form(){
              $.ajax({
 				type: 'get',
-				data: {'tgl_awal': $('#tgl_awal').val(),tgl_akhir:$('#tgl_akhir').val()},
-				url: '<?=route('be.periode_absen_min');?>',
+				data: {'tgl_awal': $('#tgl_awal').val(),tgl_akhir:$('#tgl_akhir').val(),type:'<?=$tipe?>'},
+				url: '<?=route('be.periode_absen_cek_duplicate');?>',
 				dataType: 'json',
 				success: function(data){
 				    if(data.count==0)

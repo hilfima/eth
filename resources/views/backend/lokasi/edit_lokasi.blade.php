@@ -92,6 +92,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                                <label>Logo</label>
+                                <input type="file" class="form-control" placeholder="WhatApps +62..." id="logo" name="logo">
+                            </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <a href="{!! route('be.lokasi') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>

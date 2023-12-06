@@ -57,8 +57,8 @@ where users.id=$iduser";
 
     public function simpan_lokasi(Request $request){
         $idUser=Auth::user()->id;
-        DB::connection()->table("m_lokasi")
-            ->insert([
+       	$data = [
+       		[
                 "kode"=>($request->get("kode")),
                 "nama"=>($request->get("nama")),
                 "email"=>($request->get("email")),
@@ -67,10 +67,23 @@ where users.id=$iduser";
                 "no_telp"=>($request->get("no_telp")),
                 "fax"=>($request->get("fax")),
                 "wa"=>($request->get("wa")),
+                
                 "active"=>1,
                 "create_by"=>$idUser,
                 "create_date"=>date('Y-m-d'),
-            ]);
+            ]
+       	];
+       	if ($request->file('logo')) { //echo 'masuk';die;
+					$file = $request->file('logo');
+					$destination = "dist/img/file/";
+					$path = 'logo-' . date('ymdhis') . '-' . $file->getClientOriginalName();
+					$file->move($destination, $path);
+					//echo $path;die;
+					$data["logo"]=$path;
+		}
+       
+        DB::connection()->table("m_lokasi")
+            ->insert($data);
 
         return redirect()->route('be.lokasi')->with('success','Lokasi Berhasil di input!');
     }
@@ -93,21 +106,33 @@ where users.id=$iduser";
 
     public function update_lokasi(Request $request, $id){
         $idUser=Auth::user()->id;
-        DB::connection()->table("m_lokasi")
-            ->where("m_lokasi_id",$id)
-            ->update([
-                "kode"=>($request->get("kode")),
-                "nama"=>($request->get("nama")),
-                "email"=>($request->get("email")),
-                "alamat"=>($request->get("alamat")),
-                "title"=>($request->get("title")),
-                "no_telp"=>($request->get("no_telp")),
-                "fax"=>($request->get("fax")),
-                "wa"=>($request->get("wa")),
-                "update_date"=>date('Y-m-d'),
-                "update_by"=>$idUser,
-                "active"=>1,
-            ]);
+        $data = [
+            [
+             "kode"=>($request->get("kode")),
+             "nama"=>($request->get("nama")),
+             "email"=>($request->get("email")),
+             "alamat"=>($request->get("alamat")),
+             "title"=>($request->get("title")),
+             "no_telp"=>($request->get("no_telp")),
+             "fax"=>($request->get("fax")),
+             "wa"=>($request->get("wa")),
+             
+             "active"=>1,
+             "create_by"=>$idUser,
+             "create_date"=>date('Y-m-d'),
+         ]
+        ];
+        if ($request->file('logo')) { //echo 'masuk';die;
+                 $file = $request->file('logo');
+                 $destination = "dist/img/file/";
+                 $path = 'logo-' . date('ymdhis') . '-' . $file->getClientOriginalName();
+                 $file->move($destination, $path);
+                 //echo $path;die;
+                 $data["logo"]=$path;
+     }
+    
+     DB::connection()->table("m_lokasi")
+         ->insert($data);
 
         return redirect()->route('be.lokasi')->with('success','Lokasi Berhasil di Ubah!');
     }

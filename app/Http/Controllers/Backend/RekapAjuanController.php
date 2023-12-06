@@ -105,8 +105,8 @@ where users.id=$iduser";
 			    $periode_gajian = $periode_gajian==-1?0:$periode_gajian;
                 $sqlperioode=" and e.periode_gajian = $periode_gajian";
 			}
-			$sqldata="SELECT a.*,b.nik,b.nama_lengkap,c.nama as nama_ijin,d.nama as nama_appr,f.nama as nama_appr2,tgl_appr_1,status_appr_2,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' when status_appr_1=3 then 'Pending' end as sts_pengajuan,case when status_appr_2=1 then 'Disetujui' when status_appr_2=2 then 'Ditolak' when status_appr_2=3 then 'Pending' end as sts_pengajuan2,b.jabatan,
-c.nama as nmtipe,h.alasan,
+			$sqldata="SELECT a.*,b.nik,b.nama_lengkap,c.nama as nama_ijin,d.nama as nama_appr,f.nama as nama_appr2,tgl_appr_1,status_appr_2,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' when status_appr_1=3 then 'Pending' end as sts_pengajuan,case when status_appr_2=1 then 'Disetujui' when status_appr_2=2 then 'Ditolak' when status_appr_2=3 then 'Pending' end as sts_pengajuan2,b.jabatan,a.m_jenis_ijin_id,
+c.nama as nmtipe,h.alasan as alasan_idt_ipm,
 case when e.periode_gajian=0 THEN 'PEKANAN' ELSE 'BULANAN' end as gajian
 FROM t_permit a
 left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
@@ -120,8 +120,7 @@ a.tgl_awal>='".$tgl_awal."' and a.tgl_akhir<='".$tgl_akhir."'
 ".$sqlnama." ".$sqltipe." ".$sqlstatus." $sqlperioode $whereLokasi2 $whereLokasi
 ORDER BY b.nama_lengkap";
             $data=DB::connection()->select($sqldata);
-            //echo $sqlabsen;die;
-
+           
            
         $sqlusers="SELECT p_karyawan.*,m_departemen.nama as nmdept FROM p_karyawan
 LEFT JOIN p_karyawan_pekerjaan e on e.p_karyawan_id=p_karyawan.p_karyawan_id
@@ -139,7 +138,7 @@ FROM m_jenis_ijin WHERE 1=1";
        
 		$entitas=DB::connection()->select("select * from m_lokasi e where active=1 and sub_entitas=0 $whereLokasi ");
         if($request->get('Cari')=='Cari'){
-            return view('backend.permit.cek_ajuan',compact('data','tgl_awal','tgl_akhir','periode_gajian','user','nama','users','status','ajuan','tipe','request','entitas'));
+            return view('backend.ajuan.cek_ajuan',compact('data','tgl_awal','tgl_akhir','periode_gajian','user','nama','users','status','ajuan','tipe','request','entitas'));
         }
         else if($request->get('Cari')=='Excel'){
             if($request->get('tgl_awal') and $request->get('tgl_akhir')){
@@ -209,7 +208,7 @@ ORDER BY b.nama_lengkap asc, a.tgl_awal desc";
             return Excel::download(new ajuan_xls($param), $nama_file. '.xlsx');
         }
     	else{
-    		return view('backend.permit.cek_ajuan',compact('data','tgl_awal','tgl_akhir','periode_gajian','user','nama','users','status','ajuan','tipe','request','entitas'));
+    		return view('backend.ajuan.cek_ajuan',compact('data','tgl_awal','tgl_akhir','periode_gajian','user','nama','users','status','ajuan','tipe','request','entitas'));
     	}
     }
 }

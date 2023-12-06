@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use App\Helper_function;
 
 class PeriodeController extends Controller
 {
@@ -51,8 +52,8 @@ class PeriodeController extends Controller
             left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitment_id
             where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
-
-        return view('backend.periode_absen.tambah_periode', compact('user','tipe'));
+	$entitas = DB::connection()->select("select * from m_lokasi where active=1 and sub_entitas=0 order by nama");
+        return view('backend.periode_absen.tambah_periode', compact('user','tipe','entitas'));
     }
 
     public function simpan_periode(Request $request){
@@ -76,6 +77,8 @@ class PeriodeController extends Controller
                     "pekanan_ke"=>($request->get("pekanan_ke")),
                     "active"=>1,
                     "periode_aktif"=>($request->get("periode_aktif")),
+                    "entitas_type"=>($request->get("entitas")),
+                    "entitas_list"=>($request->get("list_entitas")?implode(',',$request->get("list_entitas")):''),
                     "created_by" => $idUser,
                     "created_at" => date("Y-m-d H:i:s")
                 ]);
@@ -117,8 +120,9 @@ left join p_karyawan on p_karyawan.user_id=users.id
 left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitment_id
 where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
+		$entitas = DB::connection()->select("select * from m_lokasi where active=1 and sub_entitas=0 order by nama");
 
-        return view('backend.periode_absen.edit_periode', compact('periode','user','tipe'));
+        return view('backend.periode_absen.edit_periode', compact('periode','user','tipe','entitas'));
     }
 
     public function update_periode(Request $request, $id){
@@ -142,6 +146,8 @@ where users.id=$iduser";
                     "updated_by" => $idUser,
                     "active" => 1,
                      "periode_aktif"=>($request->get("periode_aktif")),
+                    "entitas_type"=>($request->get("entitas")),
+                    "entitas_list"=>implode(',',$request->get("list_entitas")),
                     "updated_at" => date("Y-m-d H:i:s")
                 ]);
             DB::commit();
@@ -156,7 +162,7 @@ where users.id=$iduser";
     public function periode_absen_min(Request $request)
     {
         $help = new Helper_function();
-        $periode = DB::connection()->select("select * from m_periode_absen where  type=$request->periode_gajian and tipe_periode='$request->type' order by tgl_akhir desc ");
+        $periode = DB::connection()->select("select * from m_periode_absen where  type=$request->periode_gajian and tipe_periode='$request->type'  and active=1 order by tgl_akhir desc ");
         
         $return['min']= $help->tambah_tanggal($periode[0]->tgl_akhir,1);
         
@@ -166,7 +172,7 @@ where users.id=$iduser";
     public function periode_absen_cek_duplicate(Request $request)
     {
         $help = new Helper_function();
-        $periode = DB::connection()->select("select * from m_periode_absen where  tgL_awal='$request->tgL_awal' and tgl_akhir='$request->tgl_akhir'  ");
+        $periode = DB::connection()->select("select * from m_periode_absen where  tgl_awal='$request->tgl_awal' and tgl_akhir='$request->tgl_akhir' and tipe_periode='$request->type' and active=1  ");
         
         $return['count']= count($periode);
         

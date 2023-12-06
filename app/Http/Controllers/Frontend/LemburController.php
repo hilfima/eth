@@ -134,6 +134,27 @@ LEFT JOIN m_departemen on m_departemen.m_departemen_id=p_karyawan_pekerjaan.m_de
 		$return['count']= $count;
 		$return['nama']= $list_nama;
 		echo json_encode($return);
+	}
+    public function lembur_duplicate_check(Request $request)
+	{
+		$nama = $request->nama;
+		$count = 0;
+		$list_nama = "";
+			$check =DB::connection()->select("select * from t_permit 
+				left join p_karyawan on t_permit.p_karyawan_id = p_karyawan.p_karyawan_id
+				where tgl_awal ='".date('Y-m-d',strtotime($request->tgl_awal))."' and (
+					(jam_awal>='$request->jam_awal' and '$request->jam_awal'<= jam_akhir) or 
+					(jam_awal<='$request->jam_awal' and '$request->jam_awal'<= jam_akhir) ) and t_permit.p_karyawan_id = $request->p_karyawan_id and t_permit.active=1
+			");
+			$count += count($check);
+			if($list_nama)
+				$list_nama.=", ";
+			if(count($check))
+			$list_nama.=$check[0]->nama;
+
+		$return['count']= $count;
+		$return['nama']= $list_nama;
+		echo json_encode($return);
 		
 	}
     public function simpan_perintah_lembur(Request $request){
@@ -177,6 +198,7 @@ $help = new Helper_function();
 						"appr_1"=>$request->get('atasan'),
 						"appr_2"=>$request->get('atasan2'),
 						"lama"=>$lama_input,
+						"intruksi_atasan"=>1,
 						"create_date"=>date('Y-m-d H:i:s'),
 						"create_by"=>$id,
 						"p_karyawan_atasan_input"=>$id,
@@ -189,10 +211,11 @@ $help = new Helper_function();
                 	$array['status_appr_1'] = 1;
                 	$array['appr_1'] = $id;
                 	$array['tgl_appr_1'] = date('Y-m-d');
-                }if($request->get('atasan2')==$id){
-                	$array['status_appr_2'] = 1;
-                	$array['appr_2'] = $id;
-                	$array['tgl_appr_2'] = date('Y-m-d');
+                }
+                if($request->get('atasan2')==$id){
+                	//$array['status_appr_2'] = 1;
+                	//$array['appr_2'] = $id;
+                	//$array['tgl_appr_2'] = date('Y-m-d');
                 }
 				DB::connection()->table("t_permit")
                		 ->insert($array);
@@ -232,6 +255,46 @@ where users.id=$iduser";
         return view('frontend.lembur.tambah_libur_shit', compact('Libur_lembur','user','type','id','data','karyawan'));
     }
 
+    public function acc_intruksi_lembur(Request $request, $id){
+        $idUser=Auth::user()->id;
+        DB::beginTransaction();
+        try{
+            DB::connection()->table("t_permit")
+                ->where("t_form_exit_id",$id)
+                ->update([
+                   "appr_intruksi_date"=>(date('Y-m-d')),
+                    	"appr_intruksi"=>($idUser),
+                    	"status_appr_intruksi"=>(1),
+                  
+                ]);
+            DB::commit();
+            return redirect()->route('fe.list_lembur')->with('success','Hari Libur Berhasil di Ubah!');
+        }
+        catch(\Exeception $e){
+            DB::rollback();
+            return redirect()->back()->with('error',$e);
+        }
+    }
+    public function dec_intruksi_lembur(Request $request, $id){
+        $idUser=Auth::user()->id;
+        DB::beginTransaction();
+        try{
+            DB::connection()->table("t_permit")
+                ->where("t_form_exit_id",$id)
+                ->update([
+                   "appr_intruksi_date"=>(date('Y-m-d')),
+                    	"appr_intruksi"=>($idUser),
+                    	"status_appr_intruksi"=>(2),
+                  
+                ]);
+            DB::commit();
+            return redirect()->route('fe.list_lembur')->with('success','Hari Libur Berhasil di Ubah!');
+        }
+        catch(\Exeception $e){
+            DB::rollback();
+            return redirect()->back()->with('error',$e);
+        }
+    }
     public function update_libur_lembur(Request $request, $id){
         $idUser=Auth::user()->id;
         DB::beginTransaction();

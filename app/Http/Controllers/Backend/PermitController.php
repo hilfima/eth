@@ -34,7 +34,7 @@ class PermitController extends Controller
     public function list_ajuan(Request $request)
     {
     	$type='Direksi';
-        $sqldata="SELECT a.*,b.nik,b.nama,c.kode,c.nama as nama_ijin,d.nama as nama_appr,e.nama as nama_appr2,tgl_appr_1,status_appr_1,status_appr_2 FROM t_permit a 
+        $sqldata="SELECT a.*,b.nik,b.nama,a.m_jenis_ijin_id,c.kode,c.nama as nama_ijin,d.nama as nama_appr,e.nama as nama_appr2,tgl_appr_1,status_appr_1,status_appr_2 FROM t_permit a 
 left join p_karyawan b on b.p_karyawan_id=a.p_karyawan_id
 left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id
 left join p_karyawan d on d.p_karyawan_id=a.appr_1
@@ -82,13 +82,13 @@ where users.id=$iduser";
     public function lihat($kode)
     {
     	$help = new Helper_function();
-        $sqldata="SELECT a.*,alasan_idt_ipm,b.nik,b.nama_lengkap,c.kode,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,f.uang_makan,f.uang_saku,f.uang_saku2
+        $sqldata="SELECT a.*,alasan_idt_ipm,b.nik,b.nama_lengkap,c.kode,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,f.uang_makan,f.uang_saku,f.uang_saku2, h.alasan as alasan_idt_ipm
 FROM t_permit a
 left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
 left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id
 left join p_karyawan d on d.p_karyawan_id=a.appr_1
 left join m_pangkat f on b.m_pangkat_id=f.m_pangkat_id
-left join m_jenis_idt_ipm h on h.m_jenis_idt_ipm_id=a.m_jenis_idt_ipm_id
+left join m_jenis_alasan h on h.m_jenis_alasan_id=a.m_jenis_alasan_id
 WHERE 1=1 and a.t_form_exit_id=$kode and a.active=1  ORDER BY a.tgl_awal desc";
         $data=DB::connection()->select($sqldata);
 

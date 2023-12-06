@@ -39,6 +39,7 @@
 						<th>Nama Karyawan</th>
 						<th>Sanksi</th>
 						<th>Tanggal Belaku Sanksi</th>
+						<th>File</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -52,6 +53,11 @@
 					<td>{!! $Sanksi->nama !!}</td>
 					<td>{!! $Sanksi->nama_sanksi !!}</td>
 					<td>{!! $help->tgl_indo($Sanksi->tgl_awal_sanksi) !!} s/d {!! $help->tgl_indo($Sanksi->tgl_akhir_sanksi) !!}</td>
+					 @if(!empty($Sanksi->file))
+                                    <td style="text-align: center"><a href="{!! asset('dist/img/file/'.$Sanksi->file) !!}" target="_blank" title="Download"><span class="fa fa-download"></span></a></td>
+                                @else
+                                    <td></td>
+                                @endif
 					<td style="text-align: center">
 
 						<a href="{!! route('be.edit_sanksi',$Sanksi->p_karyawan_sanksi_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>

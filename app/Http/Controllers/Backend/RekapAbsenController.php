@@ -87,17 +87,13 @@ class RekapAbsenController extends Controller{
 			$appendwhere = "";
 			$type	 = -1;
 		}
-		
-		
+
 		$id_lokasi = Auth::user()->user_entitas;
         if($id_lokasi and $id_lokasi!=-1) 
 			$whereLokasi = "AND c.m_lokasi_id in($id_lokasi)";					
 		else
 			$whereLokasi = "";	
-			
-		$departemen=DB::connection()->select("select * from m_departemen where active=1 ORDER BY nama");
-		$entitas=DB::connection()->select("select * from m_lokasi c where active=1 and sub_entitas=0 $whereLokasi ORDER BY nama");
-		$jabatan=DB::connection()->select("select * from m_jabatan where active=1 ORDER BY nama");
+		$whereLok = "";
 		
 		if($request->get('Cari')!='Generate' and !empty($request->get('Cari'))){
     		$rekap = $help->rekap_absen_optimasi($periode_absen,$tgl_awal,$tgl_akhir,$type);
@@ -106,11 +102,20 @@ class RekapAbsenController extends Controller{
     		
     		$hari_libur = $rekap['hari_libur'] ;
     		$hari_libur_shift = $rekap['hari_libur_shift'] ;
-    	     $tgl_awal_lembur = $rekap['tgl_awal_lembur'] ;
-    		$tgl_awal = $rekap['tgl_awal'] ;
-    		$tgl_akhir = $rekap['tgl_akhir'] ;
-		    
+    	     $tgl_awal_lembur = $tgl_awal ;
+    		//$tgl_awal = $rekap['tgl_awal'] ;
+    		//$tgl_akhir = $rekap['tgl_akhir'] ;
+    		
+		    $periodeCheck = DB::connection()->select("select * from m_periode_absen where periode_absen_id=$request->periode_gajian");
+	    	$whereLok = "";
+	    	if($periodeCheck[0]->entitas_list){
+	    		$whereLok ="and m_lokasi_id in(".$periodeCheck[0]->entitas_list.")";
+	    	}
+			
 		}
+		$departemen=DB::connection()->select("select * from m_departemen where active=1 ORDER BY nama");
+		$entitas=DB::connection()->select("select * from m_lokasi c where active=1 and sub_entitas=0 $whereLokasi $whereLok ORDER BY nama");
+		$jabatan=DB::connection()->select("select * from m_jabatan where active=1 ORDER BY nama");
 		
 		if($request->get('Cari')=="GET"){
 			$param['rekap'] = $rekap;
@@ -182,6 +187,23 @@ class RekapAbsenController extends Controller{
 		}
 	}
 
+    public static function list_entitas_periode_absen(Request $request){
+    	$periode = DB::connection()->select("select * from m_periode_absen where periode_absen_id=$request->val");
+    	$where = "";
+    	if($periode[0]->entitas_list){
+    		$where ="and m_lokasi_id in(".$periode[0]->entitas_list.")";
+    	}
+    	$lokasi = DB::connection()->select("select * from m_lokasi where 1=1 $where");
+    	echo '<option value="">Pilih Entitas</option>';
+    	foreach($lokasi AS $entitas){
+									$selected = '';
+									if($entitas->m_lokasi_id==$request->filterentitas)
+										$selected = 'selected';
+										echo '<option value="'.$entitas->m_lokasi_id.'" '.$selected.'>'.$entitas->nama.'</option>';
+									
+									}
+    }
+
     public static function generate_all_periode(){
 	    
 	    $periode = DB::connection()->select('select * from m_periode_absen ');
@@ -220,11 +242,16 @@ class RekapAbsenController extends Controller{
 	        foreach($periode as $periode){
 	        $type = $periode->type;
 	        $periode_absen = $periode->periode_absen_id;
-	        
-	        $karyawan = DB::connection()->select('select * from p_karyawan left join p_karyawan_pekerjaan a on a.p_karyawan_id = p_karyawan.p_karyawan_id  where p_karyawan.active=1 and periode_gajian='.$type);
+	        if($request->entitas){
+	        	$where = "and m_lokasi_id = $request->entitas";
+	        }else{
+	        	$where = "";
+	        }
+	        $karyawan = DB::connection()->select('select * from p_karyawan left join p_karyawan_pekerjaan a on a.p_karyawan_id = p_karyawan.p_karyawan_id  
+	        where p_karyawan.active=1 '.$where.' and periode_gajian='.$type);
 	        
              DB::connection()->table("absen_master_generate")->where("periode_absen_id",$periode_absen)->update(["active"=>0]);
-             DB::connection()->table("absen_master_generate_tanggal")->where("periode_absen_id",$periode_absen)->update(["active"=>0]);
+            // DB::connection()->table("absen_master_generate_tanggal")->where("periode_absen_id",$periode_absen)->update(["active"=>0]);
              DB::connection()->table("absen_master_rekap")->where("periode_absen_id",$periode_absen)->update(["active"=>0]);
 	        
 	           // $date = $periode[0]->tgl_awal;
@@ -250,7 +277,109 @@ class RekapAbsenController extends Controller{
 	    }
 	    }
 	}
+	public  function generate_rekap_absen_tanggal(Request $request){
+	    
+	    $help = new Helper_function();
+	    
+	      echo  $periode_absen_id = $request->periode_absen_id;
+	    
+	    $where = '';
+	    
+	    if($periode_absen_id){
+	        $where = 'where periode_absen_id='.$periode_absen_id;
+	    }
+	    
+	    if(!$request->existing){
+	        
+	        $periode = DB::connection()->select('select * from m_periode_absen '.$where);
+	        foreach($periode as $periode){
+	        	$tgl_awal = $periode->tgl_awal;
+	        	$tgl_akhir = $periode->tgl_akhir;
+	        $type = $periode->type;
+	        $periode_absen = $periode->periode_absen_id;
+	        if($request->entitas){
+	        	$where = "and m_lokasi_id = $request->entitas";
+	        }else{
+	        	$where = "";
+	        }
+	        
+            DB::connection()->table("absen_master_generate_tanggal")->where("periode_absen_id",$periode_absen)->update(["active"=>0]);
+            
+	           // $date = $periode[0]->tgl_awal;
+    	       // for($i=0;$i<$help->hitungHari($periode[0]->tgl_awal,$periode[0]->tgl_akhir);$i++){
+    	            
+    	       //     $data_tanggal['tanggal'] = $date;
+    	       //     $data_tanggal['status'] = 0;
+    	       //     $data_tanggal['periode_absen_id'] = $periode_absen_id;
+    	       //     $data_tanggal['create_date'] = date('Y-m-d H:i:s');
+    	       //     DB::connection()->table("absen_master_generate_tanggal")->insert($data_tanggal);
+    	       
+	        $date = $tgl_awal;
+	        $help = new Helper_function();
+			for ($i = 0; $i <= $help->hitunghari($tgl_awal,$tgl_akhir); $i++) {
+	    
+    	          	$data['tanggal'] = $date;
+    	            $data['status'] = 0;
+    	            $data['periode_absen_id'] = $periode_absen;
+    	            $data['create_date'] = date('Y-m-d H:i:s');
+                    DB::connection()->table("absen_master_generate_tanggal")->insert($data);
+					
+					$date = $help->tambah_tanggal($date,1);
+    	            
+    	        }
+    	        
+    	   //         $date=$help->tambah_tanggal($date,1);
+	       // }
+	    }
+	    }
+	}
+	
+   public static function hitung_rekap_absen_tanggal(Request $request,$periode_absen_id=null,$waktu=null){
+   			
+	        $help = new Helper_function();
+	        $periode_absen_id=$request->periode_absen_id;
+	        $limit = 1;
+	        $periode = DB::connection()->select('select * from absen_master_generate_tanggal where status=0 and periode_absen_id = '.$periode_absen_id.' limit 1 ');
+	        if(count($periode)){
+	        foreach($periode as $periode){
+	        	$help->generate_rekap_absen_tanggal($periode->tanggal);
+	        	DB::connection()->table("absen_master_generate_tanggal")->where('tanggal',$periode->tanggal)->where('periode_absen_id',$periode_absen_id)->update(["status"=>1]);
+			}
+			
+			$time = $waktu;
+         $time = $time?$time:60000;
+         $time = $time/1000/$limit;
+        $sqlgenerate = "SELECT count(*) as jumlah_semua_karyawan,count(CASE WHEN status = 1 THEN 1 END)  as yang_sudah 
+        FROM absen_master_generate_tanggal  amg
+	    where amg.active=1 and periode_absen_id = '.$periode_absen_id.' ";
+        //////echo $sqluser;
+        $generete = DB::connection()->select($sqlgenerate);
+        $persen = round($generete[0]->yang_sudah / $generete[0]->jumlah_semua_karyawan * 100, 2);
+        $init = ($generete[0]->jumlah_semua_karyawan - $generete[0]->yang_sudah) * $time;
+        $hours = floor($init / 3600);
+        $minutes = floor(($init / 60) % 60);
+        $seconds = $init % 60;
 
+        $Jam = $hours ? $hours . ' Jam ' : '';
+        $menit = $minutes ? $minutes . ' Menit ' : '';
+        $sekon = $seconds ? $seconds . ' Detik ' : '';
+        //echo "$hours:$minutes:$seconds";
+        echo '<div class="card">
+										<div class="card-body text-center">
+											<br>
+											<h3>' . $persen . '%</h3>
+											<h4 class="holiday-title mb-0">' . $generete[0]->yang_sudah . ' dari ' . $generete[0]->jumlah_semua_karyawan . '</h4>
+											<div>Generate Tanggal: '.$periode->tanggal.'</div>
+											<div>' . $Jam . $menit . $sekon . ' </div>
+											<div class="text-red" style="color:red;">PERINGATAN!!! TAB JANGAN DI TUTUP SEBELUM SELESAI</div>
+										</div>
+									</div>
+									<input type="hidden" value="'.$persen.'" id="generate">
+									';
+	    }else{
+	        echo 'Generate selesai<input type="hidden" value="100" id="generate">';
+	    }
+   }
    public static function hitung_rekap_absen(Request $request,$periode_absen_id=null,$waktu=null){
 	   if(!$periode_absen_id){
 	       $periode_absen_id = $request->periode_absen_id;
@@ -266,7 +395,14 @@ class RekapAbsenController extends Controller{
 	   }else{
 	       $limit = 15;
 	   }
-	    $absen_master_gen = DB::Connection()->select("select * from absen_master_generate where status=0 and active=1 $where order by periode_absen_id desc limit $limit");
+	   if($request->entitas){
+	        	$where .= " and m_lokasi_id = $request->entitas";
+	        }else{
+	        	$where .= "";
+	        }
+	    $absen_master_gen = DB::Connection()->select("select * from absen_master_generate  amg
+	    left join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = amg.p_karyawan_id
+	    where status=0 and amg.active=1 $where order by periode_absen_id desc limit $limit");
 	    if(count($absen_master_gen)){
 	    $periode_absen_id = $absen_master_gen[0]->periode_absen_id;
 	    $periode = DB::Connection()->select("select * from m_periode_absen where periode_absen_id = ".$periode_absen_id);
@@ -716,7 +852,9 @@ class RekapAbsenController extends Controller{
 	    $time = $waktu;
          $time = $time?$time:60000;
          $time = $time/1000/$limit;
-        $sqlgenerate = "SELECT count(*) as jumlah_semua_karyawan,count(CASE WHEN status = 1 THEN 1 END)  as yang_sudah FROM absen_master_generate a where active=1 $where";
+        $sqlgenerate = "SELECT count(*) as jumlah_semua_karyawan,count(CASE WHEN status = 1 THEN 1 END)  as yang_sudah FROM absen_master_generate  amg
+	    left join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = amg.p_karyawan_id
+	    where amg.active=1 $where";
         //////echo $sqluser;
         $generete = DB::connection()->select($sqlgenerate);
         $persen = round($generete[0]->yang_sudah / $generete[0]->jumlah_semua_karyawan * 100, 2);
@@ -2523,7 +2661,1045 @@ $masuk = $absen->jam_masuk;*/
 		header("Content-Type: application/vnd.ms-excel");
 		return redirect(url('/')."/export/".$fileName);
 	}
-    
+    public static function generate_hari_ini(){
+	    
+	   
+		RekapAbsenController::generate_rekap_absen_hari_ini(date('Y-m-d'));
+	 
+	 
+	 
+ }public  function generate_rekap_absen_hari_ini($tanggal){
+	    
+	    
+	        
+	        
+            // DB::connection()->table("absen_master_generate")->where("periode_absen_id",$periode_absen)->update(["active"=>0]);
+            DB::connection()->table("absen_master_generate_tanggal")->where("tanggal",$tanggal)->update(["active"=>0]);
+            DB::connection()->table("absen_master_rekap")->where("tanggal",$tanggal)->update(["active"=>0]);
+	        
+	           // $date = $periode[0]->tgl_awal;
+    	       // for($i=0;$i<$help->hitungHari($periode[0]->tgl_awal,$periode[0]->tgl_akhir);$i++){
+    	            
+    	            $data_tanggal['tanggal'] = $tanggal;
+    	            $data_tanggal['status'] = 0;
+    	            $data_tanggal['create_date'] = date('Y-m-d H:i:s');
+    	            DB::connection()->table("absen_master_generate_tanggal")->insert($data_tanggal);
+	        // foreach($karyawan as $list_karyawan){
+    	    //         $data['p_karyawan_id'] = $list_karyawan->p_karyawan_id;
+    	    //        // $data['tanggal'] = $date;
+    	    //         $data['status'] = 0;
+    	    //         $data['periode_absen_id'] = $periode_absen;
+    	    //         $data['create_date'] = date('Y-m-d H:i:s');
+            //         DB::connection()->table("absen_master_generate")->insert($data);
+    	            
+    	    //     }
+    	       
+    	   //         $date=$help->tambah_tanggal($date,1);
+	       // }
+	    //}
+	    //}
+	}
+   public static function hitung_rekap_absen_hari_ini(Request $request,$tanggal=null,$waktu=null){
+		$help = new Helper_function();
+	    $help->generate_rekap_absen($request,$tanggal,$waktu);
+	    
+	}
+	public static function hitung_rekap_absen3(Request $request,$periode_absen_id=null,$waktu=null){
+		if(!$periode_absen_id){
+			$periode_absen_id = $request->periode_absen_id;
+		}
+		if(!$waktu){
+			$waktu = $request->waktu;
+		}
+		$where ="";
+		$limit = 1;
+		if($periode_absen_id){
+			
+		 $where ="and periode_absen_id = $periode_absen_id";
+		}else{
+			$limit = 15;
+		}
+		$l_karyawan=array();
+		$hwere_karyawan = "";
+		if($request->entitas){
+			$kerja = DB::connection()->select("select * from p_karyawan_pekerjaan where m_lokasi_id = $request->entitas and active=1");
+			foreach($kerja as $k){
+				$l_karyawan[]=$k->p_karyawan_id;
+			}
+			$hwere_karyawan = " and p_karyawan_id in(".implode(',',$l_karyawan).")";
+		}
+
+		 $absen_master_gen = DB::Connection()->select("select * from absen_master_generate 
+		 	where status=0 and active=1 $where $hwere_karyawan order by periode_absen_id desc limit $limit");
+		 if(count($absen_master_gen)){
+		 $periode_absen_id = $absen_master_gen[0]->periode_absen_id;
+		 $periode = DB::Connection()->select("select * from m_periode_absen where periode_absen_id = ".$periode_absen_id);
+		// echo $periode_absen_id;
+		
+		 
+		 foreach($absen_master_gen as $g){
+			 
+			 $tgl_awal = $periode[0]->tgl_awal;
+			 $tgl_akhir = $periode[0]->tgl_akhir;
+			 
+			$id_karyawan = $g->p_karyawan_id;
+			 $sql = "select * from m_hari_libur where tanggal >= '$tgl_awal'  and active=1 and tanggal <='$tgl_akhir'";
+		 $harilibur = DB::connection()->select($sql);
+		 $hari_libur = array();
+		 $hari_libur_except_pengkhususan = array();
+		 $hari_libur_except_pengecualian = array();
+		 $tanggallibur = array();
+		 $hr = 0;
+		 foreach ($harilibur as $libur) {
+			 $sql = "select * from m_hari_libur_except where active = 1 and m_hari_libur_id = $libur->m_hari_libur_id";
+			 $hariliburexcept = DB::connection()->select($sql);
+			 foreach($hariliburexcept as $except){
+				 if($except->jenis==1)
+					 $hari_libur_except_pengecualian[$libur->tanggal][] = $except->m_lokasi_id;
+				 if($except->jenis==2)
+					 $hari_libur_except_pengkhususan[$libur->tanggal][] = $except->m_lokasi_id;
+				 
+			 }
+			 $hari_libur[$hr] = $libur->tanggal;
+			 $tanggallibur[$libur->tanggal] = $libur->nama;
+			 $hr++;
+		 }
+		 $hari_libur_shift = array();
+		 $sql = "select * from absen_libur_shift where tanggal >= '$tgl_awal' and tanggal <='$tgl_akhir' and absen_libur_shift.active = 1";
+		 $harilibur = DB::connection()->select($sql);
+		 foreach ($harilibur as $libur) {
+			 $hari_libur_shift[$libur->tanggal][$libur->p_karyawan_id] = 1;
+		 }
+ 
+		 $sql = "Select * from m_mesin_absen";
+		 $dmesin    = DB::connection()->select($sql);
+		 foreach ($dmesin as $dmesin) {
+			 $mesin[$dmesin->mesin_id] = $dmesin->nama;
+		 }
+			
+			
+			 $sqlabsen = "
+ 
+		 select a.*,c.p_karyawan_id,c.m_lokasi_id, case
+				 when
+					 (select count(*)
+							 from absen_shift
+								 join absen on absen.absen_id = absen_shift.absen_id
+								 where absen.active = 1
+									 and absen_shift.active = 1
+									 and absen_shift.p_karyawan_id=c.p_karyawan_id
+									 and absen_shift.tanggal = to_char(a.date_time, 'YYYY-MM-DD')::date
+ 
+					  )>=1
+ 
+				 then
+					 (select jam_masuk
+						 from absen_shift
+							 join absen on absen.absen_id = absen_shift.absen_id
+							 where absen.active = 1
+								 and absen_shift.active = 1
+								 and absen_shift.p_karyawan_id=c.p_karyawan_id
+								 and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date limit 1)
+				 else (select jam_masuk
+						 from absen
+							 where absen.tgl_awal<=a.date_time and absen.tgl_akhir>=a.date_time
+								 and absen.m_lokasi_id = c.m_lokasi_id
+								 and shifting = 0 limit 1)
+				 end as jam_masuk
+ 
+			 , case
+					 when
+						 (select count(*)
+							 from absen_shift
+								 join absen on absen.absen_id = absen_shift.absen_id
+								 where absen.active = 1
+									 and absen_shift.active = 1
+									 and absen_shift.p_karyawan_id=c.p_karyawan_id
+									 and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date )>=1
+ 
+					 then (select jam_keluar
+							 from absen_shift
+								 join absen on absen.absen_id = absen_shift.absen_id
+								 where absen.active = 1
+									 and absen_shift.active = 1
+									 and absen_shift.p_karyawan_id=c.p_karyawan_id
+									 and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date limit 1)
+					 else
+						 (select jam_keluar
+							 from absen
+								 where absen.tgl_awal<=a.date_time
+									  and absen.tgl_akhir>=a.date_time and absen.m_lokasi_id = c.m_lokasi_id
+									  and shifting = 0 limit 1)
+ 
+					 end as jam_keluar
+ 
+ 
+			  from absen_log a
+			  left join p_karyawan_absen b on b.no_absen = a.pin
+			  left join p_karyawan_pekerjaan c on b.p_karyawan_id = c.p_karyawan_id
+			  left join p_karyawan d on b.p_karyawan_id = d.p_karyawan_id
+ 
+ 
+			  where a.date_time>='$tgl_awal' and a.date_time<='$tgl_akhir 23:59:59'
+			  and d.p_karyawan_id = $id_karyawan
+			  
+			 order by date_time desc
+			 
+			 ";
+			 $absen = DB::connection()->select($sqlabsen);
+			 foreach($absen as $absen){
+			 $date = date('Y-m-d', strtotime($absen->date_time));
+			 $time = date('H:i:s', strtotime($absen->date_time));
+			 $time2 = date('H:i:s', strtotime($absen->date_time));
+ 
+			 if ($absen->ver == 1) {
+				 
+				 $masuk = $absen->jam_masuk;
+				 $rekap[$id_karyawan][$date]['a']['masuk'] = $time;
+				 $rekap[$id_karyawan][$date]['a']['jam_masuk'] = $masuk;
+				 $lokasi_id = $absen->m_lokasi_id;
+				 $rekap[$id_karyawan][$date]['a']['status_masuk'] = $absen->status_absen_id;
+				 $rekap[$id_karyawan][$date]['a']['updated_at_masuk'] = $absen->updated_at;
+				 $rekap[$id_karyawan][$date]['a']['updated_by_masuk'] = $absen->updated_by;
+				 $rekap[$id_karyawan][$date]['a']['time_before_update_masuk'] = $absen->time_before_update;
+				 $rekap[$id_karyawan][$date]['a']['mesin_id'] = $absen->mesin_id;
+				 $rekap[$id_karyawan][$date]['a']['absen_log_id_masuk'] = $absen->absen_log_id;
+				 
+			 $rekap[$id_karyawan][$date]['a']['tipe_master'] = 1;
+			 } else if ($absen->ver == 2) {
+				 
+			   
+				 $keluar = $absen->jam_keluar;
+				 $rekap[$id_karyawan][$date]['a']['keluar'] = $time;
+				 $rekap[$id_karyawan][$date]['a']['jam_keluar'] = $keluar;
+				 $rekap[$id_karyawan][$date]['a']['absen_log_id_keluar'] = $absen->absen_log_id;
+ 
+				 $rekap[$id_karyawan][$date]['a']['status_keluar'] = $absen->status_absen_id;
+				 $rekap[$id_karyawan][$date]['a']['updated_at_keluar'] = $absen->updated_at;
+				 $rekap[$id_karyawan][$date]['a']['updated_by_keluar'] = $absen->updated_by;
+				 $rekap[$id_karyawan][$date]['a']['time_before_update_keluar'] = $absen->time_before_update;
+				 $rekap[$id_karyawan][$date]['a']['tipe_master'] = 2;
+			 }
+			 $rekap[$id_karyawan][$date]['a']['m_periode_absen_id'] = $periode_absen_id;
+			 $rekap[$id_karyawan][$date]['a']['p_karyawan_id'] = $id_karyawan;
+			 $rekap[$id_karyawan][$date]['a']['tanggal'] = $date;
+			 DB::connection()->table("absen_master")->insert($rekap[$id_karyawan][$date]['a']);
+			 
+			 
+			 DB::connection()->table("absen_log")->where("absen_log_id",$absen->absen_log_id)->update(["master"=>1]);
+			 
+			 
+			 
+		 }		
+			
+			if(isset($rekap)){
+		 $array['periode_absen_id'] = $periode_absen_id;
+		 $array['array_rekap'] = json_encode($rekap);
+		 $array['create_date'] = date('Y-m-d H:i:s');
+		 $array['tanggal'] = $tgl_awal;
+		 $array['p_karyawan_id'] = $g->p_karyawan_id;
+		 $array['jenis'] = 'absen';
+		 DB::connection()->table('absen_master_rekap')->insert($array);
+		 }
+		 unset($rekap);
+			
+			
+			
+			
+			 $sqllembur = "Select m_jenis_ijin.nama as nama_ijin,m_jenis_ijin.tipe,c.t_form_exit_id,c.m_jenis_ijin_id,c.lama,c.keterangan,c.p_karyawan_id,c.tgl_awal,c.tgl_akhir,c.jam_awal,c.status_appr_hr,a.periode_gajian,status_appr_1,m_jenis_ijin.kode as string_kode_ijin
+				 from t_permit c
+				 left join m_jenis_ijin on m_jenis_ijin.m_jenis_ijin_id = c.m_jenis_ijin_id
+				 left join p_karyawan_pekerjaan a on c.p_karyawan_id = a.p_karyawan_id 
+				 where ((c.tgl_awal>='$tgl_awal' and c.tgl_awal<='$tgl_akhir 23:59') or
+				 (c.tgl_akhir>='$tgl_awal' and c.tgl_akhir>='$tgl_akhir 23:59') or
+				 (c.tgl_akhir>='$tgl_awal' and c.tgl_akhir<='$tgl_akhir 23:59') or
+				 (c.tgl_awal<='$tgl_awal' and c.tgl_akhir<='$tgl_awal 23:59' and c.tgl_akhir is not null)) and
+				 c.m_jenis_ijin_id != 22
+				 and c.p_karyawan_id = $id_karyawan
+				 ORDER BY c.p_karyawan_id asc ";
+			 $lembur = DB::connection()->select($sqllembur); 
+			 
+			 $karyawan = array();
+			 foreach ($lembur as $lembur) {
+				
+			 $date = $lembur->tgl_awal;
+			 if($lembur->status_appr_1==1){
+				 
+			 if (!in_array($id_karyawan, $karyawan))
+				 $karyawan[] = $id_karyawan;
+			 if ($lembur->status_appr_hr != 2) {
+				 $date = $lembur->tgl_awal;
+				 if (!$lembur->tgl_akhir)
+					 $lembur->tgl_akhir = $lembur->tgl_awal;
+				 
+				 if ($lembur->tgl_akhir=='1970-01-01')
+					 $lembur->tgl_akhir = $lembur->tgl_awal;
+				 for ($i = 0; $i <= Helper_function::hitunghari($lembur->tgl_awal, $lembur->tgl_akhir); $i++) {
+					 
+					 if (in_array(Helper_function::nama_hari($date), array('Minggu', 'Sabtu')) and in_array($date, $hari_libur) and isset($hari_libur_shift[$date][$id_karyawan])) {
+						 $rekap[$id_karyawan]['total']['ijin_libur'][]= $date;
+						 
+					 }
+					
+						 $rekap[$id_karyawan]['total_id'][$lembur->m_jenis_ijin_id][]=$date;	
+					
+ 
+					 if(in_array($lembur->m_jenis_ijin_id,array(25,5)) and $lembur->periode_gajian==0){
+						 
+					 }else{
+					 if($date >= $tgl_awal){	
+					  $rekap[$id_karyawan][$date]['ci']['nama_ijin'] = $lembur->nama_ijin . '<br> ' . $lembur->tgl_awal . ' sd ' . $lembur->tgl_akhir . '<br> Total: ' . $lembur->lama.' Hari';
+					 $rekap[$id_karyawan][$date]['ci']['nama_ijin_only'] = $lembur->nama_ijin ;
+					 $rekap[$id_karyawan][$date]['ci']['keterangan'] = $lembur->keterangan;
+					 $rekap[$id_karyawan][$date]['ci']['lama'] = $lembur->lama;
+					 $rekap[$id_karyawan][$date]['ci']['jam_awal'] = $lembur->jam_awal;
+					 $rekap[$id_karyawan][$date]['ci']['tipe'] = $lembur->tipe;
+					 $rekap[$id_karyawan][$date]['ci']['m_jenis_ijin_id'] = $lembur->m_jenis_ijin_id;
+						$rekap[$id_karyawan][$date]['ci']['tipe_master'] = 3;
+				   
+					 $rekap[$id_karyawan][$date]['ci']['p_karyawan_id'] = $id_karyawan;
+					 $rekap[$id_karyawan][$date]['ci']['m_periode_absen_id'] = $periode_absen_id;
+					 $rekap[$id_karyawan][$date]['ci']['tanggal'] = $date;
+					 DB::connection()->table("absen_master")->insert($rekap[$id_karyawan][$date]['ci']);
+			 
+					 }
+					 }
+					
+					 $date = Helper_function::tambah_tanggal($date, 1);
+				 }
+			 }
+			 }else{
+				 $date = $lembur->tgl_awal;
+				 if($date >= $tgl_awal){
+					  for ($i = 0; $i <= Helper_function::hitunghari($lembur->tgl_awal, $lembur->tgl_akhir); $i++) {
+					 
+					 $rekap['pending_pengajuan'][$id_karyawan][$date]['nama_izin'] = $lembur->nama_ijin;
+					 $rekap['pending_pengajuan'][$id_karyawan][$date]['status'] = $lembur->status_appr_1;
+					 
+					 $rekap['pending_pengajuan'][$id_karyawan][$date]['tipe_master'] = 4;
+					 $rekap['pending_pengajuan'][$id_karyawan][$date]['m_periode_absen_id'] = $periode_absen_id;
+					   
+					 $rekap['pending_pengajuan'][$id_karyawan][$date]['p_karyawan_id'] = $id_karyawan;
+					 $rekap['pending_pengajuan'][$id_karyawan][$date]['tanggal'] = $date;
+					 DB::connection()->table("absen_master")->insert($rekap['pending_pengajuan'][$id_karyawan][$date]);
+				 
+					 $date = Helper_function::tambah_tanggal($date, 1);
+				 }
+			 }
+			 }
+		 
+			 
+			 DB::connection()->table("t_permit")->where("t_form_exit_id",$lembur->t_form_exit_id)->update(["master"=>1]);        
+		 
+		 }
+		 if(isset($rekap)){
+			
+		 $array['periode_absen_id'] = $periode_absen_id;
+		 $array['array_rekap'] = json_encode($rekap);
+		 $array['create_date'] = date('Y-m-d H:i:s');
+		 $array['tanggal'] = $tgl_awal;
+		 $array['jenis'] = 'pengajuan';
+		 
+		 DB::connection()->table('absen_master_rekap')->insert($array);
+		 }
+		 unset($rekap);
+		 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 $sqllembur = "Select c.*,m_jenis_ijin.kode as string_kode_ijin 
+ 
+		 from t_permit  c
+		 left join m_jenis_ijin on m_jenis_ijin.m_jenis_ijin_id = c.m_jenis_ijin_id
+		 
+		 join p_karyawan_pekerjaan d on c.p_karyawan_id = d.p_karyawan_id
+		 where 
+	 (case
+	 WHEN status_appr_1=1 and appr_2 is null THEN tgl_appr_1>='$tgl_awal' and  tgl_appr_1<='$tgl_akhir'
+		 WHEN status_appr_1=1 and status_appr_2=1 THEN tgl_appr_2>='$tgl_awal' and  tgl_appr_2<='$tgl_akhir'
+		 WHEN appr_1 is null and status_appr_2=1 THEN tgl_appr_2>='$tgl_awal' and  tgl_appr_2<='$tgl_akhir'
+		 end)
+		 and c.m_jenis_ijin_id = 22
+		 and c.p_karyawan_id = $id_karyawan
+		 and c.active=1
+		 
+		 
+		 ORDER BY c.p_karyawan_id asc";
+		 $lembur = DB::connection()->select($sqllembur);
+		 //$karyawan = array();
+		 //$rekap = array();
+			 //echo $sqllembur;
+		 // echo '<pre>';print_r($lembur); echo '</pre>';
+		 $array_tgl = array();
+		 $tgl_awal_lembur_ajuan = $tgl_awal;
+		 
+		 foreach ($lembur as $lembur) {
+			 if (!in_array($id_karyawan, $karyawan))
+				 $karyawan[] = $id_karyawan;
+ 
+			 if (!isset($rekap[$id_karyawan]['lembur'])) {
+				 $rekap[$id_karyawan]['lembur']['total_pengajuan'] = 0;
+				 $rekap[$id_karyawan]['lembur']['total_pending'] = 0;
+				 $rekap[$id_karyawan]['lembur']['total_approve'] = 0;
+				 $rekap[$id_karyawan]['lembur']['total_tolak'] = 0;
+				 $rekap[$id_karyawan]['lembur']['tgl_pending'] = '';
+			 }
+			 $rekap[$id_karyawan]['lembur']['total_pengajuan'] += (int)$lembur->lama;
+			 if (($lembur->status_appr_1 == 1 and $lembur->appr_2 == null)
+				 or ($lembur->status_appr_1 == 1 and $lembur->status_appr_2 == 1)
+				 or  ($lembur->appr_1 == null and $lembur->status_appr_2 == 1)
+			 ) {
+ 
+				 if ($lembur->tgl_awal >= '2022-09-27') {
+					 if ($lembur->status_appr_1 == 1 and $lembur->appr_2 == null)
+						 $tgl = $lembur->tgl_appr_1;
+					 else if ($lembur->status_appr_1 == 1 and $lembur->status_appr_2 == 1)
+						 $tgl = $lembur->tgl_appr_2;
+					 else if ($lembur->appr_1 == null and $lembur->status_appr_2 == 1)
+						 $tgl = $lembur->tgl_appr_2;
+				 } else {
+					 $tgl = $lembur->tgl_awal;
+				 }
+				 $list_permit[] = $lembur->t_form_exit_id;
+				 $rekap[$id_karyawan]['lembur']['total_approve'] += (int)$lembur->lama;
+ 
+				 $array_tgl[] =  $lembur->tgl_awal;;
+				 $tgl_appr = $lembur->tgl_awal;
+ 
+				 $rekap['approve'][$id_karyawan][$tgl_appr]['tipe_lembur'] = $lembur->tipe_lembur;
+				 $rekap['approve'][$id_karyawan][$tgl_appr]['tgl_awal'] = $lembur->tgl_awal;
+				 $rekap['approve'][$id_karyawan][$tgl_appr]['tgl_akhir'] = $lembur->tgl_akhir;
+				 
+				 
+				 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['tipe_lembur'] = $lembur->tipe_lembur;
+				 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['tgl_awal'] = $lembur->tgl_awal;
+				 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['tgl_akhir'] = $lembur->tgl_akhir;
+				 
+				 
+				 if(!isset( $rekap['approve'][$id_karyawan][$tgl_appr]['lama'])){
+				 
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['lama'] = $lembur->lama;
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['keterangan'] = $lembur->keterangan;
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['jam_awal'] = $lembur->jam_awal;
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['jam_akhir'] = $lembur->jam_akhir;
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['total_ajuan'] = 1;
+					 
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['lama'] = $lembur->lama;
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['keterangan'] = $lembur->keterangan;
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['jam_awal'] = $lembur->jam_awal;
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['jam_akhir'] = $lembur->jam_akhir;
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['total_ajuan'] = 1;
+					 
+				 }else{
+					 
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['total_ajuan'] += 1;
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['total_ajuan'] += 1;
+				 
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['lama'] += $lembur->lama;
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['keterangan'] = str_replace(',','','<br><b style="font-weight:700">'.
+								 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['jam_awal'].'</b><br>'.
+								 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['keterangan']
+								 .'  |  '.'<b style="font-weight:700">'.$lembur->jam_awal.'</b><br>'.$lembur->keterangan);	 
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['jam_awal'] = $rekap['approve'][$id_karyawan][$tgl_appr]['jam_awal'].' s/d '.$rekap['approve'][$id_karyawan][$tgl_appr]['jam_akhir'].' | '.$lembur->jam_awal.' s/d '.$lembur->jam_akhir;
+					 $rekap['approve'][$id_karyawan][$tgl_appr]['jam_akhir'] = '';
+					 
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['lama'] += $lembur->lama;
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['keterangan']= str_replace(',','','<br><b style="font-weight:700">'.
+								 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['jam_awal'].'</b><br>'.
+								 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['keterangan']
+								 
+								 .'  |  '
+								 .'<b style="font-weight:700">'.$lembur->jam_awal.'</b><br>'.$lembur->keterangan);
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['jam_awal'] =$rekap['approve'][$id_karyawan][$tgl_appr]['jam_awal'].' s/d '.$rekap['approve'][$id_karyawan][$tgl_appr]['jam_akhir'].' | '.$lembur->jam_awal.' s/d '.$lembur->jam_akhir;
+					 $rekap['ajuan'][$id_karyawan][$lembur->tgl_awal]['jam_akhir'] ='';
+ 
+				 }
+			 
+			 
+			 DB::connection()->table("t_permit")->where("t_form_exit_id",$lembur->t_form_exit_id)->update(["master"=>1]);     
+						 
+				 if($tgl_awal_lembur_ajuan>=$lembur->tgl_awal)
+						 $tgl_awal_lembur_ajuan = $lembur->tgl_awal;
+			 } else if (
+				 ($lembur->status_appr_1 == 2 and $lembur->appr_2 == null)
+				 or  ($lembur->status_appr_1 == 2 and $lembur->status_appr_2 == 2)
+				 or  ($lembur->appr_1 == null and $lembur->status_appr_2 == 2)
+				 or  ($lembur->status_appr_1 == 1 and $lembur->status_appr_2 == 2)
+			 ) {
+				 $rekap[$id_karyawan]['lembur']['total_tolak'] += (int)$lembur->lama;
+			 } else {
+				 $rekap[$id_karyawan]['lembur']['total_pending'] += (int)$lembur->lama;
+				 $rekap[$id_karyawan]['lembur']['tgl_pending'] .= $lembur->tgl_awal . ' | ';
+			 }
+		 }
+		 if(isset($rekap)){
+		 $array['periode_absen_id'] = $periode_absen_id;
+		 $array['array_rekap'] = json_encode($rekap);
+		 $array['create_date'] = date('Y-m-d H:i:s');
+		 $array['tanggal'] = $tgl_awal;
+		 $array['jenis'] = 'lembur';
+		 
+		 DB::connection()->table('absen_master_rekap')->insert($array);
+		 }
+		 unset($rekap);
+			 
+		 $countklari        = DB::connection()->select("select * from chat_room where  tanggal >= '$tgl_awal' and  tanggal<='$tgl_akhir' and p_karyawan_create_id=$id_karyawan ");
+		 foreach($countklari as $klarifi){
+			  $rekap['klarifikasi'][$id_karyawan][$klarifi->tanggal]['topik'] = $klarifi->topik;
+			 $rekap['klarifikasi'][$id_karyawan][$klarifi->tanggal]['deskripsi'] = $klarifi->deskripsi;
+			 
+			 $rekap['klarifikasi'][$id_karyawan][$klarifi->tanggal]['tipe_master'] = 7;
+			 $rekap['klarifikasi'][$id_karyawan][$klarifi->tanggal]['m_periode_absen_id'] = $periode_absen_id;
+			 $rekap['klarifikasi'][$id_karyawan][$klarifi->tanggal]['p_karyawan_create_id'] = $id_karyawan;
+			 $rekap['klarifikasi'][$id_karyawan][$klarifi->tanggal]['tanggal'] = $klarifi->tanggal;
+			 
+			 DB::connection()->table("absen_master")->insert($rekap['klarifikasi'][$id_karyawan][$klarifi->tanggal]);
+			 
+			 
+			 DB::connection()->table("chat_room")->where("chat_room_id",$klarifi->chat_room_id)->update(["master"=>1]);     
+				  
+		  }
+		 
+		 
+		 
+		   DB::connection()->table("absen_master_generate")->where("absen_master_generate_id",$g->absen_master_generate_id)->update(["status"=>1]);     
+				
+		 }
+		 if(isset($rekap)){
+		 $array['periode_absen_id'] = $periode_absen_id;
+		 $array['array_rekap'] = json_encode($rekap);
+		 $array['create_date'] = date('Y-m-d H:i:s');
+		 
+		 DB::connection()->table('absen_master_rekap')->insert($array);
+		 }
+		 unset($rekap);
+		 $time = $waktu;
+		  $time = $time?$time:60000;
+		  $time = $time/1000/$limit;
+		 $sqlgenerate = "SELECT count(*) as jumlah_semua_karyawan,count(CASE WHEN status = 1 THEN 1 END)  as yang_sudah FROM absen_master_generate a where active=1 $where $hwere_karyawan";
+		 //////echo $sqluser;
+		 $generete = DB::connection()->select($sqlgenerate);
+		 $persen = round($generete[0]->yang_sudah / $generete[0]->jumlah_semua_karyawan * 100, 2);
+		 $init = ($generete[0]->jumlah_semua_karyawan - $generete[0]->yang_sudah) * $time;
+		 $hours = floor($init / 3600);
+		 $minutes = floor(($init / 60) % 60);
+		 $seconds = $init % 60;
+ 
+		 $Jam = $hours ? $hours . ' Jam ' : '';
+		 $menit = $minutes ? $minutes . ' Menit ' : '';
+		 $sekon = $seconds ? $seconds . ' Detik ' : '';
+		 //echo "$hours:$minutes:$seconds";
+		 echo '<div class="card">
+										 <div class="card-body text-center">
+											 <br>
+											 <h3>' . $persen . '%</h3>
+											 <h4 class="holiday-title mb-0">' . $generete[0]->yang_sudah . ' dari ' . $generete[0]->jumlah_semua_karyawan . '</h4>
+											 <div>' . $Jam . $menit . $sekon . ' </div>
+											 <div class="text-red" style="color:red;">PERINGATAN!!! TAB JANGAN DI TUTUP SEBELUM SELESAI</div>
+										 </div>
+									 </div>
+									 <input type="hidden" value="'.$persen.'" id="generate">
+									 ';
+		 }else{
+			 echo 'Generate Rekap Absen/Lembur selesai 
+			 <input type="hidden" value="101" id="generate">
+			 ';
+		 }
+		 
+	 }
+   
+	public static function hitung_rekap_absen23(Request $request){
+	    $help = new Helper_function();
+	   $absen_master_gen = DB::Connection()->select("select * from absen_master_generate_tanggal where periode_absen_id = $request->periode_absen_id and status=0 and active=1 order by tanggal limit 1");
+	    
+       
+        
+	    foreach($absen_master_gen as $g){
+            $date = $g->tanggal;
+            RekapAbsenController::hitung_generate_rekap_absen($date,$date,$request->periode_absen_id);
+             DB::connection()->table("absen_master_generate_tanggal")->where("absen_master_generate_tanggal_id",$g->absen_master_generate_tanggal_id)->update(["status"=>1]);     
+             
+            $date=$help->tambah_tanggal($date,1);
+             $time = $request->get('waktu');
+         $time = $time?$time:5000;
+         $time = $time/1000;
+        
+        $sqlgenerate = "SELECT count(*) as jumlah_semua_karyawan,count(CASE WHEN status = 1 THEN 1 END)  as yang_sudah FROM absen_master_generate_tanggal a where periode_absen_id = $request->periode_absen_id and active=1";
+        //////echo $sqluser;
+        $generete = DB::connection()->select($sqlgenerate);
+        $persen = round($generete[0]->yang_sudah / $generete[0]->jumlah_semua_karyawan * 100, 2);
+        $init = ($generete[0]->jumlah_semua_karyawan - $generete[0]->yang_sudah) * $time;
+        $hours = floor($init / 3600);
+        $minutes = floor(($init / 60) % 60);
+        $seconds = $init % 60;
+
+        $Jam = $hours ? $hours . ' Jam ' : '';
+        $menit = $minutes ? $minutes . ' Menit ' : '';
+        $sekon = $seconds ? $seconds . ' Detik ' : '';
+        //echo "$hours:$minutes:$seconds";
+        echo '<div class="card">
+										<div class="card-body text-center">
+											<br>
+											<h3>' . $persen . '%</h3>
+											<h4 class="holiday-title mb-0">' . $generete[0]->yang_sudah . ' dari ' . $generete[0]->jumlah_semua_karyawan . '</h4>
+											<div>' . $Jam . $menit . $sekon . ' </div>
+											<div class="text-red" style="color:red;">PERINGATAN!!! TAB JANGAN DI TUTUP SEBELUM SELESAI</div>
+										</div>
+									</div>
+									<input type="hidden" value="'.$persen.'" id="generate">
+									';
+        }
+	}
+
+  
+	public static function hitung_generate_rekap_absen3($tgl_awal,$tgl_akhir,$periode_absen_id){
+	   
+	    
+	        $sql = "select * from m_hari_libur where tanggal >= '$tgl_awal'  and active=1 and tanggal <='$tgl_akhir'";
+        $harilibur = DB::connection()->select($sql);
+        $hari_libur = array();
+        $hari_libur_except_pengkhususan = array();
+        $hari_libur_except_pengecualian = array();
+        $tanggallibur = array();
+        $hr = 0;
+        foreach ($harilibur as $libur) {
+        	$sql = "select * from m_hari_libur_except where active = 1 and m_hari_libur_id = $libur->m_hari_libur_id";
+        	$hariliburexcept = DB::connection()->select($sql);
+        	foreach($hariliburexcept as $except){
+        		if($except->jenis==1)
+            		$hari_libur_except_pengecualian[$libur->tanggal][] = $except->m_lokasi_id;
+        		if($except->jenis==2)
+            		$hari_libur_except_pengkhususan[$libur->tanggal][] = $except->m_lokasi_id;
+        		
+        	}
+            $hari_libur[$hr] = $libur->tanggal;
+            $tanggallibur[$libur->tanggal] = $libur->nama;
+        	$hr++;
+        }
+        $hari_libur_shift = array();
+        $sql = "select * from absen_libur_shift where tanggal >= '$tgl_awal' and tanggal <='$tgl_akhir' and absen_libur_shift.active = 1";
+        $harilibur = DB::connection()->select($sql);
+        foreach ($harilibur as $libur) {
+            $hari_libur_shift[$libur->tanggal][$libur->p_karyawan_id] = 1;
+        }
+
+        $sql = "Select * from m_mesin_absen";
+        $dmesin    = DB::connection()->select($sql);
+        foreach ($dmesin as $dmesin) {
+            $mesin[$dmesin->mesin_id] = $dmesin->nama;
+        }
+	       
+	       
+	        $sqlabsen = "
+
+		select a.*,d.p_karyawan_id,c.m_lokasi_id, case
+				when
+					(select count(*)
+							from absen_shift
+								join absen on absen.absen_id = absen_shift.absen_id
+								where absen.active = 1
+									and absen_shift.active = 1
+									and absen_shift.p_karyawan_id=c.p_karyawan_id
+									and absen_shift.tanggal = to_char(a.date_time, 'YYYY-MM-DD')::date
+
+					 )>=1
+
+				then
+					(select jam_masuk
+						from absen_shift
+							join absen on absen.absen_id = absen_shift.absen_id
+							where absen.active = 1
+								and absen_shift.active = 1
+								and absen_shift.p_karyawan_id=c.p_karyawan_id
+								and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date limit 1)
+				else (select jam_masuk
+						from absen
+							where absen.tgl_awal<=a.date_time and absen.tgl_akhir>=a.date_time
+								and absen.m_lokasi_id = c.m_lokasi_id
+								and shifting = 0 limit 1)
+				end as jam_masuk
+
+			, case
+					when
+						(select count(*)
+							from absen_shift
+								join absen on absen.absen_id = absen_shift.absen_id
+								where absen.active = 1
+									and absen_shift.active = 1
+									and absen_shift.p_karyawan_id=c.p_karyawan_id
+									and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date )>=1
+
+					then (select jam_keluar
+							from absen_shift
+								join absen on absen.absen_id = absen_shift.absen_id
+								where absen.active = 1
+									and absen_shift.active = 1
+									and absen_shift.p_karyawan_id=c.p_karyawan_id
+									and absen_shift.tanggal=to_char(a.date_time, 'YYYY-MM-DD')::date limit 1)
+					else
+						(select jam_keluar
+							from absen
+								where absen.tgl_awal<=a.date_time
+									 and absen.tgl_akhir>=a.date_time and absen.m_lokasi_id = c.m_lokasi_id
+									 and shifting = 0 limit 1)
+
+					end as jam_keluar
+
+
+			 from absen_log a
+			 left join p_karyawan_absen b on b.no_absen = a.pin
+			 left join p_karyawan_pekerjaan c on b.p_karyawan_id = c.p_karyawan_id
+			 left join p_karyawan d on b.p_karyawan_id = d.p_karyawan_id
+
+
+			 where a.date_time>='$tgl_awal' and a.date_time<='$tgl_akhir 23:59:59'
+			 
+			 and master = 0
+    		group by date_time,status_absen_id,absen_log_id,mesin_id,time_before_update,updated_by,updated_at,jam_masuk,jam_keluar,ver,d.p_karyawan_id,c.m_lokasi_id
+    		order by date_time desc
+    		
+    		";
+            $absen = DB::connection()->select($sqlabsen);
+            foreach($absen as $absen){
+            $date = date('Y-m-d', strtotime($absen->date_time));
+            $time = date('H:i:s', strtotime($absen->date_time));
+            $time2 = date('H:i:s', strtotime($absen->date_time));
+
+            if ($absen->ver == 1) {
+                $id_karyawan = $absen->p_karyawan_id;
+                /*if($id_karyawan){
+$jam_masuk = "select case
+when (select count(*) from absen_shift join absen on absen.absen_id = absen_shift.absen_id where absen.active = 1 and absen_shift.p_karyawan_id=".$absen->p_karyawan_id." and absen_shift.tanggal='$date' )>=1
+
+then (select jam_masuk from absen_shift join absen on absen.absen_id = absen_shift.absen_id where absen.active = 1 and absen_shift.p_karyawan_id=".$absen->p_karyawan_id." and absen_shift.tanggal='$date' limit 1)
+
+
+end as jam_masuk";
+$jam_masuk=DB::connection()->select($jam_masuk);
+if($jam_masuk[0]->jam_masuk){
+$masuk = $jam_masuk[0]->jam_masuk;
+}else{
+$masuk = $absen->jam_masuk;
+}
+}else*/
+                $masuk = $absen->jam_masuk;
+                $rekap[$absen->p_karyawan_id][$date]['a']['masuk'] = $time;
+                $rekap[$absen->p_karyawan_id][$date]['a']['jam_masuk'] = $masuk;
+                $lokasi_id = $absen->m_lokasi_id;
+                $rekap[$absen->p_karyawan_id][$date]['a']['status_masuk'] = $absen->status_absen_id;
+                $rekap[$absen->p_karyawan_id][$date]['a']['updated_at_masuk'] = $absen->updated_at;
+                $rekap[$absen->p_karyawan_id][$date]['a']['updated_by_masuk'] = $absen->updated_by;
+                $rekap[$absen->p_karyawan_id][$date]['a']['time_before_update_masuk'] = $absen->time_before_update;
+                $rekap[$absen->p_karyawan_id][$date]['a']['mesin_id'] = $absen->mesin_id;
+                $rekap[$absen->p_karyawan_id][$date]['a']['absen_log_id_masuk'] = $absen->absen_log_id;
+                
+            $rekap[$absen->p_karyawan_id][$date]['a']['tipe_master'] = 1;
+            } else if ($absen->ver == 2) {
+                $id_karyawan = $absen->p_karyawan_id;
+                /*if($id_karyawan){
+$jam_masuk = "select case
+when (select count(*) from absen_shift join absen on absen.absen_id = absen_shift.absen_id where absen.active = 1 and absen_shift.p_karyawan_id=".$absen->p_karyawan_id." and absen_shift.tanggal='$date' )>=1
+
+then (select jam_keluar from absen_shift join absen on absen.absen_id = absen_shift.absen_id where absen.active = 1 and absen_shift.p_karyawan_id=".$absen->p_karyawan_id." and absen_shift.tanggal='$date' limit 1)
+
+
+end as jam_keluar";
+$jam_masuk=DB::connection()->select($jam_masuk);
+if($jam_masuk[0]->jam_keluar){
+$keluar = $jam_masuk[0]->jam_keluar;
+}else{
+$keluar = $absen->jam_keluar;
+}
+}else
+$masuk = $absen->jam_masuk;*/
+                $keluar = $absen->jam_keluar;
+                $rekap[$absen->p_karyawan_id][$date]['a']['keluar'] = $time;
+                $rekap[$absen->p_karyawan_id][$date]['a']['jam_keluar'] = $keluar;
+                $rekap[$absen->p_karyawan_id][$date]['a']['absen_log_id_keluar'] = $absen->absen_log_id;
+
+                $rekap[$absen->p_karyawan_id][$date]['a']['status_keluar'] = $absen->status_absen_id;
+                $rekap[$absen->p_karyawan_id][$date]['a']['updated_at_keluar'] = $absen->updated_at;
+                $rekap[$absen->p_karyawan_id][$date]['a']['updated_by_keluar'] = $absen->updated_by;
+                $rekap[$absen->p_karyawan_id][$date]['a']['time_before_update_keluar'] = $absen->time_before_update;
+                $rekap[$absen->p_karyawan_id][$date]['a']['tipe_master'] = 2;
+            }
+            $rekap[$absen->p_karyawan_id][$date]['a']['m_periode_absen_id'] = $periode_absen_id;
+            $rekap[$absen->p_karyawan_id][$date]['a']['p_karyawan_id'] = $absen->p_karyawan_id;
+            $rekap[$absen->p_karyawan_id][$date]['a']['tanggal'] = $date;
+            DB::connection()->table("absen_master")->insert($rekap[$absen->p_karyawan_id][$date]['a']);
+            
+            
+            DB::connection()->table("absen_log")->where("absen_log_id",$absen->absen_log_id)->update(["master"=>1]);
+            
+            
+            
+        }		
+           
+	       
+	       
+	       
+	       
+	       
+	        $sqllembur = "Select m_jenis_ijin.nama as nama_ijin,m_jenis_ijin.tipe,c.t_form_exit_id,c.m_jenis_ijin_id,c.lama,c.keterangan,c.p_karyawan_id,c.tgl_awal,c.tgl_akhir,c.jam_awal,c.status_appr_hr,a.periode_gajian,status_appr_1,m_jenis_ijin.kode as string_kode_ijin
+        		from t_permit c
+        		left join m_jenis_ijin on m_jenis_ijin.m_jenis_ijin_id = c.m_jenis_ijin_id
+        		left join p_karyawan_pekerjaan a on c.p_karyawan_id = a.p_karyawan_id 
+        		where ((c.tgl_awal>='$tgl_awal' and c.tgl_awal<='$tgl_akhir 23:59') or
+        		(c.tgl_akhir>='$tgl_awal' and c.tgl_akhir>='$tgl_akhir 23:59') or
+        		(c.tgl_akhir>='$tgl_awal' and c.tgl_akhir<='$tgl_akhir 23:59') or
+        		(c.tgl_awal<='$tgl_awal' and c.tgl_akhir<='$tgl_awal 23:59' and c.tgl_akhir is not null)) and
+        		c.m_jenis_ijin_id != 22
+        		ORDER BY c.p_karyawan_id asc ";
+            $lembur = DB::connection()->select($sqllembur); 
+            
+            $karyawan = array();
+            foreach ($lembur as $lembur) {
+        	$date = $lembur->tgl_awal;
+        	if($lembur->status_appr_1==1){
+        		
+            if (!in_array($lembur->p_karyawan_id, $karyawan))
+                $karyawan[] = $lembur->p_karyawan_id;
+            if ($lembur->status_appr_hr != 2) {
+                $date = $lembur->tgl_awal;
+                if (!$lembur->tgl_akhir)
+                    $lembur->tgl_akhir = $lembur->tgl_awal;
+                
+                if ($lembur->tgl_akhir=='1970-01-01')
+                    $lembur->tgl_akhir = $lembur->tgl_awal;
+                for ($i = 0; $i <= Helper_function::hitunghari($lembur->tgl_awal, $lembur->tgl_akhir); $i++) {
+                    if (in_array(Helper_function::nama_hari($date), array('Minggu', 'Sabtu')) and in_array($date, $hari_libur) and isset($hari_libur_shift[$date][$id_karyawan])) {
+                    	if(isset($rekap[$lembur->p_karyawan_id]['total']['ijin_libur']))
+                        $rekap[$lembur->p_karyawan_id]['total']['ijin_libur'] += 1;
+                    	else
+                        $rekap[$lembur->p_karyawan_id]['total']['ijin_libur'] = 1;
+                    }
+                    if(isset($rekap[$lembur->p_karyawan_id]['total_id'][$lembur->m_jenis_ijin_id])){
+                    	$rekap[$lembur->p_karyawan_id]['total_id'][$lembur->m_jenis_ijin_id]+=1;	
+                    }else{
+                    	$rekap[$lembur->p_karyawan_id]['total_id'][$lembur->m_jenis_ijin_id]=1;	
+                    }
+
+					if(in_array($lembur->m_jenis_ijin_id,array(25,5)) and $lembur->periode_gajian==0){
+						
+					}else{
+						
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['nama_ijin'] = $lembur->nama_ijin . '<br> ' . $lembur->tgl_awal . ' sd ' . $lembur->tgl_akhir . '<br> Total: ' . $lembur->lama.' Hari';
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['nama_ijin_only'] = $lembur->nama_ijin ;
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['keterangan'] = $lembur->keterangan;
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['lama'] = $lembur->lama;
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['jam_awal'] = $lembur->jam_awal;
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['tipe'] = $lembur->tipe;
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['m_jenis_ijin_id'] = $lembur->m_jenis_ijin_id;
+	                   $rekap[$lembur->p_karyawan_id][$date]['ci']['tipe_master'] = 3;
+                  
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['p_karyawan_id'] = $lembur->p_karyawan_id;
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['m_periode_absen_id'] = $periode_absen_id;
+                    $rekap[$lembur->p_karyawan_id][$date]['ci']['tanggal'] = $date;
+                    DB::connection()->table("absen_master")->insert($rekap[$lembur->p_karyawan_id][$date]['ci']);
+            
+					}
+                    $date = Helper_function::tambah_tanggal($date, 1);
+                }
+            }
+        	}else{
+        		$date = $lembur->tgl_awal;
+        		$rekap['pending_pengajuan'][$lembur->p_karyawan_id][$date]['nama_izin'] = $lembur->nama_ijin;
+        		$rekap['pending_pengajuan'][$lembur->p_karyawan_id][$date]['status'] = $lembur->status_appr_1;
+        		
+        		$rekap['pending_pengajuan'][$lembur->p_karyawan_id][$date]['tipe_master'] = 4;
+        		$rekap['pending_pengajuan'][$lembur->p_karyawan_id][$date]['m_periode_absen_id'] = $periode_absen_id;
+                  
+                $rekap['pending_pengajuan'][$lembur->p_karyawan_id][$date]['p_karyawan_id'] = $lembur->p_karyawan_id;
+                $rekap['pending_pengajuan'][$lembur->p_karyawan_id][$date]['tanggal'] = $date;
+                DB::connection()->table("absen_master")->insert($rekap['pending_pengajuan'][$lembur->p_karyawan_id][$date]);
+        	}
+        
+            
+            DB::connection()->table("t_permit")->where("t_form_exit_id",$lembur->t_form_exit_id)->update(["master"=>1]);        
+        }
+	    
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        $sqllembur = "Select c.*,m_jenis_ijin.kode as string_kode_ijin 
+
+		from t_permit  c
+		left join m_jenis_ijin on m_jenis_ijin.m_jenis_ijin_id = c.m_jenis_ijin_id
+		
+		join p_karyawan_pekerjaan d on c.p_karyawan_id = d.p_karyawan_id
+		where 
+	(case
+	WHEN status_appr_1=1 and appr_2 is null THEN tgl_appr_1>='$tgl_awal' and  tgl_appr_1<='$tgl_akhir'
+		WHEN status_appr_1=1 and status_appr_2=1 THEN tgl_appr_2>='$tgl_awal' and  tgl_appr_2<='$tgl_akhir'
+		WHEN appr_1 is null and status_appr_2=1 THEN tgl_appr_2>='$tgl_awal' and  tgl_appr_2<='$tgl_akhir'
+		end)
+		and c.m_jenis_ijin_id = 22
+		and c.active=1
+		
+		
+		ORDER BY c.p_karyawan_id asc";
+        $lembur = DB::connection()->select($sqllembur);
+        //$karyawan = array();
+        //$rekap = array();
+
+        //echo '<pre>';print_r($lembur); echo '</pre>';die;
+        $array_tgl = array();
+        $tgl_awal_lembur_ajuan = $tgl_awal;
+        
+        foreach ($lembur as $lembur) {
+            if (!in_array($lembur->p_karyawan_id, $karyawan))
+                $karyawan[] = $lembur->p_karyawan_id;
+
+            if (!isset($rekap[$lembur->p_karyawan_id]['lembur'])) {
+                $rekap[$lembur->p_karyawan_id]['lembur']['total_pengajuan'] = 0;
+                $rekap[$lembur->p_karyawan_id]['lembur']['total_pending'] = 0;
+                $rekap[$lembur->p_karyawan_id]['lembur']['total_approve'] = 0;
+                $rekap[$lembur->p_karyawan_id]['lembur']['total_tolak'] = 0;
+                $rekap[$lembur->p_karyawan_id]['lembur']['tgl_pending'] = '';
+            }
+            $rekap[$lembur->p_karyawan_id]['lembur']['total_pengajuan'] += (int)$lembur->lama;
+            if (($lembur->status_appr_1 == 1 and $lembur->appr_2 == null)
+                or ($lembur->status_appr_1 == 1 and $lembur->status_appr_2 == 1)
+                or  ($lembur->appr_1 == null and $lembur->status_appr_2 == 1)
+            ) {
+
+                if ($lembur->tgl_awal >= '2022-09-27') {
+                    if ($lembur->status_appr_1 == 1 and $lembur->appr_2 == null)
+                        $tgl = $lembur->tgl_appr_1;
+                    else if ($lembur->status_appr_1 == 1 and $lembur->status_appr_2 == 1)
+                        $tgl = $lembur->tgl_appr_2;
+                    else if ($lembur->appr_1 == null and $lembur->status_appr_2 == 1)
+                        $tgl = $lembur->tgl_appr_2;
+                } else {
+                    $tgl = $lembur->tgl_awal;
+                }
+                $list_permit[] = $lembur->t_form_exit_id;
+                $rekap[$lembur->p_karyawan_id]['lembur']['total_approve'] += (int)$lembur->lama;
+
+                $array_tgl[] =  $lembur->tgl_awal;;
+                $tgl_appr = $lembur->tgl_awal;
+
+                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['tipe_lembur'] = $lembur->tipe_lembur;
+                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['tgl_awal'] = $lembur->tgl_awal;
+                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['tgl_akhir'] = $lembur->tgl_akhir;
+                
+                
+                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['tipe_lembur'] = $lembur->tipe_lembur;
+                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['tgl_awal'] = $lembur->tgl_awal;
+                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['tgl_akhir'] = $lembur->tgl_akhir;
+                
+                
+                if(!isset( $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['lama'])){
+                
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['lama'] = $lembur->lama;
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['keterangan'] = $lembur->keterangan;
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_awal'] = $lembur->jam_awal;
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_akhir'] = $lembur->jam_akhir;
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['total_ajuan'] = 1;
+	                
+					$rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['lama'] = $lembur->lama;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['keterangan'] = $lembur->keterangan;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['jam_awal'] = $lembur->jam_awal;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['jam_akhir'] = $lembur->jam_akhir;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['total_ajuan'] = 1;
+	                
+                }else{
+                	
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['total_ajuan'] += 1;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['total_ajuan'] += 1;
+	            
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['lama'] += $lembur->lama;
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['keterangan'] = '<br><b style="font-weight:700">'.
+	                			$rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['jam_awal'].'</b><br>'.
+	                			$rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['keterangan']
+	                			
+	                			.'  |  '
+	                			.'<b style="font-weight:700">'.$lembur->jam_awal.'</b><br>'.$lembur->keterangan;	 
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_awal'] = $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_awal'].' s/d '.$rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_akhir'].' | '.$lembur->jam_awal.' s/d '.$lembur->jam_akhir;
+	                $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_akhir'] = '';
+	                
+					$rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['lama'] += $lembur->lama;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['keterangan']= '<br><b style="font-weight:700">'.
+	                			$rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['jam_awal'].'</b><br>'.
+	                			$rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['keterangan']
+	                			
+	                			.'  |  '
+	                			.'<b style="font-weight:700">'.$lembur->jam_awal.'</b><br>'.$lembur->keterangan;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['jam_awal'] =$rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_awal'].' s/d '.$rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['jam_akhir'].' | '.$lembur->jam_awal.' s/d '.$lembur->jam_akhir;
+	                $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['jam_akhir'] ='';
+
+                }
+            
+            $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['tipe_master'] = 5;
+            $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['m_periode_absen_id'] = $periode_absen_id;
+            $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['p_karyawan_id'] = $lembur->p_karyawan_id;
+            $rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]['tanggal'] = $date;
+           // print_r($rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]);
+            DB::connection()->table("absen_master")->insert($rekap[$lembur->p_karyawan_id]['lembur'][$tgl_appr]);
+            
+            $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['tipe_master'] = 6;
+            $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['m_periode_absen_id'] = $periode_absen_id;
+            $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['p_karyawan_id'] = $lembur->p_karyawan_id;
+            $rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']['tanggal'] = $date;
+            DB::connection()->table("absen_master")->insert($rekap[$lembur->p_karyawan_id][$lembur->tgl_awal]['ajuan']);
+            
+            DB::connection()->table("t_permit")->where("t_form_exit_id",$lembur->t_form_exit_id)->update(["master"=>1]);     
+                		
+                if($tgl_awal_lembur_ajuan>=$lembur->tgl_awal)
+                		$tgl_awal_lembur_ajuan = $lembur->tgl_awal;
+            } else if (
+                ($lembur->status_appr_1 == 2 and $lembur->appr_2 == null)
+                or  ($lembur->status_appr_1 == 2 and $lembur->status_appr_2 == 2)
+                or  ($lembur->appr_1 == null and $lembur->status_appr_2 == 2)
+                or  ($lembur->status_appr_1 == 1 and $lembur->status_appr_2 == 2)
+            ) {
+                $rekap[$lembur->p_karyawan_id]['lembur']['total_tolak'] += (int)$lembur->lama;
+            } else {
+                $rekap[$lembur->p_karyawan_id]['lembur']['total_pending'] += (int)$lembur->lama;
+                $rekap[$lembur->p_karyawan_id]['lembur']['tgl_pending'] .= $lembur->tgl_awal . ' | ';
+            }
+        }
+	        
+	    $countklari        = DB::connection()->select("select * from chat_room where  tanggal >= '$tgl_awal' and  tanggal<='$tgl_akhir'  ");
+        foreach($countklari as $klarifi){
+         	$rekap['klarifikasi'][$klarifi->p_karyawan_create_id][$klarifi->tanggal]['topik'] = $klarifi->topik;
+            $rekap['klarifikasi'][$klarifi->p_karyawan_create_id][$klarifi->tanggal]['deskripsi'] = $klarifi->deskripsi;
+            
+            $rekap['klarifikasi'][$klarifi->p_karyawan_create_id][$klarifi->tanggal]['tipe_master'] = 7;
+            $rekap['klarifikasi'][$klarifi->p_karyawan_create_id][$klarifi->tanggal]['m_periode_absen_id'] = $periode_absen_id;
+            $rekap['klarifikasi'][$klarifi->p_karyawan_create_id][$klarifi->tanggal]['p_karyawan_create_id'] = $klarifi->p_karyawan_create_id;
+            $rekap['klarifikasi'][$klarifi->p_karyawan_create_id][$klarifi->tanggal]['tanggal'] = $date;
+            
+            DB::connection()->table("absen_master")->insert($rekap['klarifikasi'][$klarifi->p_karyawan_create_id][$klarifi->tanggal]);
+            
+            
+            DB::connection()->table("chat_room")->where("chat_room_id",$klarifi->chat_room_id)->update(["master"=>1]);     
+             	
+         }
+	    
+	    
+	    
+	      DB::connection()->table("absen_master_generate")->where("absen_master_generate_id",$g->absen_master_generate_id)->update(["status"=>1]);     
+               
+	    
+	    if(isset($rekap)){
+	    $array['periode_absen_id'] = $periode_absen_id;
+	    $array['tanggal'] = $tgl_awal;
+	    $array['array_rekap'] = json_encode($rekap);
+	    
+	    DB::connection()->table('absen_master_rekap')->insert($array);
+	    }
+	   
+	    
+	}
 }
 
 	

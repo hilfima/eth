@@ -130,7 +130,14 @@
                                 <label class="col-sm-2 control-label">Jam Akhir*</label>
                                 <div class="col-sm-10"><input type="time" class="form-control without_ampm" id="jam_akhir" name="jam_akhir" value="{!! $Lembur[0]->jam_akhir!!}" readonly></div>
                             </div>
-                        
+                         <div class="form-group row">
+                                <label class="col-sm-2 control-label">Jam Istirahat*</label>
+                                <div class="col-sm-10"><input type="time" class="form-control without_ampm" id="jam_akhir" name="jam_istirahat" value="{!! $Lembur[0]->jam_istirahat_awal!!}" readonly></div>
+                            </div>
+                        <div class="form-group row">
+                                <label class="col-sm-2 control-label">Jam Istirahat Akhir*</label>
+                                <div class="col-sm-10"><input type="time" class="form-control without_ampm" id="jam_akhir" name="jam_istirahat" value="{!! $Lembur[0]->jam_istirahat_akhir!!}" readonly></div>
+                            </div>                 
                             <!-- text input -->
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">Lama *</label>

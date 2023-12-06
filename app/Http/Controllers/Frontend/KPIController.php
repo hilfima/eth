@@ -26,7 +26,7 @@ class KPIController extends Controller
                        left join p_karyawan b on a.p_karyawan_id = b.p_karyawan_id 
                        left join m_jabatan e on a.m_jabatan_id	 = e.m_jabatan_id
                        
-                       where (atasan_1 = $id or atasan_2=$id)  and a.active = 1 order by  a.create_date desc";
+                       where ((atasan_1 = $id and status_appr_1=3) or (atasan_2=$id  and ((status_appr_1=1 and atasan_1 is not null) or atasan_1 is null) ))  and a.active = 1 order by  a.create_date desc";
         $kpi=DB::connection()->select($sqlkpi);
 		
        
@@ -40,18 +40,65 @@ class KPIController extends Controller
 			$id=$idkar[0]->p_karyawan_id;
 			
 			$sqlkpi="SELECT *
-                       FROM t_kpi_appr a
-                       left join t_kpi_detail e on a.t_kpi_detail_id = e.t_kpi_detail_id
-                       left join t_kpi f on e.t_kpi_id = f.t_kpi_id
-                       left join p_karyawan b on e.p_karyawan_id = b.p_karyawan_id 
+                       FROM t_kpi_pengajuan_appr a
+                        left join t_kpi f on a.t_kpi_id = f.t_kpi_id
+                       left join p_karyawan b on f.p_karyawan_id = b.p_karyawan_id 
                        
-                       where (appr = $id )  ";
+                       where ((atasan_1 = $id and status_appr_pengajuan1=3) or (atasan_2=$id  and ((a.status_appr_pengajuan1=1 and atasan_1 is not null) or atasan_1 is null) ))  ";
         $kpi=DB::connection()->select($sqlkpi);
 		
        
 
         return view('frontend.kpi.approval_parameter_kpi',compact('kpi','request','id'));
     }
+    public function acc_kpi_pengajuan  (Request $request, $detail,$ke)
+	{
+	    	DB::beginTransaction();
+		try {
+			$iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$id=$idkar[0]->p_karyawan_id;
+			DB::connection()->table("t_kpi_pengajuan_appr")
+			->where("t_kpi_pengajuan_appr_id",$detail)
+			->update([
+				"status_appr_pengajuan".$ke=>1,
+				"date_appr_pengajuan".$ke => date("Y-m-d H:i:s"),
+			
+			]);
+			
+			DB::commit();
+
+			return redirect()->route('fe.approval_parameter_kpi')->with('success','Approval  Berhasil di rubah!');
+		} catch (\Exeception $e) {
+			DB::rollback();
+			return redirect()->back()->with('error',$e);
+		}
+	}
+    public function dec_kpi_pengajuan  (Request $request, $detail,$ke)
+	{
+	    	DB::beginTransaction();
+		try {
+			$iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$id=$idkar[0]->p_karyawan_id;
+			DB::connection()->table("t_kpi_pengajuan")
+			->where("t_kpi_pengajuan_id",$detail)
+			->update([
+				"status_appr_pengajuan".$ke=>2,
+				"date_appr_pengajuan".$ke => date("Y-m-d H:i:s"),
+			
+			]);
+			
+			DB::commit();
+
+			return redirect()->route('fe.approval_parameter_kpi')->with('success','Approval  Berhasil di rubah!');
+		} catch (\Exeception $e) {
+			DB::rollback();
+			return redirect()->back()->with('error',$e);
+		}
+	}
     public function acc_kpi_parameter (Request $request, $detail,$appr,$ke)
 	{
 
@@ -223,7 +270,7 @@ class KPIController extends Controller
 			$sqlidkar="select * from p_karyawan where user_id=$iduser";
 			$idkar=DB::connection()->select($sqlidkar);
 			$idkary=$idkar[0]->p_karyawan_id;
-        $sqlkpi="SELECT a.*,b.*,c.nama as appr_1,d.nama as appr_2,e.nama as jabatan
+        $sqlkpi="SELECT a.*,b.*,c.nama as appr_1,d.nama as appr_2,e.nama as jabatan,a.create_date
                        FROM t_kpi a
                        left join p_karyawan b on a.p_karyawan_id = b.p_karyawan_id
                        left join p_karyawan c on a.atasan_1 = c.p_karyawan_id
@@ -293,7 +340,137 @@ class KPIController extends Controller
 			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['t_kpi_pencapaian_id'] 	= $pencapaian->t_kpi_pencapaian_id;
 		}
     	return view('frontend.kpi.edit_kpi_detail',compact('kpi','id','id2','area','detail','capaian'));
-    }public function kpi_detail(Request $request,$id)
+    }
+    public function penilaian_kpi(Request $request)
+    {
+        
+        $help =new Helper_function();
+        $view = 'detail';
+        $iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$idkary=$idkar[0]->p_karyawan_id;
+        $idkaryawan=$idkar[0]->p_karyawan_id;
+        
+        $sqlkpi="SELECT *
+                       FROM t_kpi_penilaian_karyawan a
+                       join t_kpi on a.t_kpi_id = t_kpi.t_kpi_id
+                       join p_karyawan b on t_kpi.p_karyawan_id = b.p_karyawan_id
+                       join m_jenis_penilaian_kpi c on c.m_jenis_penilaian_kpi_id = a.m_jenis_penilaian_kpi_id
+                       where  p_karyawan_penilai_id = $idkaryawan";
+        $kpi=DB::connection()->select($sqlkpi);
+         
+        return view('frontend.kpi.penilaian_kpi',compact('kpi','help','view','idkaryawan'));
+    
+    }
+    public function form_penilaian_kpi (Request $request,$id)
+    {
+        
+        $help =new Helper_function();
+        $view = 'detail';
+        $iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$idkary=$idkar[0]->p_karyawan_id;
+        $idkaryawan=$idkar[0]->p_karyawan_id;
+        $kpi=DB::connection()->select("select * from t_kpi_penilaian_karyawan_penilai where t_kpi_penilaian_karyawan_id = $id");
+        $penilaian = array();
+        foreach($kpi as $kpi){
+            $penilaian[$kpi->m_point_utama_kpi_id] = $kpi->penilaian_point;
+        }
+        $sqlkpi="SELECT *,e.point
+                       FROM t_kpi_penilaian_karyawan a
+                       left join t_kpi on a.t_kpi_id = t_kpi.t_kpi_id
+                       left join p_karyawan b on t_kpi.p_karyawan_id = b.p_karyawan_id
+                       left join m_jenis_penilaian_kpi c on c.m_jenis_penilaian_kpi_id = a.m_jenis_penilaian_kpi_id
+                       left join m_point_utama_kpi  d on d.m_jenis_penilaian_id  = c.m_jenis_penilaian_kpi_id
+                       left join m_parameter_penilaian_kpi    e on d.m_point_utama_kpi_id = e.m_point_utama_kpi_id
+                       where  a.t_kpi_penilaian_karyawan_id = $id";
+        $kpi=DB::connection()->select($sqlkpi);
+        foreach($kpi as $kpi){
+            $content[($kpi->nama_point.'||'.$kpi->keterangan_point.'||'.$kpi->m_point_utama_kpi_id)][$kpi->point] = array($kpi->key,$kpi->deskripsi); 
+        }
+         
+        return view('frontend.kpi.form_penilaian_kpi',compact('kpi','help','view','idkaryawan','penilaian','content'));
+    
+    }
+    
+    public function kpi_detail(Request $request,$id)
+    {
+        $sqlkpi="SELECT *
+                       FROM t_kpi a
+                       
+                       where  t_kpi_id = $id";
+        $kpi=DB::connection()->select($sqlkpi);
+        $kpi = $kpi[0];
+		$sqlkpi="SELECT *,(select sum(prioritas) from t_kpi_detail where t_kpi_id = $id)
+                       FROM t_kpi_detail a
+                       join p_karyawan b on a.p_karyawan_id = b.p_karyawan_id
+                       join t_kpi_area_kerja c on a.t_kpi_area_kerja_id = c.t_kpi_area_kerja_id
+                       where a.active = 1 and t_kpi_id= $id order by  a.create_date
+                        ";
+        $kpi_detail=DB::connection()->select($sqlkpi);
+		
+       	$sqlappr="SELECT * from t_kpi_pencapaian where t_kpi_id = $id";
+		$pencapaian=DB::connection()->select($sqlappr);
+		$capaian= array();
+		foreach($pencapaian as $pencapaian){
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['realisasi']		= $pencapaian->realisasi;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['rencana'] 		= $pencapaian->rencana;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['pencapaian'] 	= $pencapaian->pencapaian;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['hasil'] 		= $pencapaian->hasil;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['appr_status'] 	= $pencapaian->appr_status;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['t_kpi_pencapaian_id'] 	= $pencapaian->t_kpi_pencapaian_id;
+		}
+        $help =new Helper_function();
+        $view = 'detail';
+         $iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$idkary=$idkar[0]->p_karyawan_id;
+        $idkaryawan=$idkar[0]->p_karyawan_id;
+        return view('frontend.kpi.kpi_detail',compact('kpi_detail','kpi','id','capaian','help','view','idkaryawan'));
+    
+    }
+    public function kpi_review(Request $request,$id)
+    {
+        $sqlkpi="SELECT *
+                       FROM t_kpi a
+                       
+                       where  t_kpi_id = $id";
+        $kpi=DB::connection()->select($sqlkpi);
+        $kpi = $kpi[0];
+		$sqlkpi="SELECT *,(select sum(prioritas) from t_kpi_detail where t_kpi_id = $id)
+                       FROM t_kpi_detail a
+                       join p_karyawan b on a.p_karyawan_id = b.p_karyawan_id
+                       join t_kpi_area_kerja c on a.t_kpi_area_kerja_id = c.t_kpi_area_kerja_id
+                       where a.active = 1 and t_kpi_id= $id 
+                       
+                       order by  a.create_date
+                        ";
+        $kpi_detail=DB::connection()->select($sqlkpi);
+		
+       	$sqlappr="SELECT * from t_kpi_pencapaian where t_kpi_id = $id";
+		$pencapaian=DB::connection()->select($sqlappr);
+		$capaian= array();
+		foreach($pencapaian as $pencapaian){
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['realisasi']		= $pencapaian->realisasi;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['rencana'] 		= $pencapaian->rencana;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['pencapaian'] 	= $pencapaian->pencapaian;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['hasil'] 		= $pencapaian->hasil;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['appr_status'] 	= $pencapaian->appr_status;
+			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['t_kpi_pencapaian_id'] 	= $pencapaian->t_kpi_pencapaian_id;
+		}
+        $help =new Helper_function();
+        $view = 'detail';
+        $iduser=Auth::user()->id;
+			$sqlidkar="select * from p_karyawan where user_id=$iduser";
+			$idkar=DB::connection()->select($sqlidkar);
+			$idkary=$idkar[0]->p_karyawan_id;
+        $idkaryawan=$idkar[0]->p_karyawan_id;
+        return view('frontend.kpi.kpi_review',compact('kpi_detail','kpi','id','capaian','help','view','idkaryawan'));
+    
+    }public function kpi_review_detail(Request $request,$id)
     {
         $sqlkpi="SELECT *
                        FROM t_kpi a
@@ -323,7 +500,7 @@ class KPIController extends Controller
         $help =new Helper_function();
         $view = 'detail';
         $idkaryawan=null;
-        return view('frontend.kpi.kpi_detail',compact('kpi_detail','kpi','id','capaian','help','view','idkaryawan'));
+        return view('frontend.kpi.kpi_review',compact('kpi_detail','kpi','id','capaian','help','view','idkaryawan'));
     
     }public function approval_kpi_detail(Request $request,$id)
     {
@@ -446,12 +623,14 @@ class KPIController extends Controller
        
         $sqlidkar="select * from p_karyawan
 		join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id
+		left join m_jabatan on p_karyawan_pekerjaan.m_jabatan_id = m_jabatan.m_jabatan_id
 		where user_id=$iduser";
 		$idkar=DB::connection()->select($sqlidkar);
 		$id=$idkar[0]->p_karyawan_id;
 
 		$id_karyawan = $idkar[0]->p_karyawan_id;
         $help=new Helper_function();
+        if($idkar[0]->m_pangkat_id!=6){
 		$jabstruk = $help->jabatan_struktural($id_karyawan);
 		$atasan = $jabstruk['atasan'];
 		$bawahan = $jabstruk['bawahan'];
@@ -474,7 +653,12 @@ class KPIController extends Controller
 
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan) ";
 		$appr=DB::connection()->select($sqlappr);
-      
+        }else{
+            $appr=null;
+            $appr1=null;
+            $appr2=null;
+        }
+        
 		$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id ";
 		$kar=DB::connection()->select($sqlkar);
 		
@@ -535,7 +719,39 @@ class KPIController extends Controller
 
       return view('frontend.kpi.tambah_kpi', compact('appr','kar','tgl_cut_off','appr1','appr2'));
     }
+    public function simpan_kpi_penilaian(Request $request,$id){
+        DB::beginTransaction();
+        try{
+            $penilaian = $request->penilaian;
+            DB::connection()->table("t_kpi_penilaian_karyawan_penilai")->where("t_kpi_penilaian_karyawan_id",$id)->update(["active"=>0]);
+            $total_value =0;
+            $total =count($penilaian);;
+            foreach($penilaian as $key=>$value){
+                $total_value+=$value;
+                DB::connection()->table("t_kpi_penilaian_karyawan_penilai")
+                    ->insert([
+                        "penilaian_point"=>$value,
+                        "t_kpi_penilaian_karyawan_id"=>$id,
+                        "m_point_utama_kpi_id"=>$key
+                    ]);
+             
+                
+            }
+            DB::connection()->table("t_kpi_penilaian_karyawan")
+                    ->where("t_kpi_penilaian_karyawan_id",$id)
+                    ->update([
+                        "point"=>($total>0?$total_value/$total:0),
+                        "penilaian"=>2
+                    ]);
+             DB::commit();
+            return redirect()->route('fe.penilaian_kpi')->with('success','KPI Berhasil di input!');
+        }
+        catch(\Exeception $e){
+            DB::rollback();
+            return redirect()->back()->with('error',$e);
+        }
 
+    }
     public function simpan_kpi(Request $request){
         DB::beginTransaction();
         try{
@@ -651,10 +867,20 @@ class KPIController extends Controller
                 }else{
 	                DB::connection()->table("t_kpi_pencapaian")
 	                ->insert([
-	                	"realisasi"=>($request->get("realisasi")[$collect[$i]]),
+	                	"realisasi"=>($request->get("satuan")=='nominal'?
+                                ($help->hapusRupiah(($request->get("realisasi")[$collect[$i]]))) :
+                                    ((float) str_replace(",",".",str_replace('.','',($request->get("realisasi")[$collect[$i]])))))
+                                    
+                                    ,
 	                	//"rencana"=>($request->get("rencana")[$collect[$i]]),
-	                	"hasil"=>($request->get("hasil")[$collect[$i]]),
-	                	"pencapaian"=>($request->get("pencapaian")[$collect[$i]]),
+	                	"hasil"=>($request->get("satuan")=='nominal'?
+                                ($help->hapusRupiah(($request->get("hasil")[$collect[$i]]))) :
+                                    ((float) str_replace(",",".",str_replace('.','',($request->get("hasil")[$collect[$i]])))))
+                                    ,
+	                	"pencapaian"=>($request->get("satuan")=='nominal'?
+                                ($help->hapusRupiah(($request->get("pencapaian")[$collect[$i]]))) :
+                                    ((float) str_replace(",",".",str_replace('.','',($request->get("pencapaian")[$collect[$i]])))))
+                                    ,
 	                    "appr"=>($request->get("atasan")),
 	                    "t_kpi_detail_id"=>$collect[$i],
 	                    "tahun"=>($tahun),
@@ -666,10 +892,105 @@ class KPIController extends Controller
                 }
                 
             }
-              
-			
-            DB::commit();
-            return redirect()->route('fe.kpi_detail',$id)->with('success','KPI Berhasil di input!');
+            DB::connection()->table("t_kpi_pengajuan_appr")
+	                ->insert([
+	                    "tahun"=>$tahun,
+	                    "tw"=>$type,
+	                    "t_kpi_id"=>$id,
+	                    "tanggal_pengajuan"=>date('Y-m-d'),
+	                    ]);
+	                    $sqlkpi="SELECT *
+                       FROM t_kpi a
+                       
+                       where  t_kpi_id = $id";
+                        $kpi=DB::connection()->select($sqlkpi);
+                        $kpi = $kpi[0];
+			                $tahun_awal = date('Y',strtotime(date($kpi->tanggal_awal)));
+                            $bulan_awal = date('m',strtotime(date($kpi->tanggal_awal)));
+                            $tahun_akhir = date('Y',strtotime(date($kpi->tanggal_akhir)));
+                            $bulan_akhir = date('m',strtotime(date($kpi->tanggal_akhir)));
+                            $total=0;
+                            for($i=$tahun_awal;$i<=$tahun_akhir;$i++){
+                            $tw = 1;
+                            $tw_akhir = 4;
+                            if($i==$tahun_awal){
+                                if(in_array($bulan_awal,array(1,2,3))){
+                                    $tw=1;
+                                }else if(in_array($bulan_awal,array(4,5,6))){
+                                    $tw=2;
+                                }else if(in_array($bulan_awal,array(7,8,9))){
+                                    $tw=3;
+                                }else if(in_array($bulan_awal,array(10,11,12))){
+                                    $tw=4;
+                                }
+                            }elseif($i==$tahun_akhir){
+                               if(in_array($bulan_akhir,array(1,2,3))){
+                                    $tw_akhir=1;
+                                }else if(in_array($bulan_akhir,array(4,5,6))){
+                                    $tw_akhir=2;
+                                }else if(in_array($bulan_akhir,array(7,8,9))){
+                                    $tw_akhir=3;
+                                }else if(in_array($bulan_akhir,array(10,11,12))){
+                                    $tw_akhir=4;
+                                }
+                            }
+                              for($j=$tw;$j<=$tw_akhir;$j++){
+                                
+                                	$total+=1;
+                              }
+                            }
+                             echo 'HASDA'.$tahun."=".$tahun_akhir;
+                             echo '<br>';
+            if($tahun==$tahun_akhir and $type==$tw_akhir){
+                $iduser=Auth::user()->id;
+		$sqlidkar="select *,p_karyawan.p_karyawan_id as karyawan_id from p_karyawan
+		join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id
+		join m_jabatan on p_karyawan_pekerjaan.m_jabatan_id = m_jabatan.m_jabatan_id
+		where user_id=$iduser";
+		$idkar=DB::connection()->select($sqlidkar);
+			$id_karyawan = $idkar[0]->p_karyawan_id;
+			$help = new Helper_function();
+                echo 'HASDA';
+                if($idkar[0]->m_pangkat_id==6 and !count($appr)){
+        		    $atasan =  -1;
+            	}else{
+        		$jabstruk = $help->jabatan_struktural($id_karyawan);
+        		$atasan = $jabstruk['atasan'];
+        		$bawahan = $jabstruk['bawahan'];
+        		$sejajar = $jabstruk['sejajar'];
+        		$atasan_layer = $jabstruk['atasan_layer'];
+        		
+        	
+        		 $atasan_1 = isset($atasan_layer[1])?$atasan_layer[1]:'-1';
+        		 $atasan2 = $atasan_layer[2];
+        	
+        		
+        		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan_1)   and m_pangkat_id not in (1,2,3) order by RANDOM () limit 1 ";
+        		$penatasan=DB::connection()->select($sqlappr);
+                foreach($penatasan as $penatasan){
+                
+                DB::connection()->table("t_kpi_penilaian_karyawan")->insert([
+                        "t_kpi_id"=>$id,
+                        "m_jenis_penilaian_kpi_id"=>1,
+                        "p_karyawan_penilai_id"=>$penatasan->p_karyawan_id,
+                    ]);
+                }
+                $sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan,$bawahan,$sejajar)   and m_pangkat_id not in (1,2,3) order by RANDOM () limit 2 ";
+        		$penatasan=DB::connection()->select($sqlappr);
+        	//	print_r($penatasan);
+                foreach($penatasan as $penatasan){
+                DB::connection()->table("t_kpi_penilaian_karyawan")->insert([
+                        "t_kpi_id"=>$id,
+                        "m_jenis_penilaian_kpi_id"=>2,
+                        "p_karyawan_penilai_id"=>$penatasan->p_karyawan_id,
+                    ]);
+                }
+            }
+          
+        }
+         DB::commit();
+            
+            return redirect()->route('fe.kpi_review',[$id,'tahun_tw='.$tahun.'-'.$type])->with('success','KPI Berhasil di input!');
         }
         catch(\Exeception $e){
             DB::rollback();
@@ -732,7 +1053,7 @@ class KPIController extends Controller
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan) ";
 		$appr=DB::connection()->select($sqlappr);
 		
-		$sqlappr="SELECT * from t_kpi_pencapaian where t_kpi_id = $id";
+		$sqlappr="SELECT * from t_kpi_pencapaian where t_kpi_id = $id and active=1";
 		$pencapaian=DB::connection()->select($sqlappr);
 		foreach($pencapaian as $pencapaian){
 			$capaian[$pencapaian->t_kpi_detail_id][$pencapaian->tahun][$pencapaian->tw_ke]['realisasi']		= $pencapaian->realisasi;
@@ -790,6 +1111,8 @@ class KPIController extends Controller
 		
 			foreach($rencana as $key=>$value){
 				foreach($rencana[$key] as $key2=>$value2){
+				   echo $id_pencapaian[$key][$key2];echo '<br>';
+				   if($id_pencapaian[$key][$key2]){
 					DB::connection()->table("t_kpi_pencapaian")
 			                ->where("t_kpi_pencapaian_id",$id_pencapaian[$key][$key2])
 			                ->update([
@@ -804,6 +1127,22 @@ class KPIController extends Controller
 			                    "t_kpi_id"=>$id,
 			                  
 			                ]);
+				   }else{
+				       DB::connection()->table("t_kpi_pencapaian")
+			                
+			                ->insert([
+			                	//"realisasi"=>($request->get("realisasi")[$collect[$i]]),
+			                	"rencana"=>(float) str_replace(",",".",$rencana[$key][$key2]),
+			                	//"hasil"=>($request->get("hasil")[$collect[$i]]),
+			                	//"pencapaian"=>($request->get("pencapaian")[$collect[$i]]),
+			                    "t_kpi_detail_id"=>$id2,
+			                    "tahun"=>($key),
+			                    "tw_ke"=>($key2),
+			                    "appr_status"=>(3),
+			                    "t_kpi_id"=>$id,
+			                  
+			                ]);
+				   }
 				}
 			}
             DB::commit();
@@ -844,6 +1183,7 @@ class KPIController extends Controller
 	public function simpan_kpi_detail(Request $request,$id){
         DB::beginTransaction();
         try{
+            $help = new Helper_function();
             $iduser=Auth::user()->id;
 			$sqlidkar="select * from p_karyawan where user_id=$iduser";
 			$idkar=DB::connection()->select($sqlidkar);
@@ -875,7 +1215,9 @@ class KPIController extends Controller
                     "t_kpi_area_kerja_id"=>($area),
                     "sasaran_kerja"=>($request->get("sasaran_kerja")),
                     "definisi"=>($request->get("definisi")),
-                    "target"=>(float) str_replace(",",".",$request->get("target")),
+                    "target"=>($request->get("satuan")=='nominal'?
+                                ($help->hapusRupiah($request->get("target"))) :
+                                    ((float) str_replace(",",".",$request->get("target")))),
                     "satuan"=>($request->get("satuan")),
                     "prioritas"=>($request->get("prioritas")),
                   
@@ -893,7 +1235,9 @@ class KPIController extends Controller
 					DB::connection()->table("t_kpi_pencapaian")
 			                ->insert([
 			                	//"realisasi"=>($request->get("realisasi")[$collect[$i]]),
-			                	"rencana"=>(float) str_replace(",",".",$rencana[$key][$key2]),
+			                	"rencana"=>($request->get("satuan")=='nominal'?
+                                ($help->hapusRupiah($rencana[$key][$key2])) :
+                                    ((float) str_replace(",",".",str_replace('.','',$rencana[$key][$key2])))),
 			                	//"hasil"=>($request->get("hasil")[$collect[$i]]),
 			                	//"pencapaian"=>($request->get("pencapaian")[$collect[$i]]),
 			                    "t_kpi_detail_id"=>$seq[0]->last_value,

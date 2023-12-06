@@ -144,29 +144,14 @@
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Kode </th>
-                        <th>Nama </th>
-                        <th>Jenis </th>
-                        <th>File</th>
-                        <th>Tgl. Ajuan</th>
-                        <th>Tgl Awal</th>
-                        <th>Tgl Akhir</th>
-                        <th>Jam Awal</th>
-                        <th>Jam Akhir</th>
-                        <th>Lama</th>
-                        <th>Approval</th>
-                        <th>Status Appr</th>
-                        <th>Tanggal Appr</th>
-                        <th>Approval 2</th>
-                        <th>Status Appr 2</th>
-                        <th>Tanggal Appr 2</th>
-                        <th>Alasan<span style="font-size:10px">(Hanya IDT& IPM)</span></th>
-                        <th>Jam Masuk Finger<span style="font-size:10px">(Hanya IDT& IPM)</span></th>
-                        <th>Jam Keluar Finger<span style="font-size:10px">(Hanya IDT& IPM)</span></th>
-                        <th>Keterangan</th>
-                        <th>Tipe Lembur</th>
-                        <th>Gajian</th>
-                        <th>Approval HR</th>
+                        
+                        <th>Detail Karyawan </th>
+                        <th>Detail Pengajuan </th>
+                        <th>Detail Tanggal </th>
+                        <th>Detail Approve </th>
+                        
+                        
+                        
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -177,34 +162,79 @@
                             <?php $no++ ?>
                             <tr>
                                 <td>{!! $no !!}</td>
-                                <td>{!! $datas->kode !!}</td>
-                                <td>{!! $datas->nama_lengkap !!}</td>
-                                <td>{!! $datas->nmtipe !!}</td>
-                                @if(!empty($datas->foto))
-                                    <td style="text-align: center"><a href="{!! asset('dist/img/file/'.$datas->foto) !!}" target="_blank" title="Download"><span class="fa fa-download"></span></a></td>
-                                @else
-                                    <td></td>
-                                @endif
                                 
-                                <td>{!! date('d-m-Y', strtotime($datas->create_date)) !!}</td>
-                                <td>{!! date('d-m-Y', strtotime($datas->tgl_awal)) !!}</td>
-                                <td>{!! date('d-m-Y', strtotime($datas->tgl_akhir)) !!}</td>
-                                <td>{!! $datas->jam_awal !!}</td>
-                                <td>{!! $datas->jam_akhir !!}</td>
-                                <td>{!! $datas->lama !!}</td>
-                                <td>{!! $datas->nama_appr !!}</td>
-								<td>{!! $status = ($datas->nama_appr?$datas->sts_pengajuan:'') !!}</td>
-                                <td>{!! $datas->tgl_appr_1 !!}</td>
-                                <td>{!! $datas->nama_appr2 !!}</td>
-								<td>{!! $status!='Ditolak'?($datas->nama_appr2?$datas->sts_pengajuan2:''):'' !!}</td>
-                                <td>{!! $datas->tgl_appr_2 !!}</td>
-                                <td>{!! $datas->alasan_idt_ipm !!}</td>
-                                <td>{!! $datas->jam_masuk_finger !!}</td>
-                                <td>{!! $datas->jam_keluar_finger !!}</td>
-                                <td>{!! $datas->keterangan !!}</td>
-                                <td>{!! $datas->tipe_lembur !!}</td>
-                                <td>{!! $datas->gajian !!}</td>
+                                <td>
+                                	{!! $datas->nama_lengkap !!}<span style="font-size: 9px">(Nama)</span><br>
+                                	{!! $datas->gajian !!}<span style="font-size: 9px">(Gajian)</span><br>
+                                </td>
+                                <td>
+                                	{!! $datas->kode !!}<span style="font-size: 9px">(Kode)</span><br>
+                                	{!! $datas->nmtipe !!} {!! ($datas->tipe_lembur?' - '.$datas->tipe_lembur:'') !!}
+                                	 @if(!empty($datas->foto))
+                                   <a href="{!! asset('dist/img/file/'.$datas->foto) !!}" target="_blank" title="Download"><span class="fa fa-download"></span></a>
+                                
+                                @endif
+                                	<span style="font-size: 9px">(Jenis)</span><br>
+                                	{!! $datas->alasan_idt_ipm !!}<span style="font-size: 9px">(Alasan)</span><br>
+                                	{!! $datas->keterangan !!}<span style="font-size: 9px">(Keterangan)</span><br>
+                                </td>
+                                <td>
+                                	{!! date('d-m-Y', strtotime($datas->create_date)) !!}<span style="font-size: 9px">(Pengajuan)</span><br>
+                                	<?php if($datas->m_jenis_ijin_id==22){?>
+                                	{!! date('d-m-Y', strtotime($datas->tgl_awal)) !!}<span style="font-size: 9px">(Tanggal)</span><br>
+                                	{!! $datas->jam_awal !!} s/d {!! $datas->jam_akhir !!}<span style="font-size: 9px">(Jam Pengajuan)</span><br>
+                                	{!! $datas->jam_istirahat_awal !!} s/d {!! $datas->jam_istirahat_akhir !!}<span style="font-size: 9px">(Jam Istirahat)</span><br>
+                                	{!! $datas->jam_masuk_finger !!} - {!! $datas->jam_keluar_finger !!}<span style="font-size: 9px">(Jam  Finger)</span><br>
+                                	{!! $datas->lama !!} Jam<span style="font-size: 9px">(Lama)</span><br>
+                                	<?php }else{?>
+                                	{!! date('d-m-Y', strtotime($datas->tgl_awal)) !!} s/d {!! date('d-m-Y', strtotime($datas->tgl_akhir)) !!}<span style="font-size: 9px">(Tanggal)</span><br>
+                                	
+                                	{!! $datas->lama !!} Hari<span style="font-size: 9px">(Lama)</span><br>
+                                	<?php }?>
+                                	
+                                </td>
+                                
+                               
                                 <td style="text-align: center">
+                                 <?php if($datas->intruksi_atasan ==1){?>
+                                <div style="text-align: center">Approval Intruksi Lembur: </div>
+                                    @if($datas->status_appr_intruksi==1)
+                                        <span class="fa fa-check-circle"> Disetujui</span>
+                                        @elseif($datas->status_appr_intruksi==2)
+                                            <span class="fa fa-window-close"> Ditolak</span>
+                                    @else
+                                        <span class="fa fa-edit"> Pending</span>
+                                    @endif
+                                	<hr style="margin: 5px 0;">
+                                	<?php }?>
+                                
+                                	<div style="text-align: center">Approval 1: <br>{!! $datas->nama_appr !!}</div>
+                                    @if($datas->appr_1==null)
+                                    	<span><br></span>
+                                    @elseif($datas->status_appr_1==1)
+                                        <span class="fa fa-check-circle"> Disetujui</span>
+                                        @elseif($datas->status_appr_1==2)
+                                            <span class="fa fa-window-close"> Ditolak</span>
+                                    @else
+                                        <span class="fa fa-edit"> Pending</span>
+                                    @endif
+                                   <br> {!! $datas->tgl_appr_1 !!}
+                                    <?php if($datas->m_jenis_ijin_id ==22){?>
+                                   <hr style="margin: 5px 0;">
+                                   <div style="text-align: center">Approval2:
+                                   <br>{!! $datas->nama_appr2 !!}
+                                   </div>
+                                    	@if($datas->status_appr_2==1)
+                                        <span class="fa fa-check-circle"> Disetujui</span>
+                                        @elseif($datas->status_appr_2==2)
+                                            <span class="fa fa-window-close"> Ditolak</span>
+                                    @else
+                                        <span class="fa fa-edit"> Pending</span>
+                                    @endif
+                                   <br> {!! $datas->tgl_appr_2 !!}
+                                    <?php }?>
+                                   <hr style="margin: 5px 0;">
+                                <div style="text-align: center">Approval HR: </div>
                                     @if($datas->status_appr_hr==1)
                                         <span class="fa fa-check-circle"> Disetujui</span>
                                         @elseif($datas->status_appr_hr==2)
@@ -213,6 +243,9 @@
                                         <span class="fa fa-edit"> Pending</span>
                                     @endif
                                 </td>
+                               
+                               
+                                
                                 <td style="text-align: center">
                                     <a href="{!! route('be.lihat',[$datas->t_form_exit_id,'type=-1']) !!}" title='Lihat' data-toggle='tooltip'><span class='fa fa-search'></span></a>
                                 @if(Auth::user()->role==3 or Auth::user()->role==-1 or Auth::user()->role==5  ) 

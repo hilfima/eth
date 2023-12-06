@@ -48,19 +48,13 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Uang Makan</label>
+                                <label>Uang Makan <24 Jam</label>
                                 <input type="text" class="form-control" placeholder="Uang Makan ..." id="nama" name="uangmakan" required onkeypress="handleNumber(event, 'Rp {15,3}')" value="{!! $help->rupiah($pangkat[0]->uang_makan) !!}" >
                             </div>
                         </div><div class="col-sm-6">
-                        </div><div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Uang Saku <24 jam</label>
-                                <input type="text" class="form-control" placeholder="Uang Makan ..." id="nama" name="uangsaku1" required onkeypress="handleNumber(event, 'Rp {15,3}')" value="{!! $help->rupiah($pangkat[0]->uang_saku) !!}" >
-                            </div>
-                        </div><div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Uang Saku >24 jam</label>
-                                <input type="text" class="form-control" placeholder="Uang Makan ..." id="nama" name="uangsaku2" required onkeypress="handleNumber(event, 'Rp {15,3}')" value="{!! $help->rupiah($pangkat[0]->uang_saku2) !!}" >
+                        <div class="form-group">
+                                <label>Uang Makan >24 jam</label>
+                                <input type="text" class="form-control" placeholder="Uang Makan ..." id="nama" name="uangmakan1" required onkeypress="handleNumber(event, 'Rp {15,3}')">
                             </div>
                         </div>
                     </div>
