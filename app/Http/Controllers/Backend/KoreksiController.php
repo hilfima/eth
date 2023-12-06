@@ -15,6 +15,14 @@ class koreksiController extends Controller
         $this->middleware('auth');
     }public function koreksi(Request $request)
     {
+         $sudah_appr = array();
+            $sudah_appr_keuangan = array();
+            $sudah_appr_hr = array();
+            $sudah_appr_voucher = array();
+            $m_lokasi_hr_appr_on = '';
+            $m_lokasi_hr_appr_off = '';
+            $m_lokasi_direktur_appr_on = '';
+            $m_lokasi_direktur_appr_off = '';
        	$iduser = Auth::user()->id;
         $sqluser = "SELECT p_recruitment.foto,role,p_karyawan_pekerjaan,p_karyawan_pekerjaan.m_lokasi_id,user_entitas_access,m_role_id FROM users
 					left join m_role on m_role.m_role_id=users.role
@@ -40,7 +48,79 @@ class koreksiController extends Controller
 			$whereLokasi = "AND e.m_lokasi_id in($id_lokasi)";					
 		else
 			$whereLokasi = "";	
-        $sqlkoreksi="SELECT *,c.nama,e.nama as nmlokasi ,
+       
+        	$sqlperiode = "SELECT * FROM prl_gaji where prl_generate_id=$id_prl ";
+            $sudahappr = DB::connection()->select($sqlperiode);
+             if($sudahappr){
+            foreach ($sudahappr as $apprs) {
+                if ($apprs->appr_on_direktur_status == 1)
+                    $sudah_appr[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr[$apprs->m_lokasi_id]['ON'] = 0;
+
+                if ($apprs->appr_off_direktur_status == 1)
+                    $sudah_appr[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr[$apprs->m_lokasi_id]['OFF'] = 0;
+
+
+
+
+                if ($apprs->appr_on_keuangan_status == 1)
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['ON'] = 0;
+
+                if ($apprs->appr_off_keuangan_status == 1)
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['OFF'] = 0;
+
+                if ($apprs->appr_on_hr_status == 1)
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['ON'] = 0;
+
+                if ($apprs->appr_off_hr_status == 1)
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['OFF'] = 0;
+
+
+
+
+                if ($apprs->appr_on_voucher_status == 1)
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['ON'] = 0;
+
+
+                if ($apprs->appr_off_voucher_status == 1)
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['OFF'] = 0;
+
+
+                if ($apprs->appr_on_hr_status == 1) {
+                    $m_lokasi_hr_appr_on .= $apprs->m_lokasi_id . ',';
+                }
+                if ($apprs->appr_off_hr_status == 1) {
+                    $m_lokasi_hr_appr_off .= $apprs->m_lokasi_id . ',';
+                }
+                if ($apprs->appr_off_direktur_status == 1) {
+                    $m_lokasi_direktur_appr_off .= $apprs->m_lokasi_id . ',';
+                }
+                if ($apprs->appr_on_direktur_status == 1) {
+                    $m_lokasi_direktur_appr_on .= $apprs->m_lokasi_id . ',';
+                }
+            }
+             $m_lokasi_direktur_appr_on .= '-1';
+            $m_lokasi_direktur_appr_off .= '-1';
+            $m_lokasi_hr_appr_on .= '-1';
+            $m_lokasi_hr_appr_off .= '-1';
+                 
+             }
+             $sqlkoreksi="SELECT *,c.nama,e.nama as nmlokasi ,
         
                 case 
 				when b.type=1 then nama_gaji
@@ -66,8 +146,10 @@ class koreksiController extends Controller
 			
 			
         		join p_karyawan c on b.p_karyawan_id = c.p_karyawan_id
+        		join p_karyawan_pekerjaan d on b.p_karyawan_id = d.p_karyawan_id
         		join m_lokasi e on e.m_lokasi_id = k.lokasi_id
                 WHERE 1=1 and a.prl_generate_id = $id_prl and ((b.m_tunjangan_id = 16 or b.m_potongan_id = 17) or (b.keterangan is not null and b.string_jenis_ijin is null )) $whereLokasi
+                 
                 and a.active=1 
                 and b.active=1
                 order by b.nominal desc,keterangan desc,lokasi_id
@@ -76,8 +158,14 @@ class koreksiController extends Controller
         $Koreksi=DB::connection()->select($sqlkoreksi);
 		}else{
 			$Koreksi = '';
+			$sqlperiode = '';
+            $sudahappr = '';
 		}
-        return view('backend.gaji.koreksi.koreksi',compact('Koreksi','periode','request','id_prl'));
+	
+           
+           
+           
+        return view('backend.gaji.koreksi.koreksi',compact('Koreksi','periode','request','id_prl','sudah_appr'));
     }
 
     public function tambah_koreksi_pajak($id_prl)
@@ -151,10 +239,87 @@ class koreksiController extends Controller
 			$whereLokasi = "AND m_lokasi.m_lokasi_id in($id_lokasi)";					
 		else
 			$whereLokasi = "";	
+			$sqlperiode = "SELECT * FROM prl_gaji where prl_generate_id=$id_prl ";
+            $sudahappr = DB::connection()->select($sqlperiode);
+             if($sudahappr){
+                 
+            $m_lokasi_hr_appr_on = '';
+            $m_lokasi_hr_appr_off = '';
+            $m_lokasi_direktur_appr_on = '';
+            $m_lokasi_direktur_appr_off = '';
+            foreach ($sudahappr as $apprs) {
+                if ($apprs->appr_on_direktur_status == 1)
+                    $sudah_appr[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr[$apprs->m_lokasi_id]['ON'] = 0;
+
+                if ($apprs->appr_off_direktur_status == 1)
+                    $sudah_appr[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr[$apprs->m_lokasi_id]['OFF'] = 0;
+
+
+
+
+                if ($apprs->appr_on_keuangan_status == 1)
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['ON'] = 0;
+
+                if ($apprs->appr_off_keuangan_status == 1)
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr_keuangan[$apprs->m_lokasi_id]['OFF'] = 0;
+
+                if ($apprs->appr_on_hr_status == 1)
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['ON'] = 0;
+
+                if ($apprs->appr_off_hr_status == 1)
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr_hr[$apprs->m_lokasi_id]['OFF'] = 0;
+
+
+
+
+                if ($apprs->appr_on_voucher_status == 1)
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['ON'] = 1;
+                else
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['ON'] = 0;
+
+
+                if ($apprs->appr_off_voucher_status == 1)
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['OFF'] = 1;
+                else
+                    $sudah_appr_voucher[$apprs->m_lokasi_id]['OFF'] = 0;
+
+
+                if ($apprs->appr_on_hr_status == 1) {
+                    $m_lokasi_hr_appr_on .= $apprs->m_lokasi_id . ',';
+                }
+                if ($apprs->appr_off_hr_status == 1) {
+                    $m_lokasi_hr_appr_off .= $apprs->m_lokasi_id . ',';
+                }
+                if ($apprs->appr_off_direktur_status == 1) {
+                    $m_lokasi_direktur_appr_off .= $apprs->m_lokasi_id . ',';
+                }
+                if ($apprs->appr_on_direktur_status == 1) {
+                    $m_lokasi_direktur_appr_on .= $apprs->m_lokasi_id . ',';
+                }
+            }
+             $m_lokasi_direktur_appr_on .= '-1';
+            $m_lokasi_direktur_appr_off .= '-1';
+            $m_lokasi_hr_appr_on .= '-1';
+            $m_lokasi_hr_appr_off .= '-1';
+                 
+             }
+            $whereLokasi .= "and (case when d.pajak_onoff='ON' then d.m_lokasi_id not in($m_lokasi_direktur_appr_on) else d.m_lokasi_id not in($m_lokasi_direktur_appr_off) end)";
 			$sql = "SELECT c.p_karyawan_id,c.nama as nama,c.nik,m_lokasi.kode as nmlokasi,m_departemen.nama as departemen , f.m_pangkat_id,i.nama as nmpangkat ,m_jabatan.nama as nmjabatan,g.tgl_awal,AGE(CURRENT_DATE, c.tgl_bergabung)::VARCHAR AS umur,m_lokasi.m_lokasi_id
 			FROM p_karyawan c 
 			LEFT JOIN p_karyawan_pekerjaan d on d.p_karyawan_id=c.p_karyawan_id  
-			LEFT JOIN p_karyawan_kontrak g on g.p_karyawan_id=c.p_karyawan_id  
+			LEFT JOIN p_karyawan_kontrak g on g.p_karyawan_id=c.p_karyawan_id  and g.active=1
 			LEFT JOIN m_departemen on m_departemen.m_departemen_id=d.m_departemen_id
 			LEFT JOIN m_lokasi on m_lokasi.m_lokasi_id=d.m_lokasi_id
 			LEFT JOIN m_jabatan on m_jabatan.m_jabatan_id=d.m_jabatan_id 

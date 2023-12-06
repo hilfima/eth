@@ -239,7 +239,7 @@ where users.id=$iduser";
 		$sqlusers="SELECT p_karyawan.*,m_departemen.nama as nmdept FROM p_karyawan
 LEFT JOIN p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id=p_karyawan.p_karyawan_id
 LEFT JOIN m_departemen on m_departemen.m_departemen_id=p_karyawan_pekerjaan.m_departemen_id
-                WHERE 1=1 and p_karyawan.active=1 $whereLokasi order by p_karyawan.nama";
+                WHERE 1=1  $whereLokasi order by p_karyawan.nama";
         $users=DB::connection()->select($sqlusers); 
         $nama = $id;
         //print_r($users);die;

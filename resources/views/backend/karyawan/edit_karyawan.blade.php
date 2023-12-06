@@ -119,7 +119,7 @@
                 "Nama" => "nama_keluarga",
                 "No Hp" => "no_hp",
                 "Tanggal Lahir" => "tgl_lahir",
-                
+           
             );
             /*
             Hubungan
@@ -160,7 +160,7 @@
                 "Celana" => "celana",
                 "Sepatu" => "sepatu",
             );
-            /*
+             /*
             Nama Hubungan
             hubungan
             gamis
@@ -190,7 +190,7 @@
                 "Hadiah" => "hadiah",
                 "Tangal Award" => "tgl_award",
             );
-            /*
+             /*
             Nama Jenis Reward
             Hadiah
             Tanggal Reward
@@ -215,7 +215,7 @@
                 "Tanggal Akhir Sanksi" => "tgl_akhir_sanksi",
                 "Alasan Sanksi" => "alasan_sanksi",
             );
-        	/*
+            /*
         	Nama Sanksi
         	Tanggal Awal Sanksi
         	Tanggal Akhir Sanksi

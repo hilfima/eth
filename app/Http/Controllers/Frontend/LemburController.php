@@ -134,6 +134,7 @@ LEFT JOIN m_departemen on m_departemen.m_departemen_id=p_karyawan_pekerjaan.m_de
 		$return['count']= $count;
 		$return['nama']= $list_nama;
 		echo json_encode($return);
+		
 	}
     public function lembur_duplicate_check(Request $request)
 	{
@@ -212,7 +213,7 @@ $help = new Helper_function();
                 	$array['appr_1'] = $id;
                 	$array['tgl_appr_1'] = date('Y-m-d');
                 }
-                if($request->get('atasan2')==$id){
+				if($request->get('atasan2')==$id){
                 	//$array['status_appr_2'] = 1;
                 	//$array['appr_2'] = $id;
                 	//$array['tgl_appr_2'] = date('Y-m-d');
@@ -295,7 +296,7 @@ where users.id=$iduser";
             return redirect()->back()->with('error',$e);
         }
     }
-    public function update_libur_lembur(Request $request, $id){
+	public function update_libur_lembur(Request $request, $id){
         $idUser=Auth::user()->id;
         DB::beginTransaction();
         try{

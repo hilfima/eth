@@ -177,22 +177,9 @@
                               <textarea class="form-control "  name="k_kompetensi"  value="" placeholder="Kompetensi lainnya"></textarea>
                             </div>
                             <hr>
-                            @if($idkar[0]->m_pangkat_id!=6)
-                            <div class="form-group">
-	                                <label>Atasan 1(Atasan Langsung)</label>
-	                              <select class="form-control select2" id="atasan1" name="atasan"  value="" style="width: 100%">
-	                              	<option value="">- Pilih Atasan 1-</option>
-	                              	
-	                              </select>
-	                            </div>
-                            <div class="form-group">
-	                                <label>Atasan 2(Direksi)</label>
-	                              <select class="form-control select2" id="atasan2" name="atasan2"  value="" required="" style="width: 100%">
-	                              	<option value="">- Pilih Atasan 2-</option>
-	                              	
-	                              </select>
-	                            </div>
-	                       @endif
+                            <div id="atasan"></div>
+                            
+	                     
                         </div>
                            
                     </div>
@@ -282,9 +269,10 @@
 				dataType: 'json',
 				success: function(data){
 					//alert(data.respon)
-					$('#jabatan').html(data.option_jabatan);
-					$('#atasan1').html(data.option_atasan1);
-					$('#atasan2').html(data.option_atasandireksi);
+					$('#atasan').html(data.select_atasan1+data.select_atasandireksi);
+				// 	$('#jabatan').html(data.option_jabatan);
+				// 	$('#atasan1').html(data.option_atasan1);
+				// 	$('#atasan2').html(data.option_atasandireksi);
 				}
 			});
 		

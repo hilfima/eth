@@ -124,12 +124,13 @@
                                 <td>
 a. Bensin : <?=$data->biaya_bensin;?><br>
 b. Tol : <?=$data->biaya_tol;?><br>
-c. Type Penginapan : <?=$data->type_penginapan;?><br>
-d. Penginapan :   <?=$data->biaya_penginapan;?><br>
-e. Uang Makan :   <?=$data->biaya_uang_makan;?><br>
-f. Tiket :   <?=$data->biaya_tiket;?><br>
-g. Transportasi Dalam Kota :  <?=$data->biaya_transportasi_dalam_kota;?><br>
-h. Penyebrangan Kapal : <?=$data->biaya_penyebrangan_kapal;?><br>
+c. Type Penginapan : <br>
+d. Penginapan :  : <?=$data->biaya_penginapan;?><br>
+e. Uang Makan :  : <?=$data->biaya_uang_makan;?><br>
+f. Uang Saku :  : <?=$data->biaya_uang_saku;?><br>
+g. Tiket :  : <?=$data->biaya_tiket;?><br>
+h. Transportasi Dalam Kota :  <?=$data->biaya_transportasi_dalam_kota;?><br>
+i. Penyebrangan Kapal : <?=$data->biaya_penyebrangan_kapal;?><br>
 Total : <?=$data->total_biaya;?>
 
                                 	
@@ -176,6 +177,7 @@ Total : <?=$data->total_biaya;?>
                                 
                                 <td style="text-align: center">
                                 	
+                                    <a href="{!! route('be.print_perdin',[$data->t_form_exit_id]) !!}" title='Print' data-toggle='tooltip' class="btn btn-info btn-sm"><span class='fa fa-print'></span>Print</a>
                                     <a href="{!! route('be.lihat_perdin_appr',[$data->t_form_exit_id]) !!}" title='Lihat' data-toggle='tooltip' class="btn btn-info btn-sm"><span class='fa fa-search'></span>Lihat</a>
                                 </td>
                             </tr>

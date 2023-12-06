@@ -107,7 +107,7 @@
 	                            	<div class="form-group " > 
 	                            	 <label class="">Realisasi</label>                               
 								     
-	                            	<input class="form-control" placeholder="Realisasi" id="realisasi-<?=$kpi_detail->t_kpi_detail_id?>"  value="<?=$realisasi?>" name="realisasi[<?=$kpi_detail->t_kpi_detail_id?>]" <?=$inline?> type="number" required="" onkeyup="change_pencapaian(<?=$kpi_detail->t_kpi_detail_id?>)">
+	                            	<input class="form-control" placeholder="Realisasi" id="realisasi-<?=$kpi_detail->t_kpi_detail_id?>"  value="<?=$realisasi?>" name="realisasi[<?=$kpi_detail->t_kpi_detail_id?>]" <?=$inline?> type="text" required="" onkeyup="change_pencapaian(<?=$kpi_detail->t_kpi_detail_id?>)">
 	                            	
 	                            </div>
 	                            </div>
@@ -176,8 +176,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
 	    function change_pencapaian(id){
-	    		rencana = parseInt($('#rencana-'+id).val());
-	    		realisasi = parseInt($('#realisasi-'+id).val());
+	    		rencana = parseFloat($('#rencana-'+id).val());
+	    		realisasi = parseFloat($('#realisasi-'+id).val());
 	    		hasilS = parseFloat($('#hasil-sebelumnya-'+id).val());
 	    		pencapaian = parseFloat(realisasi/rencana*100);
 	    		$('#pencapaian-'+id).val(pencapaian);

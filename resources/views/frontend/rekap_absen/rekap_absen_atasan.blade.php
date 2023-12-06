@@ -182,8 +182,8 @@ tfoot th:first-child {
 			<div style="overflow-x:auto;">
 			<table id="example1" class="table table-bordered table-striped" style="width: 100%" >
 										<tr>
-											<th style="text-align: center;vertical-align: middle">Nama</th>
 											<th style="text-align: center;vertical-align: middle">No </th>
+											<th style="text-align: center;vertical-align: middle">Nama</th>
 											<th style="text-align: center;vertical-align: middle">NIK</th>
 											<th style="text-align: center;vertical-align: middle">Departemen</th>
 											<?php 
@@ -243,14 +243,14 @@ tfoot th:first-child {
 										?>
                          
 						
-						 <tr>
+                               	<tr>
 								<td>{!! $no !!}</td>
 								<th style="min-width: 300px;">{!! $list_karyawan->nama !!}</th>
 							
 								<td>{!! $list_karyawan->nik !!}</td>
 								<td style="min-width: 200px;">{!! $list_karyawan->departemen !!}</td>
 								<?= $return['all_content'];?>
-									<?php $ipd;?>
+								<?php $ipd;?>
 								<td  style=""><?=$masuk;?></td>
 								<td  style=""><?=$cuti?></td>
 								<td style=""><?=$ipg;?></td>

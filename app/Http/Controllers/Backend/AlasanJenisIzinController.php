@@ -14,7 +14,7 @@ class AlasanJenisIzinController extends Controller
         $this->middleware('auth');
     }public function alasan_jenis_ijin()
     {
-        $sqlberita="SELECT *,mja.alasan FROM m_jenis_alasan mja
+        $sqlberita="SELECT *,mja.alasan,mja.m_jenis_alasan_id as m_jenis_alasan_id_id FROM m_jenis_alasan mja
                 left join m_jenis_ijin mji on mja.jenis = mji.m_jenis_ijin_id 
                 WHERE 1=1 and mja.active=1 ";
         $alasan_jenis_ijin=DB::connection()->select($sqlberita);
@@ -39,7 +39,7 @@ class AlasanJenisIzinController extends Controller
             DB::connection()->table("m_jenis_alasan")
                 ->insert($data);
             DB::commit();
-            return redirect()->route('be.alasan_jenis_ijin')->with('success','Alasan jenis Izin Berhasil di input!');
+            return redirect()->route('be.jenis_alasan')->with('success','Alasan jenis Izin Berhasil di input!');
         }
         catch(\Exeception $e){
             DB::rollback();
@@ -58,7 +58,7 @@ class AlasanJenisIzinController extends Controller
         $jenis_ijin=DB::connection()->select($sqluser);
         
 
-        return view('backend.alasan_jenis_ijin.edit_alasan_jenis_ijin', compact('alasan_jenis_ijin','jenis_ijin'));
+        return view('backend.alasan_jenis_ijin.edit_alasan_jenis_ijin', compact('alasan_jenis_ijin','jenis_ijin','id'));
     }
 
     public function update_alasan_jenis_ijin (Request $request, $id){
@@ -70,7 +70,7 @@ class AlasanJenisIzinController extends Controller
                 ->where("m_jenis_alasan_id",$id)
                 ->update($data);
             DB::commit();
-            return redirect()->route('be.alasan_jenis_ijin')->with('success','Alasan jenis Izin  Berhasil di Ubah!');
+            return redirect()->route('be.jenis_alasan')->with('success','Alasan jenis Izin  Berhasil di Ubah!');
         }
         catch(\Exeception $e){
             DB::rollback();
@@ -78,7 +78,7 @@ class AlasanJenisIzinController extends Controller
         }
     }
 
-    public function hapus_berita($id)
+    public function hapus_alasan_jenis_ijin ($id)
     {
         DB::beginTransaction();
         try{
@@ -86,7 +86,7 @@ class AlasanJenisIzinController extends Controller
                 ->where("m_jenis_alasan_id",$id)
                 ->update(["active"=>0]);
             DB::commit();
-            return redirect()->route('be.alasan_jenis_ijin')->with('success','Berita Berhasil di Hapus!');
+            return redirect()->route('be.jenis_alasan')->with('success','Berita Berhasil di Hapus!');
         }
         catch(\Exeception $e){
             DB::rollback();

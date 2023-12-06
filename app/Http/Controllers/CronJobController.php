@@ -8,70 +8,10 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Hash;
+
 class CronJobController extends Controller
 {
-    public static function generate_hari_ini(){
-		Helper_function::generate_rekap_absen_tanggal(date('Y-m-d'));
-	 
-	 
-	 
- 	}public static function generate_absen_tanggal($tanggal){
-		Helper_function::generate_rekap_absen_tanggal($tanggal);
- 	}
- 	public  function generate_rekap_absen_hari_ini($tanggal){
-	    
-	    
-	        
-	        
-            // DB::connection()->table("absen_master_generate")->where("periode_absen_id",$periode_absen)->update(["active"=>0]);
-            DB::connection()->table("absen_master_generate_tanggal")->where("tanggal",$tanggal)->update(["active"=>0]);
-            DB::connection()->table("absen_master_rekap")->where("tanggal",$tanggal)->update(["active"=>0]);
-	        
-	           // $date = $periode[0]->tgl_awal;
-    	       // for($i=0;$i<$help->hitungHari($periode[0]->tgl_awal,$periode[0]->tgl_akhir);$i++){
-    	            
-    	            $data_tanggal['tanggal'] = $tanggal;
-    	            $data_tanggal['status'] = 0;
-    	            $data_tanggal['create_date'] = date('Y-m-d H:i:s');
-    	            DB::connection()->table("absen_master_generate_tanggal")->insert($data_tanggal);
-	        // foreach($karyawan as $list_karyawan){
-    	    //         $data['p_karyawan_id'] = $list_karyawan->p_karyawan_id;
-    	    //        // $data['tanggal'] = $date;
-    	    //         $data['status'] = 0;
-    	    //         $data['periode_absen_id'] = $periode_absen;
-    	    //         $data['create_date'] = date('Y-m-d H:i:s');
-            //         DB::connection()->table("absen_master_generate")->insert($data);
-    	            
-    	    //     }
-    	       
-    	   //         $date=$help->tambah_tanggal($date,1);
-	       // }
-	    //}
-	    //}
-	}
-    public static function hitung_rekap_absen_hari_ini($tanggal){
-		$help = new Helper_function();
-		if($tanggal==-1){
-			$tanggal=date('Y-m-d');
-		}
-	    $help->generate_rekap_absen_tanggal($tanggal);
-	
- 	}
- 	public static function generate_sp_st(){
- 		$karyawan = "select * from p_karyawan where active=1";
- 		$karyawan = DB::connection()->select($karyawan);
- 		foreach($karyawan as $karyawan){
- 			$m = date('m');
- 			DB::table("queue")->insert([
- 				"function_call"=>"sp_st_auto",
- 				"parameter_1"=>$karyawan->p_karyawan_id,
- 				"parameter_2"=>date("Y-").$m-1."01",
- 				"parameter_3"=>date('Y-m-')."01",
- 				
- 			]);
- 			
- 		}
-	}
+
 	public function generate_jam_finger ()
 	{
 	    
@@ -83,7 +23,7 @@ class CronJobController extends Controller
 	   
 	   $permit = DB::connection()->select("select * from t_permit 
 	                                left join p_karyawan_pekerjaan on t_permit.p_karyawan_id = p_karyawan_pekerjaan.p_karyawan_id 
-	                                where generate_jam_finger!=4 and tgl_awal >= '$year-$month-24'and m_jenis_ijin_id = 22 ");
+	                                where generate_jam_finger!=4 and tgl_awal >= '$year-$month-24' ");
 	   //print_r($permit);die;
 	   //1 : belum keduanya
 	   //2 : belum keluar
@@ -122,6 +62,13 @@ class CronJobController extends Controller
 	        }
 		   
 	   }
+	}public static function hitung_rekap_absen_hari_ini($tanggal){
+		$help = new Helper_function();
+		if($tanggal==-1){
+			$tanggal=date('Y-m-d');
+		}
+	    $help->generate_rekap_absen_tanggal($tanggal);
+	    
 	}
 	
 	public function generate_jam_finger_klarifikasi()

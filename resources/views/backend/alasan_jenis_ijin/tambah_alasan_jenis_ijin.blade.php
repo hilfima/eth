@@ -54,7 +54,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="card-footer">
-                        <a href="{!! route('be.alasan_jenis_ijin') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
+                        <a href="{!! route('be.jenis_alasan') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
                         <button type="submit" class="btn btn-info pull-right"><span class="fa fa-check"></span> Simpan</button>
                     </div>
                     <!-- /.box-footer -->

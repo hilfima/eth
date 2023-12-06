@@ -174,7 +174,7 @@
                     <!--</div>-->
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        <a href="{!! route('fe.pergantian_hari_libur') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
+                        <a href="{!! route('fe.kpi') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
                         <button type="submit" class="pull-right btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><span class="fa fa-check"></span> Simpan</button>
                     </div>
                     <!-- /.box-footer -->

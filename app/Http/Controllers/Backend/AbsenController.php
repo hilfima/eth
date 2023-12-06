@@ -4147,7 +4147,7 @@ LEFT JOIN m_departemen on m_departemen.m_departemen_id=p_karyawan_pekerjaan.m_de
 		                ->update([
 		                    
 		                    "status_absen_id" => 3,
-		                    "active" => 0,
+		                    "ver" => 0,
 		                    "updated_at" => date('Y-m-d H:i:s'),
 		                    "updated_by"=>$idUser,
 		                     ]);

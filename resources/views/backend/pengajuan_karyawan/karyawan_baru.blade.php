@@ -27,6 +27,7 @@
                     <thead>
                     <tr>
                         <th>No.</th>
+                        <th>Tanggal Pengajuan</th>
                         <th>Karyawan Pengaju</th>
                         <th>Posisi Diajukan</th>
                         <th>Tanggal Diperlukan</th>
@@ -49,6 +50,7 @@
                     <?php $no++;?>
                     		<tr>
                                 <td><?=$no;?></td>
+                                <td><?=$tkaryawan->create_date;?></td>
                                 <td><?=$tkaryawan->nama;?></td>
                                 <td><?=$tkaryawan->m_jabatan_id==-1?($tkaryawan->posisi):$tkaryawan->namaposisi;?></td>
                                 <td><?=$tkaryawan->tgl_diperlukan;?></td>
@@ -73,6 +75,8 @@
                                		echo 'Ditolak Direksi';
                                	else if($tkaryawan->status==4)
                                		echo 'Ditolak HC';
+                               	else if($tkaryawan->status==15)
+                               		echo 'Hold Ajuan HC';
 								   else
 								   echo 'Pending'	; 
                                	?></td>
@@ -90,7 +94,7 @@
                                 <td><?=$tkaryawan->nmdept;?></td>
                                 <td><?=$tkaryawan->nmlevel;?></td>
                                 <td>
-                                <?php if($tkaryawan->appr_direksi_status==1){?>
+                                <?php if($tkaryawan->status==2 or $tkaryawan->status==15){?>
                                 	 <a href="{!! route('be.edit_pengajuan_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-eye'></span></a>
                                 <?php }?>
                                 	 <a href="{!! route('be.hapus_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" title='Print' data-toggle='tooltip'><span class='fa fa-trash'></span></a>

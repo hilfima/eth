@@ -193,7 +193,7 @@ class PerdinApprController extends Controller{
 		$tolcut = $totalcuti;
 		return view('backend.approval_perdin.lihat',compact('data','user','type','pengajuan','kode','tolcut'));
 	}
-	
+
 	public function print_perdin($kode){
 		$sqldata="SELECT a.*,h.alasan as alasan_idt_ipm,b.nik,b.nama_lengkap,c.kode,c.nama as nama_ijin,f.*,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,a.m_jenis_ijin_id,b.m_status_pekerjaan_id
 		FROM t_permit a
@@ -368,8 +368,8 @@ class PerdinApprController extends Controller{
 					"biaya_tol"=>$request->get('biaya_tol'),
 					"biaya_penginapan"=>$request->get('biaya_penginapan'),
 					"biaya_uang_makan"=>$request->get('biaya_uang_makan'),
+					"biaya_uang_saku"=>$request->get('biaya_uang_saku'),
 					"biaya_type_penginapan"=>$request->get('type_penginapan'),
-			
 					"biaya_tiket"=>$request->get('biaya_tiket'),
 					"biaya_transportasi_dalam_kota"=>$request->get('biaya_transportasi_dalam_kota'),
 					"biaya_penyebrangan_kapal"=>$request->get('biaya_penyebrangan_kapal'),

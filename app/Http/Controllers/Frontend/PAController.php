@@ -353,19 +353,34 @@ where users.id=$iduser";
 
     public function edit_pa($id)
     {
-        $sqlpa="SELECT a.m_pa_jawaban_id,a.p_karyawan_id,b.nik,b.nama,a.tanggal,a.bulan,a.tahun,a.active,
+       
+          $sqlpa="SELECT a.m_pa_jawaban_id,a.p_karyawan_id,b.nik,b.nama,a.tanggal,a.bulan,a.tahun,a.active,
  case when status=0 then 'Belum Approve' else 'Approve' end as sts_pa,sum(e.jawaban) as total,sum(e.jawaban)/14 as rata2,
- c.nama as penilai,d.nama as approve,a.rekomendasi,a.keterangan,a.keterangan_direktur,e.m_pa_id,a.penilai,a.approve,a.status
+ c.nama as nmpenilai,d.nama as nmapprove,a.rekomendasi,a.keterangan,a.keterangan_direktur,e.m_pa_id,a.penilai,a.approve
+ 
 FROM m_pa_jawaban a
 left join p_karyawan b on b.p_karyawan_id=a.p_karyawan_id
 left join p_karyawan c on c.p_karyawan_id=a.penilai
 left join p_karyawan d on d.p_karyawan_id=a.approve
 left join m_pa_jawaban1 e on e.m_pa_jawaban_id=a.m_pa_jawaban_id
 left join m_pa f on f.m_pa_id=e.m_pa_id
-where a.m_pa_jawaban_id=$id
+where a.m_pa_jawaban_id=$id  and a.active=1 and f.active=1 and f.active=1
 GROUP BY a.p_karyawan_id,b.nik,b.nama,a.tanggal,a.active,a.bulan,a.tahun,a.status,
 c.nama,d.nama,a.m_pa_jawaban_id,e.m_pa_id,a.penilai,a.approve
 ORDER BY 2,3";
+// $sqlpa="SELECT a.m_pa_jawaban_id,a.p_karyawan_id,b.nik,b.nama,a.tanggal,a.bulan,a.tahun,a.active,
+//  case when status=0 then 'Belum Approve' else 'Approve' end as sts_pa,sum(e.jawaban) as total,sum(e.jawaban)/14 as rata2,
+//  c.nama as penilai,d.nama as approve,a.rekomendasi,a.keterangan,a.keterangan_direktur,e.m_pa_id,a.penilai,a.approve,a.status
+// FROM m_pa_jawaban a
+// left join p_karyawan b on b.p_karyawan_id=a.p_karyawan_id
+// left join p_karyawan c on c.p_karyawan_id=a.penilai
+// left join p_karyawan d on d.p_karyawan_id=a.approve
+// left join m_pa_jawaban1 e on e.m_pa_jawaban_id=a.m_pa_jawaban_id
+// left join m_pa f on f.m_pa_id=e.m_pa_id
+// where a.m_pa_jawaban_id=$id and a.active=1
+// GROUP BY a.p_karyawan_id,b.nik,b.nama,a.tanggal,a.active,a.bulan,a.tahun,a.status,
+// c.nama,d.nama,a.m_pa_jawaban_id,e.m_pa_id,a.penilai,a.approve
+// ORDER BY 2,3";
         $pa=DB::connection()->select($sqlpa);
 
         $sqlpadetil="SELECT a.*,b.pertanyaan,b.sub1,b.sub2,c.nama 
@@ -484,8 +499,8 @@ where users.id=$iduser";
                 ]);
 
             DB::connection()->table("m_pa_jawaban1")
-                ->where("m_pa_jawaban_id",$id)
-                ->delete();
+                ->where("m_pa_jawaban_id",$idpa)
+                ->update(["active"=>0]);
 
             for ($i=0;$i<$jumlah;$i++){
                 //id nomor soal

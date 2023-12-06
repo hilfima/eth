@@ -162,7 +162,7 @@
                                 <select name="status_apprhr"  class="form-control">
                                 	<option value=""> - Pilih Approval - </option>
                                 	<option value="1" <?=$data[0]->status_appr_2==1?'selected':'';?>>Setuju</option>
-                                    <?php if(in_array($data[0]->m_jenis_ijin_id,array(21,26))){?>
+                                	<?php if(in_array($data[0]->m_jenis_ijin_id,array(21,26))){?>
                                 	<option value="2" <?=$data[0]->status_appr_2==2?'selected':''?>>Tolak</option>
                                 	<?php }?>
                                 </select>

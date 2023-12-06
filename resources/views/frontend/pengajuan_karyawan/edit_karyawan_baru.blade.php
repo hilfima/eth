@@ -80,7 +80,7 @@
                                <select class="form-control " name="lokasi" id="karyawan"  style="width: 100%;" >
                                    
                                     <?php foreach($lokasi as $lokasi){
-                                    	if($lokasi->m_lokasi_id==$pekerjaan[0]->m_lokasi_id){?>
+                                    	if($lokasi->m_lokasi_id==$tkaryawan[0]->m_lokasi_id){?>
                                     <option value="<?=$lokasi->m_lokasi_id;?>" <?= $tkaryawan[0]->m_lokasi_id==$lokasi->m_lokasi_id?'selected':'';?>
                                     	><?=$lokasi->nama;?></option>
 									

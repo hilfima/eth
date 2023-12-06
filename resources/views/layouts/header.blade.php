@@ -40,6 +40,23 @@
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style>
+		    body{
+		        font-size:12px;
+		    }
+		    .btn{
+		        font-size:12px;
+		    }
+		    .form-control{
+		        font-size:12px;
+		    }
+		    label{
+		        font-size:12px;
+		    }
+		    .select2-selection__rendered{
+		          font-size:12px !important;
+		    }
+		</style>
     </head>
     <body>
 		<!-- Main Wrapper -->

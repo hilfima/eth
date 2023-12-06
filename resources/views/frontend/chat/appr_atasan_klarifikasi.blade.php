@@ -53,7 +53,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Tanggal Klarifikasi</label>
-                                <input class="form-control " id="tgl_absen" type="date" name="tanggal" value="<?= str_replace('Klarifikasi Absen Tanggal ', '', $chat_list[0]->topik) ? str_replace('Klarifikasi Absen Tanggal ', '', $chat_list[0]->topik) : $chat_list[0]->tanggal; ?>" placeholder="Masukan Topik Masalah" required="" readonly>
+                                <input class="form-control " id="tgl_absen" type="date" name="tanggal" value="<?= $chat_list[0]->tanggal?$chat_list[0]->tanggal:str_replace('Klarifikasi Absen Tanggal ', '', $chat_list[0]->topik) ; ?>" placeholder="Masukan Topik Masalah" required="" readonly>
 
 
                             </div>

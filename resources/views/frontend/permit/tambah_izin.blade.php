@@ -69,10 +69,10 @@
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">Jenis Izin*</label>
                         <div class="col-sm-10">
-                               <select class="form-control select2" name="cuti" id="jenis_ijin" style="width: 100%;" onchange="change_jenis(this);cek_min_all()" required>
+                               <select class="form-control select2" name="cuti" id="jenis_ijin" style="width: 100%;" onchange="get_min_max_izin();cek_min_all()" required>
                                     <option value="">Pilih Izin</option>
                                     <?php
-                                    
+                                    /*change_jenis(this);*/
                                     foreach($jenisizin AS $jenisizin){
                                     	$dis = '';
                                     	if($jenisizin->m_jenis_ijin_id==3 and $tolcut>0 and $dw[0]->m_status_pekerjaan_id!=5)
@@ -147,34 +147,9 @@
                     </div>
                     <?php }?>
                         
-                    <div class="form-group row" id="jenisalasan" style="display:none">
-                        <label class="col-sm-2 control-label">Alasan*</label>
-                        <div class="col-sm-10">
-                               <select class="form-control select2" name="alasan_id" id="alasan_id" style="width: 100%;" >
-                                    <option value="">Pilih Alasan</option>
-                                    <?php
-                                    foreach($jenisalasan AS $alasan){
-                                        echo '<option value="'.$alasan->m_jenis_idt_ipm_id.'">'.$alasan->alasan_idt_ipm.'</option>';
-                                    }
-                                    ?>
-                                </select>
-                        </div>
-                    </div>
-                        
-                    <div class="form-group row" id="jenisalasan_ipc" style="display:none">
-                        <label class="col-sm-2 control-label">Alasan*</label>
-                        <div class="col-sm-10">
-                                <select class="form-control select2" name="alasan_id" id="alasan_id" style="width: 100%;" >
-                                    <option value="">Pilih Alasan</option>
-                                    <?php
-                                    foreach($jenisalasan_ipc AS $alasan){
-                                        echo '<option value="'.$alasan->m_jenis_idt_ipm_id.'">'.$alasan->alasan_idt_ipm.'</option>';
-                                    }
-                                    ?>
-                                   
-                                </select>
-                        </div>
-                    </div>
+                    
+                   <div id="JenisAlasanContent"></div>
+                   
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">Keterangan*</label>
                         <div class="col-sm-10">
@@ -194,6 +169,7 @@
                               </div>
       
                     <!-- /.box-body -->
+                    <div id="pesanSubmit"></div>
                     <div class="card-footer">
                         <a href="{!! route('fe.list_izin') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
                         <button type="button" onclick="submit_form()" class="pull-right btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><span class="fa fa-check"></span> Simpan</button>
@@ -208,14 +184,86 @@
         </div>
         <!-- /.content -->
     </div>
+    <input type="hidden" value="<?=$tgl_cut_off;?>" id="cut_off">
+    <input type="hidden" value="" id="kontentParameter">
     <!-- /.content-wrapper -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
             $(document).ready(function () {
+                 $('#tgl_awaldate').attr('min',$('#cut_off').val());
+                $('#tgl_akhirdate').attr('min',$('#cut_off').val());
+                cek_min_all();
+                get_min_max_izin()
                 $('#demo').click(function () {
                     alert("Button is Clicked");
                 });
             });
+            function get_min_max_izin(){
+            val = $('#jenis_ijin').val();
+                $('#tgl_awaldate').attr('min',$('#cut_off').val());
+                $('#tgl_akhirdate').attr('min',$('#cut_off').val());
+            $.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				url : "{!! route('fe.get_izin_detail') !!}", 
+				data : {'val' : val},
+				type : 'get',
+				dataType : 'json',
+				success : function(result){
+                    if(result.absen){
+                        if(result.batas_tipe=='-1'){
+                            
+                            $('#tgl_awaldate').attr('min',$('#cut_off').val());
+                            $('#tgl_akhirdate').attr('min',$('#cut_off').val());
+                        }else
+                        if(result.min){
+                            $('#tgl_awaldate').attr('min',result.min);
+                            $('#tgl_akhirdate').attr('min',result.min);
+                        }
+                        if(result.alasan){
+                            
+			          
+                        
+                        $('#JenisAlasanContent').html(result.kontent_alasan);
+                          $('#alasan_id').attr('required', true);  
+                        }else{
+                        $('#JenisAlasanContent').html("");
+			            $('#alasan_id').attr('required', false);  
+                        }
+                        
+                    
+                        if(result.batas_tipe=='+-'){
+                            $('#kontentParameter').html(result.nama_parameter_input); 
+                            //$('#tgl_awaldate').attr('disabled',true);
+                            $//('#tgl_akhirdate').attr('disabled',true); 
+                        }else{
+                            $('#kontentParameter').html("");
+                            $('#tgl_awaldate').attr('disabled',false);
+                            $('#tgl_akhirdate').attr('disabled',false);
+                        }
+			            $('#filess').attr('required', result.require_file);  
+
+                    }else{
+                        alert(result.keterangan);
+                    }
+                    cek_min_all();
+						//$('#lama').val(result.count);
+						//console.log("===== " + result + " =====");
+					
+				},
+                error: function (error) {
+                        $('#JenisAlasanContent').html("");
+			            $('#filess').attr('required', false);  
+			            $('#alasan_id').attr('required', false);  
+                            $('#kontentParameter').html("");
+                            $('#tgl_awaldate').attr('disabled',false);
+                            $('#tgl_akhirdate').attr('disabled',false);
+                    
+                }
+				
+			});
+        }
         function cek_min(e){
             min  = $(e).attr('min');
             
@@ -369,8 +417,25 @@
 			    alert($('#simpan_keterangan').val())
 			else{
 			     countdate()
+			      var required = $('form#formIzin input,form#formIzin textarea,form#formIzin select').filter('[required]:visible');
+                var allRequired = true;
+                required.each(function(){
+                    if($(this).val() == ''){
+                        allRequired = false;
+                    }
+                });
+                
+                if(allRequired){
+                     $('#pesanSubmit').html('');
+                   
 			     document.getElementById('formIzin').submit();
 				$('form#formIzin').submit();
+                }else{
+                     
+                    $('#pesanSubmit').html('<div class="alert alert-danger" role="alert">silahkan isi form dengan benar, cek kembali form</div>');
+                    
+                    
+                }
 		       
 		    }
 		}function izin_khusus()

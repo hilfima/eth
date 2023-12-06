@@ -56,34 +56,34 @@
                                 </select>
                                 
                         </div>
-                            
-                            <div class="form-group ">
+                             
+                        <div class="form-group ">
                                
-                                <input class="text-left" type="checkbox" placeholder="Nama Batas ..." id="semua_seksi" name="semua_seksi" value="1"   required onclick="semua()"> Semua Departemen(seusai entitas)
-                               
-                                </div>
-                                <div class="form-group ">
-                                <label>Seksi</label>
-                                <select class="form-control select2" multiple placeholder="Nama Batas ..." id="seksi" name="list_seksi[]"   required>
-                                <?php 
-                            $data = DB::connection()->select('select m_departemen.m_departemen_id,m_departemen.nama as nama_dept,m_lokasi.nama as nmlokasi from m_departemen 
-                            left join m_divisi on m_departemen.m_divisi_id = m_divisi.m_divisi_id
-                            left join m_divisi_new on m_divisi_new.m_divisi_new_id = m_divisi.m_divisi_new_id
-                            left join m_directorat on m_divisi_new.m_directorat_id = m_directorat.m_directorat_id
-                            left join m_lokasi on m_lokasi.m_lokasi_id = m_directorat.m_lokasi_id
-                            where m_departemen.active=1');
-					        echo'<option value="">- Seksi -</option>';
-					        foreach($data as $row){
-					            echo '<option value="'.$row->m_departemen_id.'">'.$row->nama_dept.'('.$row->nmlokasi.')</option>';
-					        }
-                            ?>
-                                    
-                                </select>
-                            </div></div> 	
-                            
-                            
-
-                            
+                               <input class="text-left" type="checkbox" placeholder="Nama Batas ..." id="semua_seksi" name="semua_seksi" value="1"   required onclick="semua()"> Semua Departemen(seusai entitas)
+                              
+                               </div>
+                               <div class="form-group ">
+                               <label>Seksi</label>
+                               <select class="form-control select2" multiple placeholder="Nama Batas ..." id="seksi" name="list_seksi[]"   required>
+                               <?php 
+                           $data = DB::connection()->select('select m_departemen.m_departemen_id,m_departemen.nama as nama_dept,m_lokasi.nama as nmlokasi from m_departemen 
+                           left join m_divisi on m_departemen.m_divisi_id = m_divisi.m_divisi_id
+                           left join m_divisi_new on m_divisi_new.m_divisi_new_id = m_divisi.m_divisi_new_id
+                           left join m_directorat on m_divisi_new.m_directorat_id = m_directorat.m_directorat_id
+                           left join m_lokasi on m_lokasi.m_lokasi_id = m_directorat.m_lokasi_id
+                           where m_departemen.active=1');
+                           echo'<option value="">- Seksi -</option>';
+                           foreach($data as $row){
+                               echo '<option value="'.$row->m_departemen_id.'">'.$row->nama_dept.'('.$row->nmlokasi.')</option>';
+                           }
+                           ?>
+                                   
+                               </select>
+                           </div></div> 	
+                           
+                           
+                           
+                                 
                                     <input type="hidden" class="form-control " style="width: 20px" id="shifting" value="0" name="shifting" onclick="check(this)"  required=""/>
                             <div class="col-sm-12 d-none">
                             <div class="col-sm-12">
@@ -247,7 +247,7 @@
   	function changeentitas(){
 		var entitas = $('#entitas').val();
 		//alert(entitas);
-		$.ajax({
+        $.ajax({
 				type: 'post',
 				data:{_token: "{{ csrf_token() }}", entitas:entitas},
                 cache : false,
@@ -276,7 +276,7 @@
 			});
 		}
 	}
-  	
+  	 
   </script>
     <!-- /.content-wrapper -->
 @endsection

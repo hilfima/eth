@@ -39,23 +39,13 @@
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>NIK</th>
-                        <th>Nama</th>
-                        <th>Pajak</th>
-                        <th>Bank</th>
-                        <th>No Rek</th>
-                        <th>No Absen</th>
-                        <th>Entitas</th>
-                        <th>Kantor</th>
-                        <th>Kota</th>
-                        <th>Divisi</th>
-                        <th>Departemen</th>
-                        <th>Jabatan</th>
-                        <th>Tgl Bergabung</th>
-                        <th>Tgl Awal Kontrak</th>
-                        <th>Tgl Akhir Kontrak</th>
-                        <th>Status Pekerjaan</th>
-                        <th>Periode Gajian</th>
+                        <th>Data Karyawan</th>
+                        
+                        <th>Data Bank</th>
+                        <th>Data Pekerjaan</th>
+                        <th>Data Jabatan</th>
+                        <th>Data Kontrak</th>
+                        
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -66,27 +56,40 @@
                             <?php $no++ ?>
                             <tr>
                                 <td>{!! $no !!}</td>
-                                <td>{!! $karyawan->nik !!}</td>
-                                <td>{!! $karyawan->nama_lengkap !!}</td>
-                                <td>{!! $karyawan->pajak_onoff !!}</td>
-                                <td>{!! $karyawan->nama_bank !!}</td>
-                                <td>{!! $karyawan->norek !!}</td>
-								<td>{!! $karyawan->no_absen !!}</td>
-                                <td>{!! $karyawan->nmlokasi !!}</td>
-                                <td>{!! $karyawan->nama_kantor !!}</td>
-                                <td>{!! $karyawan->kota !!}</td>
-                                <td>{!! $karyawan->nmdivisi !!}</td>
-                                <td>{!! $karyawan->nmdept !!}</td>
-                                <td>{!! $karyawan->nmjabatan !!}</td>
-                                <td>{!! date('d-m-Y',strtotime($karyawan->tgl_bergabung)) !!}</td>
-                                <td>{!! date('d-m-Y',strtotime($karyawan->tgl_awal)) !!}</td>
-                                @if(!empty($karyawan->tgl_akhir))
-                                <td>{!! date('d-m-Y',strtotime($karyawan->tgl_akhir)) !!}</td>
-                                @else
-                                    <td></td>
-                                @endif
-                                <td>{!! $karyawan->nmstatus !!}</td>
-                                <td>{!! $karyawan->periode_gajian !!}</td>
+                                <td>{!! $karyawan->nik !!}<br>
+                                    {!! $karyawan->nama_lengkap !!}<br>
+                                </td>
+                               
+                                <td>
+                                    {!! $karyawan->nama_bank !!}<br>
+                                    {!! $karyawan->norek !!}<br>
+                                    {!! $karyawan->pajak_onoff !!}
+                                </td>
+                                 <td>
+                                    
+                                    {!! $karyawan->no_absen !!}<br>
+                                    {!! $karyawan->nama_kantor !!}<br>
+                                    {!! $karyawan->periode_gajian !!}<br>
+                                    {!! $karyawan->nmstatus !!}<br>
+								    {!! $karyawan->kota !!}
+                                </td>
+								<td>{!! $karyawan->nmlokasi !!}<br>
+								    {!! $karyawan->nmdirectorat !!}<br>
+								    {!! $karyawan->nama_divisi !!}<br>
+								    {!! $karyawan->nmdivisi !!}<br>
+								    {!! $karyawan->nmdept !!}<br>
+								    {!! $karyawan->nmjabatan !!}<br>
+								</td>
+                               
+                                <td>Bergabung : {!! date('d-m-Y',strtotime($karyawan->tgl_bergabung)) !!}<br>
+                                    Awal Kontrak : {!! date('d-m-Y',strtotime($karyawan->tgl_awal)) !!}<br>
+                                    Akhir Kontrak : @if(!empty($karyawan->tgl_akhir))
+                                                        {!! date('d-m-Y',strtotime($karyawan->tgl_akhir)) !!}
+                                                    @else
+                                                        -
+                                                    @endif
+                                    
+                               
                                 <td style="text-align: center">
                                     <a href="{!! route('be.view_karyawan',$karyawan->p_karyawan_id) !!}" title='Lihat' data-toggle='tooltip'><span class='fa fa-search'></span></a>
                                     <a href="{!! route('be.edit_karyawan',$karyawan->p_karyawan_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>

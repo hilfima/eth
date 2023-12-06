@@ -120,7 +120,7 @@ a.tgl_awal>='".$tgl_awal."' and a.tgl_akhir<='".$tgl_akhir."'
 ".$sqlnama." ".$sqltipe." ".$sqlstatus." $sqlperioode $whereLokasi2 $whereLokasi
 ORDER BY b.nama_lengkap";
             $data=DB::connection()->select($sqldata);
-           
+            
            
         $sqlusers="SELECT p_karyawan.*,m_departemen.nama as nmdept FROM p_karyawan
 LEFT JOIN p_karyawan_pekerjaan e on e.p_karyawan_id=p_karyawan.p_karyawan_id

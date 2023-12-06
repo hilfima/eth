@@ -341,7 +341,16 @@ class PengajuanKaryawanController extends Controller
 	public function approve_keuangan_karyawan_baru  (Request $request, $id)
 	{
 		$iduser=Auth::user()->id;
-        
+        if($request->approve_keuangan==1){
+        $tkaryawanstatus=6;
+            
+        }else if($request->approve_keuangan==2){
+        $tkaryawanstatus=42;
+            
+        }else if($request->approve_keuangan==3){
+        $tkaryawanstatus=6;
+            
+        }
 		DB::connection()->table("t_karyawan")
 		->where('t_karyawan_id',$id)
 		->update([
@@ -349,13 +358,13 @@ class PengajuanKaryawanController extends Controller
 			"final_approval"	=>	$request->karyawan_approval,
 			"karyawan_approve_keuangan"	=>	$request->karyawan_approval,
 			"keterangan_keuangan"	=>	$request->keterangan_keuangan,
-			"status"	=>	(6),
+			"status"	=>	($tkaryawanstatus),
 			"appr_keuangan"	=>	$iduser,
 			"appr_keuangan_date"	=>	date('Y-m-d'),
 			"appr_keuangan_status"	=>	($request->approve_keuangan),
 
 		]);
-		 $tkaryawanstatus=6;
+		 
 			$kode = $id;
 								if($tkaryawanstatus==1)
 				                        $status= 'Selesai ';
@@ -407,6 +416,7 @@ class PengajuanKaryawanController extends Controller
 		->where('t_karyawan_id',$id)
 		->update([
             "final_approval"	=>	($tkaryawan[0]->final_approval?$tkaryawan[0]->final_approval:$tkaryawan[0]->jumlah_dibutuhkan),
+			"karyawan_approve_keuangan"	=>($tkaryawan[0]->final_approval?$tkaryawan[0]->final_approval:$tkaryawan[0]->jumlah_dibutuhkan),
 			"status"	=>	(6),
 			"appr_keuangan"	=>	$iduser,
 			"appr_keuangan_date"	=>	date('Y-m-d'),
@@ -1105,13 +1115,13 @@ WHERE to_char(tgl_bergabung,'yy-mm')='".$thnkontrak.'-'.$blnkontrak."' and nik i
 		CASE t_karyawan.m_jabatan_id 
 			WHEN -1 THEN t_karyawan.posisi
 			ELSE (select nama from m_jabatan a where t_karyawan.m_jabatan_id = a.m_jabatan_id)
-		END AS namaposisi
+		END AS namaposisi,t_karyawan.create_date
 		
 		
 		from t_karyawan 
 		left join p_karyawan on t_karyawan.p_karyawan_id = p_karyawan.p_karyawan_id
 		where t_karyawan.active = 1
-		order by t_karyawan.create_by desc
+		order by t_karyawan.t_karyawan_id desc
 		";
     	$tkaryawan=DB::connection()->select($sql);
 		return view('backend.pengajuan_karyawan.karyawan_baru', compact('tkaryawan'));

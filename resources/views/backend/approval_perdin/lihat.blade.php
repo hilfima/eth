@@ -189,7 +189,7 @@
                                 <textarea class="form-control" disabled placeholder="Keterangan HR..." id="keterangan" name="keteranganhr" >{!! $data[0]->keterangan_hr !!}</textarea>
                             </div>
                         </div>
-
+                        
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
@@ -208,7 +208,7 @@
                                 <label> Biaya Tol  *</label>
                                 <input class="form-control" placeholder="Biaya Tol ..." id="biaya_tol" name="biaya_tol" value="{!! $data[0]->biaya_tol !!}">
                             </div>
-                        </div><div class="col-sm-3">
+                            </div><div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label> Type Penginapan   *</label>
@@ -233,7 +233,7 @@
                                 <label> Biaya Uang Saku    *</label>
                                 <input class="form-control" placeholder="Biaya Uang Saku   ..." id="biaya_uang_saku" name="biaya_uang_saku" value="{!! $data[0]->biaya_uang_saku !!}" >
                             </div>
-                        </div> -->	
+                        </div> -->
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">

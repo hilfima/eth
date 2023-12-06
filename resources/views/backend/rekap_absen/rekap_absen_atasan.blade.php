@@ -119,6 +119,19 @@ tfoot th:first-child {
 							
 							</select>
 							</div>
+					 
+					</div> <div class="col-lg-6">
+						<div class="form-group">
+							<label>Periode Gajian</label>
+							<select class="form-control select2" type="date" name="periode_gajian_search" style="width: 100%;" required >	
+							<option value="">- Pilih Periode Gajian - </option>
+							<option value="1">Bulanan</option>
+							<option value="2">Pekanan</option>
+							
+							
+							</select>
+							</div>
+				
 					</div> 
 					<!--<div class="col-lg-6">
 						<div class="form-group">

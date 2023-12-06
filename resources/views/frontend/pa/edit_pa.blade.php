@@ -100,6 +100,7 @@
                             <?php $no=0 ?>
                             @foreach($padetil as $padetil)
                                 <?php
+                                //print_r($padetil);
                                 $id=$padetil->m_pa_id;
                                 $pertanyaan=$padetil->pertanyaan;
                                 $pertanyaan=$padetil->sub1;

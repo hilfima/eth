@@ -54,7 +54,7 @@ LEFT JOIN m_lokasi c on c.m_lokasi_id=b.m_lokasi_id
 LEFT JOIN m_divisi d on d.m_divisi_id=b.m_divisi_id
 LEFT JOIN m_departemen f on f.m_departemen_id=b.m_departemen_id
 LEFT JOIN m_jabatan g on g.m_jabatan_id=b.m_jabatan_id
-LEFT JOIN p_karyawan_kontrak h on h.p_karyawan_id=a.p_karyawan_id
+LEFT JOIN p_karyawan_kontrak h on h.p_karyawan_id=a.p_karyawan_id and h.active=1
 LEFT JOIN m_status_pekerjaan i on i.m_status_pekerjaan_id=h.m_status_pekerjaan_id
                     WHERE 1=1 and a.active=1 and m_pangkat_id !=6 and b.periode_gajian=0 and kg.active=1 order by a.nama";
         $karyawan = DB::connection()->select($sqlkaryawan);

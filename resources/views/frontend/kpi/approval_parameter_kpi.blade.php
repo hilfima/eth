@@ -41,12 +41,10 @@ strong{
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Tahun</th>
-                        <th>Sasaran kerja</th>
-                        <th>Definisi </th>
-                        <th>Target</th>
-                        <th>Satuan</th>
-                        <th>Pencapaian</th>
+                        <th>Nama</th>
+                        <th>Periode</th>
+                        <th>Tahun </th>
+                        <th>TW</th>
                         <th>Status Approval</th>
                         <th>Action </th>
                         <th> </th>
@@ -59,17 +57,37 @@ strong{
                     <?php $no++ ?>
                     <tr>
                         <td>{!! $no !!}</td>
+                        <td>{!!$kpi->nama!!}</td>
+                        <td>Periode :<?php 
+                        if($kpi->periode_kpi==1){
+                            echo 'Costum';
+                        }else if($kpi->periode_kpi==2){
+                            echo 'Bulanan';
+                        }else if($kpi->periode_kpi==3){
+                            echo 'Triwulan';
+                        }else if($kpi->periode_kpi==4){
+                            echo 'Tahunan';
+                        }
+                        
+                        echo $kpi->tanggal_awal.' s/d '.$kpi->tanggal_akhir;
+                        ?></td>
                         <td>{!! $kpi->tahun !!}</td>
-                        <td>{!! $kpi->sasaran_kerja !!}</td>
-                        <td>{!! $kpi->definisi !!}</td>
-                        <td>{!! $kpi->target !!}</td>
-                        <td>{!! $kpi->satuan !!}</td>
-                        <td><b style="font-weight: bold; color:red "><?php $tw = 'pencapaian_tw'.$kpi->tw_ke;?>{!! $kpi->$tw !!}</b></td>
+                       
+                        <td>{!! $kpi->tw !!}</td>
+                        
+                        <?php 
+                        if($kpi->atasan_1==$id){
+                            $appr = 1;
+                        }else if($kpi->atasan_2==$id){
+                            $appr = 2;
+                        }
+                        $status = 'status_appr_pengajuan'.$appr;
+                        ?>
                                
 	                                <td>
-									@if($kpi->appr_status==1)
+									@if($kpi->$status==1)
 	                                        <span class="fa fa-check-circle"> Disetujui</span>
-	                                        @elseif($kpi->appr_status==2)
+	                                        @elseif($kpi->$status==2)
 	                                            <span class="fa fa-window-close"> Ditolak</span>
 	                                    @else
 	                                        <span class="fa fa-edit"> Pending</span>
@@ -82,22 +100,12 @@ strong{
                                
                                 
                                 <td style="text-align: center">
-                                    <a href="{!! route('fe.kpi_detail',$kpi->t_kpi_id) !!}" title='Lihat' data-toggle='tooltip' class="btn btn-primary"><span class='fa fa-search'></span> Lihat</a><Br>
+                                    <a href="{!! route('fe.kpi_review',[$kpi->t_kpi_id,'tahun_tw='.$kpi->tahun.'-'.$kpi->tw.'&appr=1']) !!}" title='Lihat' data-toggle='tooltip' class="btn btn-primary"><span class='fa fa-search'></span> Lihat</a><Br>
 									
                       				          
                                 </td>
                                 
-                                <td style="text-align: center;">
-                                   <div class="d-flex">
-									@if($kpi->appr_status==3)
-                                        <a href="{!! route('fe.acc_kpi_parameter',[$kpi->t_kpi_detail_id,$kpi->t_kpi_appr_id,$kpi->tw_ke]) !!}" class="btn btn-success btn-sm"  title='Approve - 1 ' data-toggle='tooltip'> 
-                                    	Approve  
-                                    </a><a href="{!! route('fe.dec_kpi_parameter',[$kpi->t_kpi_detail_id,$kpi->t_kpi_appr_id,$kpi->tw_ke]) !!}" class="btn btn-danger btn-sm" title='Tolak - 1' data-toggle='tooltip'> 
-                                    	Tolak    
-                                    </a> 
-                                    @endif
-                                   </div>
-                                </td>
+                                
                             </tr>
                         @endforeach
                     @endif

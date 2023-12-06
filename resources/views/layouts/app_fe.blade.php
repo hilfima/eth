@@ -75,7 +75,26 @@ if (! isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == 'off' ) {
 					text-align: center;
 		    /* styles */
 		}
-    </style>
+    </style><style>
+		    body{
+		        font-size:12px;
+		    }
+		    .btn{
+		        font-size:12px;
+		    }
+		    .form-control{
+		        font-size:12px;
+		    }
+		    label{
+		        font-size:12px;
+		    }
+		    .select2-selection__rendered{
+		          font-size:12px !important;
+		    }
+		    .dropdown-item{
+		          font-size:12px !important;
+		    }
+		</style>
 </head>
 
 <body>
@@ -95,7 +114,7 @@ if (! isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == 'off' ) {
 
     $id = $user[0]->p_karyawan_id;
     $sqlkaryawan = "SELECT a.p_karyawan_id,a.nik,nama_darurat,hubungan_darurat,b.nama_lengkap,b.nama_panggilan,c.nama as nmjk,d.nama as nmkota,e.nama as nmagama,g.nama as nmlokasi,h.nama as nmjabatan,i.nama as nmdept,j.nama as nmdivisi,l.nama as nmstatus,m.no_absen,b.foto,p.password,
-			case when f.is_shift=0 then 'Shift' else 'Non Shift' end as shift,kontak_darurat,k.tgl_awal,k.tgl_akhir,a.tgl_bergabung,a.email_perusahaan,k.keterangan,case when a.active=1 then 'Active' else 'Non Active' end as status,o.nama as nmpangkat,b.alamat_ktp,a.pendidikan,a.jurusan,a.nama_sekolah,a.domisili,a.jumlah_anak,b.tempat_lahir,case when m_status_id=0 then 'Belum Menikah' else 'Sudah Menikah' end as status_pernikahan,b.no_hp,c.nama as jenis_kelamin,e.nama as agama,b.email,b.tgl_lahir,f.kantor,n.ktp,n.no_npwp,n.no_bpjstk,n.no_bpjsks,b.m_status_id,b.m_kota_id,b.m_jenis_kelamin_id,b.m_agama_id,f.m_lokasi_id,f.m_jabatan_id,k.m_status_pekerjaan_id,f.m_departemen_id,f.m_divisi_id,a.active,n.no_sima,n.no_simc,n.no_pasport,n.kartu_keluarga,case when f.periode_gajian=1 then 'Bulanan' else 'Pekanan' end as periode,f.periode_gajian,q.nama as nama_kantor,f.bank,f.norek,f.kota,n.file_kk,n.file_ktp,n.file_bpjs_karyawan, aa.nama_grade as grade,o.nama as nmpangkat
+			case when f.is_shift=0 then 'Shift' else 'Non Shift' end as shift,kontak_darurat,k.tgl_awal,k.tgl_akhir,a.tgl_bergabung,a.email_perusahaan,k.keterangan,case when a.active=1 then 'Active' else 'Non Active' end as status,o.nama as nmpangkat,b.alamat_ktp,a.pendidikan,a.jurusan,a.nama_sekolah,a.domisili,coalesce(a.jumlah_anak::int	,0) as jumlah_anak,b.tempat_lahir,case when m_status_id=0 then 'Belum Menikah' else 'Sudah Menikah' end as status_pernikahan,b.no_hp,c.nama as jenis_kelamin,e.nama as agama,b.email,b.tgl_lahir,f.kantor,n.ktp,n.no_npwp,n.no_bpjstk,n.no_bpjsks,b.m_status_id,b.m_kota_id,b.m_jenis_kelamin_id,b.m_agama_id,f.m_lokasi_id,f.m_jabatan_id,k.m_status_pekerjaan_id,f.m_departemen_id,f.m_divisi_id,a.active,n.no_sima,n.no_simc,n.no_pasport,n.kartu_keluarga,case when f.periode_gajian=1 then 'Bulanan' else 'Pekanan' end as periode,f.periode_gajian,q.nama as nama_kantor,f.bank,f.norek,f.kota,n.file_kk,n.file_ktp,n.file_bpjs_karyawan, aa.nama_grade as grade,o.nama as nmpangkat
 			FROM p_karyawan a
 			LEFT JOIN p_recruitment b on b.p_recruitment_id=a.p_recruitment_id
 			LEFT JOIN m_jenis_kelamin c on c.m_jenis_kelamin_id=b.m_jenis_kelamin_id
@@ -152,7 +171,7 @@ if (! isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == 'off' ) {
     );
     $required_field = array();
     foreach ($checking_field as $key => $value) {
-        if (empty($karyawan[0]->$value)) {
+        if (($karyawan[0]->$value)==null or ($karyawan[0]->$value)=='') {
             if ($value == 'no_npwp')
 
                 $append = " - Kartu Identitas (isi dengan -1 jika beluum mempunyai | No NPWP diwajibkan untuk perhitungan potongan pajak tetap penggajian)";

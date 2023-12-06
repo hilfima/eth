@@ -17,7 +17,9 @@
             <ul class="nav nav-tabs float-right border-0 tab-list-emp">
 
 				<li class="nav-item pl-3">
+				    
 					<a href="{!! route('fe.tambah_kpi') !!}" title='Tambah'  class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding">Tambah KPI</a>
+				    
 				</li>
 			</ul>
 
@@ -97,11 +99,12 @@
                            
                             <div class="d-flex">
                             	
-                            <a href="{!! route('fe.edit_kpi',$kpi->t_kpi_id) !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2 add-person ctm-btn-padding" title='Edit' data-toggle='tooltip'><span class='fa fa-edit'></span> Edit</a>
-                            <a href="{!! route('fe.kpi_detail',$kpi->t_kpi_id) !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2 add-person ctm-btn-padding" title='Detail Capaian' data-toggle='tooltip'><span class='fa fa-eye'></span> Capaian</a>
-                            <a href="{!! route('fe.evaluasi_tahunan',$kpi->t_kpi_id).'?Cari=View' !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2 add-person ctm-btn-padding" title='Evaluasi Tahunan' data-toggle='tooltip'><span class='fa fa-file'></span> Evaluasi</a>
-                            <a href="{!! route('fe.mentoring_kpi',$kpi->t_kpi_id).'?Cari=View' !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2  add-person ctm-btn-padding" title='Coaching & Mentoring' data-toggle='tooltip'><span class='fa fa-user '></span>Mentoring</a>
-                            <a href="{!! route('fe.hapus_kpi',$kpi->t_kpi_id).'?Cari=View' !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash '></span> Hapus</a>
+                            <a href="{!! route('fe.edit_kpi',$kpi->t_kpi_id) !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2 add-person ctm-btn-padding btn-sm" title='Edit' data-toggle='tooltip'><span class='fa fa-edit'></span> Edit Periode</a>
+                            <a href="{!! route('fe.kpi_detail',$kpi->t_kpi_id) !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2 add-person ctm-btn-padding btn-sm" title='Detail Capaian' data-toggle='tooltip'><span class='fa fa-eye'></span> Target Kinerja</a>
+                            <a href="{!! route('fe.kpi_review',$kpi->t_kpi_id) !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2 add-person ctm-btn-padding btn-sm" title='Detail Capaian' data-toggle='tooltip'><span class='fa fa-eye'></span> Review Kinerja</a>
+                            <a href="{!! route('fe.evaluasi_tahunan',$kpi->t_kpi_id).'?Cari=View' !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2 add-person ctm-btn-padding btn-sm" title='Evaluasi Tahunan' data-toggle='tooltip'><span class='fa fa-file'></span> Evaluasi</a>
+                            <a href="{!! route('fe.mentoring_kpi',$kpi->t_kpi_id).'?Cari=View' !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 mr-2  add-person ctm-btn-padding btn-sm" title='Coaching & Mentoring' data-toggle='tooltip'><span class='fa fa-user '></span>Mentoring</a>
+                            <a href="{!! route('fe.hapus_kpi',$kpi->t_kpi_id).'?Cari=View' !!}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding btn-sm" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash '></span> Hapus Periode</a>
                             
                             </div>
                         </td>

@@ -55,7 +55,8 @@ class LoginController extends Controller
         $loginType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $login = [
             $loginType => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            'active'=>1
         ];
         if (auth()->attempt($login)) {
             //return redirect()->route('home')->with('success','Login successfully!');
@@ -122,7 +123,8 @@ class LoginController extends Controller
         $slider=DB::connection()->select($sqlslider);
         //Session::flush();
         //return view('auth.login', compact('slider'))->with('info','Kamu sudah logout');
-       Session::flush();
+       Auth::logout();
+       //Session::destroy();
         //Auth::guard($this->getGuard())->logout();
         return redirect()->route('login')->with('success','Logout successfully!');
     }

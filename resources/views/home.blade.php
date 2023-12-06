@@ -161,7 +161,7 @@
 					
 				
 						
-			<div class="card">
+					<div class="card">
 					<div class="card-header">
 								<h4 class="card-title mb-0">Rekap Absen <?=$help->bulan(date('m'));?></h4>
 							</div>
@@ -199,7 +199,7 @@
 				</div>
 
 				
-			</div>		
+			</div>
 			<style>
 				button box-shadow: none border: none outline: none cursor: pointer background: #ddd padding: 10 px font-weight: 700 margin-top: 20 px &:hover background: darken(#ddd, 5%) .hidden-text {
 
@@ -219,7 +219,7 @@
 				if($bawahan and in_array($idkar[0]->m_pangkat_id,array(5,6,7))){	
 			?>
 			<div class="col-xl-12 col-lg-12 col-md-12">
-						<div class="card">
+			<div class="card">
 					<div class="card-header">
 								<h4 class="card-title mb-0">Laporan Absensi Karyawn</h4>
 							</div>

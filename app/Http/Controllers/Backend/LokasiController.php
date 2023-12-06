@@ -57,33 +57,33 @@ where users.id=$iduser";
 
     public function simpan_lokasi(Request $request){
         $idUser=Auth::user()->id;
-       	$data = [
-       		[
-                "kode"=>($request->get("kode")),
-                "nama"=>($request->get("nama")),
-                "email"=>($request->get("email")),
-                "alamat"=>($request->get("alamat")),
-                "title"=>($request->get("title")),
-                "no_telp"=>($request->get("no_telp")),
-                "fax"=>($request->get("fax")),
-                "wa"=>($request->get("wa")),
-                
-                "active"=>1,
-                "create_by"=>$idUser,
-                "create_date"=>date('Y-m-d'),
-            ]
-       	];
-       	if ($request->file('logo')) { //echo 'masuk';die;
-					$file = $request->file('logo');
-					$destination = "dist/img/file/";
-					$path = 'logo-' . date('ymdhis') . '-' . $file->getClientOriginalName();
-					$file->move($destination, $path);
-					//echo $path;die;
-					$data["logo"]=$path;
-		}
-       
-        DB::connection()->table("m_lokasi")
-            ->insert($data);
+        $data = [
+            [
+             "kode"=>($request->get("kode")),
+             "nama"=>($request->get("nama")),
+             "email"=>($request->get("email")),
+             "alamat"=>($request->get("alamat")),
+             "title"=>($request->get("title")),
+             "no_telp"=>($request->get("no_telp")),
+             "fax"=>($request->get("fax")),
+             "wa"=>($request->get("wa")),
+             
+             "active"=>1,
+             "create_by"=>$idUser,
+             "create_date"=>date('Y-m-d'),
+         ]
+        ];
+        if ($request->file('logo')) { //echo 'masuk';die;
+                 $file = $request->file('logo');
+                 $destination = "dist/img/file/";
+                 $path = 'logo-' . date('ymdhis') . '-' . $file->getClientOriginalName();
+                 $file->move($destination, $path);
+                 //echo $path;die;
+                 $data["logo"]=$path;
+     }
+    
+     DB::connection()->table("m_lokasi")
+         ->insert($data);
 
         return redirect()->route('be.lokasi')->with('success','Lokasi Berhasil di input!');
     }

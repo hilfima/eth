@@ -47,9 +47,9 @@ class Helper_function
 		where users.id=$iduser";
         $user = DB::connection()->select($sqluser);
         $id_karyawan = $user[0]->p_karyawan_id;
-		}else{
-			$id_karyawan=$id_karyawan_search;
-		}
+        }else{
+            $id_karyawan=$id_karyawan_search;
+        }
         if($id_karyawan){
        
 		$jabstruk = Helper_function::jabatan_struktural($id_karyawan);
@@ -115,7 +115,7 @@ class Helper_function
         	$hr++;
         }
         
-		$hari_libur_shift = array();
+        $hari_libur_shift = array();
         $sql = "select * from absen_libur_shift where tanggal >= '$tgl_awal' and tanggal <='$tgl_akhir' and absen_libur_shift.active = 1";
         $harilibur = DB::connection()->select($sql);
         foreach ($harilibur as $libur) {
@@ -225,7 +225,7 @@ class Helper_function
 		    if($request->entitas_absen_search)
 		    $whereLokasi .= " AND d.m_lokasi_id in(".$request->entitas_absen_search.")";
 		}	
-        if(isset($request->periode_gajian_search)){
+		if(isset($request->periode_gajian_search)){
 		    
 		    if($request->periode_gajian_search==2){
 		       $request->periode_gajian_search=0;
@@ -249,7 +249,7 @@ class Helper_function
 			if($request->list_entitas_periode){
 			$whereentitas_periode = " and m_d.m_lokasi_id = (".$request->list_entitas_periode.")";
 			}
-		}
+        }
         $sql = "SELECT c.p_karyawan_id,c.nama,c.nik,m_lokasi.kode as nmlokasi,m_departemen.nama as departemen , f.m_pangkat_id ,m_jabatan.nama as nmjabatan,is_shift as is_karyawan_shift,foto,no_absen
 		FROM p_karyawan c
 		LEFT JOIN p_karyawan_pekerjaan d on d.p_karyawan_id=c.p_karyawan_id
@@ -268,7 +268,7 @@ class Helper_function
 		AND f.m_pangkat_id != 6
 		$where_filter_entitas
 		$where_filter_jabatan
-		$whereentitas_periode
+        $whereentitas_periode
 		----
 		$where_karyawan
 		$wherebawahan3
@@ -344,7 +344,7 @@ class Helper_function
     }
     public static
     function total_rekap_absen($rekap, $id_karyawan, $type = "rekap", $sheet = null, $rows = 0)
-   {
+    {
         $help = new Helper_function();
         //$list_karyawan = $rekap['list_karyawan'] ;
         //echo print_r($id_karyawan); die;
@@ -467,7 +467,7 @@ class Helper_function
 		$beruntun_literasi['alpha'] = 0; 
 		$beruntun['terlambat'] = 0; 
 		$beruntun_literasi['terlambat'] = 0; 
-		
+
         $all_content = '';
         $all_content_cek_absen = '';
         if(!(isset($no))) $no = 0;
@@ -482,18 +482,18 @@ class Helper_function
                 //print_r($hari_libur_shift);
             }
         for ($i = 0; $i <= Helper_function::hitunghari($tgl_awal, $tgl_akhir); $i++) {
-			if(!isset($rekap['absen']['a'][$date][$id_karyawan]['jam_masuk'])){
-					$rekap['absen']['a'][$date][$id_karyawan]['jam_masuk'] = "07:31:00";
-					
-					$rekap['absen']['a'][$date][$id_karyawan]['jam_form'] = "Entitas";
-			}
-			if(!isset($rekap['absen']['a'][$date][$id_karyawan]['jam_keluar'])){
-					$rekap['absen']['a'][$date][$id_karyawan]['jam_keluar'] = "16:30:00";
-					
-			}
+            if(!isset($rekap['absen']['a'][$date][$id_karyawan]['jam_masuk'])){
+                $rekap['absen']['a'][$date][$id_karyawan]['jam_masuk'] = "07:31:00";
+                
+                $rekap['absen']['a'][$date][$id_karyawan]['jam_form'] = "Entitas";
+            }
+            if(!isset($rekap['absen']['a'][$date][$id_karyawan]['jam_keluar'])){
+                    $rekap['absen']['a'][$date][$id_karyawan]['jam_keluar'] = "16:30:00";
+                    
+            }
             $rekap['total'][$id_karyawan]['hari_bulan'] += 1;
             $bool_hari_libur =  Helper_function::bool_hari_libur($rekap,$date,$id_karyawan,$info_karyawan,$hari_libur,$hari_libur_shift,$hari_libur_except_pengecualian,$hari_libur_except_pengkhususan,$potong_gaji);
- 
+             
 
             if($id_karyawan==442){
               //  echo '<br>'.$info_karyawan[0]->is_shift.'=>'.$date.'=>'.$bool_hari_libur;
@@ -520,7 +520,7 @@ class Helper_function
 		        $rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['ipg'] +=1;
 		        $rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['IPGCuti'] +=1;
 		        $rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['IPGCutiList'] .= $date.'|';
-                $warna = 'blue';
+		        $warna = 'blue';
                 $warna_sheet[$date] = '0000FF';
                 
                  $content .= ' Potong Gaji Cuti Bersama								';
@@ -574,7 +574,7 @@ class Helper_function
                     $warna_sheet[$date] = 'A9A9A9';
                     $rekap['total'][$id_karyawan]['fingerprint'] += 1; 
                     $rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['fingerprint'] +=1;
-                     $status_absen = 'TIDAK OK<br>';
+                    $status_absen = 'TIDAK OK<br>';
                      $string_jenis_ijin='TANPA FINGERPRINT';
 			                if(isset($rekap[$id_karyawan]['string'][$string_jenis_ijin])){
 				                    		$rekap[$id_karyawan]['string'][$string_jenis_ijin] .= " ". $date.' | ';
@@ -602,8 +602,8 @@ class Helper_function
 							}
                         }
                     } else {
-                        $rekap['total'][$id_karyawan]['pm'] += 1;
-                            $rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['pm'] +=1;
+                        $rekap['total'][$id_karyawan]['pm'] += 1; 
+                        $rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['pm'] +=1;
                         $warna = 'orange';
                         $warna_sheet[$date] = 'FFA500';
                         $status_absen = 'PULANG MENDAHULUI<br>';
@@ -628,22 +628,22 @@ class Helper_function
             }
             else
                 $status_libur = 'Hari Libur';
-			
-
-            if (isset($rekap['absen']['a'][$date][$id_karyawan]['masuk'])) {
-				 $rekap['total'][$id_karyawan]['absen_masuk'] += 1;
+                
+                
+			if (isset($rekap['absen']['a'][$date][$id_karyawan]['masuk'])) {
+                $rekap['total'][$id_karyawan]['absen_masuk'] += 1;
 				$rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['absen_masuk'] +=1;
 			}else if (!isset($rekap['absen']['a'][$date][$id_karyawan]['masuk']) and isset($rekap['absen']['a'][$date][$id_karyawan]['keluar'])) {
-				 $rekap['total'][$id_karyawan]['absen_masuk'] += 1;
+                $rekap['total'][$id_karyawan]['absen_masuk'] += 1;
 				$rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['absen_masuk'] +=1;
-			} 
+			}
             if (isset($rekap['absen']['a'][$date][$id_karyawan]['masuk'])) {
                 $status_absen = 'OK<br>';
                 $content_sheet[$date] .= $rekap['absen']['a'][$date][$id_karyawan]['masuk'];
                 $content .= ' ' . $rekap['absen']['a'][$date][$id_karyawan]['masuk'];
-               // $rekap[$id_karyawan]['total']['absen_masuk'] += 1;
+                // $rekap[$id_karyawan]['total']['absen_masuk'] += 1;
+               
 
-				
                 if ($rekap['absen']['a'][$date][$id_karyawan]['masuk'] > $rekap['absen']['a'][$date][$id_karyawan]['jam_masuk'] and  $bool_hari_libur) {
                    if (isset($rekap['pengajuan']['ci'][$date][$id_karyawan]['m_jenis_ijin_id'])) {
                         if ($rekap['pengajuan']['ci'][$date][$id_karyawan]['m_jenis_ijin_id'] == 21 or $rekap['pengajuan']['ci'][$date][$id_karyawan]['m_jenis_ijin_id'] == 24 ) {
@@ -770,7 +770,7 @@ class Helper_function
 				}
             }
 			
-
+            
             if (isset($rekap['absen']['a'][$date][$id_karyawan]['keluar'])) {
 
                 $content .= '
@@ -889,7 +889,7 @@ class Helper_function
 							}
                 }
             }
-
+              
 
 		//	echo '<pre>';print_r($rekap);die;
             if ($content == "<td style='background-color: STR;SRT2'>") {
@@ -968,7 +968,7 @@ class Helper_function
                         $content_sheet[$date] .= '';
                         $warna_sheet[$date] = 'FF0000';
                     } else {
-
+                        
                          if ((isset($rekap['klarifikasi']['list'][$date][$id_karyawan]['deskripsi']))){
                         	if($rekap['klarifikasi']['list'][$date][$id_karyawan]['selesai']==1){
                         	     $status_absen = 'KLARIFIKASI<br>';
@@ -993,7 +993,7 @@ class Helper_function
                             $status_libur  = 'Sudah Terdapat Chat Klarifikasi, klarifikasi selesai<br>';
                         	}
                         }
-                        else if (isset($rekap['pengajuan']['pending_pengajuan'][$date][$id_karyawan]['status'])) {
+                         else if (isset($rekap['pengajuan']['pending_pengajuan'][$date][$id_karyawan]['status'])) {
                             if ($rekap['pengajuan']['pending_pengajuan'][$date][$id_karyawan]['status'] == 1) {
                                 $status = 'Disetujui';
                             } else if ($rekap['pengajuan']['pending_pengajuan'][$date][$id_karyawan]['status'] == 2) {
@@ -1004,7 +1004,7 @@ class Helper_function
                             $status_absen = 'PENGAJUAN<br>';
                             $status_libur = 'Terdapat Pengajuan ' . $rekap['pengajuan']['pending_pengajuan'][$date][$id_karyawan]['nama_izin']. ' dengan Status ' . $status . '<br>';
                         }
-                       
+                        
                          //if (!(isset($rekap['klarifikasi']['list'][$date][$id_karyawan]['deskripsi']) or isset($rekap['pending_pengajuan'][$id_karyawan][$date]['status'])))
                        
                         $warna = 'yellow';
@@ -1014,7 +1014,7 @@ class Helper_function
                     }
                 }
             } else {
-            	if (isset($rekap['absen']['a'][$date][$id_karyawan]['masuk']))
+                if (isset($rekap['absen']['a'][$date][$id_karyawan]['masuk']))
                     $content .= '<br><br>Masuk : ' . (($rekap['absen']['a'][$date][$id_karyawan]['jam_masuk'])) . '<br>';
                 if (isset($rekap['absen']['a'][$date][$id_karyawan]['keluar']))
                     $content .=        'Keluar : ' . (($rekap['absen']['a'][$date][$id_karyawan]['jam_keluar'])) . '<br>';
@@ -1025,7 +1025,7 @@ class Helper_function
             }
             if(isset($rekap['perganitan_hari_libur_ke'][$id_karyawan][$date])){
                             // $status_absen = 'PERGANTIAN HARI LIBUR<br>';
-                        
+                          
                             $status_libur .= '<br><br>PERGANTIAN HARI LIBUR Dari  ' . $rekap['perganitan_hari_libur_ke'][$id_karyawan]['awal_libur'][$date]. '<br>';
                             	//$rekap['perganitan_hari_libur_awal'][$pengganti_hari->p_karyawan_id][$pengganti_hari->tgl_pengganti_hari]=true;
                     			//$rekap['perganitan_hari_libur_awal'][$pengganti_hari->p_karyawan_id]['pengganti'][$pengganti_hari->tgl_pengganti_hari]=$pengganti_hari->tgl_pengajuan;
@@ -1046,28 +1046,28 @@ class Helper_function
             $masuk_aben     = isset($rekap['absen']['a'][$date][$id_karyawan]['masuk']) ? 
             	' <strong style="font-weight:800; font-size:20px">'.$rekap['absen']['a'][$date][$id_karyawan]['masuk'].' </strong><br><br> <strong style="font-weight:800">Masuk(Kantor)</strong>: '.date('H:i', strtotime($rekap['absen']['a'][$date][$id_karyawan]['jam_masuk'] . ' -1 minutes'))
              : '<strong style="font-weight:800; font-size:20px">00:00:00 </strong><br><br>';
-            $keluar_absen     = isset($rekap['absen']['a'][$date][$id_karyawan]['keluar']) ? 
+             $keluar_absen     = isset($rekap['absen']['a'][$date][$id_karyawan]['keluar']) ? 
             ' <strong style="font-weight:800; font-size:20px">'.$rekap['absen']['a'][$date][$id_karyawan]['keluar'].' </strong><br><br> <strong style="font-weight:800">Keluar(Kantor)</strong>: '.
             (isset($rekap['absen']['a'][$date][$id_karyawan]['jam_keluar'])?$rekap['absen']['a'][$date][$id_karyawan]['jam_keluar']:'00:00:00') : '<strong style="font-weight:800; font-size:20px">00:00:00 </strong><br><br>';
             //$keluar_absen='';
             if(isset($rekap['absen']['a'][$date][$id_karyawan]['mesin_id'])){
-            if($rekap['absen']['a'][$date][$id_karyawan]['mesin_id']!=$info_karyawan[0]->m_mesin_absen_seharusnya_id and $rekap['absen']['a'][$date][$id_karyawan]['appr_status']!=1){
-            	$masuk_aben ="<b>00:00:00<br><br>Absen Mesin Tidak Sesuai</b>";
-            	$status_absen = 'ABSEN TIDAK DI LOKASI SEHARUSNYA<br>';
-            	$status_libur = "Menunggu approval Atasan";
-            	
-        		$rekap['total'][$id_karyawan]['mesin'] += 1; 
-        		$rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['mesin'] +=1;
-            }
-            }
-            if(empty($masuk_aben) and $status_absen=='OK<br>' and !$status_libur){
-            	$status_absen = 'TIDAK OK<br>';
-            }
-        
-            if ($status_absen == 'TIDAK OK<br>' and $date>=$gapen[0]->tgl_awal and (Auth::user()->role==2 or Auth::user()->role==-1) ) {
+                if($rekap['absen']['a'][$date][$id_karyawan]['mesin_id']!=$info_karyawan[0]->m_mesin_absen_seharusnya_id and $rekap['absen']['a'][$date][$id_karyawan]['appr_status']!=1){
+                    $masuk_aben ="<b>00:00:00<br><br>Absen Mesin Tidak Sesuai</b>";
+                    $status_absen = 'ABSEN TIDAK DI LOKASI SEHARUSNYA<br>';
+                    $status_libur = "Menunggu approval Atasan";
+                    
+                    $rekap['total'][$id_karyawan]['mesin'] += 1; 
+                    $rekap['total_tahunan'][$id_karyawan][date('Y',strtotime($date))][date('m',strtotime($date))]['mesin'] +=1;
+                }
+                }
+                if(empty($masuk_aben) and $status_absen=='OK<br>' and !$status_libur){
+                    $status_absen = 'TIDAK OK<br>';
+                }
+            
+                if ($status_absen == 'TIDAK OK<br>' and $date>=$gapen[0]->tgl_awal and (Auth::user()->role==2 or Auth::user()->role==-1) ) {
                 $action = '<a class="btn btn-primary" href="' . route('fe.tambah_chat', ['', 'key=Klarifikasi Absen Tanggal ' . $date]) . '">Klarifikasi</a>';
             }
-           if(isset(Auth::user()->role)){
+            if(isset(Auth::user()->role)){
             if(Auth::user()->role==3 or Auth::user()->role==-1 or Auth::user()->role==5  ) {
             	
             if(isset($rekap['absen']['a'][$date][$id_karyawan]['absen_log_id_masuk'])){ 
@@ -1081,10 +1081,10 @@ class Helper_function
 								<br><strong>KELUAR</strong>	<br>							
                                 <a href="'. route('be.edit_cari_absen_hr',$rekap['absen']['a'][$date][$id_karyawan]['absen_log_id_keluar']) .'" title="Ubah" data-toggle="tooltip"><span class="fa fa-edit"></span></a>
                                     <a href="'. route('be.hapus_cari_absen_hr',$rekap['absen']['a'][$date][$id_karyawan]['absen_log_id_keluar']) .'" title="Hapus" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
-            }
-           } 
-			}
-           /**/
+                                }
+                            } 
+                             }
+                            /**/
              $all_content_cek_absen .= "
 			<tr ".($status_libur=='Hari Libur'?'style="color:red"':"").">
 		";
@@ -1112,28 +1112,28 @@ class Helper_function
 
             $date             = Helper_function::tambah_tanggal($date, 1);
         }
-		if(isset($rekap['total_beruntun'][$id_karyawan]['terlambat'])){
-		$array = $rekap['total_beruntun'][$id_karyawan]['terlambat']['total'];
-		$maxValue = max($array);
-		$maxIndex = array_search(max($array), $array);
-		}else{
-			$maxIndex=0;
-			$maxValue=0;
-		}
-		$rekap['total_beruntun'][$id_karyawan]['terlambat']['maxValue'] =$maxValue ; 
-		$rekap['total_beruntun'][$id_karyawan]['terlambat']['maxIndex'] =$maxIndex ; 
-
-		if(isset($rekap['total_beruntun'][$id_karyawan]['alpha'])){
-		$array = $rekap['total_beruntun'][$id_karyawan]['alpha']['total'];
-		$maxValue = max($array);
-		$maxIndex = array_search(max($array), $array);
-		}else{
-			$maxIndex=0;
-			$maxValue=0;
-		}
-		$rekap['total_beruntun'][$id_karyawan]['alpha']['maxValue'] =$maxValue ; 
-		$rekap['total_beruntun'][$id_karyawan]['alpha']['maxIndex'] =$maxIndex ; 
-
+        if(isset($rekap['total_beruntun'][$id_karyawan]['terlambat'])){
+            $array = $rekap['total_beruntun'][$id_karyawan]['terlambat']['total'];
+            $maxValue = max($array);
+            $maxIndex = array_search(max($array), $array);
+            }else{
+                $maxIndex=0;
+                $maxValue=0;
+            }
+            $rekap['total_beruntun'][$id_karyawan]['terlambat']['maxValue'] =$maxValue ; 
+            $rekap['total_beruntun'][$id_karyawan]['terlambat']['maxIndex'] =$maxIndex ; 
+    
+            if(isset($rekap['total_beruntun'][$id_karyawan]['alpha'])){
+            $array = $rekap['total_beruntun'][$id_karyawan]['alpha']['total'];
+            $maxValue = max($array);
+            $maxIndex = array_search(max($array), $array);
+            }else{
+                $maxIndex=0;
+                $maxValue=0;
+            }
+            $rekap['total_beruntun'][$id_karyawan]['alpha']['maxValue'] =$maxValue ; 
+            $rekap['total_beruntun'][$id_karyawan]['alpha']['maxIndex'] =$maxIndex ; 
+    
 
         $total_all = 0;
         $total['<8 jam'] = 0;
@@ -1150,74 +1150,74 @@ class Helper_function
         //////echo $id;
         //////echo '<pre>';////echo print_r($rekap);
         $date = $tgl_awal;
-								$total_all = 0;
-								$help = new Helper_function();
-								for ($i = 0; $i <= $help->hitunghari($tgl_awal,$tgl_akhir); $i++) {
-									 $content = "";
+        $total_all = 0;
+        $help = new Helper_function();
+        for ($i = 0; $i <= $help->hitunghari($tgl_awal,$tgl_akhir); $i++) {
+            $content = "";
             $warna = '';
             $font = '';
-									$bool_hari_libur = Helper_function::bool_hari_libur($rekap,$date,$id_karyawan,$info_karyawan,$hari_libur,$hari_libur_shift,$hari_libur_except_pengecualian,$hari_libur_except_pengkhususan,$potong_gaji);
+            $bool_hari_libur = Helper_function::bool_hari_libur($rekap,$date,$id_karyawan,$info_karyawan,$hari_libur,$hari_libur_shift,$hari_libur_except_pengecualian,$hari_libur_except_pengkhususan,$potong_gaji);
 									
 									if (!$bool_hari_libur)
 										$color = 'Style="background:red;color:white"';
 									else
 										$color='';
-									if (isset($rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'])) {
+                                        if (isset($rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'])) {
 									 
-									 $total_all += $rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
-										
-										
-										if (!$bool_hari_libur) {
-											$lama = $rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
-											if ($lama>8) {
-												$total['8 jam'] +=8; $lama-=8;
-											} else if ($lama<=8) {
-												$total['8 jam'] +=$lama; $lama-=$lama;
-											}
-											if ($lama) {
+                                            $total_all += $rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
+                                               
+                                               
+                                               if (!$bool_hari_libur) {
+                                                   $lama = $rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
+                                                   if ($lama>8) {
+                                                       $total['8 jam'] +=8; $lama-=8;
+                                                   } else if ($lama<=8) {
+                                                       $total['8 jam'] +=$lama; $lama-=$lama;
+                                                   }
+                                                   if ($lama) {
+       
+                                                       $total['9 jam'] +=1;$lama-=1;
+                                                   }
+                                                   if ($lama)
+                                                       $total['>=10 jam'] +=$lama;
+       
+       
+                                                   $total['COUNT Libur'] +=1;
+                                                   $total['SUM Libur'] +=$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
+                                               } else {
+                                                   $lama = $rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
+                                                   $total['1jam'] +=1;$lama-=1;
+                                                   if ($lama)
+                                                       $total['>=2jam'] +=$lama;
+       
+       
+                                                   $total['COUNT Kerja'] +=1;
+                                                   $total['SUM Kerja'] +=$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
+                                               }
+                                           //$content .= '' . $rekap[$id_karyawan][$date]['lama'] . '';
+                                           $string_jenis_ijin='LEMBUR';
+                                                       if(isset($rekap[$id_karyawan]['string'][$string_jenis_ijin])){
+                                                                       $rekap[$id_karyawan]['string'][$string_jenis_ijin] .= " ". $date.' : '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'].' Jam | ';
+                                                       }else if(!isset($rekap[$id_karyawan]['string'][$string_jenis_ijin])){
+                                                                       $rekap[$id_karyawan]['string'][$string_jenis_ijin] = $date.' : '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'].' Jam | ';
+                                                       }
+                                                       
+                                           $content_approve .= ' <td '.$color.'>
+                                                       
+                                                       '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'].' Jam
+                                                           <br> '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['jam_awal'].'
+                                                                '.($rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['jam_akhir']?' s/d '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['jam_akhir']:'').'
+                                                               <br>  '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['keterangan'].'
+                                                       </td >';
+                                           } else if (isset($rekap['lembur']['Normal']['Proposional']['approve'][$id_karyawan][$date]['lama'])) {
+                                               $content_approve .= '<td style="background:purple;color:white"> Lembur Proposional </td>';
+                                           } else {
+       
+                                               $content_approve .= '<td '.$color.'>-</td>';
+                                           }
+                                           $date = $help->tambah_tanggal($date,1);
+                                       }
 
-												$total['9 jam'] +=1;$lama-=1;
-											}
-											if ($lama)
-												$total['>=10 jam'] +=$lama;
-
-
-											$total['COUNT Libur'] +=1;
-											$total['SUM Libur'] +=$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
-										} else {
-											$lama = $rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
-											$total['1jam'] +=1;$lama-=1;
-											if ($lama)
-												$total['>=2jam'] +=$lama;
-
-
-											$total['COUNT Kerja'] +=1;
-											$total['SUM Kerja'] +=$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'];
-										}
-									//$content .= '' . $rekap[$id_karyawan][$date]['lama'] . '';
-					                $string_jenis_ijin='LEMBUR';
-								                if(isset($rekap[$id_karyawan]['string'][$string_jenis_ijin])){
-									                    		$rekap[$id_karyawan]['string'][$string_jenis_ijin] .= " ". $date.' : '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'].' Jam | ';
-									            }else if(!isset($rekap[$id_karyawan]['string'][$string_jenis_ijin])){
-									                    		$rekap[$id_karyawan]['string'][$string_jenis_ijin] = $date.' : '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'].' Jam | ';
-												}
-												
-									$content_approve .= ' <td '.$color.'>
-												
-												'.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['lama'].' Jam
-													<br> '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['jam_awal'].'
-														 '.($rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['jam_akhir']?' s/d '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['jam_akhir']:'').'
-														<br>  '.$rekap['lembur']['Normal']['approve'][$date][$id_karyawan]['keterangan'].'
-												</td >';
-									} else if (isset($rekap['lembur']['Normal']['Proposional']['approve'][$id_karyawan][$date]['lama'])) {
-										$content_approve .= '<td style="background:purple;color:white"> Lembur Proposional </td>';
-									} else {
-
-										$content_approve .= '<td '.$color.'>-</td>';
-									}
-									$date = $help->tambah_tanggal($date,1);
-								}
-						
         $ipd = isset($rekap['total'][$id_karyawan]['ipd']) ? $rekap['total'][$id_karyawan]['ipd'] : 0;
         $masuk = isset($rekap['total'][$id_karyawan]['absen_masuk']) ? $rekap['total'][$id_karyawan]['absen_masuk'] : 0;
         $cuti            = isset($rekap['total'][$id_karyawan]['cuti']) ? $rekap['total'][$id_karyawan]['cuti'] : 0;
@@ -1240,7 +1240,7 @@ class Helper_function
        
 		$return['total_tahunan'] = $rekap['total_tahunan'][$id_karyawan];
 		$return['total_beruntun'] = $rekap['total_beruntun'][$id_karyawan];
-        
+
         $return['all_content'] = $all_content;
         $return['all_content_cek_absen'] = $all_content_cek_absen;
         $return['all_content_approve'] = $content_approve;
@@ -1326,7 +1326,7 @@ class Helper_function
    
     public static function rekap_absen_optimasi($id_periode_absen,$tgl_awal, $tgl_akhir, $type,$get = null,$karyawan=null)
     {
-    	$rekap = array();
+        $rekap = array();
 		$absen = DB::connection()->select("select * 
 		from absen_master_rekap_tanggal 
 			where tanggal>='$tgl_awal' and tanggal<='$tgl_akhir'
@@ -1349,7 +1349,7 @@ class Helper_function
 	 	$rekap = $array;
 	 	//echo '<pre>';
 	 	//print_r($rekap['absen']['a']['2023-10-04']);die;
-	 	$request = new Request;
+        $request = new Request;
         $list_permit = array();
         $iduser = Auth::user()->id;
         $sqluser = "SELECT p_recruitment.foto,role,p_karyawan_pekerjaan,p_karyawan.p_karyawan_id,p_karyawan_pekerjaan.m_lokasi_id,user_entitas_access FROM users
@@ -1362,10 +1362,10 @@ class Helper_function
         $id_karyawan = $user[0]->p_karyawan_id;
         if($id_karyawan){
        
-			$jabstruk = Helper_function::jabatan_struktural($id_karyawan);
-			$atasan = $jabstruk['atasan'];
-			$bawahan = $jabstruk['bawahan'];
-			$sejajar = $jabstruk['sejajar'];
+		$jabstruk = Helper_function::jabatan_struktural($id_karyawan);
+		$atasan = $jabstruk['atasan'];
+		$bawahan = $jabstruk['bawahan'];
+		$sejajar = $jabstruk['sejajar'];
         }else{
             $atasan = "";
             $bawahan = "";
@@ -1399,8 +1399,8 @@ class Helper_function
         if (isset($_GET['departemen'])) {
             if ($_GET['departemen'])
                 $where_departement = ' and m_departemen.m_departemen_id=' . $_GET['departemen'];
-        }
-       
+        }  
+        
         $sql = "select * from m_hari_libur where tanggal >= '$tgl_awal'  and active=1 and tanggal <='$tgl_akhir' ";
         $harilibur = DB::connection()->select($sql);
         $hari_libur = array();
@@ -1434,9 +1434,9 @@ class Helper_function
         foreach ($dmesin as $dmesin) {
             $mesin[$dmesin->mesin_id] = $dmesin->nama;
         }
-                    $min = $tgl_awal;
+            $min = $tgl_awal;
 
-
+        
         if ($request->entitas_absen_search) {
 
             
@@ -1456,14 +1456,14 @@ class Helper_function
             $whereLokasi = "";
         }
 
-        $id_lokasi = Auth::user()->user_entitas; 
-       
-       if($id_lokasi and $id_lokasi!=-1) 
-           $whereLokasi .= "AND d.m_lokasi_id in($id_lokasi)";					
-       else
-           $whereLokasi .= "";	
-           
-       
+        	 $id_lokasi = Auth::user()->user_entitas; 
+            
+            if($id_lokasi and $id_lokasi!=-1) 
+    			$whereLokasi .= "AND d.m_lokasi_id in($id_lokasi)";					
+    		else
+    			$whereLokasi .= "";	
+    			
+    		
         $where_filter_entitas = '';
         $where_filter_jabatan = '';
         if(isset($_GET['filterentitas'])){
@@ -1479,11 +1479,11 @@ class Helper_function
         $periode = DB::connection()->select("select * from m_periode_absen where periode_absen_id=$id_periode_absen");
         $whereentitas_periode = "";
         if( $periode[0]->entitas_list){
-        	
-		
-			$whereentitas_periode = " and d.m_lokasi_id in (".$periode[0]->entitas_list.")
-			--periode
-			";
+            
+        
+            $whereentitas_periode = " and d.m_lokasi_id in (".$periode[0]->entitas_list.")
+            --periode
+            ";
         }
         $sql = "SELECT c.p_karyawan_id,c.nama,c.nik,m_lokasi.kode as nmlokasi,m_departemen.nama as departemen , f.m_pangkat_id ,m_jabatan.nama as nmjabatan,is_shift as is_karyawan_shift,foto,no_absen
 		FROM p_karyawan c
@@ -1503,7 +1503,7 @@ class Helper_function
 		AND f.m_pangkat_id != 6
 		$where_filter_entitas
 		$where_filter_jabatan
-		$whereentitas_periode
+        $whereentitas_periode
 		----
 		$where_karyawan
 		$wherebawahan3
@@ -1539,14 +1539,14 @@ class Helper_function
         $rekap['tanggallibur']         = $tanggallibur;
 
         return $rekap;
-	}
-	public static
+    }
+    public static
     function total_rekap_absen_optimasi($rekap, $id_karyawan, $type = "rekap", $sheet = null, $rows = 0)
     {
-    	
+        
 		Return Helper_function::total_rekap_absen($rekap,$id_karyawan,$type,$sheet,$rows);
-	}
-	
+	}   
+    
     public static function preview_gaji($data_row, $type,$total_field=array(),$data=null, $list_karyawan=null, $sudah_appr_directur=null, $id_prl=null,$total=null)
     {
         
@@ -1595,7 +1595,7 @@ class Helper_function
 									$nom = $row;
 								
 								//if($i1==1);echo $operator;die;
-
+								
 								
 								if($$row2==0){
 									$$row2 = $nom;	
@@ -2026,7 +2026,7 @@ class Helper_function
         }
         $sqlfasilitas = "SELECT * FROM t_permit
 			  join m_jenis_ijin on t_permit.m_jenis_ijin_id = m_jenis_ijin.m_jenis_ijin_id
-              WHERE 1=1  $where_2 
+			  WHERE 1=1  $where_2 
 			  and (m_jenis_ijin.m_jenis_ijin_id = 5 or m_jenis_ijin.m_jenis_ijin_id = 25)  
 			  and t_permit.active=1 
 			  and t_permit.status_appr_1 !=2  
@@ -2835,7 +2835,7 @@ class Helper_function
     }
     public static function nama_hari($tanggal)
     {
-    	if($tanggal){
+        if($tanggal){
         $ubah      = gmdate($tanggal, time() + 60 * 60 * 8);
         $pecah     = explode("-", $ubah);
         $tgl       = $pecah[2];
@@ -2860,8 +2860,8 @@ class Helper_function
             $nama_hari = "Sabtu";
         }
         return $nama_hari;
-    	}else
-    	return null;
+        }else
+        return null;
     }
     public static function  tgl_indo($tgl)
     {

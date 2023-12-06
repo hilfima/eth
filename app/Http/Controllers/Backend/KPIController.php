@@ -319,12 +319,14 @@ class KPIController extends Controller
     public function kpi(Request $request)
     {
         
-        $sqlkpi="SELECT a.*,b.*,c.nama as appr_1,d.nama as appr_2,e.nama as jabatan
+        $sqlkpi="SELECT a.*,b.*,c.nama as appr_1,d.nama as appr_2,e.nama as jabatan,g.nama as nama_entitas,a.create_date
                        FROM t_kpi a
                        left join p_karyawan b on a.p_karyawan_id = b.p_karyawan_id
                        left join p_karyawan c on a.atasan_1 = c.p_karyawan_id
                        left join p_karyawan d on a.atasan_2 = d.p_karyawan_id
                        left join m_jabatan e on a.m_jabatan_id	 = e.m_jabatan_id
+                       left join p_karyawan_pekerjaan f on a.p_karyawan_id = f.p_karyawan_id
+                       left join m_lokasi g on g.m_lokasi_id	 = f.m_lokasi_id
                        
                        where a.active = 1  order by a.create_date
                         ";
@@ -921,7 +923,7 @@ where users.id=$iduser";
                     "active" => 0
                 ]);
             DB::commit();
-            return redirect()->route('fe.kpi')->with('success','KPI Berhasil di Ubah!');
+            return redirect()->route('be.kpi')->with('success','KPI Berhasil di Ubah!');
         }
         catch(\Exeception $e){
             DB::rollback();

@@ -26,9 +26,11 @@
 			<thead>
 				<tr>
 					<th>No.</th>
+					<th>Pengajuan</th>
+					<th>Tanggal Pengajuan</th>
 					<th>Jenis</th>
 					<th>Jabatan</th>
-					<th>Nama Karyawan</th>
+					<th>List Karyawan</th>
 					<th>Entitas</th>
 					<th>Status Pengajuan</th>
 					<th>Action</th>
@@ -44,6 +46,8 @@
 			<?php $no++; ?>
 				<tr>
 					<td><?=$no?></td>
+					<td><?=$mudepro->nama_pengaju;?></td>
+					<td><?=$mudepro->create_date;?></td>
 					<td><?php
 					if($mudepro->jenis==1)
 						echo 'Mutasi';

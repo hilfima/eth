@@ -20,9 +20,15 @@ class Keluh_kesahController extends Controller
     }public function keluh_kesah (Request $request)
 	{
 		
+		$id_lokasi = Auth::user()->user_entitas;
+        if($id_lokasi and $id_lokasi!=-1) 
+			$whereLokasi = "AND c.m_lokasi_id in($id_lokasi)";					
+		else
+			$whereLokasi = "";
 		$sqlfasilitas="SELECT *,t_keluh_kesah.create_date FROM t_keluh_kesah
 				join p_karyawan on t_keluh_kesah.p_karyawan_id = p_karyawan.p_karyawan_id
-                WHERE 1=1  order by t_keluh_kesah_id desc ";
+				join p_karyawan_pekerjaan c on c.p_karyawan_id = p_karyawan.p_karyawan_id
+                WHERE 1=1 $whereLokasi order by t_keluh_kesah_id desc ";
 		$keluh_kesah=DB::connection()->select($sqlfasilitas);
 
 		return view('backend.keluh_kesah.keluh_kesah',compact('keluh_kesah'));

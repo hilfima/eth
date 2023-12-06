@@ -101,7 +101,7 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Periode Generate</label>
-                            <select class="form-control select2" name="prl_generate" style="width: 100%;" required>
+                            <select class="form-control select2" name="prl_generate" style="width: 100%;" onchange="change_prl_generate(this)" required>
                                 <option value="">Pilih Periode Generate</option>
                                 <?php
                                 foreach ($periode as $periode) {
@@ -123,16 +123,16 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Karyawan</label>
-                            <select class="form-control select2" name="p_karyawan" style="width: 100%;" required>
-                                <option value="">Pilih Karyawan</option>
+                            <select class="form-control select3" name="p_karyawan" id="p_karyawan" style="width: 100%;" required>
+                                <!--<option value="">Pilih Karyawan</option>-->
                                 <?php
-                                foreach ($list_karyawan as $users) {
-                                    if ($users->p_karyawan_id == $request->get('p_karyawan')) {
-                                        echo '<option selected="selected" value="' . $users->p_karyawan_id . '">' . $users->nama . '  ' . '</option>';
-                                    } else {
-                                        echo '<option value="' . $users->p_karyawan_id . '">' . $users->nama . '  ' . '</option>';
-                                    }
-                                }
+                                // foreach ($list_karyawan as $users) {
+                                //     if ($users->p_karyawan_id == $request->get('p_karyawan')) {
+                                //         echo '<option selected="selected" value="' . $users->p_karyawan_id . '">' . $users->nama . '  ' . '</option>';
+                                //     } else {
+                                //         echo '<option value="' . $users->p_karyawan_id . '">' . $users->nama . '  ' . '</option>';
+                                //     }
+                                // }
                                 ?>
                             </select>
                         </div>
@@ -149,6 +149,26 @@
 
                 </div>
             </div>
+            <script>
+                function change_prl_generate(e){
+                    $.ajax({
+        				type: 'post',
+        				data:{_token: "{{ csrf_token() }}", id_prl:$(e).val()},
+                        cache : false,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+        				url: '<?=route('be.karyawan_gaji')?>',
+        				dataType: 'html',
+        				success: function(data){
+        					//alert(data.respon)
+        					$('#p_karyawan').html(data);
+        					$(".select3").select2();
+        					
+        				}
+        			});
+                }
+            </script>
 
         </div>
         <div class="card-body d-none">

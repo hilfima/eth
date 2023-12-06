@@ -91,9 +91,11 @@
                                 <td style='text-align:right'>{!! number_format($Koreksi->nominal,0) !!}</td>
                                 <td>{!! $Koreksi->keterangan !!}</td>
                                 <td style="text-align: center">
-                                   
+                                    
+                                   @if(!$sudah_appr[$Koreksi->m_lokasi_id][strtoupper($Koreksi->pajak_onoff)])
                                     <a href="{!! route('be.edit_Koreksi',$Koreksi->prl_gaji_detail_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
                                     <a href="{!! route('be.hapus_Koreksi',$Koreksi->prl_gaji_detail_id) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>
+                                    @endif
                                 </td>
                                
                             </tr>

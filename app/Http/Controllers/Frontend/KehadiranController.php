@@ -129,6 +129,7 @@ left join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id=p_karyawan.
 			
 		}
 	}
+	
 	public function rekap_absen_tahunan(Request $request){
 		
 		$iduser=Auth::user()->id;
@@ -230,7 +231,7 @@ left join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id=p_karyawan.
 			
 		}
 	}
-	}
+}
 	
 
   

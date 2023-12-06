@@ -184,7 +184,7 @@
 				url: '<?=route('be.getkaryawanprosesgenerate',$id);?>',
 				dataType: 'html',
 				success: function(data){
-					
+
 					if(entitas=='All'){
 						text = $('#m_lokasi_id_collect_all').val();
 						myArray = text.split(",");
@@ -220,7 +220,7 @@
 		persentaseGenerateContent+="<div class='text-red' style='color:red;'>PERINGATAN!!! TAB JANGAN DI TUTUP SEBELUM SELESAI</div></center></div>";
 		$('#persentaseGenerate').html(persentaseGenerateContent);
 		
-		
+
 		if($('.collectEntitas').length){
 			entitas = $('#genEntitas').val();
 			if(entitas==-1)

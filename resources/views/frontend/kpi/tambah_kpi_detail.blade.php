@@ -116,20 +116,24 @@
 							<div class="col-md-3" > 
 							<div class="form-group" > 
                             	 <label>Rencana TW-<?=$j;?> Tahun <?=$i;?></label>                               
-                            	<input class="form-control rencana" placeholder="Rencana" type="number" id="alasan" name="rencana[<?=$i;?>][<?=$j;?>]" onkeyup="totalRENCANA()" required="" onkeypress="return  ( 
-                key == 8 ||
-                key == 9 ||
-                key == 13 ||
-                key == 46 ||
-                (key >= 35 && key <= 40) ||
-                (key >= 48 && key <= 57) ||
-                (key >= 96 && key <= 105))" value="0" data-literasi="<?=$no;?>">
+                            	<input class="form-control rencana" placeholder="Rencana" type="text" id="alasan" name="rencana[<?=$i;?>][<?=$j;?>]" onkeyup="totalRENCANA()" required="" onkeypress="change_rencana(event)" onkeypress=""  onchange="handleNumber(event, 'Rp {-15,3}')"  value="0" data-literasi="<?=$no;?>">
                             </div>
                             </div>
 							<?php }
 							echo '</div>';
 						}
                        	?>
+                       	<script>
+                       	    function change_rencana(e){
+                       	        if($('#satuan').val()=='nominal'){
+                       	            handleNumber(e, 'Rp {-15,3}')
+                       	           
+                       	        }else{
+                       	            handleNumber(e, '{-15,3}')
+                       	           
+                       	        }
+                       	    }
+                       	</script>
                        	<div class="">
                        		<h4>Total Rencana</h4>
                        		<div id="totalRencanaContent"></div>
@@ -247,6 +251,85 @@
            // $("#x_Date_Difference").val(diffDays);
        
 		}
+		$(".mask").inputmask('Regex', {regex: "^[0-9]{1,6}(\\,\\d{1,2})?$"});
+	function handleNumber(event, mask) {
+    /* numeric mask with pre, post, minus sign, dots and comma as decimal separator
+        {}: positive integer
+        {10}: positive integer max 10 digit
+        {,3}: positive float max 3 decimal
+        {10,3}: positive float max 7 digit and 3 decimal
+        {null,null}: positive integer
+        {10,null}: positive integer max 10 digit
+        {null,3}: positive float max 3 decimal
+        {-}: positive or negative integer
+        {-10}: positive or negative integer max 10 digit
+        {-,3}: positive or negative float max 3 decimal
+        {-10,3}: positive or negative float max 7 digit and 3 decimal
+    */
+    with (event) {
+        stopPropagation()
+        preventDefault()
+        if (!charCode) return
+        var c = String.fromCharCode(charCode)
+        if (c.match(/[^-\d,]/)) return
+        with (target) {
+            var txt = value.substring(0, selectionStart) + c + value.substr(selectionEnd)
+            var pos = selectionStart + 1
+        }
+    }
+    var dot = count(txt, /\./, pos)
+    txt = txt.replace(/[^-\d,]/g,'')
+
+    var mask = mask.match(/^(\D*)\{(-)?(\d*|null)?(?:,(\d+|null))?\}(\D*)$/); if (!mask) return // meglio exception?
+    var sign = !!mask[2], decimals = +mask[4], integers = Math.max(0, +mask[3] - (decimals || 0))
+    if (!txt.match('^' + (!sign?'':'-?') + '\\d*' + (!decimals?'':'(,\\d*)?') + '$')) return
+
+    txt = txt.split(',')
+    if (integers && txt[0] && count(txt[0],/\d/) > integers) return
+    if (decimals && txt[1] && txt[1].length > decimals) return
+    txt[0] = txt[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+
+    with (event.target) {
+        value = mask[1] + txt.join(',') + mask[5]
+        selectionStart = selectionEnd = pos + (pos==1 ? mask[1].length : count(value, /\./, pos) - dot) 
+    }
+
+    function count(str, c, e) {
+        e = e || str.length
+        for (var n=0, i=0; i<e; i+=1) if (str.charAt(i).match(c)) n+=1
+        return n
+    }
+}
+function format(number, prefix='Rp ', decimals = 2, decimalSeparator = ',', thousandsSeparator = '.') {
+  const roundedNumber = number.toFixed(decimals);
+  let integerPart = '',
+    fractionalPart = '';
+  if (decimals == 0) {
+    integerPart = roundedNumber;
+    decimalSeparator = '';
+  } else {
+    let numberParts = roundedNumber.split('.');
+    integerPart = numberParts[0];
+    fractionalPart = numberParts[1];
+  }
+  integerPart =prefix+ integerPart.replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${thousandsSeparator}`);
+  return `${integerPart}${decimalSeparator}${fractionalPart}`;
+}
+function rupiahtonumber(text){
+	var chars = {'.':'',',':'.','R':'','p':'',' ':''};
+
+text = text.replace(/[.,Rp ]/g, m => chars[m]);
+
+
+ return text
+}
+function formatRupiah(angka, prefix){
+				var reverse = angka.toString().split('').reverse().join(''),
+				 ribuan = reverse.match(/\d{1,3}/g);
+				 ribuan = ribuan.join('.').split('').reverse().join('');
+				
+				return prefix == undefined ? ribuan : (ribuan ? 'Rp ' + ribuan : '');
+			}
     
     </script>
 @endsection

@@ -50,8 +50,8 @@
                                 <td>{!! (($alasan_jenis_ijin->nama)) !!}</td>
                                 
                                 <td style="text-align: center">
-                                    <a href="{!! route('be.edit_alasan_jenis_ijin',$alasan_jenis_ijin->m_jenis_alasan_id) !!}" title='Edit' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
-                                    <a href="{!! route('be.hapus_alasan_jenis_ijin',$alasan_jenis_ijin->m_jenis_alasan_id) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>
+                                    <a href="{!! route('be.edit_alasan_jenis_ijin',$alasan_jenis_ijin->m_jenis_alasan_id_id) !!}" title='Edit' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
+                                    <a href="{!! route('be.hapus_alasan_jenis_ijin',$alasan_jenis_ijin->m_jenis_alasan_id_id) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>
                                 </td>
                             </tr>
                         @endforeach

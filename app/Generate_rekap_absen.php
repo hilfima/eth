@@ -118,12 +118,15 @@ class Generate_rekap_absen
 			 
 			 
 			 where absen.tgl_awal<='$tgl_awal'
-				and absen.tgl_akhir>='$tgl_awal' and shifting=0 and absen.active=1
+				and absen.tgl_akhir>='$tgl_awal' 
+				
+				and absen.active=1
 			 $where_karyawan
+			  and shifting=0 
 			  and absen.tipe_list_entitas IN (1)
 			 
 			 ";
-		//echo $sqlabsen;
+		echo $sqlabsen;
 		$absen_entitas = DB::connection()->select($sqlabsen);
 		foreach ($absen_entitas as $absen) {
 			$masuk = $absen->jam_masuk;
@@ -148,9 +151,13 @@ class Generate_rekap_absen
 			$keluar_limit_akhir =  date('H:i:s', $endTime);
 
 			$date = $help->tambah_tanggal($tgl_awal, -1);
+			if($absen->p_karyawan_id==192){
+				print_r($absen);
+			}
 			for ($i = 0; $i <= $help->hitungHari($tgl_awal, $tgl_akhir) + 1; $i++) {
 
-				if (!isset($rekap['a'][$date][$absen->p_karyawan_id]['jam_masuk'])) {
+				if (!isset($rekap['a'][$date][$absen->p_karyawan_id]['jam_masuk']) or !isset($rekap['a'][$date][$absen->p_karyawan_id]['jam_keluar'])  ) {
+					
 					$rekap['a'][$date][$absen->p_karyawan_id]['jam_masuk'] = $masuk;
 					$rekap['a'][$date][$absen->p_karyawan_id]['masuk_limit_awal'] = $masuk_limit_awal;
 					$rekap['a'][$date][$absen->p_karyawan_id]['masuk_limit_akhir'] = $masuk_limit_akhir;
@@ -352,6 +359,11 @@ class Generate_rekap_absen
 					$lintas = false;
 					$is = false;
 					if (isset($rekap['a'][$datebefore][$absen->p_karyawan_id]) and isset($rekap['a'][$date][$absen->p_karyawan_id]['masuk_minus1'])) {
+						if(!isset($rekap['a'][$datebefore][$absen->p_karyawan_id]['jam_keluar'])){
+							print_r($rekap['a'][$date][$absen->p_karyawan_id]);
+							echo $datebefore;
+							echo $absen->p_karyawan_id;
+						}
 						if ($rekap['a'][$datebefore][$absen->p_karyawan_id]['jam_keluar'] <= $rekap['a'][$datebefore][$absen->p_karyawan_id]['jam_masuk']) {
 							$lintas = true;
 						}
@@ -722,7 +734,7 @@ or (c.status_appr_hr = 1 and c.m_jenis_ijin_id in (20,21,26)) )*/
 	{
 		$sql = "select * from t_pergantian_hari_libur 
         		where 
-				(
+        		(
         		    (tgl_pengganti_hari>='$tgl_awal' and tgl_pengganti_hari<='$tgl_akhir')
         		    OR
         		    (tgl_pengajuan>='$tgl_awal' and tgl_pengajuan<='$tgl_akhir')

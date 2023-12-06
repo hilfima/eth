@@ -71,12 +71,12 @@ class PengajuanKaryawanController extends Controller
                     "m_departemen_id"		=>	($request->get("dept")),
                     "appr"		=>	($request->get("atasan")),
                     "appr_direksi"		=>	($request->get("atasan2")),
-                    "status"		=>	($idkar[0]->m_pangkat_id==6?5:0),
+                    "status"		=>	(0),
                     "appr_status"		=>	3,
                     "m_pangkat_id"		=>	($request->get("level")),
                     "m_lokasi_id"		=>	($request->get("lokasi")),
                     "tgl_diperlukan"		=>	($request->get("tangal_diperlukan")),
-                    "jumlah_dibutuhkan"		=>	($request->get("kebutuhan")),
+                    "jumlah_dibutuhkan"		=>	trim(str_ireplace(array("A", "B","C","D","E","F","G","H","I ","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),array("","","","","","","","","","","","","","","","","","","","","","","","","",""),($request->get("kebutuhan")))),
                     "alasan"		=>	($request->get("alasan")),
                     "penambahan_karyawan"		=>	($request->get("alasantambah")),
                     "pergantian_karyawan_id"		=>	($request->get("alasanganti")),
@@ -95,23 +95,27 @@ class PengajuanKaryawanController extends Controller
                     "create_by"		=>	$idUser,
                     "create_date" 	=> 	date("Y-m-d H:i:s")
                 ];
+                $kebutuhan =trim(str_ireplace(array("A", "B","C","D","E","F","G","H","I ","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),array("","","","","","","","","","","","","","","","","","","","","","","","","",""),($request->get("kebutuhan"))));
 				if(!($request->get("atasan"))){
                     
-                    $insert['final_approval'] = ($request->get("kebutuhan"));
-                    $insert['appr_status'] = 5;
-                    
-                }
-                if($idkar[0]->m_pangkat_id==6){
-                    $insert['appr'] = $idkar[0]->p_karyawan_id;
-                    $insert['appr_direksi'] = $idkar[0]->p_karyawan_id;
-                    $insert['appr_date'] = date('Y-m-d');
-                    $insert['appr_direksi_date'] = date('Y-m-d');
+                    $insert['final_approval'] = $kebutuhan;
+                    $insert['karyawan_approve_atasan'] = $kebutuhan;
                     $insert['appr_status'] = 1;
-                    $insert['karyawan_approve_atasan'] = ($request->get("kebutuhan"));
-                    $insert['karyawan_approve_direksi'] = ($request->get("kebutuhan"));
-                    $insert['final_approval'] = ($request->get("kebutuhan"));
-                    $insert['appr_direksi_status'] = 1;
-                    $insert['appr_keuangan_status'] = 1;
+                    $insert['status'] = 5;
+                    
+                }else
+                if(!($request->get("atasan")) and !($request->get("atasan2"))){
+                    $insert['appr'] = $idkar[0]->p_karyawan_id;
+                    // $insert['appr_direksi'] = $idkar[0]->p_karyawan_id;
+                    $insert['appr_date'] = date('Y-m-d');
+                    // $insert['appr_direksi_date'] = date('Y-m-d');
+                    $insert['appr_status'] = 1;
+                    $insert['status'] = 5;
+                    $insert['karyawan_approve_atasan'] = $kebutuhan;
+                    // $insert['karyawan_approve_direksi'] = $kebutuhan;
+                    $insert['final_approval'] = $kebutuhan;
+                    // $insert['appr_direksi_status'] = 1;
+                    // $insert['appr_keuangan_status'] = 1;
                 }
             DB::connection()->table("t_karyawan")
                 ->insert($insert);
@@ -499,7 +503,7 @@ class PengajuanKaryawanController extends Controller
                         "notif"=>"Pengajuan Karyawan Baru ".$notifdata[0]->namaposisi." $status",
              ]);
 			
-			//return redirect()->route('fe.approval_karyawan_baru')->with('success','Approval Berhasil di update!');
+			return redirect()->route('fe.approval_karyawan_baru')->with('success','Approval Berhasil di update!');
 	}
 	public function dec_karyawan_baru($id)
 	{
@@ -609,6 +613,7 @@ class PengajuanKaryawanController extends Controller
                         "date_action"=>date('Y-m-d H:i:s'),
                         "notif"=>"Pengajuan Karyawan Baru ".$notifdata[0]->namaposisi." $status",
              ]);
+            // die;
 			return redirect()->route('fe.approval_karyawan_baru')->with('success','Approval Berhasil di update!');
 	}
 	public function dec_karyawan_baru2($id)

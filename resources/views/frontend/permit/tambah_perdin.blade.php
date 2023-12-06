@@ -111,17 +111,17 @@
                             <select class="form-control select2" name="alat_transportasi" style="width: 100%;" onchange="is_fasilitas(this)" required>
                                     <option value="">Pilih Alat Transportasi</option>
                                      <?php foreach($alat_transportasi as $alat){?>
-
+                                     
                                     <option value="<?=$alat->m_alat_transportasi_id;?>"><?=$alat->nama_alat_transportasi;?></option>
                                     
                                      <?php }?>
                                      	
                                      </select> 
-                                      <?php foreach($alat_transportasi as $alat){  
-                                     if($alat->fasilitas){
+                                     <?php foreach($alat_transportasi as $alat){
+                                     	if($alat->fasilitas){
                                      		echo '<input type="hidden" class="fasilitas_perusahaan" value="'.$alat->m_alat_transportasi_id.'">';
                                      	}
-                                     }
+                                     	}
                                      	?>
                         </div>
                     </div>

@@ -267,7 +267,7 @@ class ChatController extends Controller{
 			
 
 
-			$selesai ="Disetujui Atasan dan Menunggu tindak lanjut HC";
+			$selesai =($request->get("appr_status")=='2'?'Ditolak':'Disetujui')." Atasan dan Menunggu tindak lanjut HC";
 			$iduser=Auth::user()->id;
 			$sqlidkar="select * from p_karyawan where user_id=$iduser";
 			$idkar=DB::connection()->select($sqlidkar);

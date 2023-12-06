@@ -46,6 +46,8 @@
                                     <option value="+">Plus</option>
                                     <option value="-">Minus</option>
                                     <option value="+-">Plus Min</option>
+                                    <option value="-1">Periode</option>
+                                    <option value="-2">Tidak Terbatas</option>
                                 </select>
                             </div>
                             <div id="single_plus_min">

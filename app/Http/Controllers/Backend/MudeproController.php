@@ -32,9 +32,12 @@ class MudeproController extends Controller
 				,m_lokasi.nama as nmentitas
 				,m_departemen.nama as nmdepartemen
 				,p_karyawan.nama as nmappr
+				,a.nama as nama_pengaju
+				,t_mudepro.create_date
 				,(SELECT STRING_AGG(nama,',') FROM t_mudepro_karyawan join p_karyawan on t_mudepro_karyawan.p_list_karyawan_id =p_karyawan.p_karyawan_id where t_mudepro.t_mudepro_id = t_mudepro_karyawan.t_mudepro_id
 ) as karyawan
 			 from t_mudepro 
+			left join p_karyawan a on a.p_karyawan_id = t_mudepro.p_karyawan_id
 			left join p_karyawan on t_mudepro.appr_by = p_karyawan.p_karyawan_id
 			left join m_jabatan on t_mudepro.perpindahan_jabatan_id = m_jabatan.m_jabatan_id
 			left join m_pangkat on t_mudepro.perpindahan_pangkat_id = m_pangkat.m_pangkat_id
@@ -53,9 +56,12 @@ class MudeproController extends Controller
 				,m_lokasi.nama as nmentitas
 				,m_departemen.nama as nmdepartemen
 				,p_karyawan.nama as nmappr
+				,a.nama as nama_pengaju
+				,t_mudepro.create_date
 				,(SELECT STRING_AGG(nama,',') FROM t_mudepro_karyawan join p_karyawan on t_mudepro_karyawan.p_list_karyawan_id =p_karyawan.p_karyawan_id where t_mudepro.t_mudepro_id = t_mudepro_karyawan.t_mudepro_id
 ) as karyawan
 			 from t_mudepro 
+			left join p_karyawan a on a.p_karyawan_id = t_mudepro.p_karyawan_id
 			left join p_karyawan on t_mudepro.appr_by = p_karyawan.p_karyawan_id
 			left join m_jabatan on t_mudepro.perpindahan_jabatan_id = m_jabatan.m_jabatan_id
 			left join m_pangkat on t_mudepro.perpindahan_pangkat_id = m_pangkat.m_pangkat_id

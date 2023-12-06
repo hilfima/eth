@@ -88,12 +88,12 @@
                                <select class="form-control " name="lokasi" id="karyawan"  style="width: 100%;"  readonly>
                                    
                                     <?php 
-                                    if(isset($pekerjaan[0]->m_departemen_id)){
+                                    
                                       foreach($lokasi as $lokasi){
-                                    	if($lokasi->m_lokasi_id==$pekerjaan[0]->m_lokasi_id){?>
+                                    	if($lokasi->m_lokasi_id==$tkaryawan[0]->m_lokasi_id){?>
                                     <option value="<?=$lokasi->m_lokasi_id;?>"  <?=$tkaryawan[0]->m_lokasi_id==$lokasi->m_lokasi_id?'selected':''?>><?=$lokasi->nama;?></option>
 									<?php }}?>
-									<?php }?>
+								
                                 </select>
                             </div>
                             <?php }?>
@@ -185,8 +185,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        <a href="{!! route('be.karyawan_baru') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
-                        <button type="submit" class="btn btn-info pull-right"><span class="fa fa-check"></span> Simpan</button>
+                       
                     </div>
                     <!-- /.box-footer -->
                 </form>

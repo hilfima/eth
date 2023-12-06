@@ -25,6 +25,7 @@ class ChatController extends Controller
 		$where .= 'and tujuan = '.$request->get('tujuan');
 		if($request->get('selesai'))
 		$where .= ' and selesai = '.$request->get('selesai');
+		
 		$chat_list= "select *,p_karyawan.nama as nama, b.nama as nama_atasan from chat_room left join p_karyawan on p_karyawan_create_id = p_karyawan.p_karyawan_id
 		left join p_karyawan b on appr = b.p_karyawan_id
     	where 1=1  $where
@@ -337,12 +338,18 @@ class ChatController extends Controller
 		$where = '';
 		if ($request->get('tujuan'))
 			$where .= 'and tujuan = '.$request->get('tujuan');
+		if ($request->get('selesai')==-9)
+		    $where .= ' ';
+		else
 		if ($request->get('selesai')==-1)
 			$where .= ' and selesai = 0';
 		else if ($request->get('selesai'))
 			$where .= ' and selesai = '.$request->get('selesai');
 		else 
 			$where .= ' and selesai in(0,2,4) ';
+		if ($request->get('appr_hr_status')==-1)
+		    $where .= ' ';
+		else
 		if ($request->get('appr_hr_status'))
 			$where .= ' and appr_hr_status = '.$request->get('appr_hr_status');
 		if ($request->get('nama'))

@@ -420,16 +420,17 @@ class PermitController extends Controller
 		$where = " and tgl_awal<='".$tgl_akhir_gaji."'";
 		$where = " and tgl_awal>='".$tgl_awal_gaji."'";
 		$where = " ";
+		
 		if ($request->get('tgl_awal') and !$request->get('tgl_akhir'))
 			$where = "and tgl_awal >= '".$request->get('tgl_awal')."'";
 		else if ($request->get('tgl_akhir') and !$request->get('tgl_awal'))
 			$where = "and tgl_awal <= '".$request->get('tgl_akhir')."'";
 		else if ($request->get('tgl_akhir') and $request->get('tgl_awal'))
 			$where = "and tgl_awal >= '".$request->get('tgl_awal')."' and tgl_awal <= '".$request->get('tgl_akhir')."'";
-		else{
-				$where .= " and tgl_awal>='".$tgl_awal_gaji."'";
-				$where .= " and tgl_awal<='".$tgl_akhir_gaji."'";
-		}
+        else{
+            $where .= " and tgl_awal>='".$tgl_awal_gaji."'";
+	    	$where .= " and tgl_awal<='".$tgl_akhir_gaji."'";
+        }
 		if ($request->get('ajuan'))
 			$where .= ' and c.tipe = '.$request->get('ajuan');
 
@@ -444,8 +445,8 @@ class PermitController extends Controller
 
 			)";
 		else{
-		   //  $where .= "and ((a.appr_1=$id and a.status_appr_1=3) or (a.appr_2=$id and a.status_appr_2=3 and status_appr_1!=2) ) ";
-		   $where .= "and ((a.appr_1=$id ) or (a.appr_2=$id and status_appr_1!=2) ) ";
+		  //  $where .= "and ((a.appr_1=$id and a.status_appr_1=3) or (a.appr_2=$id and a.status_appr_2=3 and status_appr_1!=2) ) ";
+		    $where .= "and ((a.appr_1=$id ) or (a.appr_2=$id and status_appr_1!=2) ) ";
 		}
 
 		$date = date('Y-m-d');
@@ -932,22 +933,22 @@ class PermitController extends Controller
 		if($idkar[0]->m_pangkat_id==6 and !count($appr)){
 		    $atasan =  -1;
     	}else{
-		$jabstruk = $help->jabatan_struktural($id_karyawan);
-		$atasan = $jabstruk['atasan'];
-		$bawahan = $jabstruk['bawahan'];
-		$sejajar = $jabstruk['sejajar'];
-		
-		$atasan_layer = $jabstruk['atasan_layer'];
-		
-		$atasan = isset($atasan_layer[1])?$atasan_layer[1]:'-1';
-		//echo $atasan;die;
-
-		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan)  and m_pangkat_id not in (1,2,3)";
-		$appr=DB::connection()->select($sqlappr);
-
+    		$jabstruk = $help->jabatan_struktural($id_karyawan);
+    		$atasan = $jabstruk['atasan'];
+    		$bawahan = $jabstruk['bawahan'];
+    		$sejajar = $jabstruk['sejajar'];
+    		
+    		$atasan_layer = $jabstruk['atasan_layer'];
+    		
+    		$atasan = isset($atasan_layer[1])?$atasan_layer[1]:'-1';
+    		//echo $atasan;die;
+    
+    		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan)  and m_pangkat_id not in (1,2,3)";
+    		$appr=DB::connection()->select($sqlappr);
+    	
 		}
-		$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id ";
-		$kar=DB::connection()->select($sqlkar);		
+			$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id ";
+    		$kar=DB::connection()->select($sqlkar);
 		$where = '';
 
 		$sqlkar="SELECT * from get_data_karyawan() where (m_jabatan_id in($bawahan) or m_jabatan_id in($atasan) or m_jabatan_id in($sejajar))  and (m_departemen_id = (select m_departemen_id from p_karyawan_pekerjaan where p_karyawan_id=$id_karyawan)  or m_jabatan_id in($atasan))  order by nama_lengkap";
@@ -1274,7 +1275,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 
 		$sqljenisizin="SELECT * from m_jenis_ijin WHERE tipe=1 and active=1 order by urutan asc";
 		$jenisizin=DB::connection()->select($sqljenisizin);
-
+		
 		$sqljenisizin="SELECT * from m_alat_transportasi WHERE  active=1 order by m_alat_transportasi asc";
 		$alat_transportasi=DB::connection()->select($sqljenisizin);
 		
@@ -1361,7 +1362,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 		$appr1=DB::connection()->select($sqlappr);
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan2) and m_pangkat_id in(5,6) ";
 		$appr2=DB::connection()->select($sqlappr);
-		}
+    	}
 		$sqlkar="SELECT * from get_data_karyawan() WHERE p_karyawan_id=$id";
 		$kar=DB::connection()->select($sqlkar);
 
@@ -1619,6 +1620,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 			return redirect()->back()->with('error',$e);
 		}
 	}
+
 	public function hitung_jam_lembur(Request $request)
 	{
 	    echo PermitController::lama_jam_lembur($request);
@@ -1694,7 +1696,7 @@ $tolcut = $cuti[0]->sisa_cuti;
 			//$return['lama_input'] = $lama_input;
 			return $lama_input;
 	}
-	
+
 	public function simpan_lembur(Request $request)
 	{
 		DB::beginTransaction();
@@ -1750,8 +1752,8 @@ $tolcut = $cuti[0]->sisa_cuti;
 			$datanocuti=DB::connection()->select($sqlnocuti);
 			$Counter=$datanocuti[0]->counter;
 			$nocuti='PERMIT.'.$Bulan.'.'.$Tahun2.'.'.$Counter;
-$help = new Helper_function();
-$istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirahat_awal'));
+            $help = new Helper_function();
+          	$istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirahat_awal'));
           	$istirahat_keluar = strtotime($request->get('tgl')." ".$request->get('jam_istirahat_akhir'));
           	
 			$total_jam_istirahat =  $istirahat_keluar-$istirahat_masuk;
@@ -1774,8 +1776,9 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 	       // die;
 	        
 			$lama_input = PermitController::lama_jam_lembur($request);
+		
 		//	echo $lama_istirahat; die;
-		if($idkar[0]->m_pangkat_id==6 and !$request->get('atasan'))
+			if($idkar[0]->m_pangkat_id==6 and !$request->get('atasan'))
 				$tipe = -1;
 			else
 				$tipe = $request->get('atasan');
@@ -1819,7 +1822,7 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 
 			//	});
 
-			return redirect()->route('fe.list_lembur')->with('success','Pengajuan Lembur Berhasil di simpan!');
+		    return redirect()->route('fe.list_lembur')->with('success','Pengajuan Lembur Berhasil di simpan!');
 		} catch (\Exeception $e) {
 			DB::rollback();
 			return redirect()->back()->with('error',$e);
@@ -1848,6 +1851,7 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 		$sqlizin="SELECT a.*,b.nik,b.nama_lengkap,b.jabatan,b.departemen,c.kode,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,e.nama as pjs,
 		case when status_appr_hr=1 then 'Disetujui' when status_appr_hr=2 then 'Ditolak' when status_appr_hr=3 then 'Pending' end as approve_hr,
 		case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' when status_appr_1=3 then 'Pending' end as sts_pengajuan
+		
 		FROM t_permit a
 		left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
 		left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id
@@ -1863,7 +1867,7 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 		$sqlizin="SELECT a.*,b.nik,b.nama_lengkap,b.jabatan,b.departemen,c.kode,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,e.nama as pjs,
 		case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' when status_appr_1=3 then 'Pending' end as sts_pengajuan,
 		case when status_appr_hr=1 then 'Disetujui' when status_appr_hr=2 then 'Ditolak' when status_appr_hr=3 then 'Pending' end as approve_hr,
-		alasan_idt_ipm
+		f.alasan as alasan_idt_ipm
 		FROM t_permit a
 		left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
 		left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id
@@ -1941,7 +1945,7 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 	}
 	public function lihat_ajuan_2($kode)
 	{
-		$sqldata="SELECT a.*,b.nik,b.nama_lengkap,alasan_idt_ipm,c.kode,c.tipe,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,e.nama as pjs
+		$sqldata="SELECT a.*,b.nik,b.nama_lengkap,f.alasan as alasan_idt_ipm,c.kode,c.tipe,c.nama as nama_ijin,d.nama as nama_appr,tgl_appr_1,status_appr_1,b.pangkat,b.departemen,case when status_appr_1=1 then 'Disetujui' when status_appr_1=2 then 'Ditolak' end as sts_pengajuan,b.jabatan,e.nama as pjs
 		FROM t_permit a
 		left join get_data_karyawan() b on b.p_karyawan_id=a.p_karyawan_id
 		left join m_jenis_ijin c on c.m_jenis_ijin_id=a.m_jenis_ijin_id
@@ -2156,19 +2160,25 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 			$datanocuti=DB::connection()->select($sqlnocuti);
 			$Counter=$datanocuti[0]->counter;
 			$nocuti='PERMIT.'.$Bulan.'.'.$Tahun2.'.'.$Counter;
-			$sqldata="SELECT a.*,b.nik,b.nama_lengkap,f.uang_makan,f.uang_saku,f.uang_saku2
+            $sqldata="SELECT a.*,b.nik,b.nama_lengkap,f.uang_makan,f.uang_saku,f.uang_saku2
 				FROM p_karyawan_pekerjaan a
 				left join get_data_karyawan() b on a.p_karyawan_id = a.p_karyawan_id 
 			
 				left join m_jabatan d on d.m_jabatan_id=a.m_jabatan_id
 				left join m_pangkat f on d.m_pangkat_id=f.m_pangkat_id
 				WHERE 1=1 and a.p_karyawan_id=$id and a.active=1  ";
-        $data=DB::connection()->select($sqldata);
         	$uangmakan=$data[0]->uang_makan;
-        	$uangmakan2=$data[0]->uang_makan2;
+			$uangsaku1=$data[0]->uang_saku;
+			$uangsaku2=$data[0]->uang_saku2;
 	        if($request->get('lama')>1)
-	                $uangmakan = $uangmakan2; 
-            
+	                $uangsaku = $uangsaku2;
+            else 
+            	$uangsaku = $uangsaku1;
+				$uangmakan=$data[0]->uang_makan;
+				$uangmakan2=$data[0]->uang_makan2;
+				if($request->get('lama')>1)
+						$uangmakan = $uangmakan2; 
+
 			$data = [
 				"m_jenis_ijin_id"=>$request->get('cuti'),
 				"p_karyawan_id"=>$id,
@@ -2186,11 +2196,10 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 				"pjs"=>$request->get('pjs'),
 				"create_date"=>date('Y-m-d  H:i:s'),
 				"create_by"=>$id,
-				//"biaya_uang_saku"=>$uangsaku, 
+				"biaya_uang_saku"=>$uangsaku,
 				"biaya_uang_makan"=>$uangmakan,
 				"active"=>1,
 			];
-			
 			DB::connection()->table("t_permit")
 			->insert($data);
 
@@ -2278,6 +2287,7 @@ $istirahat_masuk = strtotime($request->get('tgl')." ".$request->get('jam_istirah
 		echo json_encode($return);
 		
 	}
+
 	public function generate_jam_finger ()
 	{
 	    

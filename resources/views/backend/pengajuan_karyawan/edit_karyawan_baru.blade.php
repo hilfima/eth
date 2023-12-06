@@ -171,7 +171,7 @@
                                  <select class="form-control " id="tgl_absen" name="status"  value=""  >
                                     	
                                     	<option value="">- Pilih Status -</option>
-                                    	<!--<option value="0" <?=$tkaryawan[0]->status==0?'selected':''?>>Pending</option>-->
+                                    	<option value="15" <?=$tkaryawan[0]->status==15?'selected':''?>>Hold</option>
 										<option value="2" <?=$tkaryawan[0]->status==2?'selected':''?>>Diproses</option><!--
                                     	<option value="3" <?=$tkaryawan[0]->status==3?'selected':''?>>Proses Interview</option>-->
                                     	<option value="1" <?=$tkaryawan[0]->status==1?'selected':''?>>Selesai</option>

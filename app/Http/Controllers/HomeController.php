@@ -297,6 +297,7 @@ where users.id=$iduser";
 		$tgl_akhir = $rekap['tgl_akhir'] ;
 		return view('absensi',compact(   'rekap', 'list_karyawan',  'help'));
     }
+
     public function historis(Request $request)
     {
 		$help = new Helper_function();
@@ -769,6 +770,8 @@ where users.id=$iduser";
 		
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasandireksi) ";
 		$apprdireksi=DB::connection()->select($sqlappr);
+		
+		if($atasan!=-1){
 	    $select_atasan1 = '<div class="form-group">
 	                                <label>Atasan 1(Atasan Langsung)</label>
 	                              <select class="form-control select2" id="tgl_absen" name="atasan"  value="" required="" style="width: 100%">
@@ -779,6 +782,10 @@ where users.id=$iduser";
 	                              	}
 	                              $select_atasan1 .='</select>
 	                            </div>';
+		}else{
+		    $select_atasan1="";
+		}
+		if($atasandireksi!=-1){
          $select_atasandireksi ='<div class="form-group">
 	                                <label>Atasan 2(Direksi)</label>
 	                              <select class="form-control select2" id="tgl_absen" name="atasan2"  value="" required="" style="width: 100%">
@@ -789,6 +796,9 @@ where users.id=$iduser";
 	                              	 }
 	                              $select_atasandireksi .='</select>
 	                            </div>';
+		}else{
+		    $select_atasandireksi="";
+		} 
 	    $option_atasan1 = '';
 	                              	foreach($appr as $atasan){
 	                              	$option_atasan1 .='<option value="'.$atasan->p_karyawan_id.'">'.$atasan->nama_lengkap.'</option>';
@@ -1009,8 +1019,8 @@ foreach($berita as $ber){
                                                     $sql = "select *,m_jenis_ijin.nama as nama_ijin,p_karyawan.nama as nama_lengkap from t_permit 
     						join m_jenis_ijin on m_jenis_ijin.m_jenis_ijin_id = t_permit.m_jenis_ijin_id
     						join p_karyawan on p_karyawan.p_karyawan_id = t_permit.p_karyawan_id
-    						where (appr_1=$id_karyawan or appr_2=$id_karyawan) and ((status_appr_1 = 3 and t_permit.m_jenis_ijin_id not in (22)) 
-    						or (status_appr_2 = 3 and t_permit.m_jenis_ijin_id in (22)) ) and tgl_awal>='$tgl_awal_gaji' and tgl_awal<='$tgl_akhir_gaji'
+    						where  ((status_appr_1 = 3 and t_permit.m_jenis_ijin_id not in (22) and appr_1=$id_karyawan) 
+    						or (status_appr_2 = 3 and  appr_2=$id_karyawan and t_permit.m_jenis_ijin_id in (22)) ) and tgl_awal>='$tgl_awal_gaji' and tgl_awal<='$tgl_akhir_gaji'
     						
     						and t_permit.active=1
     						
@@ -1253,393 +1263,7 @@ foreach($berita as $ber){
 <?php
     }
     
-    public function optimasi_rekap_absen_atasan(){
-        $help = new Helper_function();
-        $iduser = Auth::user()->id;
-        $sqlidkar = "select *,p_karyawan.p_karyawan_id as karyawan_id from p_karyawan 
-        			left join p_karyawan_pekerjaan a on a.p_karyawan_id = p_karyawan.p_karyawan_id 
-        			left join m_jabatan on m_jabatan.m_jabatan_id = a.m_jabatan_id
-        			left join p_karyawan_kontrak on p_karyawan_kontrak.p_karyawan_id = p_karyawan.p_karyawan_id and p_karyawan_kontrak.active=1
-        			left join p_karyawan_gapok on p_karyawan_gapok.p_karyawan_id = p_karyawan.p_karyawan_id and p_karyawan_gapok.active=1
-        			where user_id=$iduser";
-        $idkar = DB::connection()->select($sqlidkar);
-        $karyawan = $idkar[0];
-        $him = $idkar[0]->karyawan_id;
-        $id = $idkar[0]->karyawan_id;
-        $sql="select * from m_periode_absen where type= ".$idkar[0]->periode_gajian." and periode_aktif=1  and tgl_akhir >= '".date('Y-m-d')."' ";
-			$gapen=DB::connection()->select($sql);
-			if(!count($gapen)){
-					$data = array();
-					$tgl_awal_gaji = null;
-					$tgl_akhir_gaji = null;
-					$tgl_akhir_gaji2 = null;
-					$tgl_awal_gaji2 = null;
-					$tgl_awal_cut_off = null;
-			}else{
-				
-			
-			
-			
-			
-					$tgl_awal_gaji = $gapen[0]->tgl_awal;
-					
-					$tgl_akhir_gaji = $gapen[0]->tgl_akhir;;
-					$tgl_awal_gaji2 = $help->tambah_tanggal($tgl_awal_gaji,3);
-					$tgl_akhir_gaji2 = $help->tambah_tanggal($tgl_akhir_gaji,3);
-					$tgl_awal_cut_off  = $tgl_awal_gaji;
-				
-
-
-
-				$tgl_akhir_cut_off  = $tgl_akhir_gaji;
-				$tgl_cut_off ='';
-				if ($tgl_awal_cut_off<=date('Y-m-d') and $tgl_akhir_cut_off>=date('Y-m-d'))
-					$tgl_cut_off = $tgl_awal_cut_off;
-				else
-					$tgl_cut_off = $help->tambah_tanggal($tgl_awal_gaji,1);
-
-		
-
-        $tgl_awal = $tgl_awal_gaji;
-        $tgl_akhir = date('Y-m-d');
-        $sqlusers = "SELECT c.periode_gajian FROM p_karyawan_pekerjaan c
-                WHERE 1=1 and c.active=1 and p_karyawan_id=$id";
-        $search_type = DB::connection()->select($sqlusers);
-        $type = $search_type[0]->periode_gajian;
-        $tgl_awal=date('Y-m-d');
-        $tgl_akhir=date('Y-m-d');
-        
-        if($idkar[0]->m_pangkat_id==6){
-            $rekap = $help->rekap_absen_optimasi($gapen[0]->periode_absen_id, $tgl_awal, $tgl_akhir, $type,'rekap_atasan',$id);
-       		 $return = $help->total_rekap_absen($rekap, $id);
-        }else{
-		$rekap = $help->rekap_absen($tgl_awal,$tgl_akhir,$tgl_awal,$tgl_akhir,-1,null,$id,'rekap_atasan');
-        	 $return = $help->total_rekap_absen($rekap, $id);
-
-
-        }
-       
-
-        //if($no==5)
-        //break;$tgl_awal=date('Y-m-d');
-		
-		
-		$masuk = 0 ;
-									$cuti= 0 ;
-									$fingerprint = 0 ;
-									$ipg = 0 ;
-									$izin = 0 ;
-									$ipd = 0 ;
-									$ipc = 0 ;
-									$idt = 0 ;
-									$ipm = 0 ;
-									$pm = 0 ;
-									$sakit = 0 ;
-									$alpha = 0 ;
-									$terlambat = 0 ;
-									$absen_masuk = 0 ;
-									$ijin_libur = 0 ;
-									$masuk_libur = 0 ;
-									$ihk = 0 ;
-									$tabsen = 0 ;
-									$tmasuk = 0 ;
-									$tkerja = 0 ;
-									$hari_kerja = 0 ;
-									$listkaryawan = $rekap['list_karyawan'] ;
-		
-							if(!empty($listkaryawan)):
-							foreach($listkaryawan as $list_karyawan):
-							
-							
-							$return = $help->total_rekap_absen($rekap,$list_karyawan->p_karyawan_id);
-							
-									
-									$cuti += $return['total']['cuti'] ;
-									$param = 'cuti';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$fingerprint += $return['total']['fingerprint'] ;
-									$param = 'fingerprint';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$ipg += $return['total']['ipg'] ;
-									$param = 'ipg';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$ihk += $return['total']['izin'] ;
-									$param = 'izin';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$hari_kerja += $return['total']['hari_kerja'] ;
-									
-									
-									$ipd += $return['total']['ipd'] ;
-									$param = 'ipd';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$ipc += $return['total']['ipc'] ;
-									$param = 'ipc';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									
-									$idt += $return['total']['idt'] ;
-									$param = 'idt';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$ipm += $return['total']['ipm'] ;
-									$param = 'ipm';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$pm += $return['total']['pm'] ;
-									$param = 'pm';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$sakit += $return['total']['sakit'] ;
-									$param = 'sakit';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$alpha += $return['total']['alpha'] ;
-									$param = 'alpha';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$terlambat += $return['total']['terlambat'] ;
-									$param = 'terlambat';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$terlambat += $return['total']['ijin_libur'] ;
-									$param = 'ijin_libur';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									$absen_masuk+= $return['total']['masuk'] ;
-									$param = 'masuk';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									
-									
-									$masuk_libur+= $return['total']['masuk_libur'] ;
-									$param = 'masuk_libur';
-									if($return['total'][$param])
-									$karyawan_absen[$param][] = $list_karyawan->nama;
-									$tabsen += $return['total']['Total Absen'] ;
-									$tmasuk += $return['total']['Total Masuk'] ;
-									$tkerja += $return['total']['Total Hari Kerja'] ;
-								
-								endforeach;
-								endif;
-       
-
-        $data["data"] = array($absen_masuk, $terlambat, $ipd, $ihk, $ipg, $sakit, $cuti, $masuk_libur, $ipc, $ijin_libur, $fingerprint);
-        $data["label"] = ['Absen', 'Telambat', 'Perjalanan Dinas', 'IHK', 'IPG', 'Sakit', 'Cuti', 'Masuk  Hari Libur', 'Izin Potong Cuti', 'Masuk Izin Hari Libur', 'IPM', 'PM', 'IDT', 'Belum Absen'];
-        $data["sum"] = $absen_masuk + $ipd + $ihk + $ipg + $cuti + $sakit + $ijin_libur + $ipc;
-        //echo ($absen_masuk/$hari_kerja*100);die;
-        $data["data_presentase"] =
-            array((round($absen_masuk / $hari_kerja * 100, 2)),
-                (round($terlambat / $hari_kerja * 100, 2)),
-                (round($ipd / $hari_kerja * 100, 2)),
-                (round($ihk / $hari_kerja * 100, 2)),
-                (round($ipg / $hari_kerja * 100, 2)),
-                (round($cuti / $hari_kerja * 100, 2)),
-                round((($hari_kerja - $data["sum"]) / $hari_kerja) * 100, 2),
-                $fingerprint
-            );
-        $data["data_presentase"] =
-            array((round($absen_masuk, 2)),
-                (round($terlambat, 2)),
-                (round($ipd, 2)),
-                (round($ihk, 2)),
-                (round($ipg, 2)),
-                (round($sakit, 2)),
-                (round($cuti, 2)),
-                (round($masuk_libur, 2)),
-                (round($ipc, 2)),
-                (round($ijin_libur, 2)),
-                (round($ipm, 2)),
-                (round($pm, 2)),
-                (round($idt, 2)),
-                round($alpha + $fingerprint, 2),
-
-
-            );
-		}
-        
-        if(!isset($data['label'])){?>
-								Belum terdapat Periode Aktif, Silahkan Hubungi HC.
-								<?php }else{?>
-								<div class="col-xl-6 col-lg-6 col-md-6">
-			<canvas id="pieChart2"></canvas>
-								<div class="text-center">
-
-									<div class="text-bold" style="font-weight: 700">Keterangan:</div>
-									<table id="ket" style="width: 100%; border:0" border="0">
-										<tbody>
-
-											<?php
-											$warna = [
-												'#E65A26', '#a1a1a1', '#0078AA', '#112B3C', '#FCD900', '#247881', '#5584AC', '#008E89', '#3E007C', 'teal', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)',
-												'#3E007C',
-												'#DA1212',
-												'rgba(75, 192, 192, 1)',
-												'rgba(153, 102, 255, 1)',
-												'rgba(153, 102, 255, 1)',
-												'rgba(153, 102, 255, 1)',
-												'rgba(255, 159, 64, 1)',
-											];
-											for ($i = 0; $i < count($data['label']); $i++) {
-
-												echo '<tr>
-										<td style="background: ' . $warna[$i] . ';width: 100%; display: block;">&nbsp;</td>
-										<td style="text-align:left; ">&nbsp; ' . $data['label'][$i] . '</td>
-										<td>' . $data['data_presentase'][$i] . '</td>
-										';
-												$i++;
-												if (isset($data['label'][$i])) {
-
-													echo '
-										<td style="background: ' . $warna[$i] . ';width: 100%; display: block;">&nbsp;</td>
-										<td style="text-align:left"> &nbsp;' . $data['label'][$i] . '</td>
-										<td>' . $data['data_presentase'][$i] . '</td>
-									</tr>	';
-												}
-											} ?>
-
-
-
-
-										</tbody>
-									</table>
-								</div>
-
-							</div>
-			<div class="col-xl-6 col-lg-6 col-md-6">
-			
-
-								<div class="quicklink-sidebar-menu ctm-border-radius shadow-sm bg-white  mb-1">
-		<div class="">
-	
-
-  
-  <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm bg-white ">
-	
-  <?php foreach($karyawan_absen as $key => $value){?>
-  <details class="list-group" <?=(count($karyawan_absen[$key])<20?'open=""':'')?>>
-    <summary class="button-5 p-2 text-white list-group-item text-center" >
-     
-     
-      <?=ucwords(str_replace("_"," ",$key))?>
-    </summary>
-    <?php for($i=0;$i<count($karyawan_absen[$key]);$i++){?>
-    
-    <details class="list-group-item text-center button-6">
-      <summary>
-       
-        
-        <?=$karyawan_absen[$key][$i]?> 
-      </summary>
-    </details>
-    <?php }?>
-    </details>
-  <?php }?>
-   
-</div>
-</div>
-</div>
-<table style="width: 100%" class="table table-striped">
-            			<?php if($terlambat){?>
-            			<tr>
-            				<th>Terlambat</th>
-            				<td><?=$terlambat;?></td>
-            			
-            			</tr><?php }else if($cuti){?><tr>
-            			
-            				<th>Cuti</th>
-            				<td><?=$cuti;?></td>
-            			</tr><?php }else if($izin){?><tr>
-            				<th>IHK(Izin Hak Karyawan)</th>
-            				<td><?=$izin;?></td>
-            			<!--</tr><?php //}else if($ipc){?><tr>-->
-            				<th>IPC(Izin Potong Cuti)</th>
-            				<td><?=$ipc;?></td>
-            			</tr><?php //}else if($ipd){?><tr>
-            				<th>IPD(Izin Perjalanan Dinas)</th>
-            				<td><?=$ipd;?></td>
-            			<!--</tr><?php //}else if($ipg){?><tr>-->
-            				<th>IPG(Izin Potong Gaji)</th>
-            				<td><?=$ipg;?></td>
-            			</tr><?php //}else if($idt){?><tr>
-            				<th>IDT(Izin Datang Terlambat)</th>
-            				<td><?=$idt;?></td>
-            			<!--</tr><?php //}else if($ipm){?><tr>-->
-            				<th>IPM(Izin Pulang Mendahului)</th>
-            				<td><?=$ipm;?></td>
-            			</tr><?php //}else if($pm){?><tr>
-            				<th>PM(Pulang Mendahului Tanpa Izin)</th>
-            				<td><?=$pm;?></td>
-            			<!--</tr><?php //}else if($sakit){?><tr>-->
-            				<th>Sakit</th>
-            				<td><?=$sakit;?></td>
-            			</tr><?php //}else if($alpha){?><tr>
-            				<th>Alpha</th>
-            				<td><?=$alpha;?></td>
-            			<!--</tr><?php //}else if($fingerprint){?><tr>-->
-            				<th>Tidak Finger Print</th>
-            				<td><?=$fingerprint;?></td>
-            			</tr>
-            			<?php }?>
-            			
-            		</table>
-							</div>
-								
-								<?php }?>
-								<?php if(isset($data['label'])){?>
-								
-<script>
-	var ctx = document.getElementById('pieChart2').getContext('2d');
-	var pieChart = new Chart(ctx, {
-		type: 'pie',
-		data: {
-			labels: <?= json_encode($data['label']) ?>,
-			datasets: [{
-
-				data: <?= json_encode($data['data_presentase']) ?>,
-				backgroundColor: <?= json_encode($warna); ?>,
-				borderWidth: 1
-			}]
-		},
-		options: {
-			responsive: true,
-			legend: {
-				display: false
-			}
-		}
-	});
-</script>
-<?php }
-    } public function optimasi_rekap_absen(){
+    public function optimasi_rekap_absen(){
         $help = new Helper_function();
         $iduser = Auth::user()->id;
         $sqlidkar = "select *,p_karyawan.p_karyawan_id as karyawan_id from p_karyawan 
@@ -1695,7 +1319,7 @@ foreach($berita as $ber){
         $search_type = DB::connection()->select($sqlusers);
         $type = $search_type[0]->periode_gajian;
         if($idkar[0]->m_pangkat_id==6){
-             $rekap = $help->rekap_absen_optimasi($gapen[0]->periode_absen_id, $tgl_awal, $tgl_akhir, $type, null,$id);
+             $rekap = $help->rekap_absen_optimasi($tgl_awal, $tgl_akhir, $tgl_awal, $tgl_akhir, $type, null,$id);
 
         $return = $help->total_rekap_absen($rekap, $id);
 
@@ -1703,7 +1327,7 @@ foreach($berita as $ber){
         }else{
              $rekap = $help->rekap_absen($tgl_awal, $tgl_akhir, $tgl_awal, $tgl_akhir, $type, null,$id);
 
-        $return = $help->total_rekap_absen($rekap, $id);
+            $return = $help->total_rekap_absen($rekap, $id);
 
 
         }

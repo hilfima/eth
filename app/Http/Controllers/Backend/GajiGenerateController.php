@@ -1016,7 +1016,7 @@ class GajiGenerateController extends Controller
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 1, 25, ($pm));
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 24, ($potmendahului));
                 
-                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint));
+                $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 23, ($potfingerprint)); 
             }
              if (($g->lokasi_id==7) and ($g->p_karyawan_id != 130)) {
              }else{
@@ -1024,7 +1024,7 @@ class GajiGenerateController extends Controller
                 $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 13, ($potalpha));
              }
             $this->prl_gaji_detail($id_prl, $g->p_karyawan_id, 5, 22, ($potizin));
-           
+
 
           
 
@@ -1040,7 +1040,7 @@ class GajiGenerateController extends Controller
             }
             
             //tambahin dari p_karyawan Gapok
-           $sqlfasilitas="SELECT * FROM t_resign
+             $sqlfasilitas="SELECT * FROM t_resign
 			left join p_karyawan on t_resign.p_karyawan_id = p_karyawan.p_karyawan_id
 			WHERE 1=1  and t_resign.active=1 and t_resign.p_karyawan_id=$g->p_karyawan_id and m_periode_terakhir_gajian=$periode_absen and status=4";
 			$pengajuan_resign=DB::connection()->select($sqlfasilitas);
@@ -1120,7 +1120,7 @@ class GajiGenerateController extends Controller
 									<input type="hidden" value="'.$persen.'" id="generate">
 									';
     }
-    public function hitung_pekanan_optimasi($request,$id,$where_generate)
+     public function hitung_pekanan_optimasi($request,$id,$where_generate)
     {
         $help = new Helper_function();
         $sqluser = "SELECT * FROM prl_generate_karyawan a join prl_generate b on b.prl_generate_id = a.prl_generate_id where a.prl_generate_id = $id and status !=1 $where_generate order by b.prl_generate_id asc limit 1";
@@ -1855,7 +1855,7 @@ class GajiGenerateController extends Controller
 									</div>
 									';
     }
-
+    
     public function prl_gaji_detail($id_prl, $id_karyawan, $type, $id, $nominal,$keterangan=null)
     {
         //$id_prl,$g->p_karyawan_id,1,1,($masuk+$cuti+$ipg+$izin+$ipd+$alpha)
@@ -2328,14 +2328,14 @@ class GajiGenerateController extends Controller
         $help = new Helper_function();
         $sqluser = "SELECT * FROM prl_generate where prl_generate_id = $id";
         $generate = DB::connection()->select($sqluser);
-        
+
         $periodeCheck = DB::connection()->select("select * from m_periode_absen where periode_absen_id=".$generate[0]->periode_absen_id);
 	    	$whereLok = "";
 	    	if($periodeCheck[0]->entitas_list){
 	    		$whereLok ="and m_lokasi_id in(".$periodeCheck[0]->entitas_list.")";
 	    	}
-	    
-            
+	    	
+        
         $sqluser = "SELECT * FROM m_lokasi where active=1 and sub_entitas=0 and (select count(*) from p_karyawan join p_karyawan_pekerjaan on  p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id where p_karyawan_pekerjaan.m_lokasi_id = m_lokasi.m_lokasi_id and p_karyawan.active=1 and periode_gajian=".$generate[0]->periode_gajian.")>0  $whereLok order by m_lokasi_id desc";
         $entitas = DB::connection()->select($sqluser);
         $g = $generate[0];

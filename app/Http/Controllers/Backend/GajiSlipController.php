@@ -32,6 +32,14 @@ class GajiSlipController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
+    public function karyawan_gaji(Request $request){
+        $karyawan = DB::connection()->select("select * from prl_generate_karyawan join p_karyawan on p_karyawan.p_karyawan_id = prl_generate_karyawan.p_karyawan_id 
+            where prl_generate_karyawan.active=1 and prl_generate_id = $request->id_prl");
+        echo '<option value="">- Pilih -</option>';
+        foreach($karyawan as $karyawan){
+            echo '<option value="'.$karyawan->p_karyawan_id.'">'.$karyawan->nama.'</option>';
+        }
+    }
     public function view(Request $request)
     {
     	
@@ -58,8 +66,8 @@ class GajiSlipController extends Controller
 					case when prl_generate_karyawan.periode_gajian=0 then 'Pekanan' else 'Bulanan' end as tipe,
 					(prl_generate_karyawan_id) as id_slip,prl_generate_karyawan.periode_gajian as periode,prl_generate.tahun
 					FROM prl_generate 
-						join prl_generate_karyawan on prl_generate_karyawan.prl_generate_id=prl_generate.prl_generate_id and p_karyawan_id = $id
-						where prl_generate.prl_generate_id=$id_prl and prl_generate_karyawan.active = 1";
+						left join prl_generate_karyawan on prl_generate_karyawan.prl_generate_id=prl_generate.prl_generate_id and p_karyawan_id = $id
+						where prl_generate.prl_generate_id=$id_prl ";
 			$generate=DB::connection()->select($sql);
 			
 			$periode_absen=$generate[0]->periode_absen_id;

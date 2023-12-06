@@ -47,8 +47,8 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="card-body">
                 <!-- form start -->
                 <form class="form-horizontal" method="POST" action="{!! route('fe.simpan_lembur') !!}" enctype="multipart/form-data" onsubmit="change_jam()" id="formlembur">
-
-
+                    
+                        
                     {{ csrf_field() }}
                     <div class="form-group  row">
                         <label class="col-sm-2 control-label">NIK</label>
@@ -103,7 +103,7 @@ date_default_timezone_set('Asia/Jakarta');
                             
                                 <input type="text" class="form-control without_ampm masked" id="jam_awal" name="jam_awal" value="16:30"  placeholder="Jam Awal" required>
                                        
-                        </div>   
+                        </div>
                         <div class="col-sm-5">
                             
                                 <input type="text" class="form-control without_ampm masked" id="jam_akhir" name="jam_akhir" value="23:00"  placeholder="Jam Akhir" required>
@@ -397,7 +397,7 @@ h3{
 masking.init();
     </script>
 <script type="text/javascript">
-  function lembur_jam_yang_sama()
+function lembur_jam_yang_sama()
 		{
 		    
 			$.ajax({
@@ -488,9 +488,9 @@ function roundDown(number, decimals) {
     return ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) );
 }
   $("input.without_ampm").keyup(function(){
-     
+
      change_jam();
-    });$("input.istirahat").keyup(function(){
+  });$("input.istirahat").keyup(function(){
      
      change_jam();
   });
@@ -535,8 +535,8 @@ function roundDown(number, decimals) {
 	 		
 	 	}
   function change_jam(){
-	 
-    $.ajax({
+      
+     	$.ajax({
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				},

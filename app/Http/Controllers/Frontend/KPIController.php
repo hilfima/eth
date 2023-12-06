@@ -444,9 +444,7 @@ class KPIController extends Controller
                        FROM t_kpi_detail a
                        join p_karyawan b on a.p_karyawan_id = b.p_karyawan_id
                        join t_kpi_area_kerja c on a.t_kpi_area_kerja_id = c.t_kpi_area_kerja_id
-                       where a.active = 1 and t_kpi_id= $id 
-                       
-                       order by  a.create_date
+                       where a.active = 1 and t_kpi_id= $id order by  a.create_date
                         ";
         $kpi_detail=DB::connection()->select($sqlkpi);
 		

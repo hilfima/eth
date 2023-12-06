@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="col-sm-2">
+                        <div class="col-sm-2">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Pekanan Ke</label>

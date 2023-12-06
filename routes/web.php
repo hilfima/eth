@@ -20,7 +20,7 @@ Route::get('/reject_perdin/{id}', 'Frontend\ApprPermitController@email_reject_pe
 Route::get('/approve_lembur/{id}', 'Frontend\ApprPermitController@email_approve_lembur')->name('approve_lembur');
 Route::get('/reject_lembur/{id}', 'Frontend\ApprPermitController@email_reject_lembur')->name('reject_lembur');
 Route::get('/undermaintenance', 'k@undermaintenance')->name('undermaintenance');
-Route::get('/absensi/', 'HomeController@absensi')->name('be.absensi');
+ Route::get('/absensi/', 'HomeController@absensi')->name('be.absensi');
 Route::get('/', function () {
   
     $sqlslider="select * from m_slider where active=1";
@@ -663,7 +663,7 @@ Route::group(['prefix' => 'backend'], function(){
 	
 	Route::get('/sop', 'Backend\SopController@sop')->name('be.sop');
 	
-    Route::get('/periode_absen_min', 'Backend\PeriodeController@periode_absen_min')->name('be.periode_absen_min');
+	Route::get('/periode_absen_min', 'Backend\PeriodeController@periode_absen_min')->name('be.periode_absen_min');
     Route::get('/periode_absen_cek_duplicate', 'Backend\PeriodeController@periode_absen_cek_duplicate')->name('be.periode_absen_cek_duplicate');
     
 	Route::get('/masterjamkerja', 'Backend\MasterJamKerjaController@masterjamkerja')->name('be.masterjamkerja');
@@ -712,7 +712,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/hapus_batasan_atasan_approve/{id}', 'Backend\BatasanAtasanApproveController@hapus_batasan_atasan_approve')->name('be.hapus_batasan_atasan_approve');
 	
     
-	
+
 	Route::get('/alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@alasan_jenis_ijin')->name('be.jenis_alasan');
     Route::get('/tambah_alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@tambah_alasan_jenis_ijin')->name('be.tambah_alasan_jenis_ijin');
     Route::post('/simpan_alasan_jenis_ijin', 'Backend\AlasanJenisIzinController@simpan_alasan_jenis_ijin')->name('be.simpan_alasan_jenis_ijin');
@@ -726,7 +726,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/edit_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@edit_alasan_jenis_ijin')->name('be.edit_alasan_jenis_ijin');
     Route::post('/update_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@update_alasan_jenis_ijin')->name('be.update_alasan_jenis_ijin');
     Route::get('/hapus_alasan_jenis_ijin/{id}', 'Backend\AlasanJenisIzinController@hapus_alasan_jenis_ijin')->name('be.hapus_alasan_jenis_ijin');
-	 
+	
 	Route::get('/berita', 'Backend\BeritaController@berita')->name('be.berita');
     Route::get('/tambah_berita', 'Backend\BeritaController@tambah_berita')->name('be.tambah_berita');
     Route::post('/simpan_berita', 'Backend\BeritaController@simpan_berita')->name('be.simpan_berita');
@@ -862,7 +862,7 @@ Route::group(['prefix' => 'backend'], function(){
     
     Route::post('/entitas_departement', 'Backend\JamKerjaController@entitas_departement')->name('be.entitas_departement');
     
-    Route::get('/koreksi', 'Backend\KoreksiController@koreksi')->name('be.Koreksi');
+     Route::get('/koreksi', 'Backend\KoreksiController@koreksi')->name('be.Koreksi');
     Route::get('/tambah_koreksi/{id}', 'Backend\KoreksiController@tambah_koreksi')->name('be.tambah_Koreksi');
     Route::get('/tambah_koreksi_pajak/{id}', 'Backend\KoreksiController@tambah_koreksi_pajak')->name('be.tambah_Koreksi_pajak');
     Route::post('/simpan_koreksi/{id}', 'Backend\KoreksiController@simpan_koreksi')->name('be.simpan_Koreksi');
@@ -1245,7 +1245,7 @@ Route::get('/master_status', 'Backend\Gaji\Master_statusController@master_status
     Route::get('/input_absen_hr/', 'Backend\KaryawanController@input_absen_hr')->name('be.input_absen_hr');
     Route::get('/export_absen/', 'Backend\KaryawanController@export_absen')->name('be.export_absen');
     Route::post('/simpan_input_absen_hr/', 'Backend\KaryawanController@simpan_input_absen_hr')->name('be.simpan_input_absen_hr');
-     Route::get('/input_absen_hr/', 'Backend\AbsenController@input_absen_hr')->name('be.input_absen_hr');
+    Route::get('/input_absen_hr/', 'Backend\AbsenController@input_absen_hr')->name('be.input_absen_hr');
     Route::get('/export_absen/', 'Backend\KaryawanController@export_absen')->name('be.export_absen');
     Route::post('/simpan_input_absen_hr/', 'Backend\AbsenController@simpan_input_absen_hr')->name('be.simpan_input_absen_hr');
     Route::post('/ajax_input_absen/', 'Backend\KaryawanController@ajax_input_absen')->name('be.ajax_input_absen');
@@ -1407,14 +1407,16 @@ Route::get('/master_status', 'Backend\Gaji\Master_statusController@master_status
     Route::get('/pengajuan/{type}', 'Backend\PermitController@pengajuan')->name('be.pengajuan');
     Route::post('/simpan_pengajuan/{type}', 'Backend\PermitController@simpan_pengajuan')->name('be.simpan_pengajuan');
     
-    Route::get('/perdin_appr/{type}', 'Backend\PerdinApprController@perdin_appr')->name('be.perdin_appr');
-    Route::get('/print_perdin/{type}', 'Backend\PerdinApprController@print_perdin')->name('be.print_perdin');
+     Route::get('/perdin_appr/{type}', 'Backend\PerdinApprController@perdin_appr')->name('be.perdin_appr');
+     Route::get('/print_perdin/{type}', 'Backend\PerdinApprController@print_perdin')->name('be.print_perdin');
     Route::get('/approve_admin_perdin', 'Backend\PerdinApprController@approve_admin_perdin')->name('be.approve_admin_perdin');
     Route::get('/decline_admin_perdin', 'Backend\PerdinApprController@decline_admin_perdin')->name('be.decline_admin_perdin');
     Route::get('/approve_keuangan_perdin', 'Backend\PerdinApprController@approve_keuangan_perdin')->name('be.approve_keuangan_perdin');
     Route::get('/decline_keuangan_perdin', 'Backend\PerdinApprController@decline_keuangan_perdin')->name('be.decline_keuangan_perdin');
     Route::get('/lihat_perdin_appr/{id}', 'Backend\PerdinApprController@lihat')->name('be.lihat_perdin_appr');
     Route::post('/simpan_perdin_appr/{type}', 'Backend\PerdinApprController@simpan_perdin_appr')->name('be.simpan_perdin_appr');
+    
+    
     Route::get('/hr_appr', 'Backend\HrApprController@hr_appr')->name('be.hr_appr');
     Route::get('/lihat_hr_appr/{id}', 'Backend\HrApprController@lihat')->name('be.lihat_hr_appr');
     Route::get('/daftarKaryawan/{id}', 'Backend\HrApprController@daftarKaryawan')->name('be.daftarKaryawan');

@@ -17,7 +17,7 @@
       <div class="card shadow-sm ctm-border-radius">
 <div class="card-body align-center">
 <h4 class="card-title float-left mb-0 mt-2">Cek Absen</h4>
-<!--INI CEK PRESENSI-->
+
 </div>
 </div> 
 

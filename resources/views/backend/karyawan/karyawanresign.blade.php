@@ -39,6 +39,7 @@
                         <th>Tgl Masuk</th>
                         <th>Tgl Keluar</th>
                         <th>Status Pekerjaan</th>
+                        <th>Tanggal Resign</th>
                         <th>Aksi</th>
                     </tr>
                     </thead>
@@ -60,6 +61,7 @@
                                     <td></td>
                                 @endif
                                 <td>{!! $karyawan->nmstatus !!}</td>
+                                <td>{!! $karyawan->update_date !!}</td>
                                 <td> <a href="{!! route('be.view_karyawan',$karyawan->p_karyawan_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-search'></span></a>
                                     <a href="{!! route('be.aktif',$karyawan->p_karyawan_id) !!}" title='Aktifkan' data-toggle='tooltip'><span class='fa fa-check'></span></a></td>
                             </tr>

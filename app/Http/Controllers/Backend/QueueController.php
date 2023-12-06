@@ -22,6 +22,7 @@ class QueueController extends Controller
     	if(!count($queue)){
     		$queue = DB::connection()->select("select  * from queue where panel ='$panel' and status_queue in(2) order by create_date desc,status_queue,priority desc  limit 10");
     	}
+		//print_r($queue);
     	if(count($queue)){
     		
     	DB::connection()->table("queue")
@@ -39,7 +40,7 @@ class QueueController extends Controller
     	}
     		echo json_encode(array('status'=>1));
     	}else{
-    		DB::connection()->table("queue")
+			DB::connection()->table("queue")
                 ->where('queue_id', $queue[0]->queue_id)
                 ->update([
                     "status_queue"=>3
@@ -49,7 +50,7 @@ class QueueController extends Controller
     	
     	
     }
-    public function generate_rekap_absen($tanggal)
+	public function generate_rekap_absen($tanggal)
     {
     	$help = new Helper_function();
 		if($tanggal==-1){

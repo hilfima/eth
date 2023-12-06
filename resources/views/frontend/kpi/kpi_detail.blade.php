@@ -17,7 +17,9 @@
             <ul class="nav nav-tabs float-right border-0 tab-list-emp">
 
 				<li class="nav-item pl-3">
+				    @if($kpi->status_appr_2==3)
 					<a href="{!! route('fe.tambah_kpi_detail',$kpi->t_kpi_id) !!}" title='Tambah'  class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding">Tambah Parameter Kerja</a>
+				    @endif
 				</li>
 			</ul>
 
@@ -178,9 +180,9 @@
                                     echo 'tahun';
                                 }
                                 ?><?=$j?>  
-                                @if($kpi->status_appr_2 ==1) 
-                                	<a href="{{ route('fe.edit_all_tw',[$kpi->t_kpi_id,$i,$j]) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>Edit</a>
-                                @endif
+                                <!--@if($kpi->status_appr_2 ==1) -->
+                                <!--	<a href="{{ route('fe.edit_all_tw',[$kpi->t_kpi_id,$i,$j]) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>Edit</a>-->
+                                <!--@endif-->
                                 </td>
                             
                             <?php }?>
@@ -262,27 +264,49 @@
 	                            	 }
                             	?>
                                 <td <?=$appr_status==3?'style="color:red"':''?>><?php
-                                if($kpi_detail->satuan=='persen')
-                                echo $rencana.'%';
+                                if($kpi_detail->satuan=='persen'){
+                                    echo ''.$rencana.'%<br>';
+                                    // if($realisasi)
+                                    // echo 'RE:'.$realisasi.'%<br>';
+                                    //  if($pencapaian)
+                                    // echo 'PE:'.$pencapaian.'%<br>';
+                                    //  if($hasil)
+                                    // echo 'HA:'.$hasil.'%<br>';
+                                }
                                 else 
-                                if($kpi_detail->satuan=='nominal')
-                                echo number_format($rencana,0,',','.');
+                                if($kpi_detail->satuan=='nominal'){
+                                    echo ''.number_format($rencana,0,',','.').'<br>';
+                                    // if($realisasi)
+                                    // echo 'RE:'.number_format($realisasi,0,',','.').'<br>';
+                                    //  if($pencapaian)
+                                    // echo 'PE:'.number_format($pencapaian,0,',','.').'%<br>';
+                                    //  if($hasil)
+                                    // echo 'HA:'.number_format($hasil,0,',','.').'%<br>';
+                                }
+                                
                                 else 
-                                if($kpi_detail->satuan=='poin')
-                                echo $rencana. ' Poin';
+                                if($kpi_detail->satuan=='poin'){
+                                    echo ''.$rencana.' Poin<br>';
+                                    // if($realisasi)
+                                    // echo 'RE:'.$realisasi.' Poin<br>';
+                                    //  if($pencapaian)
+                                    // echo 'PE:'.$pencapaian.' Poin<br>';
+                                    //  if($hasil)
+                                    // echo 'HA:'.$hasil.' Poin<br>';
+                                }
                                  
                                 ?></td>
                              
                             <?php }?>
                         <?php }?>
                         <td>
-                        	@if($kpi->status_appr_2 ==3)
+                        	<!--@if($kpi->status_appr_2 ==3)-->
                         	<div class="d-flex">
                         		
                         <a href="{{ route('fe.edit_kpi_detail',[$id,$kpi_detail->t_kpi_detail_id]) }}" class="btn btn-primary btn-sm mr-2"><i class="fa fa-edit"></i></a>
                         <a href="{{ route('fe.hapus_kpi_detail',[$id,$kpi_detail->t_kpi_detail_id]) }}" class="btn btn-primary btn-sm"><i class="fa fa-trash"></i></a>
                         	</div>
-                        	@endif
+                        	<!--@endif-->
                         </td>
                     </tr>
                    

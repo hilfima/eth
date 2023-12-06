@@ -48,7 +48,7 @@ class GajiPreviewController extends Controller
 					left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitment_id
 					where users.id=$iduser";
         $user = DB::connection()->select($sqluser);
-        
+
         $where_periode = "";
         $where_periode_as_a = "";
         $where_periode_p_karyawan = "";
@@ -58,7 +58,7 @@ class GajiPreviewController extends Controller
             $where_periode = "and prl_generate.periode_gajian = " . $user[0]->periode_gaji_role;
             $where_periode_as_a = "and a.periode_gajian = " . $user[0]->periode_gaji_role;
             $where_periode_p_karyawan = "and k.periode_gajian = " . $user[0]->periode_gaji_role;
-        } 
+        }
         //echo $where_periode;die;
         $id_lokasi = Auth::user()->user_entitas;
         if ($id_lokasi and $id_lokasi != -1)
@@ -82,7 +82,7 @@ class GajiPreviewController extends Controller
         } else if ($request->get('submit_appr') == "Konfirmasi") {
             GajiPreviewController::simpan_konfirm_gaji($request);
         }
-        
+
         $sudah_appr_keuangan = array();
         $sudah_appr_hr = array();
         $sudah_appr = array();
@@ -90,7 +90,7 @@ class GajiPreviewController extends Controller
         $pekanan = '';
 
 
-       
+
 
         if ($subpage == 'gaji')
             $is_thr = "and is_thr=0";

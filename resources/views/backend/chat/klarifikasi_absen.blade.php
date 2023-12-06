@@ -78,8 +78,8 @@
 	            		<div class="form-group">
                                 <label>Approve HR*</label>
                                <select class="form-control " id="tgl_absen" name="appr_hr_status"  >
-									<option value="">Pilih Approval HR</option>
-									<option value="3" <?=$request->get('appr_hr_status')==3?'selected':''; ?>>Pending</option>
+									<option value="-9">Semua</option>
+									<option value="3" <?=!$request->get('appr_hr_status')?'selected':($request->get('appr_hr_status')==3?'selected':''); ?>>Pending</option>
 									<option value="1" <?=$request->get('appr_hr_status')==1?'selected':''; ?>>Setujui dan Telah Dirubah</option>
 									<option value="2" <?=$request->get('appr_hr_status')==2?'selected':''; ?>>Tolak(Perlu Approve Atasan)</option>
 									<option value="4" <?=$request->get('appr_hr_status')==4?'selected':''; ?>>Perlu Konfirmasi Karyawan </option>
@@ -90,14 +90,14 @@
                                 <label>Status*</label>
                                 
                                <select class="form-control " id="tgl_absen" name="selesai"  >
-									<option value="">Semua</option>
-									<option value="-1" <?=$request->get('selesai')==3?'selected':''; ?>>Proses HR</option>
+									<option value="-9">Semua</option>
+									<option value="-1" <?=!$request->get('selesai')?'selected':($request->get('selesai')==-1?'selected':''); ?>>Proses HR</option>
 									<option value="1" <?=$request->get('selesai')==1?'selected':''; ?>>Proses Atasan</option>
 									<option value="2" <?=$request->get('selesai')==2?'selected':''; ?>>Entry Perubahan Absen</option>
 									<option value="3" <?=$request->get('selesai')==3?'selected':''; ?>>Selesai</option>
-									<option value="4" <?=$request->get('selesai')==3?'selected':''; ?>>Karyawan Selesai Konfirmasi</option>
-									<option value="5" <?=$request->get('selesai')==3?'selected':''; ?>>Klarifikasi tidak bisa ditindak lanjuti</option>
-									<option value="6" <?=$request->get('selesai')==3?'selected':''; ?>>Proses Karyawan</option>
+									<option value="4" <?=$request->get('selesai')==4?'selected':''; ?>>Karyawan Selesai Konfirmasi</option>
+									<option value="5" <?=$request->get('selesai')==5?'selected':''; ?>>Klarifikasi tidak bisa ditindak lanjuti</option>
+									<option value="6" <?=$request->get('selesai')==6?'selected':''; ?>>Proses Karyawan</option>
 								</select>
                             </div>
 	            	</div>
@@ -114,13 +114,8 @@
 						<th>Tanggal</th>
 
 						<th>Nama Karyawan</th>
-						<th>Topik</th>
-						<th>Klarifikasi</th>
-						<th>Deskripsi</th>
+						<th>Topik Klarifikasi</th>
 						<th>Status</th>
-						<th>Approval HR</th>
-						<th>Atasan</th>
-						<th>Approval Atasan</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -136,9 +131,9 @@
 					<td><?= $chat_room->nama; ?></td>
 					<td><?= $chat_room->topik; ?><?php if(!empty($chat_room->file))
 						echo '
-						<a href="'.asset('dist/img/file/'.$chat_room->file) .'" target="_blank" title="Download"><span class="fa fa-download"></span></a>';?></td>
-					
-					<td><?php
+						<a href="'.asset('dist/img/file/'.$chat_room->file) .'" target="_blank" title="Download"><span class="fa fa-download"></span></a>';?>
+					<br>
+					<?php
 					if ($chat_room->tujuan==1)
 						echo 'Absensi - Finger tidak terbaca'; else if ($chat_room->tujuan==2)
 						echo 'Absensi - Izin'; else if ($chat_room->tujuan==3)
@@ -148,8 +143,10 @@
 						echo 'Gaji -  Kelebihan bayar'; else if ($chat_room->tujuan==7)
 						echo 'Gaji -  Kekurangan bayar'; else if ($chat_room->tujuan==8)
 						echo 'Gaji -  Lainnya'; else if ($chat_room->tujuan==9)
-						echo 'Lainnya'; ?></td>
-						<td><?= $chat_room->deskripsi; ?></td>
+						echo 'Lainnya'; ?>
+						<br>
+						<?= $chat_room->deskripsi; ?>
+					</td>
 						<td><?php
 						if ($chat_room->selesai==0) {
 							echo 'Proses HR';
@@ -174,17 +171,21 @@
 							echo 'Perlu Approve Atasan';
 						}else if ($chat_room->appr_hr_status==4) {
 							echo 'Perlu Konfirmasi Karyawan';
-						}; ?></td>
-						<td><?= $chat_room->nama_atasan; ?></td>
-						
-						<td><?php
+						}; ?>
+						<br>
+						<br>
+						<?= $chat_room->nama_atasan; ?>
+						<br><?php
 						if ($chat_room->appr_status==3) {
 							echo 'Pending';
 						} else if ($chat_room->appr_status==1) {
 							echo 'Setuju';
 						} else if ($chat_room->appr_status==2) {
 							echo 'Tolak';
-						}; ?></td>
+						}; ?>
+						<br>
+						<?=$chat_room->appr_date;?>
+						</td>
 					
 
 					<td style="text-align: center">

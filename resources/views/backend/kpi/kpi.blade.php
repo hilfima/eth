@@ -31,6 +31,7 @@
                     <tr>
                         <th>No.</th>
                         <th>Nama</th>
+                        <th>Entitas</th>
                         <th>Jabatan</th>
                         <th>Tahun </th>
                         <th>Atasan 1</th>
@@ -49,6 +50,7 @@
                     <tr>
                         <td>{!! $no !!}</td>
                         <td>{!! $kpi->nama !!}</td>
+                        <td>{!! $kpi->nama_entitas !!}</td>
                         <td>{!! $kpi->jabatan !!}</td>
                         <td>{!! $kpi->tahun !!}</td>
                         <td>{!! $kpi->appr_1 !!}</td>
@@ -81,6 +83,7 @@
                             
                             <a href="{!! route('be.evaluasi_tahunan',$kpi->t_kpi_id).'?Cari=View' !!}" class="p-2" title='Evaluasi Tahunan' data-toggle='tooltip'><span class='fa fa-file'></span></a>
                             <a href="{!! route('be.mentoring_kpi',$kpi->t_kpi_id).'?Cari=View' !!}" class="p-2" title='Coaching & Mentoring' data-toggle='tooltip'><span class='fa fa-user '></span></a>
+                            <a href="{!! route('be.hapus_kpi',$kpi->t_kpi_id).'?Cari=View' !!}"  title='Hapus' data-toggle='tooltip'><span class='fa fa-trash '></span> </a>
                             
                             </div>
                         </td>

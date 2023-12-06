@@ -58,7 +58,7 @@
                                 <label>Karyawan</label>
                                 <div class="input-group date" id="tgl_posting" data-target-input="nearest">
                                     <Select class="form-control select2" id="gapok" name="karyawan"     >
-                                    <option value=""> Semua Karaywan </option>
+                                    <option value=""> Semua Karyawan </option>
                                     <?php foreach($karyawan as $karyawan){ ?>
                                     <option value="<?=$karyawan->p_karyawan_id?>" <?=$request->karyawan==$karyawan->p_karyawan_id?'selected':'';;?>> <?=$karyawan->nama?></option>
                                     <?php }?>

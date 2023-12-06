@@ -141,36 +141,7 @@
                         <!--    </div>-->
                         <!--    </div>-->
                         </div>
-                        @if($kar[0]->m_pangkat_id!=6)
-                        <!--<div class="col-sm-6">-->
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Atasan 1</label>
-                                <select class="form-control select2" name="atasan" style="width: 100%;" >
-                                    <option value="">Pilih Atasan 1</option>
-                                    <?php
-                                    foreach($appr1 AS $appr1){
-                                        echo '<option value="'.$appr1->p_karyawan_id.'">'.$appr1->nama_lengkap.'</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        <!--</div><div class="col-sm-6">-->
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Atasan 2*</label>
-                                <select class="form-control select2" name="atasan2" style="width: 100%;" required>
-                                    <option value="">Pilih Atasan 2</option>
-                                    <?php
-                                    foreach($appr2 AS $appr){
-                                        echo '<option value="'.$appr->p_karyawan_id.'">'.$appr->nama_lengkap.'</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        <!--</div>-->
-                        @endif
-                       
+                        <div id="atasan"></div>
                     <!--</div>-->
                     <!-- /.box-body -->
                     <div class="box-footer">
@@ -234,7 +205,25 @@
             
            // $("#x_Date_Difference").val(diffDays);
        
-		}
+		}optimasi_jabtruk();
+  	function optimasi_jabtruk(){
+		
+  		
+  			$.ajax({
+				type: 'get',
+				
+				url: '{{route('optimasi_jabstruk')}}',
+				dataType: 'json',
+				success: function(data){
+					//alert(data.respon)
+					$('#atasan').html(data.select_atasan1+data.select_atasandireksi);
+				// 	$('#jabatan').html(data.option_jabatan);
+				// 	$('#atasan1').html(data.option_atasan1);
+				// 	$('#atasan2').html(data.option_atasandireksi);
+				}
+			});
+		
+	}
     
     </script>
 @endsection

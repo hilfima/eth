@@ -52,7 +52,7 @@ class PeriodeController extends Controller
             left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitment_id
             where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
-	$entitas = DB::connection()->select("select * from m_lokasi where active=1 and sub_entitas=0 order by nama");
+        $entitas = DB::connection()->select("select * from m_lokasi where active=1 and sub_entitas=0 order by nama");
         return view('backend.periode_absen.tambah_periode', compact('user','tipe','entitas'));
     }
 
@@ -120,7 +120,7 @@ left join p_karyawan on p_karyawan.user_id=users.id
 left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitment_id
 where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
-		$entitas = DB::connection()->select("select * from m_lokasi where active=1 and sub_entitas=0 order by nama");
+        $entitas = DB::connection()->select("select * from m_lokasi where active=1 and sub_entitas=0 order by nama");
 
         return view('backend.periode_absen.edit_periode', compact('periode','user','tipe','entitas'));
     }
@@ -146,7 +146,7 @@ where users.id=$iduser";
                     "updated_by" => $idUser,
                     "active" => 1,
                      "periode_aktif"=>($request->get("periode_aktif")),
-                    "entitas_type"=>($request->get("entitas")),
+                     "entitas_type"=>($request->get("entitas")),
                     "entitas_list"=>implode(',',$request->get("list_entitas")),
                     "updated_at" => date("Y-m-d H:i:s")
                 ]);

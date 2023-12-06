@@ -45,6 +45,7 @@ where users.id=$iduser";
                     WHERE 1=1 and p_karyawan_kontrak.active=1 and p_karyawan_kontrak.m_status_pekerjaan_id NOT IN(10) 
                     and p_karyawan_kontrak.tgl_akhir <'".$tgl."' and p_karyawan.active=1 ";
         $kontrak=DB::connection()->select($sqlkontrak);
+        
         return view('backend.kontrak.kontrak', compact('kontrak','user'));
     }
 

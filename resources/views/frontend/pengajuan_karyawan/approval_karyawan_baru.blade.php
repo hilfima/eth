@@ -93,7 +93,7 @@
 										<i class="fa fa-id-badge" aria-hidden="true"></i> Data Kandidat
 									</a>
 									@endif
-									@if(($tkaryawan->status==0 or $tkaryawan->status==6) and $tkaryawan->appr_status!=1 )
+									@if(($tkaryawan->status==0 ) )
 									@if($tkaryawan->appr ==$id)
 									 <a href="{!! route('fe.acc_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" class="btn btn-success btn-sm"  title='Approve - 1 ' data-toggle='tooltip'> 
                                     	Approve  (Atasan) 
@@ -103,18 +103,17 @@
                                     @endif
                                     @endif
                                     
-									@if($tkaryawan->appr_direksi ==$id and $tkaryawan->appr_direksi_status!=1)
-									@if($tkaryawan->appr_status==1)
+									@if($tkaryawan->appr_direksi ==$id and $tkaryawan->status==6)
+								
                                     <a href="{!! route('fe.acc_karyawan_baru2',$tkaryawan->t_karyawan_id) !!}" class="btn btn-success btn-sm"  title='Approve - 2 ' data-toggle='tooltip'> 
                                     	Approve (Direksi) 
                                     </a><a href="{!! route('fe.dec_karyawan_baru2',$tkaryawan->t_karyawan_id) !!}" class="btn btn-danger btn-sm" title='Tolak - 2' data-toggle='tooltip'> 
                                     	Tolak  (Direksi)   
                                     </a> 
-                                    @elseif($tkaryawan->appr_status==2)
-                                    Approval 1 Ditolak
-                                    @else
-                                    Menunggu Approval 1
-                                    @endif
+                                    
+                                    @elseif($tkaryawan->status==6)
+                                    Menunggu Approval Keuangan & Atasan
+                                   
                                     @endif
 									</td>
 									<td>
