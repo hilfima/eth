@@ -395,6 +395,7 @@
         </div>
     </div>
     <?php }?>
+    HALLOW
 </div>
     <script>
     sum_hasil()
