@@ -126,7 +126,7 @@ class Generate_rekap_absen
 			  and absen.tipe_list_entitas IN (1)
 			 
 			 ";
-		echo $sqlabsen;
+		//echo $sqlabsen;
 		$absen_entitas = DB::connection()->select($sqlabsen);
 		foreach ($absen_entitas as $absen) {
 			$masuk = $absen->jam_masuk;

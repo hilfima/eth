@@ -768,8 +768,25 @@ where users.id=$iduser";
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasan) ";
 		$appr=DB::connection()->select($sqlappr);
 		
+		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($bawahan) ";
+		$rowbawahan=DB::connection()->select($sqlappr);
+		
 		$sqlappr="SELECT * from get_data_karyawan() WHERE m_jabatan_id in($atasandireksi) ";
 		$apprdireksi=DB::connection()->select($sqlappr);
+		if($bawahan!=-1){
+	    $select_bawahan = '<div class="form-group">
+	                                <label>Bawahan</label>
+	                              <select class="form-control select2" id="tgl_absen" name="atasan"  value="" required="" style="width: 100%">
+	                              	<option value="">- Pilih Bawahan-</option>
+	                              	';
+	                              	foreach($rowbawahan as $databawahan){
+	                              	$select_bawahan .='<option value="'.$databawahan->p_karyawan_id.'">'.$databawahan->nama_lengkap.'</option>';
+	                              	}
+	                              $select_bawahan .='</select>
+	                            </div>';
+		}else{
+		    $select_bawahan="";
+		}
 		
 		if($atasan!=-1){
 	    $select_atasan1 = '<div class="form-group">
@@ -808,7 +825,8 @@ where users.id=$iduser";
 	                              	foreach($apprdireksi as $atasan){
 	                              	$option_atasandireksi .='<option value="'.$atasan->p_karyawan_id.'">'.$atasan->nama_lengkap.'</option>';
 	                              	 }
-	                   $option_jabatan = "<option value='-1'>Posisi Baru</option>";
+	                   $option_jabatan = "<option value='' >Pilih Jabatan</option>
+	                   <option value='-1'>Posisi Baru</option>";
 	           foreach($jabatan as $kar){
                                 $option_jabatan .=' <option value="'.$kar->m_jabatan_id.'">'.$kar->nama.'</option>';
 									}                   
@@ -821,6 +839,7 @@ where users.id=$iduser";
 		$return['option_atasan1']=$option_atasan1;
 		$return['option_atasandireksi']=$option_atasandireksi;
 		$return['option_jabatan']=$option_jabatan;
+		$return['select_bawahan']=$select_bawahan;
         
         return $return;
         
