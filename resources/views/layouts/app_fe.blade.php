@@ -67,13 +67,22 @@ if (! isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == 'off' ) {
             top: -15px !important;
             font-size: 10px !important;
         }
+        tr td,th th{
+                font-size:10px
+            }
         th{
-			text-align: center;
+            text-align: center;
         	vertical-align: middle !important;
         }tr td:first-child,
 		tr td:last-child {
 					text-align: center;
 		    /* styles */
+        }
+		textarea.form-control {
+             color: #555; 
+        }
+        label{
+            font-weight:700;
 		}
     </style><style>
 		    body{
@@ -93,6 +102,13 @@ if (! isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == 'off' ) {
 		    }
 		    .dropdown-item{
 		          font-size:12px !important;
+
+		    }.list-group li{
+		          /*font-size:16px !important;*/
+		          font-size: .875rem;
+    line-height: 20px;
+    letter-spacing: .2px;
+		        
 		    }
 		</style>
 </head>
@@ -709,7 +725,7 @@ WHERE a.active=1 and to_char(a.tgl_awal,'YYYY-MM-DD') <='" . date('Y-m-d') . "' 
                     <div class="modal-body">
                         @if(!empty($loker))
                         @foreach($loker as $lok)
-                        <a href="javascript:void(0)" class="dash-card text-dark">
+                        <a href="javascript:void(0)" class="dash-card text-dark" style="font-size:13px">
                             
                             <img src="{{url('dist/img/file/'.$lok->file)}}"/>
                             <p><b>Posisi</b> : {!! $lok->nmjabatan !!}</p>
@@ -870,6 +886,17 @@ WHERE a.active=1 and to_char(a.tgl_awal,'YYYY-MM-DD') <='" . date('Y-m-d') . "' 
             "responsive": true,
             "autoWidth": false,
         });
+        $("#exam").DataTable({
+            fixedColumns: {
+                left: 2
+            },
+            "scrollY" : 500,
+            "scrollX": true,
+            "ordering": true,
+            "lengthChange": true,
+            "paging": false,
+        });
+       
         $('#example2').DataTable({
             "paging": true,
             "lengthChange": false,

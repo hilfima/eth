@@ -55,7 +55,18 @@ $iduser=Auth::user()->id;
         
 ?>
 			<!-- /Header -->
-			
+			<style>
+	    th{
+	        text-align:center;
+	        font-size:11px;
+	        
+	    }
+	    td{
+	        
+	        font-size:11px;
+	    }
+	    tr td:first-child {text-align: center;}
+	</style>	
 			<!-- Sidebar -->
             <div class="sidebar" id="sidebar">
                 <div class="sidebar-inner slimscroll">
@@ -96,7 +107,7 @@ $iduser=Auth::user()->id;
 							 or
 							 a.m_menu_id in (select users_admin.menu_id from users join users_admin on m_role_id = role and users_admin.active=1 where  id=$iduser)
 							)  
-							order  by nama_menu,urutan"; 
+							order  by urutan, nama_menu"; 
 							 $return = '';
 							 $menuSide=DB::connection()->select($sqlmenu);
 							 if(count($menuSide)){

@@ -67,11 +67,12 @@
 					use App\Helper_function;
 					$help = new Helper_function();
 					
-					$sqlidkar="select *,p_karyawan.nama,h.nama as nmjabatan from p_karyawan 
+					$sqlidkar="select *,p_karyawan.nama,h.nama as nmjabatan,i.nama as nmlokasi from p_karyawan 
 		            	LEFT JOIN p_recruitment b on b.p_recruitment_id=p_karyawan.p_recruitment_id
 					    left join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = p_karyawan.p_karyawan_id
 					    LEFT JOIN m_jabatan h on h.m_jabatan_id=p_karyawan_pekerjaan.m_jabatan_id
-					where user_id=$iduser";
+              LEFT JOIN m_lokasi i on i.m_lokasi_id=p_karyawan_pekerjaan.m_lokasi_id
+              where user_id=$iduser";
 					$idkar=DB::connection()->select($sqlidkar);?>
 			<form action="{!!route('fe.update_profile',[$idkar[0]->p_karyawan_id,'type=profile'])!!}" method="post" enctype="multipart/form-data">
 					{{csrf_field()}}
@@ -99,14 +100,16 @@
 </form>
 
 			</div>
-			<div class="user-details">
-				<h4><b><?=$user[0]->nama;?></b></h4>
+			<div class="user-details"><b>
+			    <p><?=
+					 ''.$user[0]->nik;;?></p>
+				<p><?=$user[0]->nama;?></p>
 				<p><?php
-					$id=$idkar[0]->p_karyawan_id;
+					$id=$idkar[0]->p_karyawan_id;	
+					echo $idkar[0]->nmlokasi;	echo '<br>';
 					echo $idkar[0]->nmjabatan;
-					echo $idkar[0]->tgl_bergabung;
-										
-					echo '<br>'.$user[0]->nik;;
+				
+				echo '</b>';				
 					
 					//echo $id;die;
 					//echo $id;die;

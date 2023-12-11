@@ -116,7 +116,16 @@ echo  	'<script src="'.url('plugins/dleohr/assets/js/jquery-3.2.1.min.js').'"></
 				});$("#example7").DataTable({
 					"responsive": true,
 					"autoWidth": false,
-				});
+				});		
+			$("#exam").DataTable({
+				fixedColumns: {
+					left: 2
+				},
+				"scrollY" : 500,
+				"scrollX": true,
+				"ordering": true,
+				"lengthChange": true,
+			});
 		});
 	$('.select2').select2()
 
