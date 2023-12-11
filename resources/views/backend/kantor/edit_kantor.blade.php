@@ -50,7 +50,23 @@
                                                     <select class="form-control select2 " placeholder="No. Absen..." id="no_absen" name="lokasi_absen" style="width:100%" >
                                                         <option value="">Pilih</option>
                                                         <?php foreach($absen as $absen){?>
-                                                        <option value="<?=$absen->mesin_id;?>" <?=$absen->mesin_id==$datakantor[0]->m_mesin_absen_seharusnya_id?>><?=$absen->nama;?></option>
+                                                        <option value="<?=$absen->mesin_id;?>" <?=$absen->mesin_id==$datakantor[0]->m_mesin_absen_seharusnya_id?'selected':''?>><?=$absen->nama;?></option>
+                                                        <?php }?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Entitas </label>
+                                                    <select class="form-control select2 " multiple placeholder="Entitas..." id="entitas" name="entitas[]" style="width:100%" >
+                                                        <option value="">Pilih</option>
+                                                        <?php 
+                                                        $explode = explode(',',$datakantor[0]->entitas_list);
+                                                        foreach($entitas as $entitas){
+                                                            $selected='';
+                                                            if(in_array($entitas->m_lokasi_id,$explode)){
+                                                                $selected="selected";
+                                                            }
+                                                        ?>
+                                                        <option value="<?=$entitas->m_lokasi_id;?>" <?=$selected?>><?=$entitas->nama;?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>

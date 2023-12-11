@@ -32,48 +32,48 @@
                 <form class="form-horizontal" method="POST" action="" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>NIK</label>
                                 <input type="text" class="form-control" placeholder="Nik ..." id="nik" name="nik" value="{!! $data[0]->nik !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Nama</label>
                                 <input type="text" class="form-control" placeholder="Nama ..." id="nama" name="nama" value="{!! $data[0]->nama_lengkap !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Jabatan</label>
                                 <input type="text" class="form-control" placeholder="Nama Jabatan ..." id="jabatan" name="jabatan" value="{!! $data[0]->jabatan !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Departemen</label>
                                 <input type="text" class="form-control" placeholder="Nama Departemen..." id="departemen" name="departemen" value="{!! $data[0]->departemen !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Tanggal Pengajuan</label>
                                 <input type="text" class="form-control" id="tgl_pengajuan" name="tgl_pengajuan" value="{!! date('d-m-Y',strtotime($data[0]->create_date)) !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Jenis Cuti*</label>
                                 <input type="text" class="form-control" placeholder="Nama Departemen..." id="departemen" name="departemen" value="{!! $data[0]->nama_ijin !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Tanggal Awal*</label>
                                 <div class="input-group date" id="tgl_awal" data-target-input="nearest">
@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Tanggal Akhir*</label>
                                 <div class="input-group date" id="tgl_akhir" data-target-input="nearest">
@@ -95,14 +95,14 @@
                                 </div>
                             </div>
                         </div>
-						 <div class="col-sm-3">
+						 <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Jam Awal*</label>
                                 <input type="time" class="form-control without_ampm" id="jam_awal" name="jam_awal" value="{!! $data[0]->jam_awal!!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Jam Akhir*</label>
@@ -110,14 +110,29 @@
                             </div>
                         </div>
                         
-                        <div class="col-sm-2">
+						 <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Jam Masuk Finger*</label>
+                                <input type="time" class="form-control without_ampm" id="jam_awal" value="{!! $data[0]->jam_masuk_finger!!}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Jam  Keluar Finger*</label>
+                                <input type="time" class="form-control without_ampm" id="jam_akhir" value="{!! $data[0]->jam_keluar_finger!!}" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Lama *</label>
                                 <input type="text" class="form-control" placeholder="Lama..." id="lama" name="lama" value="{!! $data[0]->lama !!}" readonly>
                             </div>
                         </div>
-                         <div class="col-sm-4">
+                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Status Pengajuan*</label>

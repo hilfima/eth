@@ -8,10 +8,10 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <h1 class="m-0 text-dark">Mesin Absen</h1>
                     </div><!-- /.col -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{!! route('admin') !!}">Admin</a></li>
                             <li class="breadcrumb-item active">Mesin Absen</li>
@@ -33,20 +33,20 @@
                 <form class="form-horizontal" method="POST" action="{!! route('be.simpan_mesin') !!}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Nama Lokasi</label>
-                                <select class="form-control select2" name="lokasi" style="width: 100%;" required>
-                                    <option value="">Pilih Lokasi</option>
+                        <!--<div class="col-sm-12">-->
+                        <!--    <div class="form-group">-->
+                        <!--        <label>Entitas</label>-->
+                        <!--        <select class="form-control select2" name="lokasi" style="width: 100%;" required>-->
+                        <!--            <option value="">Pilih Entitas</option>-->
                                     <?php
-                                    foreach($lokasi AS $lokasi){
-                                        echo '<option value="'.$lokasi->m_lokasi_id.'">'.$lokasi->nama.'</option>';
-                                    }
+                                    // foreach($lokasi AS $lokasi){
+                                    //     echo '<option value="'.$lokasi->m_lokasi_id.'">'.$lokasi->nama.'</option>';
+                                    // }
                                     ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
+                        <!--        </select>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Nama</label>
@@ -55,19 +55,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>IP</label>
                                 <input type="text" class="form-control" placeholder="IP ..." id="ip" name="ip" required>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Port</label>
                                 <input type="text" class="form-control" placeholder="Port ..." id="port" name="port" required>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Default</label>
                                 <select class="form-control select2" name="default" style="width: 100%;" required>
@@ -77,19 +77,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Jabatan</label>
-                                <select class="form-control select2" name="jabatan[]" multiple style="width: 100%;" required>
-                                    <option value="">Pilih Jabatan</option>
+                        <!--<div class="col-sm-12">-->
+                        <!--    <div class="form-group">-->
+                        <!--        <label>Jabatan</label>-->
+                        <!--        <select class="form-control select2" name="jabatan[]" multiple style="width: 100%;" required>-->
+                        <!--            <option value="">Pilih Jabatan</option>-->
                                     <?php
-                                    foreach($jabatan AS $jabatan){
-                                        echo '<option value="'.$jabatan->m_jabatan_id.'">'.$jabatan->nama.' - '.$jabatan->nmpangkat.'(Entitas:'.$jabatan->nmlokasi.' | Departemen : '.$jabatan->nmdepartemen.')</option>';
-                                    }
+                                    // foreach($jabatan AS $jabatan){
+                                    //     echo '<option value="'.$jabatan->m_jabatan_id.'">'.$jabatan->nama.' - '.$jabatan->nmpangkat.'(Entitas:'.$jabatan->nmlokasi.' | Departemen : '.$jabatan->nmdepartemen.')</option>';
+                                    // }
                                     ?>
-                                </select>
-                            </div>
-                        </div>
+                        <!--        </select>-->
+                        <!--    </div>-->
+                        <!--</div>-->
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">

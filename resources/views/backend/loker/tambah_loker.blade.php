@@ -33,14 +33,14 @@
                 <form class="form-horizontal" method="POST" action="{!! route('be.simpan_loker') !!}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Kode Loker</label>
                                 <input type="text" class="form-control" placeholder="Kode Loker ..." id="kode" name="kode" required>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Tanggal Awal</label>
                                 <div class="input-group date" id="tgl_awal" data-target-input="nearest">
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Tanggal Akhir</label>
                                 <div class="input-group date" id="tgl_akhir" data-target-input="nearest">
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Lokasi</label>
                                 <select class="form-control select2" name="lokasi" style="width: 100%;" required>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Departemen</label>
                                 <select class="form-control select2" name="departemen" style="width: 100%;" required>
@@ -86,7 +86,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Jabatan</label>
                                 <select class="form-control select2" name="jabatan" style="width: 100%;" required>
@@ -99,7 +99,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Status Pekerjaan</label>
                                 <select class="form-control select2" name="status" style="width: 100%;" required>
@@ -112,7 +112,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Brosur/Pamplet</label>
                                 <input type="file" class="form-control " name="file" style="width: 100%;" required>

@@ -55,7 +55,7 @@
                                     <option value="">Pilih Departemen</option>
                                     <?php
                                     foreach($divisi AS $divisi){
-                                        echo '<option value="'.$divisi->m_divisi_id.'">'.$divisi->nama.'(Entitas : '.$divisi->nama_entitas.' | Direcotrat : '.$divisi->nama_directorat.' | Divisi : '.$divisi->nama_divisi.')</option>';
+                                        echo '<option value="'.$divisi->m_divisi_id.'">'.$divisi->nama.' | Entitas : '.$divisi->nama_entitas.' | Direcotrat : '.$divisi->nama_directorat.' | Divisi : '.$divisi->nama_divisi.'</option>';
                                     }
                                     ?>
                                 </select>

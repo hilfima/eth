@@ -35,9 +35,11 @@
                     <tr>
                         <th>No.</th>
                       
+                        <th>ID</th>
                         <th>Nama</th>
                         <th>Alamat</th>
                         <th>Lokasi Absen</th>
+                        <th>Entitas</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -48,11 +50,15 @@
                             <?php $no++ ?>
                             <tr>
                                 <td>{!! $no !!}</td>
+                                <td>{!! $Kantor->m_office_id !!}</td>
                                 <td>{!! $Kantor->nama !!}</td>
                                 <td>{!! $Kantor->alamat !!}</td>
                                 <td style="text-align: center">
                                    {!! $Kantor->nama_mesin !!}
                                 </td>
+                                <td style="text-align: center">
+                                   {!! $Kantor->entitas_list !!}
+                                </td> 
                                 <td style="text-align: center">
                                     <a href="{!! route('be.edit_kantor',$Kantor->m_office_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
                                     <a href="{!! route('be.hapus_kantor',$Kantor->m_office_id	) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>

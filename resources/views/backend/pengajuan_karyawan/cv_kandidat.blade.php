@@ -61,16 +61,16 @@
             			<button type="submit" name="Cari" class="btn btn-primary" value="Cari"><span class="fa fa-search"></span> Cari</button>
             		</div>
             </form>
-		<table id="example1" class="table table-bordered table-striped">
+			<table id="exam" class="table table-bordered table-striped text-nowrap">
 			<thead>
 				<tr>
 					<th>No.</th>
+					<th>No Pengajuan</th>	
 					<th>Posisi Diajukan</th>
-
 					<th>Tanggal Masuk Ajuan</th>
 					<th>Hitunga Hari Ajuan</th>
 					<th>Jumlah Kebutuhan</th>
-					<th>Lokasi</th>
+					<th>Entitas</th>
 					<th>Departemen</th>
 					<th>Level</th>
 					<th>Status Ajuan</th>
@@ -87,16 +87,14 @@
 			<?php $no++; ?>
 			<tr>
 				<td><?=$no; ?></td>
+				<td><?=$tkaryawan->nomor_pengajuan; ?></td>
 				<td><?=$tkaryawan->m_jabatan_id==-1?($tkaryawan->posisi):$tkaryawan->namaposisi; ?></td>
 
 				<td><?=$tkaryawan->appr_keuangan_date; ?></td>
 				<td><?=$tkaryawan->appr_keuangan_date?$help->hitungHari($tkaryawan->appr_keuangan_date,date('Y-m-d')):0; ?> Hari</td>
 				<td>Total Diajukan : <b><?=$tkaryawan->jumlah_dibutuhkan;?> Orang</b><br>
-                                <br>Approve Atasan : <?=$tkaryawan->karyawan_approve_atasan;?> Orang
-                                <br>Approve Direksi : <?=$tkaryawan->karyawan_approve_direksi;?> Orang
-                                <br>Approve Keuangan : <?=$tkaryawan->karyawan_approve_keuangan;?> Orang
-                                <br>
-                                <br>FINAL APPROVE   : <b style="color:red"><?=$tkaryawan->final_approval;?> Orang</b>
+                              
+                                <br>TOTAL APPROVE   : <b style="color:red"><?=$tkaryawan->final_approval;?> Orang</b>
                                     </td>
 				<td><?=$tkaryawan->nmlokasi; ?></td>
 				<td><?=$tkaryawan->nmdept; ?></td>
@@ -123,7 +121,7 @@
 								   echo 'Pending'	;
 				; ?></td>
 				<td>
-					<a href="{!! route('be.list_database_kandidat',$tkaryawan->t_karyawan_id) !!}" title='Upload' data-toggle='tooltip'>
+					<a href="{!! route('be.list_database_kandidat',$tkaryawan->t_karyawan_id) !!}" title='Upload' class="btn btn-primary" data-toggle='tooltip'>
 						<i class="fa fa-upload" aria-hidden="true"></i>
 					</a>
 				</td>

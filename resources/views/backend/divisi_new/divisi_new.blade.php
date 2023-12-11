@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-header">
                 <!--<h3 class="card-title">DataTable with default features</h3>-->
-                <a href="{!! route('be.tambah_divisi_new') !!}" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Divisi</a>
+                <a href="{!! route('be.tambah_divisi_new') !!}" class="btn btn-primary" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Divisi</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -36,6 +36,7 @@
                         <th>No.</th>
                         <th>Nama</th>
                         <th>Directorat</th>
+                        <th>Entitas</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -48,6 +49,7 @@
                                 <td>{!! $no !!}</td>
                                 <td>{!! $divisi_new->nama_divisi !!}</td>
                                 <td>{!! $divisi_new->nama_directorat !!}</td>
+                                <td>{!! $divisi_new->nama !!}</td>
                                 <td style="text-align: center">
                                     <a href="{!! route('be.edit_divisi_new',$divisi_new->m_divisi_new_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
                                     <a href="{!! route('be.hapus_divisi_new',$divisi_new->m_divisi_new_id) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>

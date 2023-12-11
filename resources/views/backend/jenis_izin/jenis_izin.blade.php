@@ -64,6 +64,8 @@
                                         Cuti
                                     @elseif($jenis_izin->tipe==4)
                                         Perdin
+                                    @elseif($jenis_izin->tipe==5)
+                                        IDT IPM
                                     @endif
                                 </td>
                                 <td>{!! (($jenis_izin->nama_batas)) !!}</td>

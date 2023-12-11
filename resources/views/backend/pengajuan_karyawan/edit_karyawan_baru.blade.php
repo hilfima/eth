@@ -26,67 +26,88 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <!-- form start -->
-                @if($view=='approve_keuangan')
-                <form class="form-horizontal" method="POST" action="{!! route('be.approve_keuangan_karyawan_baru',$tkaryawan[0]->t_karyawan_id) !!}" enctype="multipart/form-data">
-                @else
-                <form class="form-horizontal" method="POST" action="{!! route('be.update_karyawan_baru',$tkaryawan[0]->t_karyawan_id) !!}" enctype="multipart/form-data">
-                @endif    
+                  
                 {{ csrf_field() }}
                     <div class="row">
                        
-                        
-                           
+                       
+                        <div class="col-sm-12" >
+                           <div class="form-group" >
+                                <label>Nomor Pengajuan</label>
+                              <input class="form-control " id="nomor_pengajuan" name="nomor_pengajuan"  value="<?=$tkaryawan[0]->nomor_pengajuan;?>" placeholder="Nomor Pengajuan" readonly>
+                              	
+                              </div>
+                              </div>
                                     
                                     <div class="col-sm-12" id="karyawanKonten">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Posisi Yang Dibutuhkan</label>
+                                <?php
                                 
-								 <select class="form-control " name="jabatan"  readonly  style="width: 100%;"  onchange="changeposisi(this)" readonly>
-                                    <option value="" >Pilih Jabatan</option>
-                                   <option value="-1"  <?=$tkaryawan[0]->m_jabatan_id==-1?'selected':''?>>Lainnya</option>
-                                    <?php foreach($jabatan as $kar){?>
-                                    <option value="<?=$kar->m_jabatan_id;?>" <?=$tkaryawan[0]->m_jabatan_id==$kar->m_jabatan_id?'selected':''?>><?=$kar->nama;?></option>
-									<?php }?>
-                                </select>
+                                if($tkaryawan[0]->m_jabatan_id==-1)
+                                    $posisi = 'Posisi Baru';
+                                else{
+                                    foreach($jabatan as $kar){
+                                    if($tkaryawan[0]->m_jabatan_id==$kar->m_jabatan_id)
+                                    $posisi = $kar->nama;
+                                    }
+                                }?>
+                             
+                             
+								 <input value="<?=$posisi;?>" class="form-control " name="jabatan"  readonly  style="width: 100%;"  onchange="changeposisi(this)" readonly>
+                                   
                                 
-                        </div>
-                           	<?php if($tkaryawan[0]->m_jabatan_id==-1){?>
+                        </div> 
+                           <?php if($tkaryawan[0]->m_jabatan_id==-1){?>
                             <div class="form-group" >
-                                <label>Posisi Lainnya</label>
+                                <label>Nama Posisi</label>
                               <input class="form-control " id="tgl_absen" name="posisi"  value="<?=$tkaryawan[0]->posisi?>" placeholder="Posisi Lainnya"  readonly>
                               	
                               </div>
                             <div class="form-group">
                                 <label>Dapartement</label>
-                              <select class="form-control " name="dept"  style="width: 100%;"   readonly>
+                                <?php 
+                                   $valuedept = '';
+                                    foreach($departemen as $dept){
+                                      
+                                    	if($dept->m_departemen_id==$tkaryawan[0]->m_departemen_id){
+                                    	$valuedept = $dept->nama;;
+                                    }
+                }?>
+                              <input value="<?=$valuedept?>" class="form-control " name="dept"  style="width: 100%;"   readonly>
                                    
-                                    <?php foreach($departemen as $dept){
-                                    	if($dept->m_departemen_id==$pekerjaan[0]->m_departemen_id){?>
-                                    <option value="<?=$dept->m_departemen_id;?>" ><?=$dept->nama;?></option>
-									<?php }?>
-									<?php }?>
+                                    
+								
                                 </select>
                             </div><div class="form-group">
                                 <label>Level</label>
-                               <select class="form-control " name="level" id="karyawan"  style="width: 100%;"  readonly>
-                                    <option value="" >Pilih Level</option>
-                                    <?php foreach($pangkat as $p){?>
-                                    <option value="<?=$p->m_pangkat_id;?>" <?=$tkaryawan[0]->m_pangkat_id==$p->m_pangkat_id?'selected':''?>><?=$p->nama;?></option>
-									<?php }?>
-                                </select>
+                               <?php 
+                               $valuepangkat ="";
+                               foreach($pangkat as $p){
+                                   if($tkaryawan[0]->m_pangkat_id==$p->m_pangkat_id)
+                                   $valuepangkat = $p->nama;
+								 }?>
+                                <input value="<?=$valuepangkat?>" class="form-control " name="level" id="karyawan"  style="width: 100%;"  readonly>
+                                 
                             </div><div class="form-group">
-                                <label>Entitas </label>
-                               <select class="form-control " name="lokasi" id="karyawan"  style="width: 100%;"  readonly>
+                                <label>Entitas</label>
+                                 <?php 
+                                    $valueentitas = "";
+                                      foreach($lokasi as $lokasi){
+                                    	if($lokasi->m_lokasi_id==$tkaryawan[0]->m_lokasi_id){
+                                    	$valueentitas = $lokasi->nama;
+                                    	}
+                                    }?>
+                               <input value="<?=$valueentitas;?>" class="form-control " name="lokasi" id="karyawan"  style="width: 100%;"  readonly>
                                    
-                                    <?php foreach($lokasi as $lokasi){
-                                    	if($lokasi->m_lokasi_id==$tkaryawan[0]->m_lokasi_id){?>
-                                    <option value="<?=$lokasi->m_lokasi_id;?>"  <?=$tkaryawan[0]->m_lokasi_id==$lokasi->m_lokasi_id?'selected':''?>><?=$lokasi->nama;?></option>
-									<?php }?>
-									<?php }?>
-                                </select>
+                                   
                             </div>
                             <?php }?>
+                            <div class="form-group">
+                                <label>Lokasi Penempatan</label>
+                              <input class="form-control"  name="kebutuhan"  value="<?=$tkaryawan[0]->lokasi_penempatan?>" placeholder="Lokasi Penempatan..."  readonly>    
+                            </div>
                             <div class="form-group">
                                 <label>Jumlah Kebutuhan</label>
                               <input class="form-control"  name="kebutuhan"  value="<?=$tkaryawan[0]->jumlah_dibutuhkan?>" placeholder="Jumlah Kebutuhan..."  readonly>    
@@ -96,7 +117,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Alasan Permintaan</label>
-                              <select class="form-control " id="tgl_absen" name="alasan"  value="" placeholder="Keterangan" onclick="changealasan(this)"  readonly>
+                              <select class="form-control " id="tgl_absen" name="alasan"  value="" placeholder="Keterangan" onclick="changealasan(this)"  disabled>
                                     	
                                     	<option value="">- Pilih Alasan Permintaan -</option>
                                     	<option value="Pergantian Karyawan" <?=$tkaryawan[0]->alasan=='Pergantian Karyawan'?'selected':''?>>Pergantian Karyawan</option>
@@ -113,7 +134,7 @@
                              </div><div id="gantikaryawan"  style="display: none">
 	                             <div class="form-group">
 	                                <label>Nama Karyawan yang diganti</label>
-	                              <select class="form-control " id="tgl_absen" name="alasanganti"  value="" placeholder="Deskripsi" readonly>
+	                              <select class="form-control " id="tgl_absen" name="alasanganti"  value="" placeholder="Deskripsi" disabled>
 	                              	<option value="">- Pilih Karyawan -</option>
 	                              	<?php foreach($karyawan as $karyawan){?>
 	                              	<option value="<?=$karyawan->p_karyawan_id;?>"<?=$tkaryawan[0]->pergantian_karyawan_id==$karyawan->p_karyawan_id?'selected':''?> ><?=$karyawan->nama;?></option>
@@ -121,9 +142,17 @@
 	                              </select>
 	                            </div>
                              </div>
+                             
                              <div class="form-group">
                                 <label>Gambarkan Posisi dalam Struktur Organisasi</label>
-                              <input type="file" class="form-control " name="struktur"  value="" placeholder="Deskripsi"  readonly>
+                                <br>
+                                <div >
+                                @if(!empty($datas->foto))
+                                    <a href="{!! asset('dist/img/file/'.$datas->file_gambaran_struktur) !!}" target="_blank" title="Download"><span class="fa fa-download"></span></a></td>
+                                @else
+                                    -
+                                @endif
+                                </div>
                             </div><div class="form-group">
                                 <label>Uraian Pekerjaan</label>
                               <?=$tkaryawan[0]->uraian_pekerjaan?>
@@ -142,12 +171,12 @@
                             </div>
                             <div class="form-group">
                                 <label>Kualifikasi Jenis Kelamin</label>
-                                 <select class="form-control " id="tgl_absen" name="jk"  value="" readonly >
+                                 <select class="form-control " id="tgl_absen" name="jk"  value="" disabled >
                                     	
                                     	<option value="">- Pilih Kualifikasi Jenis Kelamin -</option>
-                                    	<option value="Laki Laki" <?=$tkaryawan[0]->kualifikasi_pendidikan=='Laki Laki'?'selected':''?>>Laki Laki</option>
-                                    	<option value="Wanita" <?=$tkaryawan[0]->kualifikasi_pendidikan=='Wanita'?'selected':''?>>Wanita</option>
-                                    	<option value="Pria dan Wanita" <?=$tkaryawan[0]->kualifikasi_pendidikan=='Pria dan Wanita'?'selected':''?>>Pria dan Wanita</option>
+                                    	<option value="Laki Laki" <?=$tkaryawan[0]->kualifikasi_jenis_kelamin=='Laki Laki'?'selected':''?>>Pria</option>
+                                    	<option value="Wanita" <?=$tkaryawan[0]->kualifikasi_jenis_kelamin=='Wanita'?'selected':''?>>Wanita</option>
+                                    	<option value="Pria dan Wanita" <?=$tkaryawan[0]->kualifikasi_jenis_kelamin=='Pria dan Wanita'?'selected':''?>>Pria dan Wanita</option>
                                     </select>
                              
                             </div>
@@ -165,7 +194,131 @@
                                 <label>Kompetensi lainnya</label>
                               <textarea class="form-control "  name="k_kompetensi"  value="" placeholder="Kompetensi lainnya" readonly><?=$tkaryawan[0]->kualifikasi_kompetisi?></textarea>
                             </div>
-                    <?php if($view=='edit'){?>
+                           
+                        </div>
+                        </div>
+                        <br>
+                        <div >
+                        <?php if($view =='approve_atasan' or $view =='approve_keuangan' or $view =='approve_direksi' or $view ==''  or $view=='edit'){?>
+                        <form class="form-horizontal" method="POST" action="{!! route('be.simpan_approval_karyawan_baru',$tkaryawan[0]->t_karyawan_id) !!}" enctype="multipart/form-data" onsubmit="return confirm('Apakah anda yakin?');">
+                            {{ csrf_field() }}
+                        <input type="hidden" name="view" value="<?=$view;?>">
+                        <h4>APPROVE ATASAN</h4>
+                        </div>
+                        <br>
+                         <div class="form-group">
+                                        <label>Status Approval</label>
+                                         <select class="form-control " id="tgl_absen" name="approve_atasan" <?php if($view!='approve_atasan'){echo 'disabled';}?>  >
+                                            	
+                                            	<option value="">- Pilih Status Approval -</option>
+                                            	<option value="1" <?=$tkaryawan[0]->appr_status==1?'selected':''?>>Disetujui</option>
+                                            	
+        										<option value="2" <?=$tkaryawan[0]->appr_status==2?'selected':''?>>Ditolak</option>
+        										<option value="3" <?=$tkaryawan[0]->appr_status==3?'selected':''?>>Pending</option>
+                                            </select>
+                                     
+                                    </div>
+                           
+                            <div class="form-group">
+                                <label>Approvel Jumlah Rekutmen Karyawan</label>
+                              <input class="form-control "  name="karyawan_approval_atasan" <?php if($view!='approve_atasan'){echo 'disabled';}?>  value="<?php 
+                              if($view=='approve_atasan')
+                              echo ($tkaryawan[0]->final_approval?$tkaryawan[0]->final_approval:$tkaryawan[0]->jumlah_dibutuhkan);
+                              else
+                              echo $tkaryawan[0]->karyawan_approve_atasan;
+                              ?>" placeholder="Jumlah karyawan yang disetujui" >
+                            </div>
+                           
+                                  
+                             <div class="form-group">
+                              <label>Keterangan</label>
+                              <textarea class="form-control " <?php if($view!='approve_atasan'){echo 'disabled';}?>   name="keterangan_atasan"  value="" placeholder="Keterangan" ><?=$tkaryawan[0]->keterangan_atasan?></textarea>
+                            </div>  
+                               <br>
+                        
+                        <?php }?>
+                       
+                        <?php if($view =='approve_keuangan' or $view =='approve_direksi' or $view =='' or $view=='edit' ){?>
+                        <div >
+                        <h4>APPROVE KEUANGAN</h4>
+                        </div>
+                        <br>     
+                               
+                                      <div class="form-group">
+                                        <label>Status Approval</label>
+                                         <select class="form-control " id="tgl_absen" name="approve_keuangan" <?php if($view!='approve_keuangan'){echo 'disabled';}?>   >
+                                            	
+                                            	<option value="">- Pilih Status Approval -</option>
+                                            	<option value="1" <?=$tkaryawan[0]->appr_keuangan_status==1?'selected':''?>>Disetujui</option>
+                                            	
+        										<option value="2" <?=$tkaryawan[0]->appr_keuangan_status==2?'selected':''?>>Ditolak</option>
+        										<option value="3" <?=$tkaryawan[0]->appr_keuangan_status==3?'selected':''?>>Pending</option>
+                                            </select>
+                                     
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Approvel Jumlah Rekutmen Karyawan</label>
+                                        <input class="form-control "  name="karyawan_approval_keuangan" <?php if($view!='approve_keuangan'){echo 'disabled';}?> value="<?php 
+                                              if($view=='approve_keuangan')
+                                              echo ($tkaryawan[0]->final_approval?$tkaryawan[0]->final_approval:$tkaryawan[0]->jumlah_dibutuhkan);
+                                              else
+                                              echo $tkaryawan[0]->karyawan_approve_keuangan;
+                                              ?>" placeholder="Jumlah karyawan yang disetujui" >
+                                    </div>
+                                          
+                                            <div class="form-group">
+                                        <label>Keterangan</label>
+                                      <textarea class="form-control "  name="keterangan_keuangan" <?php if($view!='approve_keuangan'){echo 'disabled';}?> value="" placeholder="Keterangan" ><?=$tkaryawan[0]->keterangan_keuangan?></textarea>
+                                    </div>  
+                                            
+                                     <br>
+                                     <?php }?>
+                        <?php if($view =='approve_direksi' or $view ==''  or $view=='edit'){?>
+                        <div >
+                            
+                        <h4>APPROVE DIREKSI</h4>
+                        </div>
+                        <br>     
+                               
+                            
+                                  
+                             <div class="form-group">
+                                        <label>Status Approval</label>
+                                         <select class="form-control " id="tgl_absen" name="approve_direksi" <?php if($view!='approve_direksi'){echo 'disabled';}?>   >
+                                            	
+                                            	<option value="">- Pilih Status Approval -</option>
+                                            	<option value="1" <?=$tkaryawan[0]->appr_direksi_status==1?'selected':''?>>Disetujui</option>
+                                            	
+        										<option value="2" <?=$tkaryawan[0]->appr_direksi_status==2?'selected':''?>>Ditolak</option>
+        										<option value="3" <?=$tkaryawan[0]->appr_direksi_status==3?'selected':''?>>Pending</option>
+                                            </select>
+                                     
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                <label>Approvel Jumlah Rekutmen Karyawan</label>
+                              <input class="form-control "  name="karyawan_approval_direksi" <?php if($view!='approve_direksi'){echo 'disabled';}?>  value="<?php 
+                                              if($view=='approve_direksi')
+                                              echo ($tkaryawan[0]->final_approval?$tkaryawan[0]->final_approval:$tkaryawan[0]->jumlah_dibutuhkan);
+                                              else
+                                              echo $tkaryawan[0]->karyawan_approve_direksi;
+                                              ?>" placeholder="Jumlah karyawan yang disetujui" >
+                            </div>
+                                  
+                             <div class="form-group">
+                              <label>Keterangan</label>
+                              <textarea class="form-control "  name="keterangan_direksi" <?php if($view!='approve_direksi'){echo 'disabled';}?>  value="" placeholder="Keterangan" ><?=$tkaryawan[0]->keterangan_direksi?></textarea>
+                            </div>  
+                                    
+                             
+                            <?php }?>
+                            <?php if($view=='edit'){?>
+                             <div >
+                            
+                        <h4>APPROVE HC</h4>
+                        </div>
+                        <br>     
                             <div class="form-group">
                                 <label>Status</label>
                                  <select class="form-control " id="tgl_absen" name="status"  value=""  >
@@ -180,52 +333,17 @@
                                     </select>
                              
                             </div>
-                        </div>
-                           
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <a href="{!! route('be.karyawan_baru') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
-                        <button type="submit" class="btn btn-info pull-right"><span class="fa fa-check"></span> Simpan</button>
-                    </div>
-                    <?php }else if($view=='approve_keuangan'){?>
-                                <div class="form-group">
-                                        <label>Status Approval</label>
-                                         <select class="form-control " id="tgl_absen" name="approve_keuangan"   >
-                                            	
-                                            	<option value="">- Pilih Status Approval -</option>
-                                            	<option value="1" <?=$tkaryawan[0]->appr_keuangan_status==1?'selected':''?>>Disetujui</option>
-                                            	
-        										<option value="2" <?=$tkaryawan[0]->appr_keuangan_status==2?'selected':''?>>Ditolak</option>
-        										<option value="3" <?=$tkaryawan[0]->appr_keuangan_status==3?'selected':''?>>Pending</option>
-                                            </select>
-                                     
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                <label>Approvel Jumlah Rekutmen Karyawan</label>
-                              <input class="form-control "  name="karyawan_approval"  value="<?=($tkaryawan[0]->final_approval?$tkaryawan[0]->final_approval:$tkaryawan[0]->jumlah_dibutuhkan)?>" placeholder="Jumlah karyawan yang disetujui" >
-                            </div>
+                       <?php }?>
+                        <?php if($view =='approve_atasan' or $view =='approve_keuangan' or $view =='approve_direksi' or $view=='edit' ){?>
                                   
-                                    <div class="form-group">
-                                <label>Keterangan</label>
-                              <textarea class="form-control "  name="keterangan_keuangan"  value="<?=$tkaryawan[0]->keterangan_keuangan?>" placeholder="Keterangan" ></textarea>
-                            </div>  
-                                    
-                                </div>
-                                   
                             </div>
-                            <!-- /.box-body -->
-                            <div class="box-footer">
-                                <a href="{!! route('be.karyawan_baru') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
+                            <div class="box-footer p-3">
+                                <a href="{!! route('fe.approval_karyawan_baru') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
                                 <button type="submit" class="btn btn-info pull-right"><span class="fa fa-check"></span> Simpan</button>
                             </div>
-                    
-                    
-                    <?php }else{?>
-                    
-                                  </div>
-                                  <?php }?>
+                            <?php }?>
+                            
+                            
                     <!-- /.box-footer -->
                 </form>
             </div>

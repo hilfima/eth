@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Departement </h1>
+                        <h1 class="m-0 text-dark">Departemen</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{!! route('admin') !!}">Admin</a></li>
-                            <li class="breadcrumb-item active">Departement </li>
+                            <li class="breadcrumb-item active">Departemen</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -43,10 +43,10 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Nama Divisi</label>
-                                <select type="text" class="form-control" placeholder="Divisi ..." id="divisi" name="divisi" required>
+                                <select type="text" class="form-control select2" placeholder="Divisi ..." id="divisi" name="divisi" required>
                                     <option value="">- Pilih Divisi -</option>
                                     <?php foreach($divisin as $divisin){?>
-                                        <option value="<?=$divisin->m_divisi_new_id;?>" <?=$divisi[0]->m_divisi_new_id==$divisin->m_divisi_new_id?'selected':''?>><?=$divisin->nama_divisi;?>(<?=$divisin->nama_directorat;?> |  <?=$divisin->nama;?>)</option>
+                                        <option value="<?=$divisin->m_divisi_new_id;?>" <?=$divisi[0]->m_divisi_new_id==$divisin->m_divisi_new_id?'selected':''?>><?=$divisin->nama_divisi;?> | <?=$divisin->nama_directorat;?> |  <?=$divisin->nama;?> </option>
                                     <?php }?>
                                 </select>
                                 

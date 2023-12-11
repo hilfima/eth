@@ -379,7 +379,7 @@ outline: none;
                                                 <div class="col-sm-6">
                                                      <div class="form-group">
                                                     <label>Entitas</label>
-                                                    <select class="form-control select2" name="lokasi" style="width: 100%;" required onchange="finddirectorat(this)">
+                                                    <select class="form-control "  disabled name="lokasi" style="width: 100%;"  onchange="finddirectorat(this)">
                                                         <option value="">- Entitas -</option>
                                                         <?php
                                                         foreach ($lokasi as $lokasi) {
@@ -394,7 +394,7 @@ outline: none;
                                                 </div>
                                                     <div class="form-group">
                                                     <label>Directorat</label>
-                                                    <select class="form-control select2" name="directorat" id="directorat" style="width: 100%;" onchange="finddivisi(this.value)">
+                                                    <select class="form-control " disabled name="directorat" id="directorat" style="width: 100%;" onchange="finddivisi(this.value)">
                                                         <option value="">- Directorat -</option>
                                                         <?php
                                                         foreach ($directorat as $directorat) {
@@ -402,17 +402,17 @@ outline: none;
                                                                 echo '
 															<option selected="selected" value="' . $directorat->m_directorat_id . '">' . $directorat->nama_directorat . '</option>';
                                                             } 
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $directorat->m_directorat_id . '">' . $directorat->nama_directorat . '</option>';
-            //                                                 }
+                                                            else {
+                                                                echo '
+															<option value="' . $directorat->m_directorat_id . '">' . $directorat->nama_directorat . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Divisi</label>
-                                                    <select class="form-control select2" name="divisi_new" id="divisi_new" style="width: 100%;"  onchange="finddepartement(this.value)" >
+                                                    <select class="form-control " disabled name="divisi_new" id="divisi_new" style="width: 100%;"  onchange="finddepartement(this.value)" >
                                                         <option value="">- Divisi -</option>
                                                         <?php
                                                         foreach ($divisi_new as $divisi_new) {
@@ -420,17 +420,17 @@ outline: none;
                                                                 echo '
 															<option selected="selected" value="' . $divisi_new->m_divisi_new_id . '">' . $divisi_new->nama_divisi . '</option>';
                                                             } 
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $divisi_new->m_divisi_new_id . '">' . $divisi_new->nama_divisi . '</option>';
-            //                                                 }
+                                                            else {
+                                                                echo '
+															<option value="' . $divisi_new->m_divisi_new_id . '">' . $divisi_new->nama_divisi . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Departemen</label>
-                                                    <select class="form-control select2" name="divisi" id="departemen" style="width: 100%;" onchange="findseksi(this.value)" >
+                                                    <select class="form-control " disabled name="divisi" id="departemen" style="width: 100%;" onchange="findseksi(this.value)" >
                                                         <option value="">- Departement -</option>
                                                         <?php
                                                         foreach ($divisi as $divisi) {
@@ -438,17 +438,17 @@ outline: none;
                                                                 echo '
 															<option selected="selected" value="' . $divisi->m_divisi_id . '">' . $divisi->nama . '</option>';
                                                             }
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $divisi->m_divisi_id . '">' . $divisi->nama . '</option>';
-            //                                                 }
+                                                            else {
+                                                                echo '
+															<option value="' . $divisi->m_divisi_id . '">' . $divisi->nama . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Seksi</label>
-                                                    <select class="form-control select2" name="departemen" id="seksi" style="width: 100%;"  onchange="findjabatan(this.value)">
+                                                    <select class="form-control " disabled name="departemen" id="seksi" style="width: 100%;"  onchange="findjabatan(this.value)">
                                                         <option value="">- Seksi -</option>
                                                         
                                                         
@@ -458,26 +458,26 @@ outline: none;
                                                                 echo '
 															<option selected="selected" value="' . $departemen->m_departemen_id . '">' . $departemen->nama . '</option>';
                                                             }
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $departemen->m_departemen_id . '">' . $departemen->nama . '</option>';
-            //                                                 }
+                                                            else {
+                                                                echo '
+															<option value="' . $departemen->m_departemen_id . '">' . $departemen->nama . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Jabatan/Pangkat</label>
-                                                    <select class="form-control select2" name="jabatan" id="jabatan" style="width: 100%;" required>
+                                                    <select class="form-control " disabled name="jabatan" id="jabatan" style="width: 100%;" required>
                                                         <option value="">- Jabatan -</option>
                                                         <?php
                                                         foreach ($jabatan as $jabatan) {
                                                             if ($jabatan->m_jabatan_id == $karyawan[0]->m_jabatan_id) {
                                                                 echo '<option selected="selected" value="' . $jabatan->m_jabatan_id . '">' . $jabatan->nama . ' - ' . $jabatan->nmpangkat . ' - ' . $jabatan->nmlokasi . '</option>';
                                                             } 
-                                                            // else {
-                                                            //     echo '<option value="' . $jabatan->m_jabatan_id . '">' . $jabatan->nama . ' - ' . $jabatan->nmpangkat . ' - ' . $jabatan->nmlokasi . '</option>';
-                                                            // }
+                                                            else {
+                                                                echo '<option value="' . $jabatan->m_jabatan_id . '">' . $jabatan->nama . ' - ' . $jabatan->nmpangkat . ' - ' . $jabatan->nmlokasi . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -490,24 +490,33 @@ outline: none;
                                                         <label>Tanggal Keluar</label>
                                                         <input type="text" class="form-control" disabled="disabled" value="{!! date('d-m-Y',strtotime($karyawan[0]->tgl_akhir)) !!}">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>No. Absen</label>
-                                                        <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->no_absen !!}">
-                                                    </div>
+                                                   
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
-                                                        <label>Status Pekerjaan</label>
-                                                        <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->nmstatus !!}">
+                                                    
+                                                        <label>No. Absen</label>
+                                                        <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->no_absen !!}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                    
+                                                        <label>Mesin Seharusnya Absen</label>
+                                                        <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->nama_mesin !!}">
+                                                    </div>
+                                                     <div class="form-group">
+                                                        <label>Kantor</label>
+                                                        <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->nama_kantor !!}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Kota</label>
                                                         <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->kota !!}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Kantor</label>
-                                                        <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->nama_kantor !!}">
+                                                        <label>Status Pekerjaan</label>
+                                                        <input type="text" class="form-control" disabled="disabled" value="{!! $karyawan[0]->nmstatus !!}">
                                                     </div>
+                                                    
+                                                   
                                                    
                                                     <div class="form-group">
                                                         <label>Bank</label>
@@ -622,4 +631,118 @@ outline: none;
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <script>
+                                                        function finddirectorat(e){
+                                                            $.ajax({
+                                                                type : 'get',
+                                                                url : "{{ route('be.finddirectorat') }}",
+                                                                data : {
+                                                                    id:$(e).val(),
+                                                                   
+                                                                    
+                                                                },
+                                                                cache : false,
+                                                                headers: {
+                                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                },
+                                                                success: function(msg){
+                                                                    //console.log(msg);
+                                                                    $('#directorat').html(msg);
+                                                                    
+                                                                },
+                                                                error: function(data){
+                                                                    console.log('error:', data)
+                                                                },
+                                                            })
+                                                        }
+                                                        function finddivisi(e){
+                                                            $.ajax({
+                                                                type : 'get',
+                                                                url : "{{ route('be.finddivisi') }}",
+                                                                data : {
+                                                                    id:e,
+                                                                   
+                                                                    
+                                                                },
+                                                                cache : false,
+                                                                headers: {
+                                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                },
+                                                                success: function(msg){
+                                                                    //console.log(msg);
+                                                                    $('#divisi_new').html(msg);
+                                                                },
+                                                                error: function(data){
+                                                                    console.log('error:', data)
+                                                                },
+                                                            })
+                                                        }
+                                                        function finddepartement(e){
+                                                            $.ajax({
+                                                                type : 'get',
+                                                                url : "{{ route('be.finddepartement') }}",
+                                                                data : {
+                                                                    id:e,
+                                                                   
+                                                                    
+                                                                },
+                                                                cache : false,
+                                                                headers: {
+                                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                },
+                                                                success: function(msg){
+                                                                    //console.log(msg);
+                                                                    $('#departemen').html(msg);
+                                                                },
+                                                                error: function(data){
+                                                                    console.log('error:', data)
+                                                                },
+                                                            })
+                                                        }
+                                                        function findseksi(e){
+                                                            $.ajax({
+                                                                type : 'get',
+                                                                url : "{{ route('be.findseksi') }}",
+                                                                data : {
+                                                                    id:e,
+                                                                   
+                                                                    
+                                                                },
+                                                                cache : false,
+                                                                headers: {
+                                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                },
+                                                                success: function(msg){
+                                                                    //console.log(msg);
+                                                                    $('#seksi').html(msg);
+                                                                },
+                                                                error: function(data){
+                                                                    console.log('error:', data)
+                                                                },
+                                                            })
+                                                        }
+                                                        
+                                                        function findjabatan(e){
+                                                            $.ajax({
+                                                                type : 'get',
+                                                                url : "{{ route('be.findjabatan') }}",
+                                                                data : {
+                                                                    id:e,
+                                                                   
+                                                                    
+                                                                },
+                                                                cache : false,
+                                                                headers: {
+                                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                },
+                                                                success: function(msg){
+                                                                    //console.log(msg);
+                                                                    $('#jabatan').html(msg);
+                                                                },
+                                                                error: function(data){
+                                                                    console.log('error:', data)
+                                                                },
+                                                            })
+                                                        }
+                                                    </script>
 @endsection

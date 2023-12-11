@@ -57,6 +57,7 @@
                                     <option value="2" <?=$jenis_izin[0]->tipe==2?'selected':''?>>Lembur</option>
                                     <option value="3" <?=$jenis_izin[0]->tipe==3?'selected':''?>>Cuti</option>
                                     <option value="4" <?=$jenis_izin[0]->tipe==4?'selected':''?>>Perdin</option>
+                                    <option value="5" <?=$jenis_izin[0]->tipe==5?'selected':''?>>IDT IPM</option>
                                 </select>
                             </div>
                        

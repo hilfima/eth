@@ -24,6 +24,7 @@ where users.id=$iduser";
 
         $sqldivisi_new="SELECT * FROM m_divisi_new
             left join m_directorat on m_divisi_new.m_directorat_id = m_directorat.m_directorat_id
+            left join m_lokasi on m_directorat.m_lokasi_id = m_lokasi.m_lokasi_id 
                 WHERE 1=1 AND m_divisi_new.active=1 order by nama_divisi";
         $divisi_new=DB::connection()->select($sqldivisi_new);
         return view('backend.divisi_new.divisi_new',compact('divisi_new','user'));

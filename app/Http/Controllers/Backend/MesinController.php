@@ -18,7 +18,7 @@ class MesinController extends Controller
         
         FROM m_mesin_absen
                 left join m_lokasi on m_lokasi.m_lokasi_id=m_mesin_absen.m_lokasi_id
-                WHERE 1=1 order by nama";
+                WHERE 1=1 and m_mesin_absen.active=1 order by nama";
         $mesin_absen=DB::connection()->select($sqlmesin_absen);
 
         $iduser=Auth::user()->id;
@@ -74,9 +74,9 @@ where users.id=$iduser";
                     "nama"=>($request->get("nama")),
                     "port"=>($request->get("port")),
                     "ip"=>($request->get("ip")),
-                    "m_lokasi_id"=>($request->get("lokasi")),
+                    // "m_lokasi_id"=>($request->get("lokasi")),
                     "is_default"=>($request->get("default")),
-                    "list_jabatan"=>implode(',',array_unique($request->get("jabatan"))),
+                    // "list_jabatan"=>implode(',',array_unique($request->get("jabatan"))),
                     "created_at" => date("Y-m-d H:i:s")
                 ]);
             DB::commit();
@@ -126,9 +126,9 @@ where users.id=$iduser";
                     "port"=>($request->get("port")),
                     "ip"=>($request->get("ip")),
                     "active"=>1,
-                    "m_lokasi_id"=>($request->get("lokasi")),
+                    // "m_lokasi_id"=>($request->get("lokasi")),
                     "is_default"=>($request->get("default")),
-                    "list_jabatan"=>implode(',',array_unique($request->get("jabatan"))),
+                    // "list_jabatan"=>implode(',',array_unique($request->get("jabatan"))),
                     "updated_at" => date("Y-m-d H:i:s")
                 ]);
             DB::commit();
@@ -146,7 +146,9 @@ where users.id=$iduser";
         try{
             DB::connection()->table("m_mesin_absen")
                 ->where("mesin_id",$id)
-                ->delete();
+                ->update([
+                    "active"=>0
+                    ]);
             DB::commit();
             return redirect()->route('be.mesin')->with('success','Mesin Absen Berhasil di Ubah!');
         }

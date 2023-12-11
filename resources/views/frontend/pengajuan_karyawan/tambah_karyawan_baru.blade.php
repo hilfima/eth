@@ -34,12 +34,18 @@
                     <div class="row">
                        <div class="col-sm-12" id="karyawanKonten">
                             <!-- text input -->
+                             <div class="form-group" >
+                                <label>Nomor Pengajuan</label>
+                              <input class="form-control " id="nomor_pengajuan" name="nomor_pengajuan"  value="<?='R'.$idkar[0]->kode_nik.''.sprintf('%04d',$count_entitas[0]->count);?>" placeholder="Nama Posisi" readonly>
+                              	
+                              </div>
                             <div class="form-group">
                                 <label>Posisi Yang Dibutuhkan</label>
                                 
 								 <select class="form-control select2" name="jabatan" id="jabatan"  style="width: 100%;" required onchange="changeposisi(this)">
                                     <option value="" >Pilih Jabatan</option>
-                                   <option value="-1">Posisi Baru</option>
+                                    
+                                    <option value="-1">Posisi Baru</option>
                                    
                                 </select>
                                 
@@ -92,8 +98,14 @@
                             </div>
                             <div class="form-group">
                                 <label>Lokasi Penempatan</label> 
-                              <input class="form-control"  name="lokasi_penempatan"  value="" placeholder="Lokasi Penempatan...">    
-                            </div> <div class="form-group">
+                              <select class="form-control"  name="lokasi_penempatan" > 
+                                <option value=""> Pilih Lokasi Penempatan</option>
+                                <?php foreach($kantor as $kantor){?>
+                                    <option value="<?=$kantor->m_office_id;?>"><?=$kantor->nama;?></option>
+                                <?php }?>
+                              </select>
+                            </div> 
+                            <div class="form-group">
                                 <label>Jumlah Kebutuhan</label>
                               <input class="form-control"  name="kebutuhan"  value="" placeholder="Jumlah Kebutuhan..." required="">    
                             </div> <div class="form-group">
@@ -120,11 +132,7 @@
                              <div id="gantikaryawan"  style="display: none">
 	                             <div class="form-group">
 	                                <label>Nama Karyawan yang diganti</label>
-	                              <select class="form-control select2" id="tgl_absen" name="alasanganti"  value="" placeholder="Deskripsi" style="width: 100%">
-	                              	<option value="">- Pilih Karyawan -</option>
-	                              	<?php foreach($karyawan as $karyawan){?>
-	                              	<option value="<?=$karyawan->p_karyawan_id;?>"><?=$karyawan->nama;?></option>
-	                              	<?php }?>
+	                              <select class="form-control select2"  name="alasanganti"  id="bawahan" value="" placeholder="Deskripsi" style="width: 100%">
 	                              </select>
 	                            </div>
 	                            <!--<div class="form-group">
@@ -270,7 +278,8 @@
 				success: function(data){
 					//alert(data.respon)
 					$('#atasan').html(data.select_atasan1+data.select_atasandireksi);
-				// 	$('#jabatan').html(data.option_jabatan);
+				 	$('#jabatan').html(data.option_jabatan);
+					$('#bawahan').html(data.select_bawahan);
 				// 	$('#atasan1').html(data.option_atasan1);
 				// 	$('#atasan2').html(data.option_atasandireksi);
 				}

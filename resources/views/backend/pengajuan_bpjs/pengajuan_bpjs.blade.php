@@ -24,7 +24,25 @@
 
         <!-- Main content -->
         <div class="card">
-            
+            <div class="row">
+					<div class="col-lg-5">
+						<div class="form-group">
+							<label>Periode Absen</label>
+							<select class="form-control select2" name="periode_gajian" style="width: 100%;" required onchange="list_entitas(this)">
+								<option value="">Pilih Periode</option>
+								<?php
+								foreach($periode AS $periode){
+								if($periode->periode_absen_id==$periode_absen){
+								echo '<option selected="selected" value="'.$periode->periode_absen_id.'">'.ucfirst($periode->tipe_periode).' | '.$periode->bulan.' - '.$periode->tahun.' - '.$periode->tipe.' - '.$periode->tgl_awal.' - '.$periode->tgl_akhir.'</option>';
+								}
+								else{
+								echo '<option value="'.$periode->periode_absen_id.'">'.ucfirst($periode->tipe_periode).' | '.$periode->bulan.' - '.$periode->tahun.' - '.$periode->tipe.' - '.$periode->tgl_awal.' - '.$periode->tgl_akhir.'</option>';
+								}
+								}
+								?>
+							</select>
+						</div>
+					</div>
             <!-- /.card-header -->
             <div class="card-body"> 
                  <table id="example1" class="table table-striped custom-table mb-0">

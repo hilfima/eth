@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-header">
                 <!--<h3 class="card-title">DataTable with default features</h3>-->
-                <a href="{!! route('be.tambah_departemen') !!}" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Unit Kerja </a>
+                <a href="{!! route('be.tambah_departemen') !!}" class="btn btn-primary" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Seksi</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -35,10 +35,13 @@
                     <tr>
                         <th>No.</th>
                         <th>Kode</th>
-                        <th>Nama Unit Kerja</th>
-                        <th>Nama Departement</th>
+                        <th>Nama Seksi</th>
+                        <th>Departemen</th>
+                        <th>Divisi</th>
+                        <th>Directorat</th>
+                        <th>Entitas</th>
                         <th>Keterangan</th>
-                        <th>Status</th>
+                        <!--<th>Status</th>-->
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -52,14 +55,17 @@
                                 <td>{!! $dept->kode !!}</td>
                                 <td>{!! $dept->nama !!}</td>
                                 <td>{!! $dept->nmdivisi !!}</td>
+                                <td>{!! $dept->nama_divisi !!}</td>
+                                <td>{!! $dept->nama_directorat !!}</td>
+                                <td>{!! $dept->nmentitas !!}</td>
                                 <td>{!! $dept->keterangan !!}</td>
-                                <td style="text-align: center">
-                                    @if($dept->active==1)
-                                        <span class="fa fa-check-circle"></span>
-                                    @else
-                                        <span class="fa fa-window-close"></span>
-                                    @endif
-                                </td>
+                                <!--<td style="text-align: center">-->
+                                <!--    @if($dept->active==1)-->
+                                <!--        <span class="fa fa-check-circle"></span>-->
+                                <!--    @else-->
+                                <!--        <span class="fa fa-window-close"></span>-->
+                                <!--    @endif-->
+                                <!--</td>-->
                                 <td style="text-align: center">
                                     <a href="{!! route('be.edit_departemen',$dept->m_departemen_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
                                     <a href="{!! route('be.hapus_departemen',$dept->m_departemen_id) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>

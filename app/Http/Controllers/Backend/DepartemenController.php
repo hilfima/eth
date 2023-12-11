@@ -15,9 +15,14 @@ class DepartemenController extends Controller
     }
     public function departemen()
     {
-        $sqldept="SELECT m_departemen.*,m_divisi.nama as nmdivisi FROM m_departemen
-                LEFT JOIN m_divisi on m_divisi.m_divisi_id=m_departemen.m_divisi_id
-                WHERE 1=1 AND m_departemen.active=1 order by m_departemen.nama";
+        $sqldept="SELECT m_departemen.*,m_divisi.nama as nmdivisi,m_lokasi.nama as nmentitas,m_directorat.*,m_divisi_new.* FROM m_departemen
+        
+        LEFT JOIN m_divisi on m_divisi.m_divisi_id=m_departemen.m_divisi_id
+         left join m_divisi_new on m_divisi.m_divisi_new_id =  m_divisi_new.m_divisi_new_id
+         left join m_directorat on m_directorat.m_directorat_id =  m_divisi_new.m_directorat_id
+        left join m_lokasi on m_lokasi.m_lokasi_id =  m_directorat.m_lokasi_id
+        
+        WHERE 1=1 AND m_departemen.active=1 order by m_lokasi.nama,nama_directorat,nama_divisi,m_divisi.nama,m_departemen.nama";
         $dept=DB::connection()->select($sqldept);
 
         $iduser=Auth::user()->id;
@@ -70,7 +75,7 @@ where users.id=$iduser";
                 WHERE 1=1 AND m_departemen.active=1 and m_departemen.m_departemen_id=$id 
                 order by m_departemen.nama";
         $departemen=DB::connection()->select($sqldepartemen);
-        $sqldivisi="SELECT *,m_divisi.nama, m_lokasi.nama as nama_entitas FROM m_divisi
+        $sqldivisi="SELECT *,m_divisi.nama, m_lokasi.nama as nama_entitas,m_divisi.m_divisi_id FROM m_divisi
                  left join m_divisi_new on m_divisi.m_divisi_new_id =  m_divisi_new.m_divisi_new_id
                  left join m_directorat on m_directorat.m_directorat_id =  m_divisi_new.m_directorat_id
                 left join m_lokasi on m_lokasi.m_lokasi_id =  m_directorat.m_lokasi_id

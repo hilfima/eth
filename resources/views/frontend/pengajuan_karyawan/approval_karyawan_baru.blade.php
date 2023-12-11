@@ -1,4 +1,4 @@
- @extends('layouts.app_fe')
+@extends('layouts.app_fe')
 
 
 
@@ -16,7 +16,7 @@
 	<!-- Main content -->
 	<div class="card shadow-sm ctm-border-radius">
 <div class="card-body align-center">
-<h4 class="card-title float-left mb-0 mt-2">Pengajuan Karyawan Baru</h4>
+<h4 class="card-title float-left mb-0 mt-2"> Approval Pengajuan Karyawan Baru</h4>
 <ul class="nav nav-tabs float-right border-0 tab-list-emp">
 
 </ul>
@@ -24,13 +24,18 @@
 </div>
 <div class="card">
 <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="exam" class="table table-bordered table-striped text-nowrap" >
                     <thead>
                     <tr>
                         <th>No.</th>
+                        <th>No Pengajuan</th>
+                        <th>Tgl Pengajuan</th>
                         <th>Posisi Diajukan</th>
-                        <th>Tanggal Diperlukan</th>
+                        <th>Tgl Diperlukan</th>
                         <th>Jumlah Kebutuhan</th>
+                        
+                        
+                        
                         <th>Status Approval</th>
                         <th>Status Ajuan</th>
                         <th>Action</th>
@@ -46,9 +51,15 @@
                     <?php $no++;?>
                     		<tr>
                                 <td><?=$no;?></td>
+                                 <td><?=$tkaryawan->nomor_pengajuan;?></td>
+                                <td><?=date('Y-m-d',strtotime($tkaryawan->create_date));?></td>
                                 <td><?=$tkaryawan->namaposisi;?></td>
                                 <td><?=$tkaryawan->tgl_diperlukan;?></td>
-                                <td><?=$tkaryawan->jumlah_dibutuhkan;?></td>
+                                <td > <b><?=$tkaryawan->jumlah_dibutuhkan;?> Orang</b><br>
+                                
+                                 
+                                 </td>
+                               
                                  <td>
 									
 										@if($tkaryawan->appr_status==1)
@@ -58,12 +69,33 @@
                                     @else
                                         <span class="fa fa-edit"> Pending</span>
                                     @endif
+                                    <br>
+                                    <br>
+                                    <b style="">Informasi Approve</b>
+                                     @if($tkaryawan->karyawan_approve_atasan)
+                                 <br> Atasan : <?=$tkaryawan->karyawan_approve_atasan;?> Orang
+                                @endif 
+                                @if($tkaryawan->karyawan_approve_keuangan)
+                                <br> Keuangan : <?=$tkaryawan->karyawan_approve_keuangan;?> Orang
+                                @endif 
+                                @if($tkaryawan->karyawan_approve_direksi)
+                                <br> Direksi : <?=$tkaryawan->karyawan_approve_direksi;?> Orang
+                                @endif 
+                                
+                                <br>
+                                @if($tkaryawan->final_approval)
+                                <br><b>FINAL</b> : <b style="color:red"><?=$tkaryawan->final_approval;?> Orang</b>
+                                @endif 
 								</td>
                                 <td><?php 
-                               if($tkaryawan->status==1)
+									$edit = false;								   	
+                                 if($tkaryawan->status==1)
                                	echo 'Selesai ';
-                               	else if($tkaryawan->status==0)
+                               	else if($tkaryawan->status==0){
+									$edit = true;								   	
+								   
                                		echo 'Menunggu Approval Atasan'	;
+								   }
                                	else if($tkaryawan->status==5)
                                		echo 'Menunggu Approval Keuangan'	;
                                	else if($tkaryawan->status==6)
@@ -80,44 +112,52 @@
                                	echo 'Ditolak Direksi';
                                	else if($tkaryawan->status==4)
                                	echo 'Ditolak HC';
-								   else
+								   else{
+									$edit = true;								   	
 								   echo 'Pending'	; 
+								   }
                                	?></td>
-								<td>
-									
-									<a href="{!! route('fe.view_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" title='Upload' class="btn btn-primary" data-toggle='tooltip'>
-										<i class="fa fa-eye" aria-hidden="true"></i> Lihat Detail
+                               	<td>
+                               	    <?php
+                               	    $view = "";
+                               	    if($tkaryawan->appr ==$id)
+									 $view ='view=1814';
+									else if($tkaryawan->appr_direksi ==$id and $tkaryawan->status==6)
+									 $view ='view=4071';
+									?>
+									<a href="{!! route('fe.view_karyawan_baru',[$tkaryawan->t_karyawan_id]) !!}" title='Lihat Detail' class="btn btn-primary" data-toggle='tooltip'>
+										<i class="fa fa-eye" aria-hidden="true"></i> 
 									</a>
 									@if(!in_array($tkaryawan->status,array(0,4)))
-									<a href="{!! route('fe.list_database_kandidat',$tkaryawan->t_karyawan_id) !!}" title='Upload' class="btn btn-primary" data-toggle='tooltip'>
-										<i class="fa fa-id-badge" aria-hidden="true"></i> Data Kandidat
+									<a href="{!! route('fe.list_database_kandidat',$tkaryawan->t_karyawan_id) !!}" title='Data Kandidat' class="btn btn-primary" data-toggle='tooltip'>
+										<i class="fa fa-id-badge" aria-hidden="true"></i> 
 									</a>
 									@endif
 									@if(($tkaryawan->status==0 ) )
 									@if($tkaryawan->appr ==$id)
-									 <a href="{!! route('fe.acc_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" class="btn btn-success btn-sm"  title='Approve - 1 ' data-toggle='tooltip'> 
-                                    	Approve  (Atasan) 
-                                    </a><a href="{!! route('fe.dec_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" class="btn btn-danger btn-sm" title='Tolak - 1' data-toggle='tooltip'> 
-                                    	Tolak    (Atasan) 
-                                    </a> 
-                                    @endif
+									 <a href="{!! route('fe.view_karyawan_baru',[$tkaryawan->t_karyawan_id,'view=1814']) !!}" class="btn btn-primary "  title='Approve  (Atasan)  ' data-toggle='tooltip' style="margin-right: 12px;"> 
+                                    		<i class="fa fa-check"></i> 
+                                    </a>
+                                    <!--<a href="{!! route('fe.dec_karyawan_baru',[$tkaryawan->t_karyawan_id,'?view=1814']) !!}" class="btn btn-danger btn-sm" title='Tolak - (Atasan) ' data-toggle='tooltip' style="margin-right: 12px;"> -->
+                                    <!--		<i class="fa fa-times-circle-o"></i>     -->
+                                    <!--</a> -->
+                                    @endif 
                                     @endif
                                     
 									@if($tkaryawan->appr_direksi ==$id and $tkaryawan->status==6)
 								
-                                    <a href="{!! route('fe.acc_karyawan_baru2',$tkaryawan->t_karyawan_id) !!}" class="btn btn-success btn-sm"  title='Approve - 2 ' data-toggle='tooltip'> 
-                                    	Approve (Direksi) 
-                                    </a><a href="{!! route('fe.dec_karyawan_baru2',$tkaryawan->t_karyawan_id) !!}" class="btn btn-danger btn-sm" title='Tolak - 2' data-toggle='tooltip'> 
-                                    	Tolak  (Direksi)   
-                                    </a> 
+                                    <a href="{!! route('fe.view_karyawan_baru',[$tkaryawan->t_karyawan_id,'view=4071']) !!}" class="btn btn-primary"  title='Approve (Direksi)  ' data-toggle='tooltip' style="margin-right: 12px;"> 
+                                    	<i class="fa fa-check"></i>
+                                    </a>
+                                    <!--<a href="{!! route('fe.dec_karyawan_baru2',[$tkaryawan->t_karyawan_id,'?view=4071']) !!}" class="btn btn-danger btn-sm" title='Tolak (Direksi) ' data-toggle='tooltip' style="margin-right: 12px;"> -->
+                                    <!--	<i class="fa fa-times"></i> -->
+                                    <!--</a> -->
+                                    
                                     
                                     @elseif($tkaryawan->status==6)
                                     Menunggu Approval Keuangan & Atasan
                                    
                                     @endif
-									</td>
-									<td>
-										
 									</td>
                             </tr>
                             @endforeach

@@ -483,10 +483,10 @@
                                                                 echo '
 															<option selected="selected" value="' . $directorat->m_directorat_id . '">' . $directorat->nama_directorat . '</option>';
                                                             } 
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $directorat->m_directorat_id . '">' . $directorat->nama_directorat . '</option>';
-            //                                                 }
+                                                           else {
+                                                            echo '
+                                                            <option value="' . $directorat->m_directorat_id . '">' . $directorat->nama_directorat . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -501,10 +501,10 @@
                                                                 echo '
 															<option selected="selected" value="' . $divisi_new->m_divisi_new_id . '">' . $divisi_new->nama_divisi . '</option>';
                                                             } 
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $divisi_new->m_divisi_new_id . '">' . $divisi_new->nama_divisi . '</option>';
-            //                                                 }
+                                                            else {
+                                                                echo '
+															<option value="' . $divisi_new->m_divisi_new_id . '">' . $divisi_new->nama_divisi . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -519,10 +519,10 @@
                                                                 echo '
 															<option selected="selected" value="' . $divisi->m_divisi_id . '">' . $divisi->nama . '</option>';
                                                             }
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $divisi->m_divisi_id . '">' . $divisi->nama . '</option>';
-            //                                                 }
+                                                            else {
+                                                                echo '
+															<option value="' . $divisi->m_divisi_id . '">' . $divisi->nama . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -539,10 +539,10 @@
                                                                 echo '
 															<option selected="selected" value="' . $departemen->m_departemen_id . '">' . $departemen->nama . '</option>';
                                                             }
-            //                                                 else {
-            //                                                     echo '
-												// 			<option value="' . $departemen->m_departemen_id . '">' . $departemen->nama . '</option>';
-            //                                                 }
+                                                            else {
+                                                                echo '
+															<option value="' . $departemen->m_departemen_id . '">' . $departemen->nama . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -556,9 +556,9 @@
                                                             if ($jabatan->m_jabatan_id == $karyawan[0]->m_jabatan_id) {
                                                                 echo '<option selected="selected" value="' . $jabatan->m_jabatan_id . '">' . $jabatan->nama . ' - ' . $jabatan->nmpangkat . ' - ' . $jabatan->nmlokasi . '</option>';
                                                             } 
-                                                            // else {
-                                                            //     echo '<option value="' . $jabatan->m_jabatan_id . '">' . $jabatan->nama . ' - ' . $jabatan->nmpangkat . ' - ' . $jabatan->nmlokasi . '</option>';
-                                                            // }
+                                                            else {
+                                                                echo '<option value="' . $jabatan->m_jabatan_id . '">' . $jabatan->nama . ' - ' . $jabatan->nmpangkat . ' - ' . $jabatan->nmlokasi . '</option>';
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -584,19 +584,7 @@
                                                             
                                                         </div>
                                                     </div>
-                                                <div class="form-group">
-                                                    <label>No. Absen</label>
-                                                    <input type="text" class="form-control" placeholder="No. Absen..." id="no_absen" name="no_absen" required value="{!! $karyawan[0]->no_absen !!}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Lokasi Absen </label>
-                                                    <select class="form-control select2 " placeholder="No. Absen..." id="no_absen" name="lokasi_absen" style="width:100%" >
-                                                        <option value="">Pilih</option>
-                                                        <?php foreach($absen as $absen){?>
-                                                        <option value="<?=$absen->mesin_id;?>" <?=$absen->mesin_id==$karyawan[0]->m_mesin_absen_id?>><?=$absen->nama;?></option>
-                                                        <?php }?>
-                                                    </select>
-                                                </div>
+                                               
                                             </div>
                                              <script>
                                                         function finddirectorat(e){
@@ -712,7 +700,34 @@
                                                         }
                                                     </script>
                                             <div class="col-sm-6">
-
+                                            <div class="form-group">
+                                                    <label>Kantor</label>
+                                                    <select class="form-control select2" name="kantor" style="width: 100%;" required>
+                                                        <option value="1">- Pilih Kantor</option>
+                                                        <?php
+                                                        foreach ($kantor as $kantor) {
+                                                            $selected = '';
+                                                            if ($karyawan[0]->m_kantor_id == $kantor->m_office_id)
+                                                                $selected = 'selected';
+                                                            echo '<option value="' . $kantor->m_office_id . '" ' . $selected . '>' . $kantor->nama . '</option>';
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <!-- <input type="text" class="form-control" placeholder="Kantor..." id="kantor" name="kantor" required>-->
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>No. Absen</label>
+                                                    <input type="text" class="form-control" placeholder="No. Absen..." id="no_absen" name="no_absen" required value="{!! $karyawan[0]->no_absen !!}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Lokasi Absen </label>
+                                                    <select class="form-control  " readonly placeholder="No. Absen..." id="no_absen" name="lokasi_absen" style="width:100%" >
+                                                        <option value="">Pilih</option>
+                                                        <?php foreach($absen as $absen){?>
+                                                        <option value="<?=$absen->mesin_id;?>" <?=$absen->mesin_id==$karyawan[0]->m_mesin_absen_id?>><?=$absen->nama;?></option>
+                                                        <?php }?>
+                                                    </select>
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Status Pekerjaan</label>
                                                     <select class="form-control select2" name="status_pekerjaan" style="width: 100%;" required>
@@ -757,21 +772,7 @@
                                                                             } ?>>Non Shift</option>
                                                     </select>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label>Kantor</label>
-                                                    <select class="form-control select2" name="kantor" style="width: 100%;" required>
-                                                        <option value="1">- Pilih Kantor</option>
-                                                        <?php
-                                                        foreach ($kantor as $kantor) {
-                                                            $selected = '';
-                                                            if ($karyawan[0]->m_kantor_id == $kantor->m_office_id)
-                                                                $selected = 'selected';
-                                                            echo '<option value="' . $kantor->m_office_id . '" ' . $selected . '>' . $kantor->nama . '</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    <!-- <input type="text" class="form-control" placeholder="Kantor..." id="kantor" name="kantor" required>-->
-                                                </div>
+                                                
                                                 <?php 
                                                 $editing_3 =(in_array(date('d'),array(10,11,12,13,25,26,27,28)))?true:false;
                                                 ?>

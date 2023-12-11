@@ -45,7 +45,7 @@
                                 <select type="text" class="form-control select2" placeholder="Entitass ..." id="direktorat" name="direktorat" required>
                                     <option value="">- Pilih -</option>
                                     <?php foreach($directorat as $directorat){ ?>
-                                    <option value="<?= $directorat->m_directorat_id;?>"><?= $directorat->nama_directorat;?>(<?=$directorat->nama;?>)</option>
+                                        <option value="<?= $directorat->m_directorat_id;?>"><?= $directorat->nama_directorat;?> | <?=$directorat->nama;?></option>
                                     <?php }?>
                                 </select>
                             </div>
@@ -54,7 +54,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <a href="{!! route('be.divisi_new') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
-                        <button type="submit" class="btn btn-info pull-right"><span class="fa fa-check"></span> Simpan</button>
+                        <button type="submit" class="btn btn-primary pull-right"><span class="fa fa-check"></span> Simpan</button>
                     </div>
                     <!-- /.box-footer -->
                 </form>

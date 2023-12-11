@@ -82,7 +82,7 @@ where users.id=$iduser";
         $sqlkaryawan="SELECT a.p_karyawan_id,a.nik,a.nama as nama_lengkap,case when a.active=1 then 'Active' else 'Non Active' end as status,case when b.periode_gajian=1 then 'Bulanan' else 'Pekanan' end as periode_gajian ,j.nama as nama_kantor,
 c.nama as nmlokasi,b.kantor,b.kota,d.nama as nmdivisi,f.nama as nmdept,g.nama as nmjabatan,
 h.tgl_awal,h.tgl_akhir,m.no_absen,i.nama as nmstatus,pajak_onoff,bank,norek,nama_bank,g.job as jobweight , k.nama_grade as grade,
-tgl_bergabung,n.nama_directorat as nmdirectorat,l.nama_divisi
+tgl_bergabung,n.nama_directorat as nmdirectorat,l.nama_divisi,z.nama as nama_mesin
 --(select tgl_awal from p_karyawan_kontrak  where p_karyawan_kontrak.p_karyawan_id = a.p_karyawan_id order by tgl_awal asc limit 1) as tgl_awal
 FROM p_karyawan a
 LEFT JOIN p_karyawan_pekerjaan b on b.p_karyawan_id=a.p_karyawan_id
@@ -99,6 +99,7 @@ LEFT JOIN p_karyawan_kontrak h on h.p_karyawan_id=a.p_karyawan_id and h.active=1
 LEFT JOIN m_status_pekerjaan i on i.m_status_pekerjaan_id=h.m_status_pekerjaan_id
 LEFT JOIN m_office j on b.m_kantor_id=j.m_office_id 
 
+LEFT JOIN m_mesin_absen z on j.m_mesin_absen_seharusnya_id=z.mesin_id
 LEFT JOIN p_karyawan_absen m on m.p_karyawan_id=a.p_karyawan_id
                     WHERE 1=1 $whereLokasi $where_periode and a.active=1 order by a.nama";
         $karyawan=DB::connection()->select($sqlkaryawan);
@@ -498,6 +499,8 @@ WHERE nik = '".$nik."' ";
         $sheet->setCellValue($help->toAlpha($i) . '1', 'Status Menikah');$i++;
         $sheet->setCellValue($help->toAlpha($i) . '1', 'Jumlah Anak');$i++;
         $sheet->setCellValue($help->toAlpha($i) . '1', 'Status Tanggungan');$i++;
+        if(Auth::user()->role==-1)
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Office ID');$i++;
 
 
         $rows = 2;
@@ -506,7 +509,7 @@ WHERE nik = '".$nik."' ";
 		$sqlkaryawan="SELECT a.p_karyawan_id,a.nik,a.nama as nama_lengkap,case when b.periode_gajian=1 then 'Bulanan' else 'Pekanan' end as periode_gaji,j.nama as nama_kantor,
 c.nama as nmlokasi,b.kantor,b.kota,d.nama as nmdivisi,f.nama as nmdept,g.nama as nmjabatan,
 h.tgl_awal,h.tgl_akhir,m.no_absen,i.nama as nmstatus,pajak_onoff,bank,norek,nama_bank,g.job as jobweight , k.nama_grade as grade,l.*,z.m_jenis_kelamin_id,z.m_status_id,a.jumlah_anak,case when m_status_id=0 then 'Belum Menikah' else
-			'Sudah Menikah' end as status_pernikahan,y.nama as jenis_kelamin
+			'Sudah Menikah' end as status_pernikahan,y.nama as jenis_kelamin,a.tgl_bergabung,j.m_office_id 
 FROM p_karyawan a
 LEFT JOIN p_karyawan_pekerjaan b on b.p_karyawan_id=a.p_karyawan_id
 LEFT JOIN p_recruitment z on a.p_recruitment_id=z.p_recruitment_id
@@ -525,6 +528,177 @@ LEFT JOIN m_office j on b.m_kantor_id=j.m_office_id
 
 LEFT JOIN p_karyawan_absen m on m.p_karyawan_id=a.p_karyawan_id
                     WHERE 1=1 and a.active=1 order by a.nama";
+        $karyawan=DB::connection()->select($sqlkaryawan);
+        if (!empty($karyawan)) {
+
+            $no = 0;
+            $nominal = 0;
+            foreach ($karyawan as $list_karyawan) {
+                
+                $no++;
+                $i=0;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $no);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nik);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nama_lengkap);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nmlokasi);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nama_kantor);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->kota);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nmdivisi);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nmdept);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nmjabatan);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->pajak_onoff);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nama_bank);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, "'".$list_karyawan->norek);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->periode_gaji);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->nmstatus);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->no_absen);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->jobweight);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->grade);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->tgl_bergabung);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->tgl_akhir);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->ktp);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->kartu_keluarga);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->no_sima);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->no_simc);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->no_npwp);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->no_bpjsks);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->no_bpjstk);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->jenis_kelamin);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->status_pernikahan);$i++;
+                $sheet->setCellValue($help->toAlpha($i) . $rows, $list_karyawan->jumlah_anak);$i++;
+                if($list_karyawan->m_jenis_kelamin_id==2){
+                	$sheet->setCellValue($help->toAlpha($i) . $rows, "TK0");$i++;
+                	
+                }else{
+                	$sheet->setCellValue($help->toAlpha($i) . $rows, ($list_karyawan->m_status_id?"K":"TK").str_ireplace(array("-", ' ','anak',"belum"),array(0,"","",""),$list_karyawan->jumlah_anak));$i++;
+                }
+             
+                $rows++;
+            }
+        }
+
+       
+
+        $type = 'xlsx';
+        $fileName = "Rekap Karyawan.xlsx";
+        if ($type == 'xlsx') {
+            $writer = new Xlsx($spreadsheet);
+        } else if ($type == 'xls') {
+            $writer = new Xls($spreadsheet);
+        }
+        $writer->save("export/" . $fileName);
+        header("Content-Type: application/vnd.ms-excel");
+        return redirect(url('/') . "/export/" . $fileName);
+    }public function excel_karyawan_resign()
+    {
+
+
+        $help = new Helper_function();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->getColumnDimension('A')->setAutoSize(true);
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+        $sheet->getColumnDimension('H')->setAutoSize(true);
+        $sheet->getColumnDimension('I')->setAutoSize(true);
+        $sheet->getColumnDimension('J')->setAutoSize(true);
+        $sheet->getColumnDimension('K')->setAutoSize(true);
+        $sheet->getColumnDimension('L')->setAutoSize(true);
+        $sheet->getColumnDimension('M')->setAutoSize(true);
+        $sheet->getColumnDimension('N')->setAutoSize(true);
+        $sheet->getColumnDimension('O')->setAutoSize(true);
+        $sheet->getColumnDimension('P')->setAutoSize(true);
+        $sheet->getColumnDimension('Q')->setAutoSize(true);
+        $sheet->getColumnDimension('R')->setAutoSize(true);
+        $sheet->getColumnDimension('S')->setAutoSize(true);
+        $sheet->getColumnDimension('T')->setAutoSize(true);
+        $sheet->getColumnDimension('U')->setAutoSize(true);
+        $sheet->getColumnDimension('V')->setAutoSize(true);
+        $sheet->getColumnDimension('W')->setAutoSize(true);
+        $sheet->getColumnDimension('X')->setAutoSize(true);
+        $sheet->getColumnDimension('Y')->setAutoSize(true);
+        $sheet->getColumnDimension('Z')->setAutoSize(true);
+        $sheet->getColumnDimension('AA')->setAutoSize(true);
+        $sheet->getColumnDimension('AB')->setAutoSize(true);
+        $sheet->getColumnDimension('AC')->setAutoSize(true);
+        $sheet->getColumnDimension('AD')->setAutoSize(true);
+        $sheet->getColumnDimension('AE')->setAutoSize(true);
+        $sheet->getColumnDimension('AF')->setAutoSize(true);
+        $sheet->getColumnDimension('AG')->setAutoSize(true);
+        $sheet->getColumnDimension('AH')->setAutoSize(true);
+        $sheet->getColumnDimension('AI')->setAutoSize(true);
+        $sheet->getColumnDimension('AJ')->setAutoSize(true);
+        $sheet->getColumnDimension('AK')->setAutoSize(true);
+        $sheet->getColumnDimension('AL')->setAutoSize(true);
+        $sheet->getColumnDimension('AM')->setAutoSize(true);
+        $sheet->getColumnDimension('AN')->setAutoSize(true);
+
+
+        $i = 0;
+
+
+
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'NIK');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Nama Karyawan');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Entitas');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Kantor');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Kota');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Divisi');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Departement');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Jabatan');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Pajak On Off');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Bank');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No Rek');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Periode Gajian');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Status Pekerjaan');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No Absen');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Job Weight');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Grade');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Tanggal Masuk');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Tanggal Keluar');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No KTP');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No Kartu Keluarga');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No SIM A');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No SIM C');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No NPWP');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No BPJS Kesehatan');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'No BPJS Ketenagakerjaan');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Jenis Kelamin');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Status Menikah');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Jumlah Anak');$i++;
+        $sheet->setCellValue($help->toAlpha($i) . '1', 'Status Tanggungan');$i++;
+
+
+        $rows = 2;
+		
+
+		$sqlkaryawan="SELECT a.p_karyawan_id,a.nik,a.nama as nama_lengkap,case when b.periode_gajian=1 then 'Bulanan' else 'Pekanan' end as periode_gaji,j.nama as nama_kantor,
+c.nama as nmlokasi,b.kantor,b.kota,d.nama as nmdivisi,f.nama as nmdept,g.nama as nmjabatan,
+h.tgl_awal,h.tgl_akhir,m.no_absen,i.nama as nmstatus,pajak_onoff,bank,norek,nama_bank,g.job as jobweight , k.nama_grade as grade,l.*,z.m_jenis_kelamin_id,z.m_status_id,a.jumlah_anak,case when m_status_id=0 then 'Belum Menikah' else
+			'Sudah Menikah' end as status_pernikahan,y.nama as jenis_kelamin
+			FROM p_karyawan a
+			LEFT JOIN p_karyawan_pekerjaan b on b.p_karyawan_id=a.p_karyawan_id
+			LEFT JOIN p_recruitment z on a.p_recruitment_id=z.p_recruitment_id
+			LEFT JOIN m_jenis_kelamin y on z.m_jenis_kelamin_id=y.m_jenis_kelamin_id
+
+			LEFT JOIN m_bank r on r.m_bank_id=b.m_bank_id
+			LEFT JOIN m_lokasi c on c.m_lokasi_id=b.m_lokasi_id
+			LEFT JOIN m_divisi d on d.m_divisi_id=b.m_divisi_id
+			LEFT JOIN m_departemen f on f.m_departemen_id=b.m_departemen_id
+			LEFT JOIN m_jabatan g on g.m_jabatan_id=b.m_jabatan_id
+			LEFT JOIN m_karyawan_grade k on g.job>=k.job_min and g.job<= k.job_max
+			LEFT JOIN p_karyawan_kontrak h on h.p_karyawan_id=a.p_karyawan_id  and h.active=1
+			LEFT JOIN p_karyawan_kartu l on l.p_karyawan_id=a.p_karyawan_id
+			LEFT JOIN m_status_pekerjaan i on i.m_status_pekerjaan_id=h.m_status_pekerjaan_id
+			LEFT JOIN m_office j on b.m_kantor_id=j.m_office_id 
+
+			LEFT JOIN p_karyawan_absen m on m.p_karyawan_id=a.p_karyawan_id
+                    WHERE 1=1 and a.active=0 order by a.nama";
         $karyawan=DB::connection()->select($sqlkaryawan);
         if (!empty($karyawan)) {
 
@@ -1024,7 +1198,7 @@ LEFT JOIN p_karyawan_absen m on m.p_karyawan_id=a.p_karyawan_id
 			'Sudah Menikah' end as status_pernikahan,b.no_hp,c.nama as jenis_kelamin,e.nama as agama,b.email,b.tgl_lahir,f.kantor,n.ktp,n.no_npwp,n.no_bpjstk,n.no_bpjsks,b.m_status_id,b.m_kota_id,b.m_jenis_kelamin_id,b.m_agama_id,f.m_lokasi_id,f.m_jabatan_id,k.m_status_pekerjaan_id,f.m_departemen_id,f.m_divisi_id,a.active,f.kota,n.no_sima,n.no_simc,n.no_pasport,
 	case when f.periode_gajian=1 then 'Bulanan' else
 			'Pekanan' end as periode,f.periode_gajian,p.nama as nama_kantor,q.nama_grade,f.bank,f.norek,r.nama_bank,
-			m_directorat_id ,f.m_divisi_new_id ,f.m_departemen_id
+			m_directorat_id ,f.m_divisi_new_id ,f.m_departemen_id,z.nama as nama_mesin
 FROM p_karyawan a
 LEFT JOIN p_recruitment b on b.p_recruitment_id=a.p_recruitment_id
 LEFT JOIN m_jenis_kelamin c on c.m_jenis_kelamin_id=b.m_jenis_kelamin_id
@@ -1042,6 +1216,7 @@ LEFT JOIN m_status_pekerjaan l on l.m_status_pekerjaan_id=k.m_status_pekerjaan_i
 LEFT JOIN p_karyawan_absen m on m.p_karyawan_id=a.p_karyawan_id
 LEFT JOIN p_karyawan_kartu n on n.p_karyawan_id=a.p_karyawan_id
 LEFT JOIN m_office p on p.m_office_id=f.m_kantor_id
+LEFT JOIN m_mesin_absen z on p.m_mesin_absen_seharusnya_id=z.mesin_id
 LEFT JOIN m_karyawan_grade q on q.m_karyawan_grade_id=f.m_karyawan_grade_id
 WHERE a.p_karyawan_id=$id";
         $karyawan=DB::connection()->select($sqlkaryawan);
@@ -1074,27 +1249,45 @@ $sqllokasi="SELECT * FROM m_lokasi WHERE active=1 and sub_entitas=0 ORDER BY nam
         $sqlgrade="SELECT * FROM m_grade WHERE active=1 ORDER BY nama ASC ";
         $grade=DB::connection()->select($sqlgrade);
         
-        $sqlgrade="SELECT * FROM m_directorat WHERE active=1 ORDER BY nama_directorat ASC ";
+        $where = "";
+        if($karyawan[0]->m_lokasi_id)
+        $where = "and m_lokasi_id = ".$karyawan[0]->m_lokasi_id;
+        $sqlgrade="SELECT * FROM m_directorat WHERE active=1 $where ORDER BY nama_directorat ASC ";
         $directorat=DB::connection()->select($sqlgrade);
         
-        $sqlgrade="SELECT * FROM m_divisi_new WHERE active=1 ORDER BY nama_divisi ASC ";
+        $where = "";
+        if($karyawan[0]->m_directorat_id)
+        $where = "and m_directorat_id = ".$karyawan[0]->m_directorat_id;
+        
+        $sqlgrade="SELECT * FROM m_divisi_new WHERE active=1 $where ORDER BY nama_divisi ASC ";
         $divisi_new=DB::connection()->select($sqlgrade);
 
         $sqlpangkat="SELECT * FROM m_pangkat WHERE active=1 ORDER BY nama ASC ";
         $pangkat=DB::connection()->select($sqlpangkat);
 
-        $sqldivisi="SELECT * FROM m_divisi WHERE active=1 ORDER BY nama ASC ";
+        $where = "";
+        if($karyawan[0]->m_divisi_new_id)
+        $where = "and m_divisi_new_id = ".$karyawan[0]->m_divisi_new_id;
+        
+        $sqldivisi="SELECT * FROM m_divisi WHERE active=1 $where ORDER BY nama ASC ";
         $divisi=DB::connection()->select($sqldivisi);
         
+        $where = "";
+        if($karyawan[0]->m_divisi_id)
+        $where = "and m_divisi_id = ".$karyawan[0]->m_divisi_id;
         
-        $sqldepartemen="SELECT * FROM m_departemen WHERE active=1 ORDER BY nama ASC ";
+        $sqldepartemen="SELECT * FROM m_departemen WHERE active=1 $where ORDER BY nama ASC ";
         $departemen=DB::connection()->select($sqldepartemen);
 
+        $where = "";
+        if($karyawan[0]->m_departemen_id)
+        $where = "and m_departemen_id = ".$karyawan[0]->m_departemen_id. '';
+        
         $sqljabatan="SELECT m_jabatan.*,m_pangkat.nama as nmpangkat,m_lokasi.nama as nmlokasi,m_lokasi.kode as kdlokasi 
                       FROM m_jabatan 
                       LEFT JOIN m_pangkat on m_pangkat.m_pangkat_id=m_jabatan.m_pangkat_id
                       LEFT JOIN m_lokasi on m_lokasi.m_lokasi_id=m_jabatan.m_lokasi_id
-                      WHERE m_jabatan.active=1 ORDER BY m_jabatan.nama ASC";
+                      WHERE m_jabatan.active=1 $where ORDER BY m_jabatan.nama ASC";
         $jabatan=DB::connection()->select($sqljabatan);
          $sqllokasi="SELECT * FROM m_lokasi WHERE active=1 and sub_entitas=0 ORDER BY nama ASC ";
         $lokasi=DB::connection()->select($sqllokasi);
@@ -1148,22 +1341,18 @@ WHERE a.p_karyawan_id=$id";
         $sqljk="SELECT * FROM m_jenis_kelamin WHERE active=1 ORDER BY nama ASC ";
         $jk=DB::connection()->select($sqljk);
 
-        $sqldepartemen="SELECT * FROM m_departemen WHERE active=1 ORDER BY nama ASC ";
-        $departemen=DB::connection()->select($sqldepartemen);
+        // $sqldepartemen="SELECT * FROM m_departemen WHERE active=1 ORDER BY nama ASC ";
+        // $departemen=DB::connection()->select($sqldepartemen);
         
         $sqldepartemen="SELECT * FROM m_mesin_absen WHERE active=1 ORDER BY nama ASC ";
         $absen=DB::connection()->select($sqldepartemen);
 
-        $sqljabatan="SELECT m_jabatan.*,m_pangkat.nama as nmpangkat,m_lokasi.nama as nmlokasi,m_lokasi.kode as kdlokasi 
-                      FROM m_jabatan 
-                      LEFT JOIN m_pangkat on m_pangkat.m_pangkat_id=m_jabatan.m_pangkat_id
-                      LEFT JOIN m_lokasi on m_lokasi.m_lokasi_id=m_jabatan.m_lokasi_id
-                      WHERE m_jabatan.active=1 ORDER BY m_jabatan.nama ASC";
-        $jabatan=DB::connection()->select($sqljabatan);
-
-        $sqlgrade="SELECT * FROM m_grade WHERE active=1 ORDER BY nama ASC ";
-        $grade=DB::connection()->select($sqlgrade);
-        
+        // $sqljabatan="SELECT m_jabatan.*,m_pangkat.nama as nmpangkat,m_lokasi.nama as nmlokasi,m_lokasi.kode as kdlokasi 
+        //               FROM m_jabatan 
+        //               LEFT JOIN m_pangkat on m_pangkat.m_pangkat_id=m_jabatan.m_pangkat_id
+        //               LEFT JOIN m_lokasi on m_lokasi.m_lokasi_id=m_jabatan.m_lokasi_id
+        //               WHERE m_jabatan.active=1 ORDER BY m_jabatan.nama ASC";
+        // $jabatan=DB::connection()->select($sqljabatan);
         $sqlgrade="SELECT * FROM m_directorat WHERE active=1 ORDER BY nama_directorat ASC ";
         $directorat=DB::connection()->select($sqlgrade);
         
@@ -1176,6 +1365,51 @@ WHERE a.p_karyawan_id=$id";
         $sqldivisi="SELECT * FROM m_divisi WHERE active=1 ORDER BY nama ASC ";
         $divisi=DB::connection()->select($sqldivisi);
 
+
+        $where = "";
+        if($karyawan[0]->m_lokasi_id)
+        $where = "and m_lokasi_id = ".$karyawan[0]->m_lokasi_id;
+        $sqlgrade="SELECT * FROM m_directorat WHERE active=1 $where ORDER BY nama_directorat ASC ";
+        $directorat=DB::connection()->select($sqlgrade);
+        
+        $where = "";
+        if($karyawan[0]->m_directorat_id)
+        $where = "and m_directorat_id = ".$karyawan[0]->m_directorat_id;
+        
+        $sqlgrade="SELECT * FROM m_divisi_new WHERE active=1 $where ORDER BY nama_divisi ASC ";
+        $divisi_new=DB::connection()->select($sqlgrade);
+
+        $sqlpangkat="SELECT * FROM m_pangkat WHERE active=1 ORDER BY nama ASC ";
+        $pangkat=DB::connection()->select($sqlpangkat);
+
+        $where = "";
+        if($karyawan[0]->m_divisi_new_id)
+        $where = "and m_divisi_new_id = ".$karyawan[0]->m_divisi_new_id;
+        
+        $sqldivisi="SELECT * FROM m_divisi WHERE active=1 $where ORDER BY nama ASC ";
+        $divisi=DB::connection()->select($sqldivisi);
+        
+        $where = "";
+        if($karyawan[0]->m_divisi_id)
+        $where = "and m_divisi_id = ".$karyawan[0]->m_divisi_id;
+        
+        $sqldepartemen="SELECT * FROM m_departemen WHERE active=1 $where ORDER BY nama ASC ";
+        $departemen=DB::connection()->select($sqldepartemen);
+
+        $where = "";
+        if($karyawan[0]->m_departemen_id)
+        $where = "and m_departemen_id = ".$karyawan[0]->m_departemen_id. '';
+        
+        $sqljabatan="SELECT m_jabatan.*,m_pangkat.nama as nmpangkat,m_lokasi.nama as nmlokasi,m_lokasi.kode as kdlokasi 
+                      FROM m_jabatan 
+                      LEFT JOIN m_pangkat on m_pangkat.m_pangkat_id=m_jabatan.m_pangkat_id
+                      LEFT JOIN m_lokasi on m_lokasi.m_lokasi_id=m_jabatan.m_lokasi_id
+                      WHERE m_jabatan.active=1 $where ORDER BY m_jabatan.nama ASC";
+        $jabatan=DB::connection()->select($sqljabatan);              
+        $sqlgrade="SELECT * FROM m_grade WHERE active=1 ORDER BY nama ASC ";
+        $grade=DB::connection()->select($sqlgrade);
+        
+       
         $sqlstspekerjaan="SELECT * FROM m_status_pekerjaan WHERE active=1 ORDER BY nama ASC ";
         $stspekerjaan=DB::connection()->select($sqlstspekerjaan);
 

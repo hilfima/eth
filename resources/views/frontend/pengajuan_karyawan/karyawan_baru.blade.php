@@ -1,8 +1,16 @@
- @extends('layouts.app_fe')
+@extends('layouts.app_fe')
 
 
 
 @section('content')
+<style>
+    tr td,th th{
+        font-size:11px
+    }
+    tr td:last-child {
+   display:flex;
+}
+</style>
 					<!-- Page Title -->
 					 <div class="content-wrapper">
 					 <div class="row">
@@ -27,14 +35,16 @@
 </div>
 <div class="card">
 <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="exam" class="table table-bordered table-striped text-nowrap">
                     <thead>
                     <tr>
                         <th>No.</th>
+                        <th>No Pengajuan</th>
+                        <th>Tgl Pengajuan</th>
                         <th>Posisi Diajukan</th>
-                        <th>Tanggal Diperlukan</th>
+                        <th>Tgl Diperlukan</th>
                         <th>Jumlah Kebutuhan</th>
-                        <th>Status Ajuan</th>
+                        <th>Status </th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -48,23 +58,13 @@
                     <?php $no++;?>
                     		<tr>
                                 <td><?=$no;?></td>
+                                <td><?=$tkaryawan->nomor_pengajuan;?></td>
+                                <td><?=date('Y-m-d',strtotime($tkaryawan->create_date));?></td>
                                 <td><?=$tkaryawan->namaposisi;?></td>
                                 <td><?=$tkaryawan->tgl_diperlukan;?></td>
-                                <td>Total Diajukan : <b><?=$tkaryawan->jumlah_dibutuhkan;?> Orang</b><br>
+                                <td ><b><?=$tkaryawan->jumlah_dibutuhkan;?> Orang</b><br>
                                 
-                                 @if($tkaryawan->karyawan_approve_atasan)
-                                 <br>Approve Atasan : <?=$tkaryawan->karyawan_approve_atasan;?> Orang
-                                @endif 
-                                @if($tkaryawan->karyawan_approve_direksi)
-                                <br>Approve Direksi : <?=$tkaryawan->karyawan_approve_direksi;?> Orang
-                                @endif 
-                                @if($tkaryawan->karyawan_approve_keuangan)
-                                <br>Approve Keuangan : <?=$tkaryawan->karyawan_approve_keuangan;?> Orang
-                                @endif 
-                                <br>
-                                @if($tkaryawan->final_approval)
-                                <br>FINAL APPROVE   : <b style="color:red"><?=$tkaryawan->final_approval;?> Orang</b>
-                                @endif  
+                               
                                  </td>
                                 <td><?php 
 									$edit = false;								   	
@@ -95,22 +95,43 @@
 									$edit = true;								   	
 								   echo 'Pending'	; 
 								   }
-                               	?></td>
-                                
-								<td>
+                               	?>
+                               	<br>
+                               	<br>
+                               	 <b style="">Informasi Approve</b>
+                                   	@if($tkaryawan->karyawan_approve_atasan)
+                                     <br> Atasan : <?=$tkaryawan->karyawan_approve_atasan;?> Orang
+                                    @endif 
+                                    @if($tkaryawan->karyawan_approve_keuangan)
+                                    <br> Keuangan : <?=$tkaryawan->karyawan_approve_keuangan;?> Orang
+                                    @endif 
+                                    @if($tkaryawan->karyawan_approve_direksi)
+                                    <br> Direksi : <?=$tkaryawan->karyawan_approve_direksi;?> Orang
+                                    @endif 
+                                    
+                                    <br>
+                                    @if($tkaryawan->final_approval and $tkaryawan->karyawan_approve_direksi)
+                                    <br>FINAL APPROVE   : <b style="color:red"><?=$tkaryawan->final_approval;?> Orang</b>
+                                    @endif  
+                               	
+                               	</td>
+                                 
+								<td style="
+    display: flex !important;
+">
 									
-									<a href="{!! route('fe.view_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" title='Upload' class="btn btn-primary" data-toggle='tooltip'>
-										<i class="fa fa-eye" aria-hidden="true"></i> Lihat Detail
+									<a href="{!! route('fe.view_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" title='Lihat Detail' class="btn btn-primary" data-toggle='tooltip' style="margin-right: 12px;">
+										<i class="fa fa-eye" aria-hidden="true"></i> 
 									</a>
 									<?php if($edit){?>
 										
-									<a href="{!! route('fe.edit_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" title='Upload' class="btn btn-primary" data-toggle='tooltip'>
-										<i class="fa fa-edit" aria-hidden="true"></i> Edit
+									<a href="{!! route('fe.edit_karyawan_baru',$tkaryawan->t_karyawan_id) !!}" title='Edit' class="btn btn-primary" data-toggle='tooltip' style="margin-right: 12px;">
+										<i class="fa fa-edit" aria-hidden="true"></i> 
 									</a>
 									<?php }?>
 									@if(!in_array($tkaryawan->status,array(0,4)))
-									<a href="{!! route('fe.list_database_kandidat',$tkaryawan->t_karyawan_id) !!}" title='Upload' class="btn btn-primary" data-toggle='tooltip'>
-										<i class="fa fa-id-badge" aria-hidden="true"></i> Data Kandidat
+									<a href="{!! route('fe.list_database_kandidat',$tkaryawan->t_karyawan_id) !!}" title='Data Kandidat' class="btn btn-primary" data-toggle='tooltip' style="margin-right: 12px;">
+										<i class="fa fa-id-badge" aria-hidden="true"></i> 
 									</a>
 									@endif
 									

@@ -25,6 +25,7 @@
         <!-- Main content -->
         <div class="card">
             <div class="card-header">
+             <a href="{!! route('be.excel_karyawan_resign') !!}" title='Tambah' data-toggle='tooltip' class="btn btn-primary  btn-sm"><span class='fa fa-download'></span> Excel Data Karyawan Resign</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">

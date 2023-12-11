@@ -149,7 +149,9 @@ class PengajuanKaryawanController extends Controller
 			ELSE (select nama from m_jabatan a where t_karyawan.m_jabatan_id = a.m_jabatan_id)
 		END AS namaposisi,
 		(select nama from p_karyawan where t_karyawan.p_karyawan_id  = p_karyawan.p_karyawan_id  ) as nmpemohon,
-		(select nama from p_karyawan where t_karyawan.pergantian_karyawan_id  = p_karyawan.p_karyawan_id  )as  karyawan_pengganti
+		(select nama from p_karyawan where t_karyawan.pergantian_karyawan_id  = p_karyawan.p_karyawan_id  )as  karyawan_pengganti,
+		(select nama from m_lokasi where t_karyawan.m_lokasi_id  = m_lokasi.m_lokasi_id  )as  nmentitas
+		
 		
 		from t_karyawan 
 		where t_karyawan.active = 1 and t_karyawan_id = $id";
@@ -181,8 +183,8 @@ class PengajuanKaryawanController extends Controller
         
         $dept 		= "Select * from p_karyawan_pekerjaan  where active=1 and p_karyawan_id = $id ";
         $pekerjaan 	=	DB::connection()->select($dept);
-        
-		$data = ['tkaryawan' => $tkaryawan,
+        $help = new Helper_function();
+		$data = ['tkaryawan' => $tkaryawan,'help'=>$help
           ];
        $pdf = PDF::loadView('backend.pengajuan_karyawan.pdf_pengajuan_karyawan', $data);
 		return $pdf->download('Pengajuan Karyawan Baru - '.$tkaryawan[0]->namaposisi.'.pdf');
@@ -591,11 +593,15 @@ class PengajuanKaryawanController extends Controller
     {
     	return PengajuanKaryawanController::view_karyawan_baru($id,"approve_keuangan");
     } 
-	public function view_karyawan_baru($id,$view="view")
+	public function view_karyawan_baru($id,$view="")
     {
     	
-		$sql = "select *
-		
+		$sql = "select *,CASE t_karyawan.m_kantor_id 
+		WHEN -1 THEN lokasi_penempatan
+		ELSE (select c.nama from m_office c
+		where t_karyawan.m_kantor_id  = c.m_office_id)
+		END AS lokasi_penempatan
+
 		
 		from t_karyawan 
 		where t_karyawan.active = 1 and t_karyawan_id = $id";
@@ -630,7 +636,123 @@ class PengajuanKaryawanController extends Controller
 		
 		return view('backend.pengajuan_karyawan.edit_karyawan_baru', compact('tkaryawan','view','jabatan','karyawan','pangkat','lokasi','departemen','pekerjaan'));
     } 
-    public function keuangan_karyawan_baru()
+    public function simpan_approval_karyawan_baru (Request $request,$id)
+	{
+        DB::beginTransaction();
+        try{
+            $view = $request->view;
+            if($view =='approve_atasan'){
+                if($request->approve_atasan==1)
+                	$data['status']=5;
+                else if($request->approve_atasan==2)
+                	$data['status']=41;
+                
+                $data['appr_status']=$request->approve_atasan;
+                $data['appr_date']=date('Y-m-d');
+                $data['keterangan_atasan']=$request->keterangan_atasan;
+                $data['final_approval']=$request->karyawan_approval_atasan;
+                $data['karyawan_approve_atasan']=$request->karyawan_approval_atasan;
+                
+                	DB::connection()->table("t_karyawan")
+            			->where("t_karyawan_id",$id)
+            			->update($data);
+            	$tkaryawanstatus=$data['status'];	
+            			$kode = $id;
+            }else if($view =='approve_keuangan'){
+                if($request->approve_keuangan==1)
+                	$data['status']=6;
+                else if($request->approve_keuangan==2)
+                	$data['status']=42;
+                
+                $data['appr_keuangan_status']=$request->approve_keuangan;
+                $data['appr_keuangan_date']=date('Y-m-d');
+                $data['keterangan_keuangan']=$request->keterangan_keuangan;
+                $data['final_approval']=$request->karyawan_approval_keuangan;
+                $data['karyawan_approve_keuangan']=$request->karyawan_approval_keuangan;
+                
+                	DB::connection()->table("t_karyawan")
+            			->where("t_karyawan_id",$id)
+            			->update($data);
+            	$tkaryawanstatus=$data['status'];	
+            	$kode = $id;
+                
+            }else if($view =='edit' ){
+                DB::connection()->table("t_karyawan")
+                    ->where ('t_karyawan_id',$id)
+                        ->update([
+                            "status"	=>	$request->get('status'),
+                            "update_by"		=>	$idUser,
+                            "update_date" 	=> 	date("Y-m-d H:i:s")
+                        ]);
+                        	$tkaryawanstatus=	$request->get('status');	
+            }else if($view =='approve_direksi' ){
+                if($request->approve_direksi==1)
+                	$data['status']=2;
+                else if($request->approve_direksi==2)
+                	$data['status']=44;
+                 
+                $data['appr_direksi_status']=$request->approve_direksi;
+                $data['appr_direksi_date']=date('Y-m-d');
+                $data['keterangan_direksi']=$request->keterangan_direksi;
+                $data['final_approval']=$request->karyawan_approval_direksi; 
+                $data['karyawan_approve_direksi']=$request->karyawan_approval_direksi;
+                
+                	DB::connection()->table("t_karyawan")
+            			->where("t_karyawan_id",$id)
+            			->update($data);
+            	$tkaryawanstatus=$data['status'];	
+            	$kode = $id;
+            }
+            	$kode = $id;
+            
+								if($tkaryawanstatus==1)
+				                        $status= 'Selesai ';
+                               	else if($tkaryawanstatus==0)
+                               			$status= 'Menunggu Approval Atasan'	;
+                               	else if($tkaryawanstatus==5)
+                               			$status= 'Sudah disetujui atasan, dan Menunggu Approval Keuangan'	;
+                               	else if($tkaryawanstatus==6)
+                               			$status= 'Sudah disetujui keuangan, dan Menunggu Approval Direksi'	;
+								else if($tkaryawanstatus==2)
+								   		$status= 'Diproses HC';	
+                               	else if($tkaryawanstatus==3)
+                               			$status= 'Proses Interview';	
+                               	else if($tkaryawanstatus==41)
+                               			$status= 'Ditolak Atasan';	
+                               	else if($tkaryawanstatus==42)
+                               			$status= 'Ditolak Keuangan';
+                               	else if($tkaryawanstatus==44)
+                               			$status= 'Ditolak Direksi';
+                               	else if($tkaryawanstatus==4)
+                               			$status= 'Ditolak HC';
+								else
+								   		$status= 'Pending'	; 
+			
+			$iduser = Auth::user()->id;
+			$id=$iduser;
+			$notifdata=DB::connection()->select("select *,CASE t_karyawan.m_jabatan_id 
+			WHEN -1 THEN t_karyawan.posisi
+			ELSE (select nama from m_jabatan x where t_karyawan.m_jabatan_id = x.m_jabatan_id)
+		END AS namaposisi from t_karyawan where t_karyawan_id=$kode");
+            DB::connection()->table("notifikasi")
+                    ->insert([
+                        "id_assign"=>$id,
+                        "assign_from"=>"user",
+                        "database_from"=>"t_karyawan",
+                        "datebase_id"=>$kode,
+                        "p_karyawan_id"=>$notifdata[0]->p_karyawan_id,
+                        "date_action"=>date('Y-m-d H:i:s'),
+                        "notif"=>"Pengajuan Karyawan Baru ".$notifdata[0]->namaposisi." $status",
+             ]);
+            DB::commit();
+            return redirect()->route('be.keuangan_karyawan_baru')->with('success','Approval Berhasil di simpan!');
+        }
+        catch(\Exeception $e){
+            DB::rollback();
+            return redirect()->back()->with('error',$e);
+        }
+    }
+	public function keuangan_karyawan_baru()
     {
     	 $iduser = Auth::user()->id;
         $sqluser = "SELECT p_recruitment.foto,role,p_karyawan_pekerjaan,p_karyawan_pekerjaan.m_lokasi_id,user_entitas_access,m_role_id FROM users

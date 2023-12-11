@@ -34,12 +34,13 @@
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Lokasi </th>
+                        <th>ID </th>
+                        <!--<th>Entitas </th>-->
                         <th>Nama </th>
                         <th>IP</th>
                         <th>Port</th>
                         <th>Status</th>
-                        <th>Jabatan Seharusnya</th>
+                        <!--<th>Jabatan Seharusnya</th>-->
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -50,7 +51,8 @@
                             <?php $no++ ?>
                             <tr>
                                 <td>{!! $no !!}</td>
-                                <td>{!! $mesin_absen->nmlokasi !!}</td>
+                                <td>{!! $mesin_absen->mesin_id !!}</td>
+                                <!--<td>{!! $mesin_absen->nmlokasi !!}</td>-->
                                 <td>{!! $mesin_absen->nama !!}</td>
                                 <td>{!! $mesin_absen->ip !!}</td>
                                 <td>{!! $mesin_absen->port !!}</td>
@@ -61,20 +63,20 @@
                                         <label>-</label>
                                     @endif
                                 </td>
-                                <td>
+                                <!--<td>-->
                                     <?php 
-                                    $jabatan = explode(',',$mesin_absen->list_jabatan);
-                                    for($i=0;$i<count($jabatan);$i++){
-                                        if($jabatan[$i]){
-                                            echo $list_jabatan[$jabatan[$i]];
-                                            if($i!=count($jabatan)-1){
-                                                echo ',';
-                                            }
-                                        }
-                                    }
+                                    // $jabatan = explode(',',$mesin_absen->list_jabatan);
+                                    // for($i=0;$i<count($jabatan);$i++){
+                                    //     if($jabatan[$i]){
+                                    //         echo $list_jabatan[$jabatan[$i]];
+                                    //         if($i!=count($jabatan)-1){
+                                    //             echo ',';
+                                    //         }
+                                    //     }
+                                    // }
                                     
                                     ?>
-                                </td>
+                                <!--</td>-->
                                 
                                 <td style="text-align: center">
                                     <a href="{!! route('be.edit_mesin',$mesin_absen->mesin_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>

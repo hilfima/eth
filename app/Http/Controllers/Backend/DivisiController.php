@@ -22,9 +22,12 @@ left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitme
 where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
 
-        $sqldivisi="SELECT * FROM m_divisi
-            left join m_divisi_new on m_divisi.m_divisi_new_id = m_divisi_new.m_divisi_new_id
-                WHERE 1=1 AND m_divisi.active=1 order by nama";
+        $sqldivisi="SELECT *,m_lokasi.nama as nama_entitas,m_divisi.nama FROM m_divisi
+        
+        left join m_divisi_new on m_divisi.m_divisi_new_id = m_divisi_new.m_divisi_new_id
+        left join m_directorat on m_directorat.m_directorat_id =  m_divisi_new.m_directorat_id
+        left join m_lokasi on m_lokasi.m_lokasi_id =  m_directorat.m_lokasi_id
+            WHERE 1=1 AND m_divisi.active=1 order by m_lokasi.nama,nama_directorat,nama_divisi,m_divisi.nama,m_directorat";
         $divisi=DB::connection()->select($sqldivisi);
         return view('backend.divisi.divisi',compact('divisi','user'));
     }

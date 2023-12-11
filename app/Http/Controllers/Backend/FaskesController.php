@@ -33,9 +33,10 @@ class FaskesController extends Controller
 			
 		}
 		
-		$sqlfasilitas="SELECT * FROM p_karyawan b
-				join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = b.p_karyawan_id
-                WHERE 1=1 and b.active=1 $whereLokasi $whereLokasi2 order by nama";
+		$sqlfasilitas="SELECT *,m_lokasi.nama as nama_entitas, b.nama as nama FROM p_karyawan b
+        join p_karyawan_pekerjaan on p_karyawan_pekerjaan.p_karyawan_id = b.p_karyawan_id
+        left join m_lokasi on m_lokasi.m_lokasi_id = p_karyawan_pekerjaan.m_lokasi_id
+        WHERE 1=1 and b.active=1 $whereLokasi $whereLokasi2 order by b.nama";
         $fasilitas=DB::connection()->select($sqlfasilitas);
 		$entitas=DB::connection()->select("select * from m_lokasi where active=1 and sub_entitas=0 $whereLokasi ");
 		

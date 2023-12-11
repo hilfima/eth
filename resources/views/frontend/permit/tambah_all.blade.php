@@ -1,8 +1,4 @@
-@extends('layouts.app_fe')
 
-@section('content')
-
-               
 
 	<div class="row">
 	<div class="col-xl-3 col-lg-4 col-md-12 theiaStickySidebar">
@@ -16,7 +12,7 @@
     <!-- Content Header (Page header) -->
         <div class="card shadow-sm ctm-border-radius">
 <div class="card-body align-center">
-<h4 class="card-title float-left mb-0 mt-2">Tambah Pengajuan Izin</h4>
+<h4 class="card-title float-left mb-0 mt-2">Tambah <?=$title;?></h4>
 
 </div>
 </div>
@@ -29,12 +25,7 @@
            
              
               <div class="card-body">   <!-- form start -->
-                <form class="form-horizontal" id="formIzin" method="POST" action="{!! route('fe.simpan_izin') !!}" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                    
-                    
-
-<form class="form-horizontal form-horizontal" id="formIzin" method="POST" action="{!! route('fe.simpan_izin') !!}" enctype="multipart/form-data">
+               <form class="form-horizontal form-horizontal" id="formIzin" method="POST" action="{!! route('fe.simpan_'.$type) !!}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group  row">
                         <label class="col-sm-2 control-label">NIK</label>
@@ -86,30 +77,49 @@
                                 </select>
                         </div>
                     </div>
+                    
+                      
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">Tanggal Awal*</label>
+                        <label class="col-sm-2 control-label">Tanggal IDT IPM*</label>
                         <div class="col-sm-10">
                             <input type="date" class="form-control " id="tgl_awaldate" name="tgl_awal" value="<?=date('Y-m-d');?>" required  onchange="countdate(),cek_min(this),change_tglawal()" <?php if($tgl_cut_off) echo 'min="'.$tgl_cut_off.'"';?> onkeyup="change_tglawal()" >
                                     
                         </div>
                     </div>
-                    <div class="form-group row">
+                 
+                    <div class="form-group row" <?php if(in_array($type,array("izin_idt_ipm"))){ echo 'style="display:none"';}?> >
                         <label class="col-sm-2 control-label">Tanggal Akhir*</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control " id="tgl_akhirdate" name="tgl_akhir" data-target="#tgl_akhir" value="<?=date('Y-m-d');?>" required onchange="countdate();cek_min();" data-date-format="DD-MMMM-YYYY" <?php if($tgl_cut_off) echo 'min="'.$tgl_cut_off.'"';?>>
+                            <input type="date" class="form-control " id="tgl_akhirdate"  <?php if(in_array($type,array("izin_idt_ipm"))){ echo 'readonly';}?> name="tgl_akhir" data-target="#tgl_akhir" value="<?=date('Y-m-d');?>" required onchange="countdate();cek_min();" data-date-format="DD-MMMM-YYYY" <?php if($tgl_cut_off) echo 'min="'.$tgl_cut_off.'"';?>>
                                        
                         </div>
                     </div>
+                    <?php if(in_array($type,array("izin_idt_ipm"))){ ?>
+                     
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">Jam Pengajuan*</label>
+                        <div class="col-sm-5">
+                            <input type="time" class="form-control " id="jam_pengajuandate" name="jam_pengajuan" value="<?=date('H:i:s');?>" required  >
+                                    
+                        </div>
+                        
+                        <div class="col-sm-5">
+                            <input type="time" class="form-control " id="jam_finger" placeholder  disabled >
+                                       
+                        </div>
+                    </div>
+                    <?php }?>
+                      
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">Lama (Hari)*</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control masking0" id="lama" name="lama" value="1" placeholder="Lama Cuti/Izin..."  readonly="">       
+                            <input type="text" class="form-control masking0" id="lama" name="lama" value="1" placeholder="Lama..."  readonly="">       
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">File</label>
                         <div class="col-sm-10">
-                                <input type="file" class="form-control" id="filess" name="file" value="" >    
+                                <input type="file" class="form-control" id="filess" name="file" value=""  placeholder="File">    
                         </div>
                     </div>
                     <?php $visible = true;
@@ -121,7 +131,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">Penanggung jawab sementara</label>
                         <div class="col-sm-10">
-                                <select class="form-control select2" name="pjs" style="width: 100%;" >
+                                <select class="form-control select2" name="pjs" style="width: 100%;"  placeholder="Penanggung Jawab Sementara">
                                     <option value="">Pilih Penanggung jawab sementara</option>
                                     <?php
                                   
@@ -135,7 +145,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">Atasan*</label>
                         <div class="col-sm-10">
-                                <select class="form-control select2" name="atasan" id="atasan" style="width: 100%;" required>
+                                <select class="form-control select2" name="atasan" id="atasan" style="width: 100%;" placeholder="Atasan" required>
                                     <option value="">Pilih Atasan</option>
                                     <?php
                                     foreach($appr AS $appr){
@@ -154,7 +164,7 @@
                         <label class="col-sm-2 control-label">Keterangan*</label>
                         <div class="col-sm-10">
                                 
-                                <textarea class="form-control" placeholder="Keterangan Izin..." id="alasan" name="alasan" required=""></textarea>
+                                <textarea class="form-control" placeholder="Keterangan Izin" id="alasan" name="alasan" required=""></textarea>
                         </div>
                     </div>
                    
@@ -171,7 +181,7 @@
                     <!-- /.box-body -->
                     <div id="pesanSubmit"></div>
                     <div class="card-footer">
-                        <a href="{!! route('fe.list_izin') !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
+                        <a href="{!! route('fe.list_'.$type) !!}" class="btn btn-default pull-left"><span class="fa fa-times"></span> Kembali</a>
                         <button type="button" onclick="submit_form()" class="pull-right btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><span class="fa fa-check"></span> Simpan</button>
                     </div>
                    
@@ -202,7 +212,7 @@
             val = $('#jenis_ijin').val();
                 $('#tgl_awaldate').attr('min',$('#cut_off').val());
                 $('#tgl_akhirdate').attr('min',$('#cut_off').val());
-                izin_khusus()
+                 izin_khusus()
             $.ajax({
 				headers: {
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -257,7 +267,7 @@
                         $('#JenisAlasanContent').html("");
 			            $('#filess').attr('required', false);  
 			            $('#alasan_id').attr('required', false);  
-                            $('#kontentParameter').html("");
+                           $('#kontentParameter').html("");
                             $('#tgl_awaldate').attr('disabled',false);
                             $('#tgl_akhirdate').attr('disabled',false);
                     
@@ -296,57 +306,57 @@
         var today_cut = '<?=date('Y-m-d')?>';
     	function change_jenis(){
     	   
-		// 	var val = $('#jenis_ijin').val();
-		// //	alert(val)
-		// 	if(val==20){
-		// 	$('#filess').attr('required', true);   
+// 			var val = $('#jenis_ijin').val();
+// 		//	alert(val)
+// 			if(val==20){
+// 			$('#filess').attr('required', true);   
 		
 			    
-		// 	}else if(val==21){
-		// 	$('#filess').attr('required', true);   
+// 			}else if(val==21){
+// 			$('#filess').attr('required', true);   
 		
-		// 	}else if(val==26){
-		// 	$('#filess').attr('required', true);   
+// 			}else if(val==26){
+// 			$('#filess').attr('required', true);   
 		
 			      
-		// 	}else			
-		// 	    $('#filess').attr('required', false);   
+// 			}else			
+// 			    $('#filess').attr('required', false);   
 			
-		// 	if(val==25){
-		// 	    $('#tgl_awaldate').attr('min', today_cut);   
-		// 	    $('#tgl_akhirdate').attr('min', today_cut);
-		// 	}else {
-		// 	     $('#tgl_awaldate').attr('min', tgl_cut_off_awal);   
-		// 	    $('#tgl_akhirdate').attr('min', tgl_cut_off_awal);
-		// 	}
+// 			if(val==25){
+// 			    $('#tgl_awaldate').attr('min', today_cut);   
+// 			    $('#tgl_akhirdate').attr('min', today_cut);
+// 			}else {
+// 			     $('#tgl_awaldate').attr('min', tgl_cut_off_awal);   
+// 			    $('#tgl_akhirdate').attr('min', tgl_cut_off_awal);
+// 			}
 			
-		// 	if(val==21){
+// 			if(val==21){
 				
-		// 		$('#tgl_akhirdate').attr('disabled', true);   
-		// 		$('#jenisalasan').show();   
-		// 		$('#jenisalasan_ipc').hide();  
-		// 		$('#tgl_akhirdate').val($("#tgl_awaldate").val());   
-		// 		izin_khusus()
-		// 	}else if(val==26){
+// 				$('#tgl_akhirdate').attr('disabled', true);   
+// 				$('#jenisalasan').show();   
+// 				$('#jenisalasan_ipc').hide();  
+// 				$('#tgl_akhirdate').val($("#tgl_awaldate").val());   
+// 				izin_khusus()
+// 			}else if(val==26){
 				
-		// 		$('#tgl_akhirdate').attr('disabled', true);   
-		// 		$('#jenisalasan').show();   
-		// 		$('#jenisalasan_ipc').hide(); 
-		// 		$('#tgl_akhirdate').val($("#tgl_awaldate").val());   
-		// 		izin_khusus()
-		// 	}else if(val==25){
+// 				$('#tgl_akhirdate').attr('disabled', true);   
+// 				$('#jenisalasan').show();   
+// 				$('#jenisalasan_ipc').hide(); 
+// 				$('#tgl_akhirdate').val($("#tgl_awaldate").val());   
+// 				izin_khusus()
+// 			}else if(val==25){
 				
-		// 		//$('#tgl_akhirdate').attr('disabled', true);   
-		// 		$('#jenisalasan_ipc').show();    
-		// 		$('#jenisalasan').hide(); 
-		// 		$('#tgl_akhirdate').val($("#tgl_awaldate").val());   
-		// 		izin_khusus()
-		// 	}else{
-		// 	    $('#tgl_akhirdate').attr('disabled', false);   
-		// 		$('#jenisalasan').hide();   
-		// 		$('#jenisalasan_ipc').hide();
+// 				//$('#tgl_akhirdate').attr('disabled', true);   
+// 				$('#jenisalasan_ipc').show();    
+// 				$('#jenisalasan').hide(); 
+// 				$('#tgl_akhirdate').val($("#tgl_awaldate").val());   
+// 				izin_khusus()
+// 			}else{
+// 			    $('#tgl_akhirdate').attr('disabled', false);   
+// 				$('#jenisalasan').hide();   
+// 				$('#jenisalasan_ipc').hide();
 				
-		// 	}
+// 			}
 		
 		}
 		function change_tglawal()
@@ -365,8 +375,7 @@
 		}
 		function submit_form()
 		{
-		    //alert($('#jenis_ijin').val());
-		     if($('#jenis_ijin').val()==21){
+		    if($('#jenis_ijin').val()==21){
 				$('#tgl_akhirdate').val($("#tgl_awaldate").val());   
 				izin_khusus()
 				countdate()
@@ -376,6 +385,7 @@
 				izin_khusus()
 				countdate()
 			}
+		   
 		    if($('#tgl_awaldate').val()=='1970-01-01'){
 		        alert('Tanggal Awal tidak valid');
 		    }else
@@ -390,41 +400,45 @@
 		        alert('Tanggal Akhir belum terinput');
 		    }
             // else
-		    // if($('#atasan').val()==''){
-		    //     alert('Atasan belum terinput');
-		    // }else
-		    // if($('#alasan').val()==''){
-		    //     alert('Keterangan belum terinput');
-		    // }else
-		    // if($('#jenis_ijin').val()==20 && typeof  document.getElementById("filess").files[0] === 'undefined'){
+// 		    if($('#atasan').val()==''){
+// 		        alert('Atasan belum terinput');
+// 		    }else
+// 		    if($('#alasan').val()==''){
+// 		        alert('Keterangan belum terinput');
+// 		    }else
+// 		    if($('#jenis_ijin').val()==20 && typeof  document.getElementById("filess").files[0] === 'undefined'){
 		       
 		       
 		      
-		    //     alert('File belum terinput');
-		    // }else
-		    // if($('#jenis_ijin').val()==21 && typeof  document.getElementById("filess").files[0] === 'undefined'){
+// 		        alert('File belum terinput');
+// 		    }else
+// 		    if($('#jenis_ijin').val()==21 && typeof  document.getElementById("filess").files[0] === 'undefined'){
 		       
 		       
 		      
-		    //     alert('File belum terinput');
-		    // }else
-		    // if($('#jenis_ijin').val()==26 && typeof  document.getElementById("filess").files[0] === 'undefined'){
+// 		        alert('File belum terinput');
+// 		    }else
+// 		    if($('#jenis_ijin').val()==26 && typeof  document.getElementById("filess").files[0] === 'undefined'){
 		       
 		       
 		      
-		    //     alert('File belum terinput');
+// 		        alert('File belum terinput');
 		             
-		    // }else
+// 		    }else
 		    if($('#simpan_type').val()=="0")
 			    alert($('#simpan_keterangan').val())
 			else{
 			     countdate()
 			      var required = $('form#formIzin input,form#formIzin textarea,form#formIzin select').filter('[required]:visible');
                 var allRequired = true;
+                var belumygmana = "";
                 required.each(function(){
                     if($(this).val() == ''){
                         allRequired = false;
+                        belumygmana += "<li>"+$(this).attr("placeholder")+'</li>';
+                       
                     }
+                    
                 });
                 
                 if(allRequired){
@@ -434,7 +448,7 @@
 				$('form#formIzin').submit();
                 }else{
                      
-                    $('#pesanSubmit').html('<div class="alert alert-danger" role="alert">silahkan isi form dengan benar, cek kembali form</div>');
+                    $('#pesanSubmit').html('<div class="alert alert-danger" role="alert">Silahkan isi form dengan benar, cek kembali form<br><br><ol>'+belumygmana+'</ol></div>');
                     
                     
                 }
@@ -448,10 +462,16 @@
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					},
 					url : "{!! route('fe.get_jam_permit') !!}", 
-					data : {'tgl_awal' : $("#tgl_awaldate").val(),'tgl_akhir' : $("#tgl_akhirdate").val(),'pengajuan' :'lembur',"_token": "{{ csrf_token() }}"},
+					data : {'tgl_awal' : $("#tgl_awaldate").val(),'tgl_akhir' : $("#tgl_akhirdate").val(),'pengajuan' :$('#jenis_ijin').val(),"_token": "{{ csrf_token() }}"},
 					type : 'get',
 					dataType : 'json',
 					success : function(result){
+    					    if($('#jenis_ijin').val()==21){
+    					        	$('#jam_finger').val(result.jam_masuk_finger);
+    					    }
+    					     if($('#jenis_ijin').val()==26){
+    					        	$('#jam_finger').val(result.jam_keluar_finger);
+    					    }
 							$('#jam_masuk_finger').val(result.jam_masuk_finger);
 							$('#jam_keluar_finger').val(result.jam_keluar_finger);
 							console.log("===== " + result + " =====");
@@ -503,4 +523,3 @@
 		}
     
     </script>
-@endsection

@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Departement</h1>
+                        <h1 class="m-0 text-dark">Departemen</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{!! route('admin') !!}">Admin</a></li>
-                            <li class="breadcrumb-item active">Departement</li>
+                            <li class="breadcrumb-item active">Departemen</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-header">
                 <!--<h3 class="card-title">DataTable with default features</h3>-->
-                <a href="{!! route('be.tambah_divisi') !!}" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Departement</a>
+                <a href="{!! route('be.tambah_divisi') !!}" class="btn btn-primary" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Departemen</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -34,8 +34,10 @@
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Nama</th>
+                        <th>Departemen</th>
                         <th>Divisi</th>
+                        <th>Directorat</th>
+                        <th>Entitas</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -48,6 +50,8 @@
                                 <td>{!! $no !!}</td>
                                 <td>{!! $divisi->nama !!}</td>
                                 <td>{!! $divisi->nama_divisi !!}</td>
+                                <td>{!! $divisi->nama_directorat !!}</td>
+                                <td>{!! $divisi->nama_entitas !!}</td>
                                 <td style="text-align: center">
                                     <a href="{!! route('be.edit_divisi',$divisi->m_divisi_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
                                     <a href="{!! route('be.hapus_divisi',$divisi->m_divisi_id) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>

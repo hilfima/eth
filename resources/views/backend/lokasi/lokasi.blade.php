@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-header">
                 <!--<h3 class="card-title">DataTable with default features</h3>-->
-                <a href="{!! route('be.tambah_lokasi') !!}" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Entitas </a>
+                <a href="{!! route('be.tambah_lokasi') !!}" class="btn btn-primary" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Entitas </a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -34,12 +34,13 @@
                     <thead>
                     <tr>
                         <th>No.</th>
+                        <th>ID</th>
                         <th>Kode</th>
-                        <th>Nama</th>
+                        <th style="width:30%">Nama</th>
                         <th>Email</th>
                         <th>No. Telp</th>
                         <th>Alamat</th>
-                        <th>Status</th>
+                        <!-- <th>Status</th> -->
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -50,18 +51,19 @@
                             <?php $no++ ?>
                             <tr>
                                 <td>{!! $no !!}</td>
+                                <td>{!! $lokasi->kode_nik !!}</td>
                                 <td>{!! $lokasi->kode !!}</td>
                                 <td>{!! $lokasi->nama !!}</td>
                                 <td>{!! $lokasi->email !!}</td>
                                 <td>{!! $lokasi->no_telp !!}</td>
                                 <td>{!! $lokasi->alamat !!}</td>
-                                <td style="text-align: center">
+                                <!-- <td style="text-align: center">
                                     @if($lokasi->active==1)
                                         <span class="fa fa-check-circle"></span>
                                     @else
                                         <span class="fa fa-window-close"></span>
                                     @endif
-                                </td>
+                                </td> -->
                                 <td style="text-align: center">
                                     <a href="{!! route('be.edit_lokasi',$lokasi->m_lokasi_id) !!}" title='Ubah' data-toggle='tooltip'><span class='fa fa-edit'></span></a>
                                     <a href="{!! route('be.hapus_lokasi',$lokasi->m_lokasi_id) !!}" title='Hapus' data-toggle='tooltip'><span class='fa fa-trash'></span></a>

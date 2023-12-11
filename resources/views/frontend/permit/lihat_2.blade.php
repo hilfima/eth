@@ -1,4 +1,4 @@
-	@extends('layouts.app_fe')
+@extends('layouts.app_fe')
 
 @section('content')
 	<div class="row">
@@ -13,7 +13,7 @@
     <!-- Content Header (Page header) -->
          <div class="card shadow-sm ctm-border-radius">
 <div class="card-body align-center">
-<h4 class="card-title float-left mb-0 mt-2">Edit Pengajuan </h4>
+<h4 class="card-title float-left mb-0 mt-2">Detail Pengajuan </h4>
 
 </div>
 </div>
@@ -31,48 +31,48 @@
                 <form class="form-horizontal" method="POST" action="{!! route('fe.approve_ajuan_2',$data[0]->t_form_exit_id) !!}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>NIK</label>
                                 <input type="text" class="form-control" placeholder="Nik ..." id="nik" name="nik" value="{!! $data[0]->nik !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Nama</label>
                                 <input type="text" class="form-control" placeholder="Nama ..." id="nama" name="nama" value="{!! $data[0]->nama_lengkap !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Jabatan</label>
                                 <input type="text" class="form-control" placeholder="Nama Jabatan ..." id="jabatan" name="jabatan" value="{!! $data[0]->jabatan !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Departemen</label>
                                 <input type="text" class="form-control" placeholder="Nama Departemen..." id="departemen" name="departemen" value="{!! $data[0]->departemen !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Tanggal Pengajuan</label>
                                 <input type="text" class="form-control" id="tgl_pengajuan" name="tgl_pengajuan" value="{!! date('d-m-Y',strtotime($data[0]->create_date)) !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Jenis Cuti*</label>
                                 <input type="text" class="form-control" placeholder="Nama Departemen..." id="departemen" name="departemen" value="{!! $data[0]->nama_ijin !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Tanggal Awal*</label>
                                 <div class="input-group date" id="tgl_awal" data-target-input="nearest">
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Tanggal Akhir*</label>
                                 <div class="input-group date" id="tgl_akhir" data-target-input="nearest">
@@ -90,27 +90,42 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Jam Awal*</label>
-                                <input type="time" class="form-control without_ampm" id="jam_awal" name="jam_awal" value="{!! $data[0]->jam_awal!!}" <?=$data[0]->tipe==2?'':'readonly';?>>
+                                <input type="time" class="form-control without_ampm" id="jam_awal" name="jam_awal" value="{!! $data[0]->jam_awal!!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Jam Akhir*</label>
-                                <input type="time" class="form-control without_ampm" id="jam_akhir" name="jam_akhir" value="{!! $data[0]->jam_akhir!!}" <?=$data[0]->tipe==2?'':'readonly';?>>
+                                <input type="time" class="form-control without_ampm" id="jam_akhir" name="jam_akhir" value="{!! $data[0]->jam_akhir!!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-1">
+                        
+						 <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Jam Masuk Finger*</label>
+                                <input type="time" class="form-control without_ampm" id="jam_awal" value="{!! $data[0]->jam_masuk_finger!!}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Jam  Keluar Finger*</label>
+                                <input type="time" class="form-control without_ampm" id="jam_akhir" value="{!! $data[0]->jam_keluar_finger!!}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Lama*</label>
                                 <input type="text" class="form-control" placeholder="Lama..." id="lama" name="lama" value="{!! $data[0]->lama !!}" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-1">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>File*</label>
                                 @if($data[0]->foto!='' || $data[0]->foto!=null)
@@ -119,8 +134,8 @@
                             </div>
                         </div>
                         <?php 
-                        
-                        if($data[0]->m_jenis_ijin_id==21 or $data[0]->m_jenis_ijin_id==29){?>
+                      
+                        if(  $data[0]->alasan_idt_ipm){?>
                         
                         <div class="col-sm-12">
                         <div id="jenisalasan" >
@@ -142,15 +157,24 @@
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Keterangan Atasan *</label>
-                                <textarea class="form-control" placeholder="Keterangan..." id="keterangan_atasan" name="keterangan_atasan" readonly>{!! $data[0]->keterangan_atasan !!}</textarea>
+                                <label>Status Pengajuan Layer 1*</label>
+                                <input value="<?php if($data[0]->status_appr_1==1) echo 'Disetujui';else if($data[0]->status_appr_1==2) echo 'Ditolak';else if($data[0]->status_appr_1==3) echo 'Pending';?>" class="form-control " name="sts_pengajuan" style="width: 100%;" required title="Pilih" readonly>
+                                    
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Status Pengajuan*</label>
-                                <input value="<?php if($data[0]->status_appr_1==1) echo 'Disetujui';else if($data[0]->status_appr_1==2) echo 'Ditolak';else if($data[0]->status_appr_1==3) echo 'Pending';?>" class="form-control " name="sts_pengajuan" style="width: 100%;" required title="Pilih" readonly>
+                                <label>Keterangan Atasan Layer 1*</label>
+                                <textarea class="form-control" placeholder="Keterangan..." id="keterangan_atasan" name="keterangan_atasan" readonly>{!! $data[0]->keterangan_atasan !!}</textarea>
+                            </div>
+                        </div>
+                        <?php if($data[0]->m_jenis_ijin_id==22){?>
+                        <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Status Pengajuan  Layer 2*</label>
+                                <input value="<?php if($data[0]->status_appr_2==1) echo 'Disetujui';else if($data[0]->status_appr_2==2) echo 'Ditolak';else if($data[0]->status_appr_2==3) echo 'Pending';?>" class="form-control " name="sts_pengajuan2" style="width: 100%;" required title="Pilih" readonly>
                                     
                             </div>
                         </div>
@@ -161,14 +185,7 @@
                                 <textarea class="form-control" placeholder="Keterangan..." id="keterangan_atasan" name="keterangan_atasan2" readonly>{!! $data[0]->keterangan_atasan_2 !!}</textarea>
                             </div>
                         </div>
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Status Pengajuan  Layer 2*</label>
-                                <input value="<?php if($data[0]->status_appr_2==1) echo 'Disetujui';else if($data[0]->status_appr_2==2) echo 'Ditolak';else if($data[0]->status_appr_2==3) echo 'Pending';?>" class="form-control " name="sts_pengajuan2" style="width: 100%;" required title="Pilih" readonly>
-                                    
-                            </div>
-                        </div>
+                        <?php }?>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">

@@ -69,6 +69,7 @@
                                     <option value="2">Lembur</option>
                                     <option value="3">Cuti</option>
                                     <option value="4">Perdin</option>
+                                    <option value="5">IDT IPM</option>
                                 </select>
                             </div>
                        

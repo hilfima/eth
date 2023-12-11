@@ -53,7 +53,15 @@
                                                         <?php }?>
                                                     </select>
                                                 </div>
-                            
+                                                <div class="form-group">
+                                                    <label>Entitas </label>
+                                                    <select class="form-control select2 " multiple placeholder="Entitas..." id="entitas" name="entitas[]" style="width:100%" >
+                                                        <option value="">Pilih</option>
+                                                        <?php foreach($entitas as $entitas){?>
+                                                        <option value="<?=$entitas->m_lokasi_id;?>" ><?=$entitas->nama;?></option>
+                                                        <?php }?>
+                                                    </select>
+                                                </div>
                         </div>
                     </div>
                     <!-- /.box-body -->

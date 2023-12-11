@@ -21,12 +21,16 @@ left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitme
 where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
 
-        $sqljabatan="SELECT m_jabatan.*,m_lokasi.nama as nmlokasi,m_pangkat.nama as nmpangkat,m_departemen.nama as nmdepartemen
+        $sqljabatan="SELECT m_jabatan.*,m_lokasi.nama as nmlokasi,m_pangkat.nama as nmpangkat,m_departemen.nama as nmdepartemen,
+        m_divisi.nama as nmdivisi,m_lokasi.nama as nmentitas,m_directorat.*,m_divisi_new.*
                 FROM m_jabatan
-                LEFT JOIN m_lokasi on m_lokasi.m_lokasi_id=m_jabatan.m_lokasi_id
                 LEFT JOIN m_pangkat on m_pangkat.m_pangkat_id=m_jabatan.m_pangkat_id
                 LEFT JOIN m_departemen on m_departemen.m_departemen_id = m_jabatan.m_departemen_id
-                WHERE 1=1 AND m_jabatan.active=1 order by m_jabatan.nama";
+                LEFT JOIN m_divisi on m_divisi.m_divisi_id=m_departemen.m_divisi_id 
+                 left join m_divisi_new on m_divisi.m_divisi_new_id =  m_divisi_new.m_divisi_new_id
+                 left join m_directorat on m_directorat.m_directorat_id =  m_divisi_new.m_directorat_id
+                left join m_lokasi on m_lokasi.m_lokasi_id =  m_directorat.m_lokasi_id
+                WHERE 1=1 AND m_jabatan.active=1 order by  m_lokasi.nama,nama_directorat,nama_divisi,m_divisi.nama,m_departemen.nama,m_jabatan.nama";
         $jabatan=DB::connection()->select($sqljabatan);
         return view('backend.jabatan.jabatan',compact('jabatan','user'));
     }

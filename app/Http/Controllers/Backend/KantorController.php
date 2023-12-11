@@ -21,7 +21,12 @@ left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitme
 where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
 
-        $sqlkantor="SELECT m_mesin_absen.nama as nama_mesin,m_office.* from m_office
+        $sqlkantor="SELECT m_mesin_absen.nama as nama_mesin,m_office.*,
+        (SELECT distinct string_agg(k.nama::character varying, ',')
+            FROM m_office_entitas mk
+            left join m_lokasi k on k.m_lokasi_id = mk.m_lokasi_id 
+            WHERE mk.m_office_id = m_office.m_office_id and mk.active=1 ) as entitas_list 
+            from m_office
                 left join m_mesin_absen on m_mesin_absen_seharusnya_id = mesin_id
                 WHERE 1=1 AND m_office.active=1 order by m_office.nama";
         $kantor=DB::connection()->select($sqlkantor);
@@ -34,8 +39,11 @@ where users.id=$iduser";
 
         $sqlpangkat="SELECT * FROM m_mesin_absen WHERE active=1 ORDER BY nama ASC ";
         $absen=DB::connection()->select($sqlpangkat);
-
-        return view('backend.kantor.tambah_kantor',compact('absen')	);
+        
+        $sqlpangkat="SELECT * FROM m_lokasi WHERE active=1 and sub_entitas=0 ORDER BY nama ASC ";
+        $entitas=DB::connection()->select($sqlpangkat);
+        
+        return view('backend.kantor.tambah_kantor',compact('absen','entitas')	);
     }
 
     public function simpan_kantor(Request $request){
@@ -52,13 +60,25 @@ where users.id=$iduser";
                 "create_by" => $idUser,
             ]);
 
+            $sql = DB::connection()->select("select * from seq_m_office");
+            $entitas_office = $request->entitas;
+            for($i=0;$i<count($request->entitas);$i++){
+                $data['m_office_id'] =$sql[0]->last_value;
+                $data['m_lokasi_id'] = $entitas_office[$i];
+                DB::connection()->table('m_office_entitas')->insert($data);
+            }
+    
         return redirect()->route('be.kantor')->with('success',' kantor Berhasil di input!');
     }
 
     public function edit_kantor($id)
     {
-        $sqldatakantor="SELECT m_office.*
-                FROM m_office
+        $sqldatakantor="SELECT m_office.*,
+        (SELECT distinct string_agg(k.m_lokasi_id::character varying, ',')
+                           FROM m_office_entitas mk
+                           left join m_lokasi k on k.m_lokasi_id = mk.m_lokasi_id 
+                           WHERE mk.m_office_id = m_office.m_office_id and mk.active=1 ) as entitas_list 
+               FROM m_office
                
                 WHERE 1=1 AND m_office.active=1 AND m_office.m_office_id=$id
                 order by m_office.nama";
@@ -75,7 +95,9 @@ where users.id=$iduser";
         $pangkat=DB::connection()->select($sqlpangkat);
         $sqlpangkat="SELECT * FROM m_mesin_absen WHERE active=1 ORDER BY nama ASC ";
         $absen=DB::connection()->select($sqlpangkat);
-
+        $sqlpangkat="SELECT * FROM m_lokasi WHERE active=1 and sub_entitas=0 ORDER BY nama ASC ";
+        $entitas=DB::connection()->select($sqlpangkat);
+        
         $iduser=Auth::user()->id;
         $sqluser="SELECT p_recruitment.foto FROM users
 left join p_karyawan on p_karyawan.user_id=users.id
@@ -83,7 +105,7 @@ left join p_recruitment on p_recruitment.p_recruitment_id=p_karyawan.p_recruitme
 where users.id=$iduser";
         $user=DB::connection()->select($sqluser);
 
-        return view('backend.kantor.edit_kantor', compact('kantor','lokasi','id','datakantor','pangkat','user','absen'));
+        return view('backend.kantor.edit_kantor', compact('kantor','lokasi','id','datakantor','pangkat','user','absen','entitas'));
     }
 
     public function update_kantor(Request $request, $id){
@@ -99,6 +121,15 @@ where users.id=$iduser";
                 "update_by" => $idUser,
             ]);
 
+            DB::connection()->table('m_office_entitas')->where("m_office_id",$id)->update(["active"=>0]);
+            $entitas_office = $request->entitas;
+            for($i=0;$i<count($request->entitas);$i++){
+                $data['m_office_id'] =$id;
+                $data['m_lokasi_id'] = $entitas_office[$i];
+                
+                DB::connection()->table('m_office_entitas')->insert($data);
+            }
+    
         return redirect()->route('be.kantor')->with('success',' kantor Berhasil di Ubah!');
     }
 

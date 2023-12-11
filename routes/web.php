@@ -1258,6 +1258,7 @@ Route::get('/master_status', 'Backend\Gaji\Master_statusController@master_status
     Route::get('/export_excel_karyawan', 'Backend\KaryawanController@excel')->name('be.export_excel_karyawan');
     Route::post('/download_excel_karyawan', 'Backend\KaryawanController@download_excel')->name('be.download_excel_karyawan');
     Route::get('/excel_karyawan', 'Backend\KaryawanController@excel_karyawan')->name('be.excel_karyawan');
+    Route::get('/excel_karyawan_resign', 'Backend\KaryawanController@excel_karyawan_resign')->name('be.excel_karyawan_resign');
     Route::get('/report_absen_karyawan', 'Backend\KaryawanController@report_absen_karyawan')->name('be.report_absen_karyawan');
     Route::get('/file_karyawan', 'Backend\KaryawanController@file_karyawan')->name('be.file_karyawan');
     Route::get('/hapus_file_karyawan/{id}/{id2}', 'Backend\KaryawanController@hapus_file_karyawan')->name('be.hapus_file_karyawan');

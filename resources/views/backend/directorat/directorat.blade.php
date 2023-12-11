@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-header">
                 <!--<h3 class="card-title">DataTable with default features</h3>-->
-                <a href="{!! route('be.tambah_directorat') !!}" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Direktorat</a>
+                <a href="{!! route('be.tambah_directorat') !!}" class="btn btn-primary" title='Tambah' data-toggle='tooltip'><span class='fa fa-plus'></span> Direktorat</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -34,7 +34,7 @@
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Nama</th>
+                        <th>Direktorat</th>
                         <th>Entitas</th>
                         <th>Action</th>
                     </tr>

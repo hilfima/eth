@@ -24,7 +24,7 @@
            
                 <div class="col-md-5 mb-3">
                    
-                <select name="tahun_tw" class="form-control">
+                <select name="tahun_tw" class="form-control" required>
                     <option value="">Pilih</option>
                     <option value="semua">Semua</option>
                     <?php
@@ -395,7 +395,7 @@
         </div>
     </div>
     <?php }?>
-    HALLOW
+   
 </div>
     <script>
     sum_hasil()
