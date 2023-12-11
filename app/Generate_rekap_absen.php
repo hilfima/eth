@@ -151,9 +151,7 @@ class Generate_rekap_absen
 			$keluar_limit_akhir =  date('H:i:s', $endTime);
 
 			$date = $help->tambah_tanggal($tgl_awal, -1);
-			if($absen->p_karyawan_id==192){
-				print_r($absen);
-			}
+			
 			for ($i = 0; $i <= $help->hitungHari($tgl_awal, $tgl_akhir) + 1; $i++) {
 
 				if (!isset($rekap['a'][$date][$absen->p_karyawan_id]['jam_masuk']) or !isset($rekap['a'][$date][$absen->p_karyawan_id]['jam_keluar'])  ) {
